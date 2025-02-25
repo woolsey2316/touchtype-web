@@ -8,5 +8,5 @@
     "outDir": "../.cache/typescript-app",
     "emitDeclarationOnly": true
   },
-  "include": ["vite.config.ts", "core/config.ts"]
+  "include": ["vite.config.ts", "vite-env.d.ts", "core/config.ts"]
 }

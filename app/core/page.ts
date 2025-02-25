@@ -24,7 +24,7 @@ export function usePageEffect(
           ? `${options.title} - ${appName}`
           : appName;
 
-    return function () {
+    return () => {
       document.title = previousTitle;
     };
   }, [
