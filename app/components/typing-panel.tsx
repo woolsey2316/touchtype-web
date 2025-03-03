@@ -1,7 +1,11 @@
 import Box from "@mui/joy/Box";
+import { useState } from "react";
 import { Cursor } from "./cursor";
+import { WordsToType } from "./words-to-type";
 
 export default function TypingPanel() {
+  const [charIndex, setCharIndex] = useState(0);
+  const words = "this is a typing test";
   return (
     <Box
       sx={{
@@ -14,35 +18,14 @@ export default function TypingPanel() {
         fontFamily: "monospace",
         fontSize: 24,
       }}
+      onKeyDown={(e) => {
+        if (e.key === words[charIndex]) {
+          setCharIndex((charIndex) => charIndex + 1);
+        }
+      }}
     >
       <Cursor left="-5px" top="-2px" />
-      <div>
-        <span>t</span>
-        <span>h</span>
-        <span>i</span>
-        <span>s</span>
-      </div>
-      <div>
-        <span>i</span>
-        <span>s</span>
-      </div>
-      <div>
-        <span>a</span>
-      </div>
-      <div>
-        <span>t</span>
-        <span>y</span>
-        <span>p</span>
-        <span>i</span>
-        <span>n</span>
-        <span>g</span>
-      </div>
-      <div>
-        <span>t</span>
-        <span>e</span>
-        <span>s</span>
-        <span>t</span>
-      </div>
+      <WordsToType words={words} />
     </Box>
   );
 }
