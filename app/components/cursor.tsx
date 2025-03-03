@@ -1,3 +1,4 @@
+import { Box } from "@mui/joy";
 interface CursorProps {
   left: string;
   top: string;
@@ -5,7 +6,15 @@ interface CursorProps {
 
 export function Cursor({ left, top }: CursorProps): JSX.Element {
   return (
-    <div
+    <Box
+      sx={{
+        "@keyframes blink": {
+          "50%": {
+            opacity: "0.0",
+          },
+        },
+        animation: "blink 1s step-start 0s infinite",
+      }}
       style={{
         color: "#034748",
         position: "absolute",
@@ -14,6 +23,6 @@ export function Cursor({ left, top }: CursorProps): JSX.Element {
       }}
     >
       |
-    </div>
+    </Box>
   );
 }

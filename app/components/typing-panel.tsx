@@ -17,31 +17,31 @@ export default function TypingPanel() {
     >
       <Cursor left="-5px" top="-2px" />
       <div>
-        <div>t</div>
-        <div>h</div>
-        <div>i</div>
-        <div>s</div>
+        <span>t</span>
+        <span>h</span>
+        <span>i</span>
+        <span>s</span>
       </div>
       <div>
-        <div>i</div>
-        <div>s</div>
+        <span>i</span>
+        <span>s</span>
       </div>
       <div>
-        <div>a</div>
+        <span>a</span>
       </div>
       <div>
-        <div>t</div>
-        <div>y</div>
-        <div>p</div>
-        <div>i</div>
-        <div>n</div>
-        <div>g</div>
+        <span>t</span>
+        <span>y</span>
+        <span>p</span>
+        <span>i</span>
+        <span>n</span>
+        <span>g</span>
       </div>
       <div>
-        <div>t</div>
-        <div>e</div>
-        <div>s</div>
-        <div>t</div>
+        <span>t</span>
+        <span>e</span>
+        <span>s</span>
+        <span>t</span>
       </div>
     </Box>
   );
