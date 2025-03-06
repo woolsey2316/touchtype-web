@@ -10,7 +10,6 @@ export const WordsToType = ({ words, result }: Props) => {
       <div key={index}>
         {word.split("").map((char, charIndex) => {
           wordsIndex++;
-          console.log(result[wordsIndex]);
           return (
             <span
               style={{ color: result[wordsIndex] }}
