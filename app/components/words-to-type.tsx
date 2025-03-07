@@ -1,25 +1,28 @@
+import { Box } from "@mui/joy";
+
 interface Props {
   words: string;
-  result: string[];
+  colourOfChar: string[];
 }
-export const WordsToType = ({ words, result }: Props) => {
+
+export const WordsToType = ({ words, colourOfChar }: Props) => {
   let wordsIndex = -1;
   const jsx = words.split(" ").map((word, index) => {
     wordsIndex++;
     return (
-      <div key={index}>
+      <Box key={index}>
         {word.split("").map((char, charIndex) => {
           wordsIndex++;
           return (
             <span
-              style={{ color: result[wordsIndex] }}
-              key={index * 10 + charIndex}
+              style={{ color: colourOfChar[wordsIndex] }}
+              key={index * 16 + charIndex}
             >
               {char}
             </span>
           );
         })}
-      </div>
+      </Box>
     );
   });
 

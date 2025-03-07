@@ -60,7 +60,7 @@ export const Component = function Dashboard(): JSX.Element {
             <Typography level="h3" sx={{ color: "#0CAADC" }}>
               Test type
             </Typography>
-            <TypingPanel />
+            <TypingPanel words={"This is a typing test"} />
           </CardContent>
         </Card>
       </Box>

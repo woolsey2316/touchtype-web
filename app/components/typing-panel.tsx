@@ -3,10 +3,11 @@ import { type KeyboardEvent, useState } from "react";
 import { Cursor } from "./cursor";
 import { WordsToType } from "./words-to-type";
 
-export default function TypingPanel() {
-  const words = "this is a typing test";
+export default function TypingPanel({ words }: { words: string }) {
   const [charIndex, setCharIndex] = useState(0);
-  const [wordsResult, setWordsResult] = useState(Array(words.length).fill(""));
+  const [colourOfChar, setColourOfChar] = useState(
+    Array(words.length).fill(""),
+  );
   return (
     <Box
       sx={{
@@ -21,36 +22,41 @@ export default function TypingPanel() {
       }}
       tabIndex={0}
       onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === "Shift") {
+          return;
+        }
         if (e.key === words[charIndex]) {
-          setCharIndex((charIndex) =>
-            charIndex < words.length ? charIndex + 1 : charIndex,
-          );
-          setWordsResult((wordsResult) => {
-            const newWordsResult = [...wordsResult];
-            newWordsResult[charIndex] = "white";
-            return newWordsResult;
+          setCharIndex((charIndex) => {
+            setColourOfChar((wordsResult) => {
+              const newWordsResult = [...wordsResult];
+              newWordsResult[charIndex + 1] = "white";
+              return newWordsResult;
+            });
+            return charIndex < words.length ? charIndex + 1 : charIndex;
           });
         } else if (e.key === "Backspace") {
-          setCharIndex((charIndex) => (charIndex > 0 ? charIndex - 1 : 0));
-          setWordsResult((wordsResult) => {
-            const newWordsResult = [...wordsResult];
-            newWordsResult[charIndex] = undefined;
-            return newWordsResult;
+          setCharIndex((charIndex) => {
+            setColourOfChar((wordsResult) => {
+              const newWordsResult = [...wordsResult];
+              newWordsResult[charIndex] = "";
+              return newWordsResult;
+            });
+            return charIndex > 0 ? charIndex - 1 : 0;
           });
         } else {
-          setCharIndex((charIndex) =>
-            charIndex < words.length ? charIndex + 1 : charIndex,
-          );
-          setWordsResult((wordsResult) => {
-            const newWordsResult = [...wordsResult];
-            newWordsResult[charIndex] = "red";
-            return newWordsResult;
+          setCharIndex((charIndex) => {
+            setColourOfChar((wordsResult) => {
+              const newWordsResult = [...wordsResult];
+              newWordsResult[charIndex] = "red";
+              return newWordsResult;
+            });
+            return charIndex < words.length ? charIndex + 1 : charIndex;
           });
         }
       }}
     >
       <Cursor left={`${-7 + charIndex * 14}px`} top="-2px" />
-      <WordsToType result={wordsResult} words={words} />
+      <WordsToType colourOfChar={colourOfChar} words={words} />
     </Box>
   );
 }
