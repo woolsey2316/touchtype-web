@@ -2,7 +2,7 @@
 /* SPDX-License-Identifier: MIT */
 
 import { Box, GlobalStyles } from "@mui/joy";
-import { Fragment, Suspense } from "react";
+import { Fragment, Suspense, type JSX } from "react";
 import { Outlet } from "react-router-dom";
 import { Logo } from "./logo";
 import { Sidebar } from "./sidebar";

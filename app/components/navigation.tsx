@@ -12,9 +12,9 @@ import {
   ListItemButton,
   ListItemContent,
   ListItemDecorator,
-  ListProps,
+  type ListProps,
 } from "@mui/joy";
-import { ReactNode, memo } from "react";
+import { memo, type JSX, type ReactNode } from "react";
 import { Link, useMatch } from "react-router-dom";
 
 export const Navigation = memo(function Navigation(

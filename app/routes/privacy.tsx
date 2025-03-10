@@ -2,6 +2,7 @@
 /* SPDX-License-Identifier: MIT */
 
 import { Container, Link, Typography } from "@mui/joy";
+import type { JSX } from "react";
 import { usePageEffect } from "../core/page";
 
 const appName = import.meta.env.VITE_APP_NAME;

@@ -1,4 +1,5 @@
 import { Box } from "@mui/joy";
+import type { JSX } from "react";
 interface CursorProps {
   left: string;
   top: string;

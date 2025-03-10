@@ -6,18 +6,20 @@ import {
   Avatar,
   Dropdown,
   IconButton,
-  IconButtonProps,
   ListItemContent,
   ListItemDecorator,
   Menu,
   MenuButton,
   MenuItem,
+  type IconButtonProps,
 } from "@mui/joy";
 import { getAuth, signOut } from "firebase/auth";
+import type { JSX } from "react";
 import { useCurrentUser } from "../core/auth";
 
 export function UserAvatarButton(props: UserAvatarButtonProps): JSX.Element {
   const { sx, ...other } = props;
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
   const user = useCurrentUser()!;
 
   return (

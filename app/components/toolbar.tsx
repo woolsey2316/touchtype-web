@@ -2,8 +2,8 @@
 /* SPDX-License-Identifier: MIT */
 
 import { ExpandMoreRounded, NotificationsRounded } from "@mui/icons-material";
-import { Box, BoxProps, Button, IconButton } from "@mui/joy";
-import { Fragment, Suspense } from "react";
+import { Box, Button, IconButton, type BoxProps } from "@mui/joy";
+import { Fragment, Suspense, type JSX } from "react";
 import { Link } from "react-router-dom";
 import { useCurrentUser } from "../core/auth";
 import { ColorSchemeButton } from "./button-color-scheme";

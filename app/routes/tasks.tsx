@@ -2,6 +2,7 @@
 /* SPDX-License-Identifier: MIT */
 
 import { Container, Typography } from "@mui/joy";
+import type { JSX } from "react";
 import { usePageEffect } from "../core/page";
 
 export const Component = function Tasks(): JSX.Element {

@@ -12,6 +12,7 @@ import {
   Select,
   Typography,
 } from "@mui/joy";
+import type { JSX } from "react";
 import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
 

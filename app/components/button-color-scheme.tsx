@@ -5,15 +5,15 @@ import { DarkModeRounded, LightModeRounded } from "@mui/icons-material";
 import {
   Dropdown,
   IconButton,
-  IconButtonProps,
   ListItemContent,
   ListItemDecorator,
   Menu,
   MenuButton,
   MenuItem,
   useColorScheme,
+  type IconButtonProps,
 } from "@mui/joy";
-import { memo } from "react";
+import { memo, type JSX } from "react";
 
 export function ColorSchemeButton(props: ColorSchemeButtonProps): JSX.Element {
   const { mode, systemMode } = useColorScheme();

@@ -2,6 +2,7 @@
 /* SPDX-License-Identifier: MIT */
 
 import { Container, Typography } from "@mui/joy";
+import type { JSX } from "react";
 import { useRouteError } from "react-router-dom";
 
 export function RootError(): JSX.Element {

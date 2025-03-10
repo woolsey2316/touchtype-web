@@ -1,11 +1,11 @@
 /* SPDX-FileCopyrightText: 2014-present Kriasoft */
 /* SPDX-License-Identifier: MIT */
 
-import { createElement } from "react";
+import { createElement, type JSX } from "react";
 import {
-  createBrowserRouter,
   Navigate,
   RouterProvider,
+  createBrowserRouter,
 } from "react-router-dom";
 import { BaseLayout, MainLayout, RootError } from "../components";
 

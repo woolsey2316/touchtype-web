@@ -1,7 +1,8 @@
 /* SPDX-FileCopyrightText: 2014-present Kriasoft */
 /* SPDX-License-Identifier: MIT */
 
-import { Sheet, SheetProps } from "@mui/joy";
+import { Sheet, type SheetProps } from "@mui/joy";
+import type { JSX } from "react";
 import { Navigation } from "./navigation";
 
 const width = 260;
@@ -14,7 +15,8 @@ export function Sidebar(props: SidebarProps): JSX.Element {
       sx={{
         pt: "60px",
         px: 2,
-        borderRight: ({ palette }) => `1px solid ${palette.divider}`,
+        borderRight: ({ palette }: { palette: { divider: string } }) =>
+          `1px solid ${palette.divider}`,
         overflow: "auto",
         width,
         ...sx,

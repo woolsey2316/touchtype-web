@@ -1,7 +1,8 @@
 /* SPDX-FileCopyrightText: 2014-present Kriasoft */
 /* SPDX-License-Identifier: MIT */
 
-import { Container, ContainerProps, Typography } from "@mui/joy";
+import { Container, Typography, type ContainerProps } from "@mui/joy";
+import type { JSX } from "react";
 import { LoginButton } from "../components";
 
 export const Component = function Login(): JSX.Element {

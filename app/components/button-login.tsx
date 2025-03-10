@@ -1,8 +1,9 @@
 /* SPDX-FileCopyrightText: 2014-present Kriasoft */
 /* SPDX-License-Identifier: MIT */
 
-import { Button, ButtonProps } from "@mui/joy";
-import { SignInMethod, useSignIn } from "../core/auth";
+import { Button, type ButtonProps } from "@mui/joy";
+import type { JSX } from "react";
+import { useSignIn, type SignInMethod } from "../core/auth";
 import { AnonymousIcon, GoogleIcon } from "../icons";
 
 export function LoginButton(props: LoginButtonProps): JSX.Element {
@@ -22,6 +23,7 @@ export function LoginButton(props: LoginButtonProps): JSX.Element {
       variant="outlined"
       onClick={signIn}
       loading={inFlight}
+      // biome-ignore lint/correctness/noChildrenProp: <explanation>
       children={
         signInMethod === "google.com"
           ? "Continue via Google"

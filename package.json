@@ -1,7 +1,7 @@
 {
   "name": "root",
   "version": "0.0.0",
-  "packageManager": "yarn@4.1.0",
+  "packageManager": "yarn@4.7.0",
   "private": true,
   "type": "module",
   "workspaces": [
@@ -20,8 +20,8 @@
     "deploy": "yarn workspace edge deploy"
   },
   "devDependencies": {
-    "@emotion/babel-plugin": "^11.11.0",
-    "@emotion/eslint-plugin": "^11.11.0",
+    "@emotion/babel-plugin": "^11.13.5",
+    "@emotion/eslint-plugin": "^11.12.0",
     "@types/eslint": "^8.56.2",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
@@ -55,5 +55,13 @@
     "bracketSameLine": false,
     "arrowParens": "always",
     "endOfLine": "lf"
+  },
+  "dependencies": {
+    "@mui/base": "5.0.0-dev.20240529-082515-213b5e33ab",
+    "@mui/icons-material": "^6.4.7",
+    "@mui/joy": "5.0.0-dev.240424162023-9968b4889d",
+    "@mui/lab": "6.0.0-dev.240424162023-9968b4889d",
+    "@mui/material": "^6.4.7",
+    "@types/react": "^19.0.10"
   }
 }

@@ -2,6 +2,7 @@
 /* SPDX-License-Identifier: MIT */
 
 import { Container, Link, Typography } from "@mui/joy";
+import type { JSX } from "react";
 import { usePageEffect } from "../core/page";
 
 const appName = import.meta.env.VITE_APP_NAME;
@@ -16,7 +17,11 @@ export const Component = function Terms(): JSX.Element {
   return (
     <Container
       maxWidth="sm"
-      sx={{ marginTop: (x) => x.spacing(3), marginBottom: (x) => x.spacing(3) }}
+      sx={{
+        marginTop: (x: { spacing: (arg0: number) => string }) => x.spacing(3),
+        marginBottom: (x: { spacing: (arg0: number) => string }) =>
+          x.spacing(3),
+      }}
     >
       <Typography level="h1" gutterBottom>
         Terms of Service
