@@ -12,13 +12,13 @@ import {
   Select,
   Typography,
 } from "@mui/joy";
-import type { JSX } from "react";
+import { useState, type JSX } from "react";
 import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
 
 export const Component = function Dashboard(): JSX.Element {
   usePageEffect({ title: "Dashboard" });
-
+  const [language, setLanguage] = useState("English");
   return (
     <Container sx={{ py: 2 }}>
       <Typography sx={{ mb: 2 }} level="h2">
@@ -46,12 +46,19 @@ export const Component = function Dashboard(): JSX.Element {
               <Button variant="plain">numbers</Button>
               <Button variant="plain">time</Button>
               <Button variant="plain">custom</Button>
-              <Select placeholder="Select programming language">
-                <Option value="react">React</Option>
-                <Option value="vue">Vue</Option>
-                <Option value="javaScript">JavaScript</Option>
-                <Option value="java">Java</Option>
-                <Option value="c++">C++</Option>
+              <Select
+                onChange={(_: number, newValue: string) => {
+                  setLanguage(newValue);
+                }}
+                placeholder="Select programming language"
+                value={language}
+              >
+                <Option value="React">React</Option>
+                <Option value="Angular">Angular</Option>
+                <Option value="Vue">Vue</Option>
+                <Option value="JavaScript">JavaScript</Option>
+                <Option value="Java">Java</Option>
+                <Option value="C++">C++</Option>
               </Select>
             </ButtonGroup>
           </Box>
@@ -59,9 +66,9 @@ export const Component = function Dashboard(): JSX.Element {
             sx={{ minHeight: 300, display: "flex", alignItems: "center" }}
           >
             <Typography level="h3" sx={{ color: "#0CAADC" }}>
-              Test type
+              {language}
             </Typography>
-            <TypingPanel words={"This is a typing test"} />
+            <TypingPanel />
           </CardContent>
         </Card>
       </Box>

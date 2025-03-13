@@ -7,16 +7,16 @@ interface Props {
 
 export const WordsToType = ({ words, colourOfChar }: Props) => {
   let wordsIndex = -1;
-  const jsx = words.split(" ").map((word, index) => {
+  const jsx = words.split(" ").map((word) => {
     wordsIndex++;
     return (
-      <Box key={index}>
-        {word.split("").map((char, charIndex) => {
+      <Box key={Math.random()}>
+        {word.split("").map((char) => {
           wordsIndex++;
           return (
             <span
               style={{ color: colourOfChar[wordsIndex] }}
-              key={index * 16 + charIndex}
+              key={Math.random()}
             >
               {char}
             </span>
