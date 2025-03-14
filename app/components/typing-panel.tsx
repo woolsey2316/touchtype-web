@@ -1,15 +1,31 @@
 import { Box } from "@mui/joy";
-import { useState, type KeyboardEvent } from "react";
+import { useRef, useState, type KeyboardEvent } from "react";
+import { useContainerDimensions } from "../hooks/useContainerDimensions";
 import { WordsGenerator } from "../utils/wordsGenerator";
 import { Cursor } from "./cursor";
 import { WordsToType } from "./words-to-type";
 
-export default function TypingPanel() {
+export default function TypingPanel({
+  punctuation,
+  numbers,
+}: {
+  punctuation: boolean;
+  numbers: boolean;
+  language: string;
+}) {
   const [charIndex, setCharIndex] = useState(0);
-  const [words, setWords] = useState(WordsGenerator({ count: 50 }));
+  const [words, setWords] = useState(
+    WordsGenerator({
+      count: 50,
+      punctuation,
+      numbers,
+    }),
+  );
   const [colourOfChar, setColourOfChar] = useState(
     Array(words.length).fill(""),
   );
+  const componentRef = useRef<HTMLDivElement>(null);
+  const { width } = useContainerDimensions(componentRef);
   return (
     <Box
       sx={{
@@ -22,6 +38,7 @@ export default function TypingPanel() {
         fontFamily: "monospace",
         fontSize: 24,
       }}
+      ref={componentRef}
       autoFocus
       tabIndex={0}
       onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
@@ -54,11 +71,13 @@ export default function TypingPanel() {
             });
             return charIndex > 0 ? charIndex - 1 : 0;
           });
+        } else if (e.key === "F12") {
+          // inspecting console
         } else {
           setCharIndex((charIndex) => {
             setColourOfChar((wordsResult) => {
               const newWordsResult = [...wordsResult];
-              newWordsResult[charIndex] = "red";
+              newWordsResult[charIndex + 1] = "red";
               return newWordsResult;
             });
             return charIndex < words.length ? charIndex + 1 : charIndex;
@@ -66,7 +85,10 @@ export default function TypingPanel() {
         }
       }}
     >
-      <Cursor left={`${-7 + charIndex * 14}px`} top="-2px" />
+      <Cursor
+        left={`${-7 + ((charIndex * 14.45) % width)}px`}
+        top={`${-2 + Math.floor((charIndex * 14.45) / width) * (36 + 14.45)}px`}
+      />
       <WordsToType colourOfChar={colourOfChar} words={words} />
     </Box>
   );

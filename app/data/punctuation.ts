@@ -1,1 +1,1 @@
-export const punctuation = ["!", ".", "?", ",", ";", ":", "-", ".", ","];
+export const punctuationData = ["!", ".", "?", ",", ";", ":", "-", ".", ","];
