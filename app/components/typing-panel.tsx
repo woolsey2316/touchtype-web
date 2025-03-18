@@ -16,7 +16,7 @@ export default function TypingPanel({
   const [charIndex, setCharIndex] = useState(0);
   const [words, setWords] = useState(
     WordsGenerator({
-      count: 50,
+      count: 15,
       punctuation,
       numbers,
     }),
@@ -26,6 +26,24 @@ export default function TypingPanel({
   );
   const componentRef = useRef<HTMLDivElement>(null);
   const { width } = useContainerDimensions(componentRef);
+
+  function getCursorLeftPosition() {
+    return `${-7 + ((charIndex * 14.45) % width)}px`;
+  }
+
+  function getCursorTopPosition() {
+    return `${-2 + Math.floor((charIndex * 14.45) / width) * (36 + 14.45)}px`;
+  }
+
+  function finishTest() {
+    setCharIndex(0);
+    setWords(() => {
+      const words = WordsGenerator({ count: 15, punctuation, numbers });
+      setColourOfChar(Array(words.length).fill(""));
+      return words;
+    });
+  }
+
   return (
     <Box
       sx={{
@@ -52,16 +70,9 @@ export default function TypingPanel({
               newWordsResult[charIndex + 1] = "white";
               return newWordsResult;
             });
+            if (charIndex + 1 === words.length - 1) finishTest();
             return charIndex < words.length ? charIndex + 1 : charIndex;
           });
-          if (charIndex === words.length - 1) {
-            setCharIndex(0);
-            setWords(() => {
-              const words = WordsGenerator({ count: 50 });
-              setColourOfChar(Array(words.length).fill(""));
-              return words;
-            });
-          }
         } else if (e.key === "Backspace") {
           setCharIndex((charIndex) => {
             setColourOfChar((wordsResult) => {
@@ -85,10 +96,7 @@ export default function TypingPanel({
         }
       }}
     >
-      <Cursor
-        left={`${-7 + ((charIndex * 14.45) % width)}px`}
-        top={`${-2 + Math.floor((charIndex * 14.45) / width) * (36 + 14.45)}px`}
-      />
+      <Cursor left={getCursorLeftPosition()} top={getCursorTopPosition()} />
       <WordsToType colourOfChar={colourOfChar} words={words} />
     </Box>
   );

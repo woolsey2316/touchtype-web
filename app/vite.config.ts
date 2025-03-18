@@ -25,10 +25,10 @@ export default defineProject(async ({ mode }) => {
   const envDir = fileURLToPath(new URL("..", import.meta.url));
   const env = loadEnv(mode, envDir, "");
 
-  publicEnvVars.forEach((key) => {
+  for (const key of publicEnvVars) {
     if (!env[key]) throw new Error(`Missing environment variable: ${key}`);
     process.env[`VITE_${key}`] = env[key];
-  });
+  }
 
   return {
     cacheDir: fileURLToPath(new URL("../.cache/vite-app", import.meta.url)),
