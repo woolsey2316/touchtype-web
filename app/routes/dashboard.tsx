@@ -71,8 +71,14 @@ export const Component = function Dashboard(): JSX.Element {
               </Button>
               {programmingLanguage && (
                 <Select
-                  onChange={(_: number, newValue: string) => {
-                    setLanguage(newValue);
+                  onChange={(
+                    event:
+                      | React.MouseEvent<Element, MouseEvent>
+                      | React.KeyboardEvent
+                      | React.FocusEvent<Element, Element>
+                      | null,
+                  ) => {
+                    setLanguage((event?.target as HTMLSelectElement)?.value);
                   }}
                   placeholder="Select programming language"
                   value={language}
