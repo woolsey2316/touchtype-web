@@ -15,7 +15,7 @@ export const WordsToType = ({ words, colourOfChar }: Props) => {
           wordsIndex++;
           return (
             <span
-              style={{ color: colourOfChar[wordsIndex] }}
+              style={{ color: colourOfChar[wordsIndex], width: `${14.41}px` }}
               key={Math.random()}
             >
               {char}

@@ -14,6 +14,7 @@ export default function TypingPanel({
   language: string;
 }) {
   const [charIndex, setCharIndex] = useState(0);
+  const [cursorPos, setCursorPos] = useState({ row: 0, col: 0 });
   const [words, setWords] = useState(
     WordsGenerator({
       count: 15,
@@ -28,11 +29,11 @@ export default function TypingPanel({
   const { width } = useContainerDimensions(componentRef);
 
   function getCursorLeftPosition() {
-    return `${-7 + ((charIndex * 14.45) % width)}px`;
+    return `${-7 + ((cursorPos.col * 14.41) % width)}px`;
   }
 
   function getCursorTopPosition() {
-    return `${-2 + Math.floor((charIndex * 14.45) / width) * (36 + 14.45)}px`;
+    return `${-2 + cursorPos.row * (36 + 14.41)}px`;
   }
 
   function finishTest() {
@@ -52,8 +53,8 @@ export default function TypingPanel({
         position: "relative",
         flexDirection: "row",
         flexWrap: "wrap",
-        gap: "14.45px",
-        fontFamily: "monospace",
+        gap: "14.41px",
+        fontFamily: "Courier",
         fontSize: 24,
       }}
       ref={componentRef}
@@ -71,7 +72,15 @@ export default function TypingPanel({
               return newWordsResult;
             });
             if (charIndex + 1 === words.length - 1) finishTest();
-            return charIndex < words.length ? charIndex + 1 : charIndex;
+            if (charIndex < words.length) {
+              setCursorPos((cursorPos) => ({
+                ...cursorPos,
+                col: cursorPos.col + 1,
+              }));
+              return charIndex + 1;
+            } else {
+              return charIndex;
+            }
           });
         } else if (e.key === "Backspace") {
           setCharIndex((charIndex) => {
@@ -80,9 +89,16 @@ export default function TypingPanel({
               newWordsResult[charIndex] = "";
               return newWordsResult;
             });
-            return charIndex > 0 ? charIndex - 1 : 0;
+            if (charIndex > 0) {
+              setCursorPos((cursorPos) => ({
+                ...cursorPos,
+                col: cursorPos.col - 1,
+              }));
+              return charIndex - 1;
+            }
+            return 0;
           });
-        } else if (e.key === "F12") {
+        } else if (e.key === "F12" || e.ctrlKey) {
           // inspecting console
         } else {
           setCharIndex((charIndex) => {
