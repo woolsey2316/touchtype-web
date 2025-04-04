@@ -7,7 +7,7 @@ import { EOL } from "node:os";
 
 // Create Git-ignored files for environment variable overrides
 if (!fs.existsSync("./.env.local")) {
-  await fs.writeFile(
+  fs.writeFile(
     "./.env.local",
     [
       `# Overrides for the \`.env\` file in the root folder.`,
@@ -21,6 +21,7 @@ if (!fs.existsSync("./.env.local")) {
       "",
     ].join(EOL),
     "utf-8",
+    () => {},
   );
 }
 
