@@ -1,5 +1,6 @@
+import { getNextWordLength } from "../utils/word-position";
 import { Box } from "@mui/joy";
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useRef, useState, type KeyboardEvent, useEffect } from "react";
 import { useContainerDimensions } from "../hooks/useContainerDimensions";
 import { WordsGenerator } from "../utils/wordsGenerator";
 import { Cursor } from "./cursor";
@@ -13,6 +14,9 @@ export default function TypingPanel({
   numbers: boolean;
   language: string;
 }) {
+  useEffect(() => {
+    panelRef.current ? panelRef.current.focus() : null;
+  }, []);
   const [charIndex, setCharIndex] = useState(0);
   const [cursorPos, setCursorPos] = useState({ row: 0, col: 0 });
   const [words, setWords] = useState(
@@ -25,9 +29,32 @@ export default function TypingPanel({
   const [colourOfChar, setColourOfChar] = useState(
     Array(words.length).fill(""),
   );
-  const componentRef = useRef<HTMLDivElement>(null);
-  const { width } = useContainerDimensions(componentRef);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const { width } = useContainerDimensions(panelRef);
 
+  function incrementCursorPosition() {
+    if (
+      cursorPos.col * 14.41 + getNextWordLength(charIndex + 1, words) >
+      width
+    ) {
+      setCursorPos((coursorPos) => ({
+        row: coursorPos.row + 1,
+        col: 0,
+      }));
+    } else {
+      setCursorPos((cursorPos) => ({
+        ...cursorPos,
+        col: cursorPos.col + 1,
+      }));
+    }
+  }
+
+  function decrementCursorPosition() {
+    setCursorPos((cursorPos) => ({
+      ...cursorPos,
+      col: cursorPos.col - 1,
+    }));
+  }
   function getCursorLeftPosition() {
     return `${-7 + ((cursorPos.col * 14.41) % width)}px`;
   }
@@ -38,6 +65,7 @@ export default function TypingPanel({
 
   function finishTest() {
     setCharIndex(0);
+    setCursorPos({ row: 0, col: 0 });
     setWords(() => {
       const words = WordsGenerator({ count: 15, punctuation, numbers });
       setColourOfChar(Array(words.length).fill(""));
@@ -57,8 +85,7 @@ export default function TypingPanel({
         fontFamily: "Courier",
         fontSize: 24,
       }}
-      ref={componentRef}
-      autoFocus
+      ref={panelRef}
       tabIndex={0}
       onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
         if (e.key === "Shift") {
@@ -66,38 +93,34 @@ export default function TypingPanel({
         }
         if (e.key === words[charIndex]) {
           setCharIndex((charIndex) => {
-            setColourOfChar((wordsResult) => {
-              const newWordsResult = [...wordsResult];
-              newWordsResult[charIndex + 1] = "white";
-              return newWordsResult;
-            });
             if (charIndex + 1 === words.length - 1) finishTest();
             if (charIndex < words.length) {
-              setCursorPos((cursorPos) => ({
-                ...cursorPos,
-                col: cursorPos.col + 1,
-              }));
               return charIndex + 1;
             } else {
               return charIndex;
             }
           });
+          if (charIndex < words.length - 1) incrementCursorPosition();
+          setColourOfChar((wordsResult) => {
+            const newWordsResult = [...wordsResult];
+            newWordsResult[charIndex + 1] = "white";
+            return newWordsResult;
+          });
         } else if (e.key === "Backspace") {
           setCharIndex((charIndex) => {
-            setColourOfChar((wordsResult) => {
-              const newWordsResult = [...wordsResult];
-              newWordsResult[charIndex] = "";
-              return newWordsResult;
-            });
             if (charIndex > 0) {
-              setCursorPos((cursorPos) => ({
-                ...cursorPos,
-                col: cursorPos.col - 1,
-              }));
               return charIndex - 1;
             }
             return 0;
           });
+          setColourOfChar((wordsResult) => {
+            const newWordsResult = [...wordsResult];
+            newWordsResult[charIndex] = "";
+            return newWordsResult;
+          });
+          if (charIndex > 0) {
+            decrementCursorPosition();
+          }
         } else if (e.key === "F12" || e.ctrlKey) {
           // inspecting console
         } else {
@@ -109,6 +132,7 @@ export default function TypingPanel({
             });
             return charIndex < words.length ? charIndex + 1 : charIndex;
           });
+          if (charIndex < words.length - 1) incrementCursorPosition();
         }
       }}
     >
