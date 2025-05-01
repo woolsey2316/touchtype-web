@@ -9,10 +9,11 @@ import { WordsToType } from "./words-to-type";
 export default function TypingPanel({
   punctuation,
   numbers,
+  language,
 }: {
   punctuation: boolean;
   numbers: boolean;
-  language: string;
+  language: number;
 }) {
   useEffect(() => {
     panelRef.current ? panelRef.current.focus() : null;
@@ -24,6 +25,7 @@ export default function TypingPanel({
       count: 15,
       punctuation,
       numbers,
+      language,
     }),
   );
   const [colourOfChar, setColourOfChar] = useState(

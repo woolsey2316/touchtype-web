@@ -15,13 +15,14 @@ import {
 import { useState, type JSX } from "react";
 import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
+import { Language } from "../types/words.type";
 
 export const Component = function Dashboard(): JSX.Element {
   usePageEffect({ title: "Dashboard" });
   const [punctuation, setPunctuation] = useState(false);
   const [numbers, setNumbers] = useState(false);
   const [programmingLanguage, setProgrammingLanguage] = useState(false);
-  const [language, setLanguage] = useState("English");
+  const [language, setLanguage] = useState<Language>(0);
   return (
     <Container sx={{ py: 2 }}>
       <Typography sx={{ mb: 2 }} level="h2">
@@ -78,17 +79,19 @@ export const Component = function Dashboard(): JSX.Element {
                       | React.FocusEvent<Element, Element>
                       | null,
                   ) => {
-                    setLanguage((event?.target as HTMLSelectElement)?.value);
+                    setLanguage(
+                      Number((event?.target as HTMLSelectElement)?.value),
+                    );
                   }}
                   placeholder="Select programming language"
                   value={language}
                 >
-                  <Option value="React">React</Option>
-                  <Option value="Angular">Angular</Option>
-                  <Option value="Vue">Vue</Option>
-                  <Option value="JavaScript">JavaScript</Option>
-                  <Option value="Java">Java</Option>
-                  <Option value="C++">C++</Option>
+                  <Option value={1}>React</Option>
+                  <Option value={2}>Angular</Option>
+                  <Option value={3}>Vue</Option>
+                  <Option value={4}>JavaScript</Option>
+                  <Option value={5}>Java</Option>
+                  <Option value={6}></Option>
                 </Select>
               )}
             </ButtonGroup>

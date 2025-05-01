@@ -1,16 +1,56 @@
 import { numbersData } from "../data/numbers";
 import { punctuationData } from "../data/punctuation";
-import { words } from "../data/words";
+import { ENGLISH_WORDS } from "../data/english-words";
+import { REACT_WORDS } from "../data/react-words";
+import { VIM_WORDS } from "../data/vim-words";
+import { ANGULAR_WORDS } from "../data/angular-words";
+import { JAVASCRIPT_WORDS } from "../data/javaScript-words";
+import { C_WORDS } from "../data/c-words";
+import { CPLUSPLUS_WORDS } from "../data/cplusplus-words";
+import { Language } from "../types/words.type";
 export const WordsGenerator = ({
   count,
   numbers,
   punctuation,
+  language,
 }: {
   count: number;
   numbers?: boolean;
   punctuation?: boolean;
+  language?: Language;
 }) => {
   let output = "";
+  let words = ENGLISH_WORDS;
+  switch (language) {
+    case Language.ENGLISH: {
+      words = ENGLISH_WORDS;
+      break;
+    }
+    case Language.REACT: {
+      words = REACT_WORDS;
+      break;
+    }
+    case Language.VIM: {
+      words = VIM_WORDS;
+      break;
+    }
+    case Language.ANGULAR: {
+      words = ANGULAR_WORDS;
+      break;
+    }
+    case Language.JAVASCRIPT: {
+      words = JAVASCRIPT_WORDS;
+      break;
+    }
+    case Language.C: {
+      words = C_WORDS;
+      break;
+    }
+    case Language.CPLUSPLUS: {
+      words = CPLUSPLUS_WORDS;
+      break;
+    }
+  }
   for (let i = 0; i < count; i++) {
     const wordIndex = Math.round(Math.random() * 3000);
     output = output + words[wordIndex];
