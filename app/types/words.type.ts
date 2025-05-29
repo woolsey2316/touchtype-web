@@ -8,3 +8,4 @@ export enum Language {
   JAVASCRIPT,
   ANGULAR,
 }
+export type EndCursorX = number[];
