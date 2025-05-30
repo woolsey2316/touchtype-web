@@ -78,6 +78,57 @@ export default function TypingPanel({
     });
   }
 
+  function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    if (e.key === "Shift" || e.key === "F12" || e.key === "Control") {
+      return;
+    }
+    if (e.key === words[charIndex]) {
+      // Correct key pressed
+      setCharIndex((charIndex) => {
+        if (charIndex + 1 === words.length - 1) finishTest();
+        if (charIndex < words.length) {
+          return charIndex + 1;
+        } else {
+          return charIndex;
+        }
+      });
+      if (charIndex < words.length - 1) incrementCursorPosition();
+      setColourOfChar((wordsResult) => {
+        const newWordsResult = [...wordsResult];
+        newWordsResult[charIndex + 1] = "white";
+        return newWordsResult;
+      });
+    } else if (e.key === "Backspace") {
+      setCharIndex((charIndex) => {
+        setColourOfChar((wordsResult) => {
+          const newWordsResult = [...wordsResult];
+          newWordsResult[charIndex] = "";
+          return newWordsResult;
+        });
+        if (charIndex > 0) {
+          return charIndex - 1;
+        }
+        return 0;
+      });
+      if (charIndex > 0) {
+        decrementCursorPosition();
+      }
+    } else {
+      setCharIndex((charIndex) => {
+        setColourOfChar((wordsResult) => {
+          if (charIndex < words.length) {
+            const newWordsResult = [...wordsResult];
+            newWordsResult[charIndex + 1] = "red";
+            return newWordsResult;
+          } else {
+            return wordsResult;
+          }
+        });
+        return charIndex < words.length - 1 ? charIndex + 1 : charIndex;
+      });
+      if (charIndex < words.length - 1) incrementCursorPosition();
+    }
+  }
   return (
     <Box
       sx={{
@@ -93,59 +144,7 @@ export default function TypingPanel({
       }}
       ref={panelRef}
       tabIndex={0}
-      onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
-        if (e.key === "Shift") {
-          return;
-        }
-        if (e.key === words[charIndex]) {
-          // Correct key pressed
-          setCharIndex((charIndex) => {
-            if (charIndex + 1 === words.length - 1) finishTest();
-            if (charIndex < words.length) {
-              return charIndex + 1;
-            } else {
-              return charIndex;
-            }
-          });
-          if (charIndex < words.length - 1) incrementCursorPosition();
-          setColourOfChar((wordsResult) => {
-            const newWordsResult = [...wordsResult];
-            newWordsResult[charIndex + 1] = "white";
-            return newWordsResult;
-          });
-        } else if (e.key === "Backspace") {
-          setCharIndex((charIndex) => {
-            setColourOfChar((wordsResult) => {
-              const newWordsResult = [...wordsResult];
-              newWordsResult[charIndex] = "";
-              return newWordsResult;
-            });
-            if (charIndex > 0) {
-              return charIndex - 1;
-            }
-            return 0;
-          });
-          if (charIndex > 0) {
-            decrementCursorPosition();
-          }
-        } else if (e.key === "F12" || e.ctrlKey) {
-          // inspecting console
-        } else {
-          setCharIndex((charIndex) => {
-            setColourOfChar((wordsResult) => {
-              if (charIndex < words.length) {
-                const newWordsResult = [...wordsResult];
-                newWordsResult[charIndex + 1] = "red";
-                return newWordsResult;
-              } else {
-                return wordsResult;
-              }
-            });
-            return charIndex < words.length - 1 ? charIndex + 1 : charIndex;
-          });
-          if (charIndex < words.length - 1) incrementCursorPosition();
-        }
-      }}
+      onKeyDown={onKeyDown}
     >
       <Cursor left={getCursorLeftPosition()} top={getCursorTopPosition()} />
       <WordsToType colourOfChar={colourOfChar} words={words} />
