@@ -7,5 +7,18 @@ export enum Language {
   VIM,
   JAVASCRIPT,
   ANGULAR,
+  JAVA = 8,
 }
+
+export const ProgrammingLanguage = [
+  "None",
+  "React",
+  "Typescript",
+  "c",
+  "c++",
+  "vim",
+  "JavaScript",
+  "Angular",
+  "Java",
+];
 export type EndCursorX = number[];

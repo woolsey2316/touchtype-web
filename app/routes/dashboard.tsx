@@ -15,14 +15,14 @@ import {
 import { useState, type JSX } from "react";
 import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
-import { Language } from "../types/words.type";
+import { Language, ProgrammingLanguage } from "../types/words.type";
 
 export const Component = function Dashboard(): JSX.Element {
   usePageEffect({ title: "Dashboard" });
   const [punctuation, setPunctuation] = useState(false);
   const [numbers, setNumbers] = useState(false);
   const [programmingLanguage, setProgrammingLanguage] = useState(false);
-  const [language, setLanguage] = useState<Language>(0);
+  const [language, setLanguage] = useState<Language>(Language.ENGLISH);
   return (
     <Container sx={{ py: 2 }}>
       <Typography sx={{ mb: 2 }} level="h2">
@@ -73,25 +73,26 @@ export const Component = function Dashboard(): JSX.Element {
               {programmingLanguage && (
                 <Select
                   onChange={(
-                    event:
+                    _event:
                       | React.MouseEvent<Element, MouseEvent>
                       | React.KeyboardEvent
                       | React.FocusEvent<Element, Element>
                       | null,
+                    value,
                   ) => {
-                    setLanguage(
-                      Number((event?.target as HTMLSelectElement)?.value),
-                    );
+                    setLanguage(Number(value));
                   }}
                   placeholder="Select programming language"
-                  value={language}
+                  value={ProgrammingLanguage[language]}
                 >
-                  <Option value={1}>React</Option>
-                  <Option value={2}>Angular</Option>
-                  <Option value={3}>Vue</Option>
-                  <Option value={4}>JavaScript</Option>
-                  <Option value={5}>Java</Option>
-                  <Option value={6}></Option>
+                  <Option value={Language.REACT.toString()}>React</Option>
+                  <Option value={Language.ANGULAR.toString()}>Angular</Option>
+                  <Option value={Language.CPLUSPLUS.toString()}>C++</Option>
+                  <Option value={Language.JAVASCRIPT.toString()}>
+                    JavaScript
+                  </Option>
+                  <Option value={Language.JAVA.toString()}>Java</Option>
+                  <Option value={Language.C.toString()}>C</Option>
                 </Select>
               )}
             </ButtonGroup>
@@ -100,9 +101,10 @@ export const Component = function Dashboard(): JSX.Element {
             sx={{ minHeight: 300, display: "flex", alignItems: "center" }}
           >
             <Typography level="h3" sx={{ color: "#0CAADC" }}>
-              {programmingLanguage && language}
+              {programmingLanguage && ProgrammingLanguage[language]}
             </Typography>
             <TypingPanel
+              key={Number(punctuation) + Number(language) + Number(numbers)}
               punctuation={punctuation}
               language={language}
               numbers={numbers}

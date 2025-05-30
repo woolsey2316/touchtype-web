@@ -7,6 +7,7 @@ import { ANGULAR_WORDS } from "../data/angular-words";
 import { JAVASCRIPT_WORDS } from "../data/javaScript-words";
 import { C_WORDS } from "../data/c-words";
 import { CPLUSPLUS_WORDS } from "../data/cplusplus-words";
+import { JAVA_WORDS } from "../data/java-words";
 import { Language } from "../types/words.type";
 export const WordsGenerator = ({
   count,
@@ -48,6 +49,10 @@ export const WordsGenerator = ({
     }
     case Language.CPLUSPLUS: {
       words = CPLUSPLUS_WORDS;
+      break;
+    }
+    case Language.JAVA: {
+      words = JAVA_WORDS;
       break;
     }
   }
