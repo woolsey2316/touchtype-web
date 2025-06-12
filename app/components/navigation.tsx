@@ -5,6 +5,7 @@ import {
   AssignmentTurnedInRounded,
   ChatRounded,
   Dashboard,
+  Keyboard,
 } from "@mui/icons-material";
 import {
   List,
@@ -29,6 +30,7 @@ export const Navigation = memo(function Navigation(
       role="navigation"
       {...other}
     >
+      <NavItem path="/test" label="Typing Test" icon={<Keyboard />} />
       <NavItem path="/dashboard" label="Dashboard" icon={<Dashboard />} />
       <NavItem
         path="/tasks"

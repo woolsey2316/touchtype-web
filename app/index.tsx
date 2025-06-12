@@ -7,7 +7,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { StoreProvider } from "./core/store";
 import { theme } from "./core/theme";
-import { Router } from "./routes/index";
+import { Router } from "./routes";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
