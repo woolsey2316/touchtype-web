@@ -15,6 +15,7 @@ export function Cursor({ left, top }: CursorProps): JSX.Element {
           },
         },
         animation: "blink 1s step-start 0s infinite",
+        transition: "left 0.1s linear",
       }}
       style={{
         color: "#034748",
