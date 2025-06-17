@@ -36,7 +36,13 @@ export const Component = function Dashboard(): JSX.Element {
           gap: 2,
         }}
       >
-        <Card sx={{ gridArea: "1 / 1 / 2 / -1", backgroundColor: "#001021" }}>
+        <Card
+          sx={(theme) => ({
+            gridArea: "1 / 1 / 2 / -1",
+            color: `${theme.vars.palette.primary[50]}`,
+            backgroundColor: `${theme.vars.palette.background.level3}`,
+          })}
+        >
           <Box>
             <ButtonGroup
               sx={{
@@ -48,12 +54,32 @@ export const Component = function Dashboard(): JSX.Element {
             >
               <Button
                 variant="plain"
+                sx={(theme) => ({
+                  color: punctuation
+                    ? `${theme.vars.palette.primary[50]}`
+                    : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color: punctuation
+                      ? `${theme.vars.palette.primary[50]}`
+                      : `${theme.vars.palette.neutral[100]}`,
+                  },
+                })}
                 onClick={() => setPunctuation((punctuation) => !punctuation)}
               >
                 punctuation
               </Button>
               <Button
                 variant="plain"
+                sx={(theme) => ({
+                  color: numbers
+                    ? `${theme.vars.palette.primary[50]}`
+                    : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color: numbers
+                      ? `${theme.vars.palette.primary[50]}`
+                      : `${theme.vars.palette.neutral[100]}`,
+                  },
+                })}
                 onClick={() => {
                   setNumbers((numbers) => !numbers);
                 }}
@@ -64,6 +90,16 @@ export const Component = function Dashboard(): JSX.Element {
               <Button variant="plain">custom</Button>
               <Button
                 variant="plain"
+                sx={(theme) => ({
+                  color: programmingLanguage
+                    ? `${theme.vars.palette.primary[50]}`
+                    : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color: programmingLanguage
+                      ? `${theme.vars.palette.primary[50]}`
+                      : `${theme.vars.palette.neutral[100]}`,
+                  },
+                })}
                 onClick={() =>
                   setProgrammingLanguage((programming) => !programming)
                 }

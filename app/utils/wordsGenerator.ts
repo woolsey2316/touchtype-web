@@ -20,7 +20,7 @@ export const WordsGenerator = ({
   punctuation?: boolean;
   language?: Language;
 }) => {
-  let output = "";
+  let wordsToType = "";
   let words = ENGLISH_WORDS;
   switch (language) {
     case Language.ENGLISH: {
@@ -57,18 +57,20 @@ export const WordsGenerator = ({
     }
   }
   for (let i = 0; i < count; i++) {
-    const wordIndex = Math.round(Math.random() * 3000);
-    output = output + words[wordIndex];
+    const wordIndex = Math.round(Math.random() * words.length);
+    wordsToType = wordsToType + words[wordIndex];
     if (numbers && Math.random() > 0.5) {
-      output =
-        output + numbersData[Math.floor(Math.random() * numbersData.length)];
+      wordsToType =
+        wordsToType +
+        numbersData[Math.floor(Math.random() * numbersData.length)];
     }
     if (punctuation && Math.random() > 0.5) {
-      output =
-        output +
+      wordsToType =
+        wordsToType +
         punctuationData[Math.floor(Math.random() * punctuationData.length)];
     }
-    output = `${output} `;
+    wordsToType = `${wordsToType} `;
   }
-  return output;
+  console.log(wordsToType);
+  return wordsToType;
 };

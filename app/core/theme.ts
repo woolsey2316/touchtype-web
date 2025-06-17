@@ -11,7 +11,20 @@ import { createElement, type JSX, type ReactNode } from "react";
 export const theme = extendTheme({
   colorSchemes: {
     light: {},
-    dark: {},
+    dark: {
+      palette: {
+        background: {
+          body: "#362c28",
+          level1: "#2f2623",
+          level2: "#231d1a",
+          level3: "#171311",
+        },
+        primary: {
+          50: "#1481BA",
+          100: "#",
+        },
+      },
+    },
   },
   shadow: {},
   typography: {},

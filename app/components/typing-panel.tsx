@@ -79,18 +79,21 @@ export default function TypingPanel({
   }
 
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
-    if (e.key === "Shift" || e.key === "F12" || e.key === "Control") {
+    if (
+      e.key === "Shift" ||
+      e.key === "F12" ||
+      e.key === "Control" ||
+      e.code === "MetaLeft" ||
+      e.code === "MetaRight" ||
+      e.altKey
+    ) {
       return;
     }
     if (e.key === words[charIndex]) {
       // Correct key pressed
       setCharIndex((charIndex) => {
         if (charIndex + 1 === words.length - 1) finishTest();
-        if (charIndex < words.length) {
-          return charIndex + 1;
-        } else {
-          return charIndex;
-        }
+        return charIndex < words.length ? charIndex + 1 : charIndex;
       });
       if (charIndex < words.length - 1) incrementCursorPosition();
       setColourOfChar((wordsResult) => {
@@ -105,10 +108,7 @@ export default function TypingPanel({
           newWordsResult[charIndex] = "";
           return newWordsResult;
         });
-        if (charIndex > 0) {
-          return charIndex - 1;
-        }
-        return 0;
+        return charIndex > 0 ? charIndex - 1 : 0;
       });
       if (charIndex > 0) {
         decrementCursorPosition();
@@ -132,7 +132,7 @@ export default function TypingPanel({
   return (
     <Box
       sx={{
-        color: "#1481BA",
+        color: "theme.vars.palette.primary.typingPanel",
         display: "flex",
         position: "relative",
         flexDirection: "row",
