@@ -30,7 +30,7 @@ export default function TypingPanel({
   const generatedWords = useMemo(
     () =>
       WordsGenerator({ count: sentenceSize, punctuation, numbers, language }),
-    [punctuation, numbers, language],
+    [sentenceSize, punctuation, numbers, language],
   );
 
   const [words, setWords] = useState(generatedWords);
