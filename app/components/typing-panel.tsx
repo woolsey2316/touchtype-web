@@ -15,10 +15,12 @@ export default function TypingPanel({
   punctuation,
   numbers,
   language,
+  sentenceSize,
 }: {
   punctuation: boolean;
   numbers: boolean;
   language: number;
+  sentenceSize: number;
 }) {
   useEffect(() => {
     panelRef.current ? panelRef.current.focus() : null;
@@ -26,7 +28,8 @@ export default function TypingPanel({
   const [charIndex, setCharIndex] = useState(0);
   const [cursorPos, setCursorPos] = useState({ row: 0, col: 0 });
   const generatedWords = useMemo(
-    () => WordsGenerator({ count: 15, punctuation, numbers, language }),
+    () =>
+      WordsGenerator({ count: sentenceSize, punctuation, numbers, language }),
     [punctuation, numbers, language],
   );
 
