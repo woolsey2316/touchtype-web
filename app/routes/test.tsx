@@ -18,7 +18,7 @@ import { usePageEffect } from "../core/page";
 import { Language, ProgrammingLanguage } from "../types/words.type";
 
 export const Component = function Dashboard(): JSX.Element {
-  usePageEffect({ title: "Dashboard" });
+  usePageEffect({ title: "TypingTest" });
   const [punctuation, setPunctuation] = useState(false);
   const [numbers, setNumbers] = useState(false);
   const [programmingLanguage, setProgrammingLanguage] = useState(false);

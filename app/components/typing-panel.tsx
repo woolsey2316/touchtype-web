@@ -1,5 +1,11 @@
 import { Box } from "@mui/joy";
-import { useRef, useState, type KeyboardEvent, useEffect } from "react";
+import {
+  useRef,
+  useState,
+  useMemo,
+  type KeyboardEvent,
+  useEffect,
+} from "react";
 import { useContainerDimensions } from "../hooks/useContainerDimensions";
 import { WordsGenerator } from "../utils/wordsGenerator";
 import { Cursor } from "./cursor";
@@ -19,14 +25,13 @@ export default function TypingPanel({
   }, []);
   const [charIndex, setCharIndex] = useState(0);
   const [cursorPos, setCursorPos] = useState({ row: 0, col: 0 });
-  const [words, setWords] = useState(
-    WordsGenerator({
-      count: 15,
-      punctuation,
-      numbers,
-      language,
-    }),
+  const generatedWords = useMemo(
+    () => WordsGenerator({ count: 15, punctuation, numbers, language }),
+    [punctuation, numbers, language],
   );
+
+  const [words, setWords] = useState(generatedWords);
+
   const [colourOfChar, setColourOfChar] = useState(
     Array(words.length).fill(""),
   );
@@ -72,7 +77,12 @@ export default function TypingPanel({
     setCharIndex(0);
     setCursorPos({ row: 0, col: 0 });
     setWords(() => {
-      const words = WordsGenerator({ count: 15, punctuation, numbers });
+      const words = WordsGenerator({
+        count: 15,
+        punctuation,
+        numbers,
+        language,
+      });
       setColourOfChar(Array(words.length).fill(""));
       return words;
     });

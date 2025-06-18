@@ -71,6 +71,5 @@ export const WordsGenerator = ({
     }
     wordsToType = `${wordsToType} `;
   }
-  console.log(wordsToType);
   return wordsToType;
 };
