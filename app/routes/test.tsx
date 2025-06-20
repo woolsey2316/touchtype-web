@@ -7,6 +7,8 @@ import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
 import { Language, ProgrammingLanguage } from "../types/words.type";
 import { MainOptionsBar } from "../components/main-options-bar";
+import { LastWPM } from "../components/last-wpm";
+import CountdownTimer from "../components/countdown-timer";
 
 export const Component = function Dashboard(): JSX.Element {
   usePageEffect({ title: "TypingTest" });
@@ -18,11 +20,24 @@ export const Component = function Dashboard(): JSX.Element {
   const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
+  const [lastWPM, setLastWPM] = useState(0);
+  const [timeInfo, setTimeInfo] = useState<{
+    started: boolean;
+    start: number | null;
+    end: number | null;
+  }>({ started: false, start: null, end: null });
   return (
     <Container sx={{ py: 2 }}>
-      <Typography sx={{ mb: 2 }} level="h2">
-        Typing Test
-      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography sx={{ mb: 2 }} level="h2">
+          Typing Test
+        </Typography>
+        <CountdownTimer
+          started={timeInfo.started && isTimedTest}
+          targetDate={Date.now() + timeLimit * 1000}
+        ></CountdownTimer>
+        <LastWPM lastWPM={lastWPM}></LastWPM>
+      </Box>
 
       <Box
         sx={{
@@ -80,6 +95,9 @@ export const Component = function Dashboard(): JSX.Element {
               sentenceSize={sentenceSize}
               numbers={numbers}
               isTimedTest={isTimedTest}
+              timeInfo={timeInfo}
+              setTimeInfo={setTimeInfo}
+              setLastWPM={setLastWPM}
             />
           </CardContent>
         </Card>

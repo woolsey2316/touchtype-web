@@ -17,12 +17,24 @@ export default function TypingPanel({
   language,
   sentenceSize,
   isTimedTest,
+  timeInfo,
+  setTimeInfo,
+  setLastWPM,
 }: {
   punctuation: boolean;
   numbers: boolean;
   language: number;
   sentenceSize: number;
   isTimedTest: boolean;
+  timeInfo: { started: boolean; start: number | null; end: number | null };
+  setTimeInfo: React.Dispatch<
+    React.SetStateAction<{
+      started: boolean;
+      start: number | null;
+      end: number | null;
+    }>
+  >;
+  setLastWPM: React.Dispatch<React.SetStateAction<number>>;
 }) {
   useEffect(() => {
     panelRef.current ? panelRef.current.focus() : null;
@@ -37,11 +49,6 @@ export default function TypingPanel({
   );
 
   const [words, setWords] = useState(generatedWords);
-  const [timeInfo, setTimeInfo] = useState<{
-    started: boolean;
-    start: number | null;
-    end: number | null;
-  }>({ started: false, start: null, end: null });
   const [colourOfChar, setColourOfChar] = useState(
     Array(words.length).fill(""),
   );
@@ -84,7 +91,7 @@ export default function TypingPanel({
   }
 
   function stopTimer(endTime: number) {
-    setTimeInfo((timeInfo) => ({ ...timeInfo, end: endTime }));
+    setTimeInfo((timeInfo) => ({ ...timeInfo, started: false, end: endTime }));
   }
 
   function recordTypingStats(endTime: number) {
@@ -93,6 +100,7 @@ export default function TypingPanel({
         1000) /
         5) *
       60;
+    setLastWPM(wpm);
     console.log(wpm);
     console.log("mistakes", mistakes);
     console.log("words.length", words.length);
