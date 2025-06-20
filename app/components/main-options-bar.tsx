@@ -6,7 +6,7 @@ type Props = {
   setProgrammingLanguage: React.Dispatch<React.SetStateAction<boolean>>;
   setLanguage: React.Dispatch<React.SetStateAction<number>>;
   setIsFixedSentenceSize: React.Dispatch<React.SetStateAction<boolean>>;
-  setTime: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsTimedTest: React.Dispatch<React.SetStateAction<boolean>>;
   setSentenceSize: React.Dispatch<React.SetStateAction<number>>;
   setTimeLimit: React.Dispatch<React.SetStateAction<number>>;
   punctuation: boolean;
@@ -15,7 +15,7 @@ type Props = {
   sentenceSize: number;
   fixedSentenceSize: boolean;
   timeLimit: number;
-  time: boolean;
+  isTimedTest: boolean;
   language: Language;
 };
 export const MainOptionsBar = ({
@@ -24,7 +24,7 @@ export const MainOptionsBar = ({
   setProgrammingLanguage,
   setLanguage,
   setIsFixedSentenceSize,
-  setTime,
+  setIsTimedTest,
   setSentenceSize,
   setTimeLimit,
   sentenceSize,
@@ -33,7 +33,7 @@ export const MainOptionsBar = ({
   numbers,
   fixedSentenceSize,
   timeLimit,
-  time,
+  isTimedTest,
   language,
 }: Props) => {
   return (
@@ -42,7 +42,7 @@ export const MainOptionsBar = ({
         sx={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "flex-start",
           width: "100%",
         }}
       >
@@ -50,11 +50,11 @@ export const MainOptionsBar = ({
           variant="plain"
           sx={(theme) => ({
             color: punctuation
-              ? `${theme.vars.palette.primary[50]}`
+              ? `${theme.vars.palette.primary[200]}`
               : `${theme.vars.palette.neutral[100]}`,
             ":hover": {
               color: punctuation
-                ? `${theme.vars.palette.primary[50]}`
+                ? `${theme.vars.palette.primary[200]}`
                 : `${theme.vars.palette.neutral[100]}`,
             },
           })}
@@ -66,11 +66,11 @@ export const MainOptionsBar = ({
           variant="plain"
           sx={(theme) => ({
             color: numbers
-              ? `${theme.vars.palette.primary[50]}`
+              ? `${theme.vars.palette.primary[200]}`
               : `${theme.vars.palette.neutral[100]}`,
             ":hover": {
               color: numbers
-                ? `${theme.vars.palette.primary[50]}`
+                ? `${theme.vars.palette.primary[200]}`
                 : `${theme.vars.palette.neutral[100]}`,
             },
           })}
@@ -80,173 +80,206 @@ export const MainOptionsBar = ({
         >
           numbers
         </Button>
-        <Button
-          sx={(theme) => ({
-            color: time
-              ? `${theme.vars.palette.primary[50]}`
-              : `${theme.vars.palette.neutral[100]}`,
-            ":hover": {
-              color: time
-                ? `${theme.vars.palette.primary[50]}`
+        <Box sx={{ color: "#fff", padding: "5px" }}>|</Box>
+        <Box>
+          <Button
+            sx={(theme) => ({
+              color: isTimedTest
+                ? `${theme.vars.palette.primary[200]}`
                 : `${theme.vars.palette.neutral[100]}`,
-            },
-          })}
-          onClick={() => {
-            setIsFixedSentenceSize((fixedSentenceSize) => !fixedSentenceSize);
-            setTime((time) => !time);
-          }}
-          variant="plain"
-        >
-          time
-        </Button>
-        <Button
-          sx={(theme) => ({
-            color: fixedSentenceSize
-              ? `${theme.vars.palette.primary[50]}`
-              : `${theme.vars.palette.neutral[100]}`,
-            ":hover": {
-              color: fixedSentenceSize
-                ? `${theme.vars.palette.primary[50]}`
-                : `${theme.vars.palette.neutral[100]}`,
-            },
-          })}
-          onClick={() => {
-            setIsFixedSentenceSize((fixedSentenceSize) => !fixedSentenceSize);
-            setTime((time) => !time);
-          }}
-          variant="plain"
-        >
-          fixed sentence size
-        </Button>
-        {fixedSentenceSize && (
-          <ButtonGroup>
-            <Button
-              variant="plain"
-              sx={(theme) => ({
-                color:
-                  sentenceSize === 10
-                    ? `${theme.vars.palette.primary[50]}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
-                  color:
-                    sentenceSize === 10
-                      ? `${theme.vars.palette.primary[50]}`
-                      : `${theme.vars.palette.neutral[100]}`,
-                },
-              })}
-              onClick={() => setSentenceSize(10)}
-            >
-              10
-            </Button>
-            <Button
-              variant="plain"
-              sx={(theme) => ({
-                color:
-                  sentenceSize === 25
-                    ? `${theme.vars.palette.primary[50]}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
-                  color:
-                    sentenceSize === 25
-                      ? `${theme.vars.palette.primary[50]}`
-                      : `${theme.vars.palette.neutral[100]}`,
-                },
-              })}
-              onClick={() => setSentenceSize(25)}
-            >
-              25
-            </Button>
-            <Button
-              variant="plain"
-              sx={(theme) => ({
-                color:
-                  sentenceSize === 50
-                    ? `${theme.vars.palette.primary[50]}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
-                  color:
-                    sentenceSize === 50
-                      ? `${theme.vars.palette.primary[50]}`
-                      : `${theme.vars.palette.neutral[100]}`,
-                },
-              })}
-              onClick={() => setSentenceSize(50)}
-            >
-              50
-            </Button>
-          </ButtonGroup>
-        )}
-        {time && (
-          <ButtonGroup>
-            <Button
-              variant="plain"
-              sx={(theme) => ({
-                color:
-                  timeLimit === 10
-                    ? `${theme.vars.palette.primary[50]}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
+              ":hover": {
+                color: isTimedTest
+                  ? `${theme.vars.palette.primary[200]}`
+                  : `${theme.vars.palette.neutral[100]}`,
+              },
+            })}
+            onClick={() => {
+              setIsFixedSentenceSize(false);
+              setIsTimedTest(true);
+            }}
+            variant="plain"
+          >
+            timed test
+          </Button>
+          {isTimedTest && (
+            <ButtonGroup sx={{ justifyContent: "center" }}>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "11px",
+                  padding: "8px",
+                  height: "10px",
+                  minHeight: "10px",
                   color:
                     timeLimit === 10
-                      ? `${theme.vars.palette.primary[50]}`
+                      ? `${theme.vars.palette.primary[200]}`
                       : `${theme.vars.palette.neutral[100]}`,
-                },
-              })}
-              onClick={() => setTimeLimit(10)}
-            >
-              10
-            </Button>
-            <Button
-              variant="plain"
-              sx={(theme) => ({
-                color:
-                  timeLimit === 30
-                    ? `${theme.vars.palette.primary[50]}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
+                  ":hover": {
+                    color:
+                      timeLimit === 10
+                        ? `${theme.vars.palette.primary[200]}`
+                        : `${theme.vars.palette.neutral[100]}`,
+                  },
+                })}
+                onClick={() => setTimeLimit(10)}
+              >
+                10
+              </Button>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "11px",
+                  padding: "8px",
+                  height: "10px",
+                  minHeight: "10px",
                   color:
                     timeLimit === 30
-                      ? `${theme.vars.palette.primary[50]}`
+                      ? `${theme.vars.palette.primary[200]}`
                       : `${theme.vars.palette.neutral[100]}`,
-                },
-              })}
-              onClick={() => setTimeLimit(30)}
-            >
-              30
-            </Button>
-            <Button
-              variant="plain"
-              sx={(theme) => ({
-                color:
-                  timeLimit === 60
-                    ? `${theme.vars.palette.primary[50]}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
+                  ":hover": {
+                    color:
+                      timeLimit === 30
+                        ? `${theme.vars.palette.primary[200]}`
+                        : `${theme.vars.palette.neutral[100]}`,
+                  },
+                })}
+                onClick={() => setTimeLimit(30)}
+              >
+                30
+              </Button>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "11px",
+                  padding: "8px",
+                  height: "10px",
+                  minHeight: "10px",
                   color:
                     timeLimit === 60
-                      ? `${theme.vars.palette.primary[50]}`
+                      ? `${theme.vars.palette.primary[200]}`
                       : `${theme.vars.palette.neutral[100]}`,
-                },
-              })}
-              onClick={() => setTimeLimit(60)}
-            >
-              60
-            </Button>
-          </ButtonGroup>
-        )}
+                  ":hover": {
+                    color:
+                      timeLimit === 60
+                        ? `${theme.vars.palette.primary[200]}`
+                        : `${theme.vars.palette.neutral[100]}`,
+                  },
+                })}
+                onClick={() => setTimeLimit(60)}
+              >
+                60
+              </Button>
+            </ButtonGroup>
+          )}
+        </Box>
+        <Box>
+          <Button
+            sx={(theme) => ({
+              color: fixedSentenceSize
+                ? `${theme.vars.palette.primary[200]}`
+                : `${theme.vars.palette.neutral[100]}`,
+              ":hover": {
+                color: fixedSentenceSize
+                  ? `${theme.vars.palette.primary[200]}`
+                  : `${theme.vars.palette.neutral[100]}`,
+              },
+            })}
+            onClick={() => {
+              setIsFixedSentenceSize(true);
+              setIsTimedTest(false);
+            }}
+            variant="plain"
+          >
+            fixed sentence size
+          </Button>
+          {fixedSentenceSize && (
+            <ButtonGroup sx={{ justifyContent: "center" }}>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "11px",
+                  padding: "8px",
+                  height: "10px",
+                  minHeight: "10px",
+                  color:
+                    sentenceSize === 15
+                      ? `${theme.vars.palette.primary[200]}`
+                      : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color:
+                      sentenceSize === 15
+                        ? `${theme.vars.palette.primary[200]}`
+                        : `${theme.vars.palette.neutral[100]}`,
+                  },
+                })}
+                onClick={() => setSentenceSize(15)}
+              >
+                15
+              </Button>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "11px",
+                  padding: "8px",
+                  height: "10px",
+                  minHeight: "10px",
+                  color:
+                    sentenceSize === 25
+                      ? `${theme.vars.palette.primary[200]}`
+                      : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color:
+                      sentenceSize === 25
+                        ? `${theme.vars.palette.primary[200]}`
+                        : `${theme.vars.palette.neutral[100]}`,
+                  },
+                })}
+                onClick={() => setSentenceSize(25)}
+              >
+                25
+              </Button>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "11px",
+                  padding: "8px",
+                  height: "10px",
+                  minHeight: "10px",
+                  color:
+                    sentenceSize === 50
+                      ? `${theme.vars.palette.primary[200]}`
+                      : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color:
+                      sentenceSize === 50
+                        ? `${theme.vars.palette.primary[200]}`
+                        : `${theme.vars.palette.neutral[100]}`,
+                  },
+                })}
+                onClick={() => setSentenceSize(50)}
+              >
+                50
+              </Button>
+            </ButtonGroup>
+          )}
+        </Box>
+        <Box sx={{ color: "#fff", padding: "5px" }}>|</Box>
         <Button
           variant="plain"
           sx={(theme) => ({
             color: programmingLanguage
-              ? `${theme.vars.palette.primary[50]}`
+              ? `${theme.vars.palette.primary[200]}`
               : `${theme.vars.palette.neutral[100]}`,
             ":hover": {
               color: programmingLanguage
-                ? `${theme.vars.palette.primary[50]}`
+                ? `${theme.vars.palette.primary[200]}`
                 : `${theme.vars.palette.neutral[100]}`,
             },
           })}
-          onClick={() => setProgrammingLanguage((programming) => !programming)}
+          onClick={() => {
+            if (programmingLanguage) setLanguage(0);
+            setProgrammingLanguage((programming) => !programming);
+          }}
         >
           programming language
         </Button>

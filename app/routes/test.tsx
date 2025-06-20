@@ -15,7 +15,7 @@ export const Component = function Dashboard(): JSX.Element {
   const [programmingLanguage, setProgrammingLanguage] = useState(false);
   const [language, setLanguage] = useState<Language>(Language.ENGLISH);
   const [fixedSentenceSize, setIsFixedSentenceSize] = useState(true);
-  const [time, setTime] = useState(false);
+  const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
   return (
@@ -44,12 +44,12 @@ export const Component = function Dashboard(): JSX.Element {
             setProgrammingLanguage={setProgrammingLanguage}
             setLanguage={setLanguage}
             setIsFixedSentenceSize={setIsFixedSentenceSize}
-            setTime={setTime}
+            setIsTimedTest={setIsTimedTest}
             setSentenceSize={setSentenceSize}
             setTimeLimit={setTimeLimit}
             fixedSentenceSize={fixedSentenceSize}
             programmingLanguage={programmingLanguage}
-            time={time}
+            isTimedTest={isTimedTest}
             timeLimit={timeLimit}
             punctuation={punctuation}
             numbers={numbers}
@@ -79,6 +79,7 @@ export const Component = function Dashboard(): JSX.Element {
               language={language}
               sentenceSize={sentenceSize}
               numbers={numbers}
+              isTimedTest={isTimedTest}
             />
           </CardContent>
         </Card>

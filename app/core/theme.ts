@@ -20,8 +20,9 @@ export const theme = extendTheme({
           level3: "#171311",
         },
         primary: {
-          50: "#1481BA",
-          100: "#",
+          50: "#034748",
+          100: "#1481BA",
+          200: "#59baee",
         },
       },
     },
