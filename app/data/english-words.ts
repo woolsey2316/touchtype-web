@@ -1,4 +1,4 @@
-export const words = [
+export const ENGLISH_WORDS: string[] = [
   "a",
   "abandon",
   "ability",

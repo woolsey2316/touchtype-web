@@ -29,10 +29,12 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     errorElement: <RootError />,
     children: [
-      { index: true, element: <Navigate to="/dashboard" replace /> },
+      { index: true, element: <Navigate to="/test" replace /> },
+      { path: "test", lazy: () => import("./test") },
       { path: "dashboard", lazy: () => import("./dashboard") },
       { path: "tasks", lazy: () => import("./tasks") },
       { path: "messages", lazy: () => import("./messages") },
+      { path: "settings", lazy: () => import("./settings") },
     ],
   },
 ]);

@@ -6,8 +6,8 @@ import { SnackbarProvider } from "notistack";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { StoreProvider } from "./core/store";
-import { theme } from "./core/theme";
-import { Router } from "./routes/index";
+import { theme, ThemeProvider } from "./core/theme";
+import { Router } from "./routes";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
@@ -15,12 +15,14 @@ const root = createRoot(container!);
 root.render(
   <StrictMode>
     <CssVarsProvider theme={theme}>
-      <SnackbarProvider>
-        <CssBaseline />
-        <StoreProvider>
-          <Router />
-        </StoreProvider>
-      </SnackbarProvider>
+      <ThemeProvider defaultMode="system">
+        <SnackbarProvider>
+          <CssBaseline />
+          <StoreProvider>
+            <Router />
+          </StoreProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
     </CssVarsProvider>
   </StrictMode>,
 );

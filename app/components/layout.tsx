@@ -29,7 +29,13 @@ export function MainLayout(): JSX.Element {
       <Sidebar sx={{ gridArea: "1 / 1 / -1 / 2" }} />
       <Logo sx={{ gridArea: "1 / 1 / 2 / 2", zIndex: 100 }} />
 
-      <Box sx={{ gridArea: "1 / 2 / -1 / -1", pt: "60px" }}>
+      <Box
+        sx={(theme) => ({
+          gridArea: "1 / 2 / -1 / -1",
+          pt: "60px",
+          backgroundColor: theme.vars.palette.background.body,
+        })}
+      >
         <Suspense>
           <Outlet />
         </Suspense>

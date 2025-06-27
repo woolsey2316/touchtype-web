@@ -5,6 +5,8 @@ import {
   AssignmentTurnedInRounded,
   ChatRounded,
   Dashboard,
+  Keyboard,
+  Settings,
 } from "@mui/icons-material";
 import {
   List,
@@ -15,7 +17,8 @@ import {
   type ListProps,
 } from "@mui/joy";
 import { memo, type JSX, type ReactNode } from "react";
-import { Link, useMatch } from "react-router-dom";
+import { Link, useMatch, useLocation } from "react-router-dom";
+import { useTheme } from "@mui/joy/styles";
 
 export const Navigation = memo(function Navigation(
   props: NavigationProps,
@@ -29,23 +32,53 @@ export const Navigation = memo(function Navigation(
       role="navigation"
       {...other}
     >
-      <NavItem path="/dashboard" label="Dashboard" icon={<Dashboard />} />
+      <NavItem
+        path="/test"
+        label="Typing Test"
+        icon={<Keyboard sx={{ color: "inherit" }} />}
+      />
+      <NavItem
+        path="/dashboard"
+        label="Dashboard"
+        icon={<Dashboard sx={{ color: "inherit" }} />}
+      />
       <NavItem
         path="/tasks"
         label="Tasks"
-        icon={<AssignmentTurnedInRounded />}
+        icon={<AssignmentTurnedInRounded sx={{ color: "inherit" }} />}
       />
-      <NavItem path="/messages" label="Messages" icon={<ChatRounded />} />
+      <NavItem
+        path="/messages"
+        label="Messages"
+        icon={<ChatRounded sx={{ color: "inherit" }} />}
+      />
+      <NavItem
+        path="/settings"
+        label="Settings"
+        icon={<Settings sx={{ color: "inherit" }} />}
+      />
     </List>
   );
 });
 
 function NavItem(props: NavItemProps): JSX.Element {
+  const theme = useTheme();
+  const location = useLocation();
+  console.log(location.pathname);
   return (
     <ListItem>
       <ListItemButton
         component={Link}
         selected={!!useMatch(props.path)}
+        sx={{
+          "&:hover": {
+            color: theme.vars.palette.primary.plainHoverColor,
+          },
+          color:
+            props.path === location.pathname
+              ? theme.vars.palette.primary.plainActiveColor
+              : "",
+        }}
         to={props.path}
         aria-current="page"
       >
