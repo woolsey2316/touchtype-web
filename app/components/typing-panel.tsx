@@ -20,6 +20,7 @@ export default function TypingPanel({
   timeInfo,
   setTimeInfo,
   setLastWPM,
+  recordTest,
 }: {
   punctuation: boolean;
   numbers: boolean;
@@ -35,6 +36,7 @@ export default function TypingPanel({
     }>
   >;
   setLastWPM: React.Dispatch<React.SetStateAction<number>>;
+  recordTest: boolean;
 }) {
   useEffect(() => {
     panelRef.current ? panelRef.current.focus() : null;
@@ -129,7 +131,7 @@ export default function TypingPanel({
   function finishTest() {
     const endTime = Date.now();
     stopTimer(endTime);
-    recordTypingStats(endTime);
+    recordTest && recordTypingStats(endTime);
     setCharIndex(0);
     resetStatistics();
     setCursorPos({ row: 0, col: 0 });
@@ -167,7 +169,8 @@ export default function TypingPanel({
       if (charIndex < words.length - 1) incrementCursorPosition();
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
-        newWordsResult[charIndex + 1] = "white";
+        // stands for "success"
+        newWordsResult[charIndex + 1] = "s";
         return newWordsResult;
       });
     } else if (e.key === "Backspace") {
@@ -188,7 +191,8 @@ export default function TypingPanel({
         setColourOfChar((wordsResult) => {
           if (charIndex < words.length) {
             const newWordsResult = [...wordsResult];
-            newWordsResult[charIndex + 1] = "red";
+            // stands for "failure"
+            newWordsResult[charIndex + 1] = "f";
             return newWordsResult;
           } else {
             return wordsResult;

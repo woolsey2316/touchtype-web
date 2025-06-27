@@ -8,7 +8,7 @@ interface CursorProps {
 export function Cursor({ left, top }: CursorProps): JSX.Element {
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         "@keyframes blink": {
           "50%": {
             opacity: "0.0",
@@ -16,9 +16,9 @@ export function Cursor({ left, top }: CursorProps): JSX.Element {
         },
         animation: "blink 1s step-start 0s infinite",
         transition: "left 0.1s linear",
-      }}
+        color: `${theme.vars.palette.primary[50]}`,
+      })}
       style={{
-        color: "#034748",
         position: "absolute",
         left: left,
         top: top,

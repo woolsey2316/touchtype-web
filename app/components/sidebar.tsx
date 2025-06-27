@@ -17,6 +17,7 @@ export function Sidebar(props: SidebarProps): JSX.Element {
         px: 2,
         borderRight: ({ palette }: { palette: { divider: string } }) =>
           `1px solid ${palette.divider}`,
+        backgroundColor: (theme) => theme.vars.palette.background.level1,
         overflow: "auto",
         width,
         ...sx,

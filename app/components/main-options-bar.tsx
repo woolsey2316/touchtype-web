@@ -49,13 +49,14 @@ export const MainOptionsBar = ({
         <Button
           variant="plain"
           sx={(theme) => ({
+            transition: "color 0.3s ease",
             color: punctuation
-              ? `${theme.vars.palette.primary[200]}`
+              ? `${theme.vars.palette.primary.plainColor}`
               : `${theme.vars.palette.neutral[100]}`,
             ":hover": {
               color: punctuation
-                ? `${theme.vars.palette.primary[200]}`
-                : `${theme.vars.palette.neutral[100]}`,
+                ? `${theme.vars.palette.primary.plainColor}`
+                : `${theme.vars.palette.primary.plainHoverColor}`,
             },
           })}
           onClick={() => setPunctuation((punctuation) => !punctuation)}
@@ -65,13 +66,14 @@ export const MainOptionsBar = ({
         <Button
           variant="plain"
           sx={(theme) => ({
+            transition: "color 0.3s ease",
             color: numbers
-              ? `${theme.vars.palette.primary[200]}`
+              ? `${theme.vars.palette.primary.plainColor}`
               : `${theme.vars.palette.neutral[100]}`,
             ":hover": {
               color: numbers
-                ? `${theme.vars.palette.primary[200]}`
-                : `${theme.vars.palette.neutral[100]}`,
+                ? `${theme.vars.palette.primary.plainColor}`
+                : `${theme.vars.palette.primary.plainHoverColor}`,
             },
           })}
           onClick={() => {
@@ -84,13 +86,14 @@ export const MainOptionsBar = ({
         <Box>
           <Button
             sx={(theme) => ({
+              transition: "color 0.3s ease",
               color: isTimedTest
-                ? `${theme.vars.palette.primary[200]}`
+                ? `${theme.vars.palette.primary.plainColor}`
                 : `${theme.vars.palette.neutral[100]}`,
               ":hover": {
                 color: isTimedTest
-                  ? `${theme.vars.palette.primary[200]}`
-                  : `${theme.vars.palette.neutral[100]}`,
+                  ? `${theme.vars.palette.primary.plainColor}`
+                  : `${theme.vars.palette.primary.plainHoverColor}`,
               },
             })}
             onClick={() => {
@@ -106,19 +109,21 @@ export const MainOptionsBar = ({
               <Button
                 variant="plain"
                 sx={(theme) => ({
+                  transition: "color 0.3s ease",
                   fontSize: "11px",
                   padding: "8px",
                   height: "10px",
                   minHeight: "10px",
                   color:
                     timeLimit === 10
-                      ? `${theme.vars.palette.primary[200]}`
+                      ? `${theme.vars.palette.primary.plainColor}`
                       : `${theme.vars.palette.neutral[100]}`,
                   ":hover": {
                     color:
                       timeLimit === 10
-                        ? `${theme.vars.palette.primary[200]}`
-                        : `${theme.vars.palette.neutral[100]}`,
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
                   },
                 })}
                 onClick={() => setTimeLimit(10)}
@@ -128,19 +133,21 @@ export const MainOptionsBar = ({
               <Button
                 variant="plain"
                 sx={(theme) => ({
+                  transition: "color 0.3s ease",
                   fontSize: "11px",
                   padding: "8px",
                   height: "10px",
                   minHeight: "10px",
                   color:
                     timeLimit === 30
-                      ? `${theme.vars.palette.primary[200]}`
+                      ? `${theme.vars.palette.primary.plainColor}`
                       : `${theme.vars.palette.neutral[100]}`,
                   ":hover": {
                     color:
                       timeLimit === 30
-                        ? `${theme.vars.palette.primary[200]}`
-                        : `${theme.vars.palette.neutral[100]}`,
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
                   },
                 })}
                 onClick={() => setTimeLimit(30)}
@@ -150,19 +157,21 @@ export const MainOptionsBar = ({
               <Button
                 variant="plain"
                 sx={(theme) => ({
+                  transition: "color 0.3s ease",
                   fontSize: "11px",
                   padding: "8px",
                   height: "10px",
                   minHeight: "10px",
                   color:
                     timeLimit === 60
-                      ? `${theme.vars.palette.primary[200]}`
+                      ? `${theme.vars.palette.primary.plainColor}`
                       : `${theme.vars.palette.neutral[100]}`,
                   ":hover": {
                     color:
                       timeLimit === 60
-                        ? `${theme.vars.palette.primary[200]}`
-                        : `${theme.vars.palette.neutral[100]}`,
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
                   },
                 })}
                 onClick={() => setTimeLimit(60)}
@@ -175,13 +184,14 @@ export const MainOptionsBar = ({
         <Box>
           <Button
             sx={(theme) => ({
+              transition: "color 0.3s ease",
               color: fixedSentenceSize
-                ? `${theme.vars.palette.primary[200]}`
+                ? `${theme.vars.palette.primary.plainColor}`
                 : `${theme.vars.palette.neutral[100]}`,
               ":hover": {
                 color: fixedSentenceSize
-                  ? `${theme.vars.palette.primary[200]}`
-                  : `${theme.vars.palette.neutral[100]}`,
+                  ? `${theme.vars.palette.primary.plainColor}`
+                  : `${theme.vars.palette.primary.plainHoverColor}`,
               },
             })}
             onClick={() => {
@@ -190,7 +200,7 @@ export const MainOptionsBar = ({
             }}
             variant="plain"
           >
-            fixed sentence size
+            sentence size
           </Button>
           {fixedSentenceSize && (
             <ButtonGroup sx={{ justifyContent: "center" }}>
@@ -198,18 +208,20 @@ export const MainOptionsBar = ({
                 variant="plain"
                 sx={(theme) => ({
                   fontSize: "11px",
+                  transition: "color 0.3s ease",
                   padding: "8px",
                   height: "10px",
                   minHeight: "10px",
                   color:
                     sentenceSize === 15
-                      ? `${theme.vars.palette.primary[200]}`
+                      ? `${theme.vars.palette.primary.plainColor}`
                       : `${theme.vars.palette.neutral[100]}`,
                   ":hover": {
                     color:
                       sentenceSize === 15
-                        ? `${theme.vars.palette.primary[200]}`
-                        : `${theme.vars.palette.neutral[100]}`,
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
                   },
                 })}
                 onClick={() => setSentenceSize(15)}
@@ -220,18 +232,20 @@ export const MainOptionsBar = ({
                 variant="plain"
                 sx={(theme) => ({
                   fontSize: "11px",
+                  transition: "color 0.3s ease",
                   padding: "8px",
                   height: "10px",
                   minHeight: "10px",
                   color:
                     sentenceSize === 25
-                      ? `${theme.vars.palette.primary[200]}`
+                      ? `${theme.vars.palette.primary.plainColor}`
                       : `${theme.vars.palette.neutral[100]}`,
                   ":hover": {
                     color:
                       sentenceSize === 25
-                        ? `${theme.vars.palette.primary[200]}`
-                        : `${theme.vars.palette.neutral[100]}`,
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
                   },
                 })}
                 onClick={() => setSentenceSize(25)}
@@ -242,18 +256,20 @@ export const MainOptionsBar = ({
                 variant="plain"
                 sx={(theme) => ({
                   fontSize: "11px",
+                  transition: "color 0.3s ease",
                   padding: "8px",
                   height: "10px",
                   minHeight: "10px",
                   color:
                     sentenceSize === 50
-                      ? `${theme.vars.palette.primary[200]}`
+                      ? `${theme.vars.palette.primary.plainColor}`
                       : `${theme.vars.palette.neutral[100]}`,
                   ":hover": {
                     color:
                       sentenceSize === 50
-                        ? `${theme.vars.palette.primary[200]}`
-                        : `${theme.vars.palette.neutral[100]}`,
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
                   },
                 })}
                 onClick={() => setSentenceSize(50)}
@@ -267,13 +283,14 @@ export const MainOptionsBar = ({
         <Button
           variant="plain"
           sx={(theme) => ({
+            transition: "color 0.3s ease",
             color: programmingLanguage
-              ? `${theme.vars.palette.primary[200]}`
+              ? `${theme.vars.palette.primary.plainColor}`
               : `${theme.vars.palette.neutral[100]}`,
             ":hover": {
               color: programmingLanguage
-                ? `${theme.vars.palette.primary[200]}`
-                : `${theme.vars.palette.neutral[100]}`,
+                ? `${theme.vars.palette.primary.plainColor}`
+                : `${theme.vars.palette.primary.plainHoverColor}`,
             },
           })}
           onClick={() => {
@@ -299,6 +316,7 @@ export const MainOptionsBar = ({
             value={ProgrammingLanguage[language]}
             sx={{ marginLeft: "10px" }}
           >
+            <Option value={Language.ENGLISH.toString()}>English</Option>
             <Option value={Language.REACT.toString()}>React</Option>
             <Option value={Language.ANGULAR.toString()}>Angular</Option>
             <Option value={Language.CPLUSPLUS.toString()}>C++</Option>

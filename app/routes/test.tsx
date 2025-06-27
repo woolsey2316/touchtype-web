@@ -33,8 +33,10 @@ export const Component = function Dashboard(): JSX.Element {
           Typing Test
         </Typography>
         <CountdownTimer
-          started={timeInfo.started && isTimedTest}
+          started={timeInfo.started}
+          wantTimer={isTimedTest}
           targetDate={Date.now() + timeLimit * 1000}
+          timeLimit={timeLimit}
         ></CountdownTimer>
         <LastWPM lastWPM={lastWPM}></LastWPM>
       </Box>
@@ -50,7 +52,8 @@ export const Component = function Dashboard(): JSX.Element {
           sx={(theme) => ({
             gridArea: "1 / 1 / 2 / -1",
             color: `${theme.vars.palette.primary[50]}`,
-            backgroundColor: `${theme.vars.palette.background.level3}`,
+            backgroundColor: "transparent",
+            border: "none",
           })}
         >
           <MainOptionsBar
@@ -88,7 +91,8 @@ export const Component = function Dashboard(): JSX.Element {
                 Number(punctuation) +
                 Number(language) +
                 Number(numbers) +
-                sentenceSize
+                sentenceSize +
+                Number(isTimedTest)
               }
               punctuation={punctuation}
               language={language}
@@ -98,6 +102,7 @@ export const Component = function Dashboard(): JSX.Element {
               timeInfo={timeInfo}
               setTimeInfo={setTimeInfo}
               setLastWPM={setLastWPM}
+              recordTest={true}
             />
           </CardContent>
         </Card>

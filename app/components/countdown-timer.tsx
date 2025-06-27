@@ -7,10 +7,14 @@ interface StringKeyedObject {
 
 const CountdownTimer = ({
   started,
+  wantTimer,
   targetDate,
+  timeLimit,
 }: {
   targetDate: number;
+  wantTimer: boolean;
   started: boolean;
+  timeLimit: number;
 }) => {
   const calculateTimeLeft = () => {
     const difference = +new Date(targetDate) - +new Date();
@@ -31,7 +35,13 @@ const CountdownTimer = ({
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setTimeLeft(started ? calculateTimeLeft() : { m: 0, a: 0 });
+      setTimeLeft(
+        wantTimer
+          ? started
+            ? calculateTimeLeft()
+            : { m: 0, s: timeLimit }
+          : { m: 0, s: 0 },
+      );
     }, 1000);
 
     return () => clearTimeout(timer); // Cleanup
@@ -44,7 +54,7 @@ const CountdownTimer = ({
       return;
     }
     timerComponents.push(
-      <Typography sx={{ mb: 2 }} level="h2">
+      <Typography sx={{ mb: 2 }} level="h2" color="primary">
         {timeLeft[interval]} {interval}{" "}
       </Typography>,
     );
