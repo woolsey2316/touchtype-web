@@ -41,7 +41,6 @@ const ModeMenuItem = memo(function ModeMenuItem({
   mode,
 }: ModeMenuItemProps): JSX.Element {
   const scheme = useColorScheme();
-
   return (
     <MenuItem
       onClick={() => {

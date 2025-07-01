@@ -1,7 +1,14 @@
 /* SPDX-FileCopyrightText: 2014-present Kriasoft */
 /* SPDX-License-Identifier: MIT */
 
-import { Box, Card, CardContent, Container, Typography } from "@mui/joy";
+import {
+  Box,
+  Card,
+  CardContent,
+  Container,
+  Typography,
+  useColorScheme,
+} from "@mui/joy";
 import { useState, type JSX } from "react";
 import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
@@ -27,11 +34,11 @@ export const Component = function Dashboard(): JSX.Element {
     start: number | null;
     end: number | null;
   }>({ started: false, start: null, end: null });
-
+  const { mode } = useColorScheme();
   /* state for settings page */
   return (
     <>
-      <ColourThemeSettings></ColourThemeSettings>
+      <ColourThemeSettings mode={mode}></ColourThemeSettings>
       <Container sx={{ py: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography sx={{ mb: 2 }} level="h2">

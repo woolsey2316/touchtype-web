@@ -12,60 +12,22 @@ import { SketchPicker } from "react-color";
 import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
 import { CardOverflow } from "@mui/joy";
-import { setCustomDarkTheme } from "../../core/theme";
+import { extendTheme } from "@mui/joy/styles";
+import { getCustomTheme } from "../../core/theme";
+import { ThemeContext } from "../../index";
 
-export class ColourThemeSettings extends React.Component {
+interface Props {
+  mode: "dark" | "light" | "system" | undefined;
+}
+
+export class ColourThemeSettings extends React.Component<Props> {
+  static override contextType = ThemeContext;
+  declare context: React.ContextType<typeof ThemeContext>;
   override state = {
     open: true,
     background: "#fff",
     customTheme: {
-      danger: {
-        plainColor: "#d20f39",
-      },
-      success: {
-        plainColor: "#40a02b",
-      },
-      background: {
-        body: "#232634",
-        level1: "#292c3c",
-        level2: "#303446",
-        level3: "#414559",
-      },
-      primary: {
-        50: "#f2d5cf",
-        100: "#eebebe",
-        200: "#f4b8e4",
-        300: "#ca9ee6",
-        400: "#e78284",
-        500: "#ea999c",
-        600: "#ef9f76",
-        700: "#e5c890",
-        800: "#a6d189",
-        900: "#99d1db",
-        plainColor: "#8caaee",
-        plainHoverColor: "#85c1dc",
-        plainHoverBg: "transparent",
-        plainActiveBg: "transparent",
-        softBg: "#ca9ee6",
-        softHoverBg: "#f4b8e4",
-        plainActiveColor: "#232634",
-      },
-      neutral: {
-        50: "#dce0e8",
-        100: "#e6e9ef",
-        200: "#eff1f5",
-        300: "#ccd0da",
-        400: "#bcc0cc",
-        500: "#acb0be",
-        600: "#9ca0b0",
-        700: "#8c8fa1",
-        800: "#7c7f93",
-        900: "#6c6f85",
-        plainActiveBg: "#ca9ee6",
-        plainHoverBg: "#99d1db",
-        plainHoverColor: "#232634",
-        plainActiveColor: "#232634",
-      },
+      ...getCustomTheme(),
     },
   };
 
@@ -78,8 +40,30 @@ export class ColourThemeSettings extends React.Component {
   };
 
   saveColourTheme = () => {
-    setCustomDarkTheme(this.state.customTheme);
-    return;
+    console.log(this.context.theme);
+    this.props.mode === "dark"
+      ? this.context.setTheme(
+          extendTheme({
+            colorSchemes: {
+              dark: {
+                palette: {
+                  ...this.state.customTheme,
+                },
+              },
+            },
+          }),
+        )
+      : this.context.setTheme(
+          extendTheme({
+            colorSchemes: {
+              light: {
+                palette: {
+                  ...this.state.customTheme,
+                },
+              },
+            },
+          }),
+        );
   };
 
   override render() {
@@ -117,7 +101,17 @@ export class ColourThemeSettings extends React.Component {
                       <Input
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>,
-                        ) => this.setState(event.target.value)}
+                        ) =>
+                          this.setState({
+                            customTheme: {
+                              ...this.state.customTheme,
+                              primary: {
+                                ...this.state.customTheme.primary,
+                                50: event.target.value,
+                              },
+                            },
+                          })
+                        }
                         value={this.state.customTheme.primary[50]}
                         autoFocus
                         required
@@ -128,7 +122,17 @@ export class ColourThemeSettings extends React.Component {
                       <Input
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>,
-                        ) => this.setState(event.target.value)}
+                        ) =>
+                          this.setState({
+                            customTheme: {
+                              ...this.state.customTheme,
+                              primary: {
+                                ...this.state.customTheme.primary,
+                                100: event.target.value,
+                              },
+                            },
+                          })
+                        }
                         value={this.state.customTheme.primary[100]}
                         autoFocus
                         required
@@ -139,7 +143,17 @@ export class ColourThemeSettings extends React.Component {
                       <Input
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>,
-                        ) => this.setState(event.target.value)}
+                        ) =>
+                          this.setState({
+                            customTheme: {
+                              ...this.state.customTheme,
+                              primary: {
+                                ...this.state.customTheme.primary,
+                                200: event.target.value,
+                              },
+                            },
+                          })
+                        }
                         value={this.state.customTheme.primary[200]}
                         autoFocus
                         required
@@ -150,7 +164,17 @@ export class ColourThemeSettings extends React.Component {
                       <Input
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>,
-                        ) => this.setState(event.target.value)}
+                        ) =>
+                          this.setState({
+                            customTheme: {
+                              ...this.state.customTheme,
+                              primary: {
+                                ...this.state.customTheme.primary,
+                                300: event.target.value,
+                              },
+                            },
+                          })
+                        }
                         value={this.state.customTheme.primary[300]}
                         autoFocus
                         required
@@ -161,7 +185,17 @@ export class ColourThemeSettings extends React.Component {
                       <Input
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>,
-                        ) => this.setState(event.target.value)}
+                        ) =>
+                          this.setState({
+                            customTheme: {
+                              ...this.state.customTheme,
+                              primary: {
+                                ...this.state.customTheme.primary,
+                                400: event.target.value,
+                              },
+                            },
+                          })
+                        }
                         value={this.state.customTheme.primary[400]}
                         autoFocus
                         required
@@ -172,7 +206,17 @@ export class ColourThemeSettings extends React.Component {
                       <Input
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>,
-                        ) => this.setState(event.target.value)}
+                        ) =>
+                          this.setState({
+                            customTheme: {
+                              ...this.state.customTheme,
+                              primary: {
+                                ...this.state.customTheme.primary,
+                                500: event.target.value,
+                              },
+                            },
+                          })
+                        }
                         value={this.state.customTheme.primary[500]}
                         autoFocus
                         required
@@ -183,7 +227,17 @@ export class ColourThemeSettings extends React.Component {
                       <Input
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>,
-                        ) => this.setState(event.target.value)}
+                        ) =>
+                          this.setState({
+                            customTheme: {
+                              ...this.state.customTheme,
+                              primary: {
+                                ...this.state.customTheme.primary,
+                                600: event.target.value,
+                              },
+                            },
+                          })
+                        }
                         value={this.state.customTheme.primary[600]}
                         autoFocus
                         required
@@ -194,7 +248,17 @@ export class ColourThemeSettings extends React.Component {
                       <Input
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>,
-                        ) => this.setState(event.target.value)}
+                        ) =>
+                          this.setState({
+                            customTheme: {
+                              ...this.state.customTheme,
+                              primary: {
+                                ...this.state.customTheme.primary,
+                                700: event.target.value,
+                              },
+                            },
+                          })
+                        }
                         value={this.state.customTheme.primary[700]}
                         autoFocus
                         required
@@ -205,7 +269,17 @@ export class ColourThemeSettings extends React.Component {
                       <Input
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>,
-                        ) => this.setState(event.target.value)}
+                        ) =>
+                          this.setState({
+                            customTheme: {
+                              ...this.state.customTheme,
+                              primary: {
+                                ...this.state.customTheme.primary,
+                                800: event.target.value,
+                              },
+                            },
+                          })
+                        }
                         value={this.state.customTheme.primary[800]}
                         autoFocus
                         required
@@ -216,7 +290,17 @@ export class ColourThemeSettings extends React.Component {
                       <Input
                         onChange={(
                           event: React.ChangeEvent<HTMLInputElement>,
-                        ) => this.setState(event.target.value)}
+                        ) =>
+                          this.setState({
+                            customTheme: {
+                              ...this.state.customTheme,
+                              primary: {
+                                ...this.state.customTheme.primary,
+                                900: event.target.value,
+                              },
+                            },
+                          })
+                        }
                         value={this.state.customTheme.primary[900]}
                         autoFocus
                         required

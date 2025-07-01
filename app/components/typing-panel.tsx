@@ -170,14 +170,14 @@ export default function TypingPanel({
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
         // stands for "success"
-        newWordsResult[charIndex + 1] = "s";
+        newWordsResult[charIndex] = "s";
         return newWordsResult;
       });
     } else if (e.key === "Backspace") {
       setCharIndex((charIndex) => {
         setColourOfChar((wordsResult) => {
           const newWordsResult = [...wordsResult];
-          newWordsResult[charIndex] = "";
+          newWordsResult[charIndex - 1] = "";
           return newWordsResult;
         });
         return charIndex > 0 ? charIndex - 1 : 0;
@@ -192,7 +192,7 @@ export default function TypingPanel({
           if (charIndex < words.length) {
             const newWordsResult = [...wordsResult];
             // stands for "failure"
-            newWordsResult[charIndex + 1] = "f";
+            newWordsResult[charIndex] = "f";
             return newWordsResult;
           } else {
             return wordsResult;
