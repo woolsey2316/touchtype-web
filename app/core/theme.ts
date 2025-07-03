@@ -51,7 +51,7 @@ const theme = extendTheme({
   },
 });
 
-export { theme };
+export { theme, customDarkTheme };
 
 export function ThemeProvider(props: ThemeProviderProps): JSX.Element {
   return createElement(Provider, { ...props });

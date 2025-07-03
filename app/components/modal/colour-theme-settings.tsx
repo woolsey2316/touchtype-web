@@ -1,6 +1,5 @@
 import * as React from "react";
 import Button from "@mui/joy/Button";
-import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Modal from "@mui/joy/Modal";
@@ -8,19 +7,23 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import DialogTitle from "@mui/joy/DialogTitle";
 import Stack from "@mui/joy/Stack";
 import Box from "@mui/joy/Box";
-import { SketchPicker } from "react-color";
 import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
 import { CardOverflow } from "@mui/joy";
 import { extendTheme } from "@mui/joy/styles";
-import { getCustomTheme } from "../../core/theme";
+import { getCustomTheme, customDarkTheme } from "../../core/theme";
 import { ThemeContext } from "../../index";
+import { getAllKeys, deepGet } from "../../utils/util";
 
 interface Props {
   mode: "dark" | "light" | "system" | undefined;
 }
-
-export class ColourThemeSettings extends React.Component<Props> {
+interface State {
+  open: boolean;
+  background: string;
+  customTheme: typeof customDarkTheme;
+}
+export class ColourThemeSettings extends React.Component<Props, State> {
   static override contextType = ThemeContext;
   declare context: React.ContextType<typeof ThemeContext>;
   override state = {
@@ -66,6 +69,26 @@ export class ColourThemeSettings extends React.Component<Props> {
         );
   };
 
+  updateNestedThemeValue = <T extends keyof typeof this.state.customTheme>(
+    path: T[],
+    value: string,
+  ) => {
+    this.setState((prevState) => {
+      const newTheme = { ...prevState.customTheme };
+      let obj: Record<string, Record<string, string> | string> = newTheme;
+      for (let i = 0; i < path.length - 1; i++) {
+        if (!obj[path[i]]) obj[path[i]] = {};
+        obj = obj[path[i]] as Record<string, string>;
+      }
+      obj[path[path.length - 1]] = value;
+      return { customTheme: newTheme };
+    });
+  };
+
+  keys = getAllKeys(
+    this.state.customTheme,
+  ) as keyof (typeof this.state.customTheme)[];
+
   override render() {
     return (
       <Modal
@@ -95,239 +118,65 @@ export class ColourThemeSettings extends React.Component<Props> {
                   }}
                 >
                   <DialogTitle>Create new colour pallette</DialogTitle>
-                  <Stack spacing={2}>
-                    <FormControl>
-                      <FormLabel>50</FormLabel>
-                      <Input
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>,
-                        ) =>
-                          this.setState({
-                            customTheme: {
-                              ...this.state.customTheme,
-                              primary: {
-                                ...this.state.customTheme.primary,
-                                50: event.target.value,
-                              },
-                            },
-                          })
-                        }
-                        value={this.state.customTheme.primary[50]}
-                        autoFocus
-                        required
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>100</FormLabel>
-                      <Input
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>,
-                        ) =>
-                          this.setState({
-                            customTheme: {
-                              ...this.state.customTheme,
-                              primary: {
-                                ...this.state.customTheme.primary,
-                                100: event.target.value,
-                              },
-                            },
-                          })
-                        }
-                        value={this.state.customTheme.primary[100]}
-                        autoFocus
-                        required
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>200</FormLabel>
-                      <Input
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>,
-                        ) =>
-                          this.setState({
-                            customTheme: {
-                              ...this.state.customTheme,
-                              primary: {
-                                ...this.state.customTheme.primary,
-                                200: event.target.value,
-                              },
-                            },
-                          })
-                        }
-                        value={this.state.customTheme.primary[200]}
-                        autoFocus
-                        required
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>300</FormLabel>
-                      <Input
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>,
-                        ) =>
-                          this.setState({
-                            customTheme: {
-                              ...this.state.customTheme,
-                              primary: {
-                                ...this.state.customTheme.primary,
-                                300: event.target.value,
-                              },
-                            },
-                          })
-                        }
-                        value={this.state.customTheme.primary[300]}
-                        autoFocus
-                        required
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>400</FormLabel>
-                      <Input
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>,
-                        ) =>
-                          this.setState({
-                            customTheme: {
-                              ...this.state.customTheme,
-                              primary: {
-                                ...this.state.customTheme.primary,
-                                400: event.target.value,
-                              },
-                            },
-                          })
-                        }
-                        value={this.state.customTheme.primary[400]}
-                        autoFocus
-                        required
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>500</FormLabel>
-                      <Input
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>,
-                        ) =>
-                          this.setState({
-                            customTheme: {
-                              ...this.state.customTheme,
-                              primary: {
-                                ...this.state.customTheme.primary,
-                                500: event.target.value,
-                              },
-                            },
-                          })
-                        }
-                        value={this.state.customTheme.primary[500]}
-                        autoFocus
-                        required
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>600</FormLabel>
-                      <Input
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>,
-                        ) =>
-                          this.setState({
-                            customTheme: {
-                              ...this.state.customTheme,
-                              primary: {
-                                ...this.state.customTheme.primary,
-                                600: event.target.value,
-                              },
-                            },
-                          })
-                        }
-                        value={this.state.customTheme.primary[600]}
-                        autoFocus
-                        required
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>700</FormLabel>
-                      <Input
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>,
-                        ) =>
-                          this.setState({
-                            customTheme: {
-                              ...this.state.customTheme,
-                              primary: {
-                                ...this.state.customTheme.primary,
-                                700: event.target.value,
-                              },
-                            },
-                          })
-                        }
-                        value={this.state.customTheme.primary[700]}
-                        autoFocus
-                        required
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>800</FormLabel>
-                      <Input
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>,
-                        ) =>
-                          this.setState({
-                            customTheme: {
-                              ...this.state.customTheme,
-                              primary: {
-                                ...this.state.customTheme.primary,
-                                800: event.target.value,
-                              },
-                            },
-                          })
-                        }
-                        value={this.state.customTheme.primary[800]}
-                        autoFocus
-                        required
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>900</FormLabel>
-                      <Input
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>,
-                        ) =>
-                          this.setState({
-                            customTheme: {
-                              ...this.state.customTheme,
-                              primary: {
-                                ...this.state.customTheme.primary,
-                                900: event.target.value,
-                              },
-                            },
-                          })
-                        }
-                        value={this.state.customTheme.primary[900]}
-                        autoFocus
-                        required
-                      />
-                    </FormControl>
-                    <Box
-                      display="flex"
-                      gap="1em"
-                      justifyContent="space-between"
-                    >
-                      <Button
-                        type="button"
-                        color="neutral"
-                        sx={{ width: "100%" }}
-                      >
-                        Undo
-                      </Button>
-                      <Button type="submit" sx={{ width: "100%" }}>
-                        Save
-                      </Button>
-                    </Box>
+                  <Stack
+                    sx={{
+                      overflowY: "scroll",
+                      maxHeight: "85vh",
+                      display: "grid",
+                      gridTemplateColumns: "auto auto",
+                      width: "550px",
+                      marginBottom: "16px",
+                    }}
+                    spacing={2}
+                  >
+                    {Array.isArray(this.keys) ? (
+                      this.keys.map((key) => (
+                        <Box
+                          sx={{
+                            width: "250px",
+                            marginTop: "16px !important",
+                          }}
+                          display="flex"
+                          justifyContent="space-between"
+                          key={key}
+                        >
+                          <FormLabel>{key}</FormLabel>
+                          <Input
+                            type="color"
+                            value={deepGet(
+                              this.state.customTheme,
+                              key
+                                .replace(/\[([^[\]]*)\]/g, ".$1.")
+                                .split(".")
+                                .filter((t: unknown) => t !== ""),
+                            )}
+                            onChange={(e) => {
+                              this.updateNestedThemeValue(
+                                key.split("."),
+                                e.target.value,
+                              );
+                            }}
+                            style={{ verticalAlign: "middle" }}
+                          />
+                        </Box>
+                      ))
+                    ) : (
+                      <></>
+                    )}
                   </Stack>
+                  <Box display="flex" gap="1em" justifyContent="space-between">
+                    <Button
+                      type="button"
+                      color="neutral"
+                      sx={{ width: "100%" }}
+                    >
+                      Undo
+                    </Button>
+                    <Button type="submit" sx={{ width: "100%" }}>
+                      Save
+                    </Button>
+                  </Box>
                 </form>
-                <SketchPicker
-                  color={this.state.background}
-                  onChangeComplete={this.handleChangeComplete}
-                />
               </CardContent>
             </CardOverflow>
           </Card>
