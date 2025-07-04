@@ -67,7 +67,7 @@ export default function TypingPanel({
   );
   const { width, endCursorX } = useContainerDimensions(childInputRef!, words);
 
-  const finish = useCallback(() => finishTest(), []);
+  const finish = useCallback(() => finishTest(), [finishTest]);
   useEffect(() => {
     if (timeTestInfo.ended) {
       finish();
