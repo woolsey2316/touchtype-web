@@ -7,11 +7,20 @@ interface StringKeyedObject {
 
 const CountdownTimer = ({
   started,
+  setTimeInfo,
   wantTimer,
   targetDate,
   timeLimit,
 }: {
   targetDate: number;
+  setTimeInfo: React.Dispatch<
+    React.SetStateAction<{
+      started: boolean;
+      start: number | null;
+      end: number | null;
+      ended: boolean;
+    }>
+  >;
   wantTimer: boolean;
   started: boolean;
   timeLimit: number;
@@ -25,6 +34,12 @@ const CountdownTimer = ({
         m: Math.floor((difference / 1000 / 60) % 60),
         s: Math.floor((difference / 1000) % 60),
       };
+    } else {
+      setTimeInfo((timeTestInfo) => ({
+        ...timeTestInfo,
+        started: false,
+        ended: true,
+      }));
     }
     return timeLeft;
   };
@@ -54,7 +69,7 @@ const CountdownTimer = ({
       return;
     }
     timerComponents.push(
-      <Typography sx={{ mb: 2 }} level="h2" color="primary">
+      <Typography key={interval} sx={{ mb: 2 }} level="h2" color="primary">
         {timeLeft[interval]} {interval}{" "}
       </Typography>,
     );

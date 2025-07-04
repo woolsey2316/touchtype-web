@@ -85,6 +85,7 @@ export const mochaTheme = {
     700: "#8c8fa1",
     800: "#7c7f93",
     900: "#6c6f85",
+    mainChannel: "231 130 132",
     plainActiveBg: "#ca9ee6",
     plainHoverBg: "#99d1db",
     plainHoverColor: "#232634",

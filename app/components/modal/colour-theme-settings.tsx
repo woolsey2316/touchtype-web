@@ -13,7 +13,7 @@ import { CardOverflow } from "@mui/joy";
 import { extendTheme } from "@mui/joy/styles";
 import { getCustomTheme, customDarkTheme } from "../../core/theme";
 import { ThemeContext } from "../../index";
-import { getAllKeys, deepGet } from "../../utils/util";
+import { getAllKeys, deepGet, hexToRgb, rgb_to_hex } from "../../utils/util";
 
 interface Props {
   mode: "dark" | "light" | "system" | undefined;
@@ -43,7 +43,6 @@ export class ColourThemeSettings extends React.Component<Props, State> {
   };
 
   saveColourTheme = () => {
-    console.log(this.context.theme);
     this.props.mode === "dark"
       ? this.context.setTheme(
           extendTheme({
@@ -143,18 +142,43 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                           <FormLabel>{key}</FormLabel>
                           <Input
                             type="color"
-                            value={deepGet(
-                              this.state.customTheme,
-                              key
-                                .replace(/\[([^[\]]*)\]/g, ".$1.")
-                                .split(".")
-                                .filter((t: unknown) => t !== ""),
-                            )}
+                            value={
+                              key.includes("mainChannel")
+                                ? rgb_to_hex(
+                                    deepGet(
+                                      this.state.customTheme,
+                                      key
+                                        .replace(/\[([^[\]]*)\]/g, ".$1.")
+                                        .split(".")
+                                        .filter((t: unknown) => t !== ""),
+                                    )
+                                      .split(" ")
+                                      .map(Number),
+                                  )
+                                : deepGet(
+                                    this.state.customTheme,
+                                    key
+                                      .replace(/\[([^[\]]*)\]/g, ".$1.")
+                                      .split(".")
+                                      .filter((t: unknown) => t !== ""),
+                                  )
+                            }
                             onChange={(e) => {
-                              this.updateNestedThemeValue(
-                                key.split("."),
-                                e.target.value,
-                              );
+                              if (key.includes("mainChannel")) {
+                                const rgb = hexToRgb(e.target.value.slice(1));
+                                if (rgb) {
+                                  const { r, g, b } = rgb;
+                                  this.updateNestedThemeValue(
+                                    key.split("."),
+                                    `${r} ${g} ${b}`,
+                                  );
+                                }
+                              } else {
+                                this.updateNestedThemeValue(
+                                  key.split("."),
+                                  e.target.value,
+                                );
+                              }
                             }}
                             style={{ verticalAlign: "middle" }}
                           />

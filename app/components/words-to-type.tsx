@@ -10,7 +10,6 @@ interface Props {
 export const WordsToType = ({ words, colourOfChar }: Props) => {
   let wordsIndex = -2;
   const { theme } = useContext(ThemeContext);
-  console.log(theme);
   const jsx = words.split(" ").map((word) => {
     wordsIndex++;
     return (

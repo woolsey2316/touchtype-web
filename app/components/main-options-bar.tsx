@@ -14,6 +14,7 @@ type Props = {
   numbers: boolean;
   sentenceSize: number;
   fixedSentenceSize: boolean;
+  started: boolean;
   timeLimit: number;
   isTimedTest: boolean;
   language: Language;
@@ -32,6 +33,7 @@ export const MainOptionsBar = ({
   punctuation,
   numbers,
   fixedSentenceSize,
+  started,
   timeLimit,
   isTimedTest,
   language,
@@ -59,7 +61,9 @@ export const MainOptionsBar = ({
                 : `${theme.vars.palette.primary.plainHoverColor}`,
             },
           })}
-          onClick={() => setPunctuation((punctuation) => !punctuation)}
+          onClick={() =>
+            !started && setPunctuation((punctuation) => !punctuation)
+          }
         >
           punctuation
         </Button>
@@ -77,7 +81,7 @@ export const MainOptionsBar = ({
             },
           })}
           onClick={() => {
-            setNumbers((numbers) => !numbers);
+            !started && setNumbers((numbers) => !numbers);
           }}
         >
           numbers
@@ -97,8 +101,10 @@ export const MainOptionsBar = ({
               },
             })}
             onClick={() => {
-              setIsFixedSentenceSize(false);
-              setIsTimedTest(true);
+              if (!started) {
+                setIsFixedSentenceSize(false);
+                setIsTimedTest(true);
+              }
             }}
             variant="plain"
           >
@@ -126,7 +132,7 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => setTimeLimit(10)}
+                onClick={() => !started && setTimeLimit(10)}
               >
                 10
               </Button>
@@ -150,7 +156,7 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => setTimeLimit(30)}
+                onClick={() => !started && setTimeLimit(30)}
               >
                 30
               </Button>
@@ -174,7 +180,7 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => setTimeLimit(60)}
+                onClick={() => !started && setTimeLimit(60)}
               >
                 60
               </Button>
@@ -195,8 +201,10 @@ export const MainOptionsBar = ({
               },
             })}
             onClick={() => {
-              setIsFixedSentenceSize(true);
-              setIsTimedTest(false);
+              if (!started) {
+                setIsFixedSentenceSize(true);
+                setIsTimedTest(false);
+              }
             }}
             variant="plain"
           >
@@ -224,7 +232,7 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => setSentenceSize(15)}
+                onClick={() => !started && setSentenceSize(15)}
               >
                 15
               </Button>
@@ -248,7 +256,7 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => setSentenceSize(25)}
+                onClick={() => !started && setSentenceSize(25)}
               >
                 25
               </Button>
@@ -272,7 +280,7 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => setSentenceSize(50)}
+                onClick={() => !started && setSentenceSize(50)}
               >
                 50
               </Button>
@@ -294,8 +302,10 @@ export const MainOptionsBar = ({
             },
           })}
           onClick={() => {
-            if (programmingLanguage) setLanguage(0);
-            setProgrammingLanguage((programming) => !programming);
+            if (!started) {
+              if (programmingLanguage) setLanguage(0);
+              setProgrammingLanguage((programming) => !programming);
+            }
           }}
         >
           programming language

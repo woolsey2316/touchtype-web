@@ -1,47 +1,52 @@
 import { Box } from "@mui/joy";
-import {
-  useRef,
-  useState,
-  useMemo,
-  type KeyboardEvent,
-  useEffect,
-} from "react";
+import { useState, useMemo, type KeyboardEvent, useEffect } from "react";
 import { useContainerDimensions } from "../hooks/useContainerDimensions";
 import { WordsGenerator } from "../utils/wordsGenerator";
 import { Cursor } from "./cursor";
 import { WordsToType } from "./words-to-type";
-
+import { ResultsModal } from "./modal/results-modal";
 export default function TypingPanel({
   punctuation,
   numbers,
   language,
   sentenceSize,
   isTimedTest,
-  timeInfo,
+  timeTestInfo,
   setTimeInfo,
   setLastWPM,
+  childInputRef,
+  lastWPM,
   recordTest,
 }: {
   punctuation: boolean;
   numbers: boolean;
   language: number;
   sentenceSize: number;
+  childInputRef: React.RefObject<HTMLDivElement | null>;
   isTimedTest: boolean;
-  timeInfo: { started: boolean; start: number | null; end: number | null };
+  timeTestInfo: {
+    started: boolean;
+    start: number | null;
+    end: number | null;
+    ended: boolean;
+  };
   setTimeInfo: React.Dispatch<
     React.SetStateAction<{
       started: boolean;
       start: number | null;
       end: number | null;
+      ended: boolean;
     }>
   >;
   setLastWPM: React.Dispatch<React.SetStateAction<number>>;
+  lastWPM: number;
   recordTest: boolean;
 }) {
   useEffect(() => {
-    panelRef.current ? panelRef.current.focus() : null;
-  }, []);
+    childInputRef?.current ? childInputRef?.current.focus() : null;
+  }, [childInputRef]);
   const [mistakes, setMistakes] = useState(0);
+  const [correctChars, setCorrectChars] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [cursorPos, setCursorPos] = useState({ row: 0, col: 0 });
   const generatedWords = useMemo(
@@ -54,8 +59,13 @@ export default function TypingPanel({
   const [colourOfChar, setColourOfChar] = useState(
     Array(words.length).fill(""),
   );
-  const panelRef = useRef<HTMLDivElement>(null);
-  const { width, endCursorX } = useContainerDimensions(panelRef, words);
+  const { width, endCursorX } = useContainerDimensions(childInputRef!, words);
+
+  useEffect(() => {
+    if (timeTestInfo.ended) {
+      finishTest();
+    }
+  }, [timeTestInfo.ended]);
 
   function incrementCursorPosition() {
     if (cursorPos.col > endCursorX[cursorPos.row]) {
@@ -93,24 +103,31 @@ export default function TypingPanel({
   }
 
   function stopTimer(endTime: number) {
-    setTimeInfo((timeInfo) => ({ ...timeInfo, started: false, end: endTime }));
+    setTimeInfo((timeTestInfo) => ({
+      ...timeTestInfo,
+      started: false,
+      end: endTime,
+    }));
   }
 
   function recordTypingStats(endTime: number) {
     const wpm =
-      ((((words.length - mistakes) / (endTime - (timeInfo.start as number))) *
+      ((((correctChars - mistakes) /
+        (endTime - (timeTestInfo.start as number))) *
         1000) /
         5) *
       60;
     setLastWPM(wpm);
+    console.log(timeTestInfo.start, endTime);
     console.log(wpm);
     console.log("mistakes", mistakes);
-    console.log("words.length", words.length);
+    console.log("correct characters", correctChars);
   }
 
   function resetStatistics() {
-    setTimeInfo((timeInfo) => ({ ...timeInfo, started: false }));
+    setTimeInfo((timeTestInfo) => ({ ...timeTestInfo, started: false }));
     setMistakes(0);
+    setCorrectChars(0);
   }
 
   function fetchNewWords() {
@@ -148,6 +165,8 @@ export default function TypingPanel({
   }
 
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    // this stops the result modal from closing when the user presses a key
+    if (timeTestInfo.ended) return;
     if (
       e.key === "Shift" ||
       e.key === "F12" ||
@@ -173,6 +192,7 @@ export default function TypingPanel({
         newWordsResult[charIndex] = "s";
         return newWordsResult;
       });
+      setCorrectChars((correctChars) => ++correctChars);
     } else if (e.key === "Backspace") {
       setCharIndex((charIndex) => {
         setColourOfChar((wordsResult) => {
@@ -202,8 +222,13 @@ export default function TypingPanel({
       });
       if (charIndex < words.length - 1) incrementCursorPosition();
     }
-    if (!timeInfo.started) {
-      setTimeInfo({ started: true, start: Date.now(), end: null });
+    if (!timeTestInfo.started) {
+      setTimeInfo({
+        started: true,
+        start: Date.now(),
+        end: null,
+        ended: false,
+      });
     }
   }
   return (
@@ -219,12 +244,20 @@ export default function TypingPanel({
         fontSize: 24,
         outline: "none",
       })}
-      ref={panelRef}
+      ref={childInputRef}
       tabIndex={0}
       onKeyDown={onKeyDown}
     >
       <Cursor left={getCursorLeftPosition()} top={getCursorTopPosition()} />
       <WordsToType colourOfChar={colourOfChar} words={words} />
+      <ResultsModal
+        timeTestInfo={timeTestInfo}
+        setTimeInfo={setTimeInfo}
+        lastWPM={lastWPM}
+        mistakes={mistakes}
+        correctChars={correctChars}
+        childInputRef={childInputRef}
+      />
     </Box>
   );
 }

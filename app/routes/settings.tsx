@@ -9,7 +9,7 @@ import {
   Typography,
   useColorScheme,
 } from "@mui/joy";
-import { useState, type JSX } from "react";
+import { useState, useRef, type JSX } from "react";
 import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
 import { Language, ProgrammingLanguage } from "../types/words.type";
@@ -17,7 +17,7 @@ import { MainOptionsBar } from "../components/main-options-bar";
 import { LastWPM } from "../components/last-wpm";
 import CountdownTimer from "../components/countdown-timer";
 import { ColourThemeSettings } from "../components/modal/colour-theme-settings";
-export const Component = function Dashboard(): JSX.Element {
+export const Component = function Settings(): JSX.Element {
   usePageEffect({ title: "Settings" });
   /* state for typing test page*/
   const [punctuation, setPunctuation] = useState(false);
@@ -29,12 +29,18 @@ export const Component = function Dashboard(): JSX.Element {
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
   const [lastWPM, setLastWPM] = useState(0);
-  const [timeInfo, setTimeInfo] = useState<{
+  const [timeTestInfo, setTimeInfo] = useState<{
     started: boolean;
     start: number | null;
     end: number | null;
-  }>({ started: false, start: null, end: null });
+    ended: boolean;
+  }>({ started: false, start: null, end: null, ended: false });
   const { mode } = useColorScheme();
+  const childInputRef = useRef<HTMLDivElement>(null);
+  // Function to focus the typing panel
+  const focusChild = () => {
+    childInputRef.current && childInputRef.current.focus();
+  };
   /* state for settings page */
   return (
     <>
@@ -45,7 +51,8 @@ export const Component = function Dashboard(): JSX.Element {
             Typing Test
           </Typography>
           <CountdownTimer
-            started={timeInfo.started}
+            setTimeInfo={setTimeInfo}
+            started={timeTestInfo.started}
             wantTimer={isTimedTest}
             targetDate={Date.now() + timeLimit * 1000}
             timeLimit={timeLimit}
@@ -79,6 +86,7 @@ export const Component = function Dashboard(): JSX.Element {
               fixedSentenceSize={fixedSentenceSize}
               programmingLanguage={programmingLanguage}
               isTimedTest={isTimedTest}
+              started={timeTestInfo.started}
               timeLimit={timeLimit}
               punctuation={punctuation}
               numbers={numbers}
@@ -87,6 +95,7 @@ export const Component = function Dashboard(): JSX.Element {
             ></MainOptionsBar>
             <CardContent
               sx={{ minHeight: 300, display: "flex", alignItems: "center" }}
+              onClick={focusChild}
             >
               <Typography
                 level="h3"
@@ -110,10 +119,12 @@ export const Component = function Dashboard(): JSX.Element {
                 sentenceSize={sentenceSize}
                 numbers={numbers}
                 isTimedTest={isTimedTest}
-                timeInfo={timeInfo}
+                timeTestInfo={timeTestInfo}
                 setTimeInfo={setTimeInfo}
                 setLastWPM={setLastWPM}
+                lastWPM={lastWPM}
                 recordTest={false}
+                childInputRef={childInputRef}
               />
             </CardContent>
           </Card>
