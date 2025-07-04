@@ -65,7 +65,7 @@ export default function TypingPanel({
     if (timeTestInfo.ended) {
       finishTest();
     }
-  }, [timeTestInfo.ended]);
+  }, [timeTestInfo.ended, finishTest]);
 
   function incrementCursorPosition() {
     if (cursorPos.col > endCursorX[cursorPos.row]) {
