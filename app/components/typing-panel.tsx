@@ -1,5 +1,11 @@
 import { Box } from "@mui/joy";
-import { useState, useMemo, type KeyboardEvent, useEffect } from "react";
+import {
+  useState,
+  useCallback,
+  useMemo,
+  type KeyboardEvent,
+  useEffect,
+} from "react";
 import { useContainerDimensions } from "../hooks/useContainerDimensions";
 import { WordsGenerator } from "../utils/wordsGenerator";
 import { Cursor } from "./cursor";
@@ -61,11 +67,30 @@ export default function TypingPanel({
   );
   const { width, endCursorX } = useContainerDimensions(childInputRef!, words);
 
+  const finishTest = useCallback(() => {
+    const endTime = Date.now();
+    stopTimer(endTime);
+    recordTest && recordTypingStats(endTime);
+    setCharIndex(0);
+    resetStatistics();
+    setCursorPos({ row: 0, col: 0 });
+    setWords(() => {
+      const words = WordsGenerator({
+        count: sentenceSize,
+        punctuation,
+        numbers,
+        language,
+      });
+      setColourOfChar(Array(words.length).fill(""));
+      return words;
+    }); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (timeTestInfo.ended) {
       finishTest();
     }
-  }, [timeTestInfo.ended]);
+  }, [timeTestInfo.ended, finishTest]);
 
   function incrementCursorPosition() {
     if (cursorPos.col > endCursorX[cursorPos.row]) {
@@ -132,25 +157,6 @@ export default function TypingPanel({
 
   function fetchNewWords() {
     setCharIndex(0);
-    setCursorPos({ row: 0, col: 0 });
-    setWords(() => {
-      const words = WordsGenerator({
-        count: sentenceSize,
-        punctuation,
-        numbers,
-        language,
-      });
-      setColourOfChar(Array(words.length).fill(""));
-      return words;
-    });
-  }
-
-  function finishTest() {
-    const endTime = Date.now();
-    stopTimer(endTime);
-    recordTest && recordTypingStats(endTime);
-    setCharIndex(0);
-    resetStatistics();
     setCursorPos({ row: 0, col: 0 });
     setWords(() => {
       const words = WordsGenerator({
