@@ -1,5 +1,5 @@
 import { Modal, ModalClose, ModalDialog, Typography } from "@mui/joy";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 interface Props {
   setTimeInfo: React.Dispatch<
@@ -30,11 +30,7 @@ export const ResultsModal = ({
   childInputRef,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (timeTestInfo.ended) {
-      ref?.current?.focus();
-    }
-  }, [timeTestInfo.ended]);
+
   return (
     <Modal
       ref={ref}
@@ -56,7 +52,6 @@ export const ResultsModal = ({
         <Typography>WPM: {Math.round(lastWPM * 100) / 100}</Typography>
         <Typography>Mistakes {mistakes}</Typography>
         <Typography>Correct Characters {correctChars}</Typography>
-        <textarea tabIndex={0}></textarea>
       </ModalDialog>
     </Modal>
   );

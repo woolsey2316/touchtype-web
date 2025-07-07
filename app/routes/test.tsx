@@ -10,7 +10,7 @@ import { MainOptionsBar } from "../components/main-options-bar";
 import { LastWPM } from "../components/last-wpm";
 import CountdownTimer from "../components/countdown-timer";
 
-export const Component = function Test(): JSX.Element {
+export const Component = function Dashboard(): JSX.Element {
   usePageEffect({ title: "TypingTest" });
   const [punctuation, setPunctuation] = useState(false);
   const [numbers, setNumbers] = useState(false);

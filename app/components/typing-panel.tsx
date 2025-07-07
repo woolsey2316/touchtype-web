@@ -1,11 +1,5 @@
 import { Box } from "@mui/joy";
-import {
-  useState,
-  useMemo,
-  useCallback,
-  type KeyboardEvent,
-  useEffect,
-} from "react";
+import { useState, useMemo, type KeyboardEvent, useEffect } from "react";
 import { useContainerDimensions } from "../hooks/useContainerDimensions";
 import { WordsGenerator } from "../utils/wordsGenerator";
 import { Cursor } from "./cursor";
@@ -67,12 +61,11 @@ export default function TypingPanel({
   );
   const { width, endCursorX } = useContainerDimensions(childInputRef!, words);
 
-  const finish = useCallback(() => finishTest(), [finishTest]);
   useEffect(() => {
     if (timeTestInfo.ended) {
-      finish();
+      finishTest();
     }
-  }, [timeTestInfo.ended, finish]);
+  }, [timeTestInfo.ended]);
 
   function incrementCursorPosition() {
     if (cursorPos.col > endCursorX[cursorPos.row]) {
