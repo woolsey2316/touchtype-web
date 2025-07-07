@@ -83,8 +83,8 @@ export default function TypingPanel({
       });
       setColourOfChar(Array(words.length).fill(""));
       return words;
-    }); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    });
+  }, [timeTestInfo, mistakes, correctChars, punctuation, numbers]);
 
   useEffect(() => {
     if (timeTestInfo.ended) {
