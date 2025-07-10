@@ -64,7 +64,6 @@ export const Navigation = memo(function Navigation(
 function NavItem(props: NavItemProps): JSX.Element {
   const theme = useTheme();
   const location = useLocation();
-  console.log(location.pathname);
   return (
     <ListItem>
       <ListItemButton
@@ -72,7 +71,7 @@ function NavItem(props: NavItemProps): JSX.Element {
         selected={!!useMatch(props.path)}
         sx={{
           "&:hover": {
-            color: theme.vars.palette.primary.plainHoverColor,
+            color: theme.vars.palette.primary.plainActiveColor,
           },
           color:
             props.path === location.pathname

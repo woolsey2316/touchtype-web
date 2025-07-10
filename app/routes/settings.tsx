@@ -1,16 +1,21 @@
 /* SPDX-FileCopyrightText: 2014-present Kriasoft */
 /* SPDX-License-Identifier: MIT */
 
-import { Box, Card, CardContent, Container, Typography } from "@mui/joy";
-import { useState, type JSX } from "react";
-import TypingPanel from "../components/typing-panel";
+import {
+  Box,
+  Card,
+  CardContent,
+  Container,
+  Typography,
+  useColorScheme,
+} from "@mui/joy";
+import { useState, useRef, type JSX } from "react";
 import { usePageEffect } from "../core/page";
 import { Language, ProgrammingLanguage } from "../types/words.type";
 import { MainOptionsBar } from "../components/main-options-bar";
 import { LastWPM } from "../components/last-wpm";
-import CountdownTimer from "../components/countdown-timer";
 import { ColourThemeSettings } from "../components/modal/colour-theme-settings";
-export const Component = function Dashboard(): JSX.Element {
+export const Component = function Settings(): JSX.Element {
   usePageEffect({ title: "Settings" });
   /* state for typing test page*/
   const [punctuation, setPunctuation] = useState(false);
@@ -21,28 +26,28 @@ export const Component = function Dashboard(): JSX.Element {
   const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
-  const [lastWPM, setLastWPM] = useState(0);
-  const [timeInfo, setTimeInfo] = useState<{
+  const [lastWPM] = useState(0);
+  const [timeTestInfo] = useState<{
     started: boolean;
     start: number | null;
     end: number | null;
-  }>({ started: false, start: null, end: null });
-
+    ended: boolean;
+  }>({ started: false, start: null, end: null, ended: false });
+  const { mode } = useColorScheme();
+  const childInputRef = useRef<HTMLDivElement>(null);
+  // Function to focus the typing panel
+  const focusChild = () => {
+    childInputRef.current && childInputRef.current.focus();
+  };
   /* state for settings page */
   return (
     <>
-      <ColourThemeSettings></ColourThemeSettings>
+      <ColourThemeSettings mode={mode}></ColourThemeSettings>
       <Container sx={{ py: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography sx={{ mb: 2 }} level="h2">
             Typing Test
           </Typography>
-          <CountdownTimer
-            started={timeInfo.started}
-            wantTimer={isTimedTest}
-            targetDate={Date.now() + timeLimit * 1000}
-            timeLimit={timeLimit}
-          ></CountdownTimer>
           <LastWPM lastWPM={lastWPM}></LastWPM>
         </Box>
 
@@ -72,6 +77,7 @@ export const Component = function Dashboard(): JSX.Element {
               fixedSentenceSize={fixedSentenceSize}
               programmingLanguage={programmingLanguage}
               isTimedTest={isTimedTest}
+              started={timeTestInfo.started}
               timeLimit={timeLimit}
               punctuation={punctuation}
               numbers={numbers}
@@ -80,6 +86,7 @@ export const Component = function Dashboard(): JSX.Element {
             ></MainOptionsBar>
             <CardContent
               sx={{ minHeight: 300, display: "flex", alignItems: "center" }}
+              onClick={focusChild}
             >
               <Typography
                 level="h3"
@@ -90,24 +97,7 @@ export const Component = function Dashboard(): JSX.Element {
               >
                 {programmingLanguage && ProgrammingLanguage[language]}
               </Typography>
-              <TypingPanel
-                key={
-                  Number(punctuation) +
-                  Number(language) +
-                  Number(numbers) +
-                  sentenceSize +
-                  Number(isTimedTest)
-                }
-                punctuation={punctuation}
-                language={language}
-                sentenceSize={sentenceSize}
-                numbers={numbers}
-                isTimedTest={isTimedTest}
-                timeInfo={timeInfo}
-                setTimeInfo={setTimeInfo}
-                setLastWPM={setLastWPM}
-                recordTest={false}
-              />
+              <Box> typing test words will appear here</Box>
             </CardContent>
           </Card>
         </Box>

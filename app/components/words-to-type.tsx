@@ -1,4 +1,6 @@
-import { Box, useTheme } from "@mui/joy";
+import { Box, Typography } from "@mui/joy";
+import { useContext } from "react";
+import { ThemeContext } from "../index";
 
 interface Props {
   words: string;
@@ -6,29 +8,35 @@ interface Props {
 }
 
 export const WordsToType = ({ words, colourOfChar }: Props) => {
-  const theme = useTheme();
-  let wordsIndex = -1;
+  let wordsIndex = -2;
+  const { theme } = useContext(ThemeContext);
   const jsx = words.split(" ").map((word) => {
     wordsIndex++;
     return (
-      <Box key={Math.random()}>
+      <Box key={Math.random()} display="flex">
         {word.split("").map((char) => {
           wordsIndex++;
           return (
-            <span
+            <Typography
+              level="body-lg"
+              sx={{
+                textAlign: "center",
+                fontSize: 26,
+                fontFamily: "inherit",
+                width: `${14.41}px`,
+              }}
               style={{
                 color:
                   colourOfChar[wordsIndex] === "s"
-                    ? theme.palette.success.plainColor
+                    ? theme.vars.palette.success.plainColor
                     : colourOfChar[wordsIndex] === "f"
-                      ? theme.palette.danger.plainColor
-                      : theme.palette.neutral[500],
-                width: `${14.41}px`,
+                      ? theme.vars.palette.danger.plainColor
+                      : theme.vars.palette.neutral[500],
               }}
               key={Math.random()}
             >
               {char}
-            </span>
+            </Typography>
           );
         })}
       </Box>

@@ -1,7 +1,7 @@
 import { Box } from "@mui/joy";
 import {
-  useRef,
   useState,
+  useCallback,
   useMemo,
   type KeyboardEvent,
   useEffect,
@@ -10,38 +10,53 @@ import { useContainerDimensions } from "../hooks/useContainerDimensions";
 import { WordsGenerator } from "../utils/wordsGenerator";
 import { Cursor } from "./cursor";
 import { WordsToType } from "./words-to-type";
-
+import { ResultsModal } from "./modal/results-modal";
 export default function TypingPanel({
   punctuation,
   numbers,
   language,
   sentenceSize,
-  isTimedTest,
-  timeInfo,
+  timeTestInfo,
   setTimeInfo,
-  setLastWPM,
-  recordTest,
+  childInputRef,
+  lastWPM,
+  correctChars,
+  mistakes,
+  setIsOpen,
+  isOpen,
 }: {
   punctuation: boolean;
   numbers: boolean;
   language: number;
   sentenceSize: number;
+  childInputRef: React.RefObject<HTMLDivElement | null>;
   isTimedTest: boolean;
-  timeInfo: { started: boolean; start: number | null; end: number | null };
+  timeTestInfo: {
+    started: boolean;
+    start: number | null;
+    end: number | null;
+    ended: boolean;
+  };
   setTimeInfo: React.Dispatch<
     React.SetStateAction<{
       started: boolean;
       start: number | null;
       end: number | null;
+      ended: boolean;
     }>
   >;
   setLastWPM: React.Dispatch<React.SetStateAction<number>>;
+  lastWPM: number;
   recordTest: boolean;
+  mistakes: React.RefObject<number>;
+  correctChars: React.RefObject<number>;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   useEffect(() => {
-    panelRef.current ? panelRef.current.focus() : null;
-  }, []);
-  const [mistakes, setMistakes] = useState(0);
+    childInputRef?.current ? childInputRef?.current.focus() : null;
+  }, [childInputRef]);
+
   const [charIndex, setCharIndex] = useState(0);
   const [cursorPos, setCursorPos] = useState({ row: 0, col: 0 });
   const generatedWords = useMemo(
@@ -54,8 +69,28 @@ export default function TypingPanel({
   const [colourOfChar, setColourOfChar] = useState(
     Array(words.length).fill(""),
   );
-  const panelRef = useRef<HTMLDivElement>(null);
-  const { width, endCursorX } = useContainerDimensions(panelRef, words);
+  const { width, endCursorX } = useContainerDimensions(childInputRef!, words);
+
+  const resetStatistics = useCallback(() => {
+    mistakes.current = 0;
+    correctChars.current = 0;
+  }, [mistakes, correctChars]);
+
+  const newTestPage = useCallback(() => {
+    setCharIndex(0);
+    resetStatistics();
+    setCursorPos({ row: 0, col: 0 });
+    setWords(() => {
+      const words = WordsGenerator({
+        count: sentenceSize,
+        punctuation,
+        numbers,
+        language,
+      });
+      setColourOfChar(Array(words.length).fill(""));
+      return words;
+    });
+  }, [language, punctuation, numbers, resetStatistics, sentenceSize]);
 
   function incrementCursorPosition() {
     if (cursorPos.col > endCursorX[cursorPos.row]) {
@@ -92,27 +127,6 @@ export default function TypingPanel({
     return `${-2 + cursorPos.row * (36 + 14.41)}px`;
   }
 
-  function stopTimer(endTime: number) {
-    setTimeInfo((timeInfo) => ({ ...timeInfo, started: false, end: endTime }));
-  }
-
-  function recordTypingStats(endTime: number) {
-    const wpm =
-      ((((words.length - mistakes) / (endTime - (timeInfo.start as number))) *
-        1000) /
-        5) *
-      60;
-    setLastWPM(wpm);
-    console.log(wpm);
-    console.log("mistakes", mistakes);
-    console.log("words.length", words.length);
-  }
-
-  function resetStatistics() {
-    setTimeInfo((timeInfo) => ({ ...timeInfo, started: false }));
-    setMistakes(0);
-  }
-
   function fetchNewWords() {
     setCharIndex(0);
     setCursorPos({ row: 0, col: 0 });
@@ -128,26 +142,9 @@ export default function TypingPanel({
     });
   }
 
-  function finishTest() {
-    const endTime = Date.now();
-    stopTimer(endTime);
-    recordTest && recordTypingStats(endTime);
-    setCharIndex(0);
-    resetStatistics();
-    setCursorPos({ row: 0, col: 0 });
-    setWords(() => {
-      const words = WordsGenerator({
-        count: sentenceSize,
-        punctuation,
-        numbers,
-        language,
-      });
-      setColourOfChar(Array(words.length).fill(""));
-      return words;
-    });
-  }
-
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    // this stops the result modal from closing when the user presses a key
+    if (timeTestInfo.ended) return;
     if (
       e.key === "Shift" ||
       e.key === "F12" ||
@@ -162,7 +159,7 @@ export default function TypingPanel({
       // Correct key pressed
       setCharIndex((charIndex) => {
         if (charIndex + 1 === words.length - 1) {
-          isTimedTest ? fetchNewWords() : finishTest();
+          fetchNewWords();
         }
         return charIndex < words.length ? charIndex + 1 : charIndex;
       });
@@ -170,14 +167,15 @@ export default function TypingPanel({
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
         // stands for "success"
-        newWordsResult[charIndex + 1] = "s";
+        newWordsResult[charIndex] = "s";
         return newWordsResult;
       });
+      correctChars.current++;
     } else if (e.key === "Backspace") {
       setCharIndex((charIndex) => {
         setColourOfChar((wordsResult) => {
           const newWordsResult = [...wordsResult];
-          newWordsResult[charIndex] = "";
+          newWordsResult[charIndex - 1] = "";
           return newWordsResult;
         });
         return charIndex > 0 ? charIndex - 1 : 0;
@@ -186,13 +184,13 @@ export default function TypingPanel({
         decrementCursorPosition();
       }
     } else {
-      setMistakes((mistakes) => ++mistakes);
+      mistakes.current++;
       setCharIndex((charIndex) => {
         setColourOfChar((wordsResult) => {
           if (charIndex < words.length) {
             const newWordsResult = [...wordsResult];
             // stands for "failure"
-            newWordsResult[charIndex + 1] = "f";
+            newWordsResult[charIndex] = "f";
             return newWordsResult;
           } else {
             return wordsResult;
@@ -202,8 +200,13 @@ export default function TypingPanel({
       });
       if (charIndex < words.length - 1) incrementCursorPosition();
     }
-    if (!timeInfo.started) {
-      setTimeInfo({ started: true, start: Date.now(), end: null });
+    if (!timeTestInfo.started) {
+      setTimeInfo({
+        started: true,
+        start: Date.now(),
+        end: null,
+        ended: false,
+      });
     }
   }
   return (
@@ -219,12 +222,23 @@ export default function TypingPanel({
         fontSize: 24,
         outline: "none",
       })}
-      ref={panelRef}
+      ref={childInputRef}
       tabIndex={0}
       onKeyDown={onKeyDown}
     >
       <Cursor left={getCursorLeftPosition()} top={getCursorTopPosition()} />
       <WordsToType colourOfChar={colourOfChar} words={words} />
+      <ResultsModal
+        key={isOpen.toString() + lastWPM + mistakes + correctChars}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        newTestPage={newTestPage}
+        setTimeInfo={setTimeInfo}
+        lastWPM={lastWPM}
+        mistakes={mistakes}
+        correctChars={correctChars}
+        childInputRef={childInputRef}
+      />
     </Box>
   );
 }
