@@ -10,23 +10,22 @@ interface Props {
       ended: boolean;
     }>
   >;
-  timeTestInfo: {
-    started: boolean;
-    ended: boolean;
-    start: number | null;
-    end: number | null;
-  };
   lastWPM: number;
-  mistakes: number;
-  correctChars: number;
+  isOpen: boolean;
+  newTestPage: () => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  mistakes: React.RefObject<number>;
+  correctChars: React.RefObject<number>;
   childInputRef: React.RefObject<HTMLDivElement | null>;
 }
 export const ResultsModal = ({
-  timeTestInfo,
   lastWPM,
   mistakes,
   correctChars,
   setTimeInfo,
+  isOpen,
+  newTestPage,
+  setIsOpen,
   childInputRef,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -34,14 +33,16 @@ export const ResultsModal = ({
   return (
     <Modal
       ref={ref}
-      open={timeTestInfo.ended}
+      open={isOpen}
       onClose={() => {
         childInputRef?.current ? childInputRef?.current.focus() : null;
+        newTestPage();
         setTimeInfo((timeTestInfo) => ({
           ...timeTestInfo,
           started: false,
           ended: false,
         }));
+        setIsOpen(false);
       }}
     >
       <ModalDialog>
@@ -50,8 +51,8 @@ export const ResultsModal = ({
           Results
         </Typography>
         <Typography>WPM: {Math.round(lastWPM * 100) / 100}</Typography>
-        <Typography>Mistakes {mistakes}</Typography>
-        <Typography>Correct Characters {correctChars}</Typography>
+        <Typography>Mistakes {mistakes.current}</Typography>
+        <Typography>Correct Characters {correctChars.current}</Typography>
       </ModalDialog>
     </Modal>
   );

@@ -1,16 +1,17 @@
 import { Typography } from "@mui/joy";
-import { useState, useEffect, JSX } from "react";
+import { useState, useEffect, useCallback, JSX } from "react";
 
 interface StringKeyedObject {
   [key: string]: number; // 'key' represents the string key, 'any' is the type of the value
 }
 
 const CountdownTimer = ({
-  started,
+  timeTestInfo,
   setTimeInfo,
   wantTimer,
   targetDate,
   timeLimit,
+  onEnd,
 }: {
   targetDate: number;
   setTimeInfo: React.Dispatch<
@@ -22,10 +23,16 @@ const CountdownTimer = ({
     }>
   >;
   wantTimer: boolean;
-  started: boolean;
+  timeTestInfo: {
+    started: boolean;
+    start: number | null;
+    end: number | null;
+    ended: boolean;
+  };
   timeLimit: number;
+  onEnd: () => void;
 }) => {
-  const calculateTimeLeft = () => {
+  const calculateTimeLeft = useCallback(() => {
     const difference = +new Date(targetDate) - +new Date();
     let timeLeft = {};
 
@@ -39,24 +46,25 @@ const CountdownTimer = ({
         ...timeTestInfo,
         started: false,
         ended: true,
+        end: Date.now(),
       }));
+      onEnd();
     }
+    console.log("timeLeft: ", timeLeft);
     return timeLeft;
-  };
+  }, [setTimeInfo, targetDate, onEnd]);
 
   const [timeLeft, setTimeLeft] = useState<StringKeyedObject>(
-    started ? calculateTimeLeft() : { m: 0, s: 0 },
+    wantTimer ? { m: 0, s: timeLimit } : {},
   );
 
   useEffect(() => {
+    console.log("CountdownTimer useEffect", wantTimer, timeTestInfo);
     const timer = setTimeout(() => {
-      setTimeLeft(
-        wantTimer
-          ? started
-            ? calculateTimeLeft()
-            : { m: 0, s: timeLimit }
-          : { m: 0, s: 0 },
-      );
+      wantTimer &&
+        timeTestInfo.started &&
+        !timeTestInfo.ended &&
+        setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearTimeout(timer); // Cleanup

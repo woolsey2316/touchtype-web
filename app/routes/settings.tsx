@@ -10,12 +10,10 @@ import {
   useColorScheme,
 } from "@mui/joy";
 import { useState, useRef, type JSX } from "react";
-import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
 import { Language, ProgrammingLanguage } from "../types/words.type";
 import { MainOptionsBar } from "../components/main-options-bar";
 import { LastWPM } from "../components/last-wpm";
-import CountdownTimer from "../components/countdown-timer";
 import { ColourThemeSettings } from "../components/modal/colour-theme-settings";
 export const Component = function Settings(): JSX.Element {
   usePageEffect({ title: "Settings" });
@@ -28,8 +26,8 @@ export const Component = function Settings(): JSX.Element {
   const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
-  const [lastWPM, setLastWPM] = useState(0);
-  const [timeTestInfo, setTimeInfo] = useState<{
+  const [lastWPM] = useState(0);
+  const [timeTestInfo] = useState<{
     started: boolean;
     start: number | null;
     end: number | null;
@@ -50,13 +48,6 @@ export const Component = function Settings(): JSX.Element {
           <Typography sx={{ mb: 2 }} level="h2">
             Typing Test
           </Typography>
-          <CountdownTimer
-            setTimeInfo={setTimeInfo}
-            started={timeTestInfo.started}
-            wantTimer={isTimedTest}
-            targetDate={Date.now() + timeLimit * 1000}
-            timeLimit={timeLimit}
-          ></CountdownTimer>
           <LastWPM lastWPM={lastWPM}></LastWPM>
         </Box>
 
@@ -106,26 +97,7 @@ export const Component = function Settings(): JSX.Element {
               >
                 {programmingLanguage && ProgrammingLanguage[language]}
               </Typography>
-              <TypingPanel
-                key={
-                  Number(punctuation) +
-                  Number(language) +
-                  Number(numbers) +
-                  sentenceSize +
-                  Number(isTimedTest)
-                }
-                punctuation={punctuation}
-                language={language}
-                sentenceSize={sentenceSize}
-                numbers={numbers}
-                isTimedTest={isTimedTest}
-                timeTestInfo={timeTestInfo}
-                setTimeInfo={setTimeInfo}
-                setLastWPM={setLastWPM}
-                lastWPM={lastWPM}
-                recordTest={false}
-                childInputRef={childInputRef}
-              />
+              <Box> typing test words will appear here</Box>
             </CardContent>
           </Card>
         </Box>

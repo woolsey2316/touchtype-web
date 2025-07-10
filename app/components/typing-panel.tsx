@@ -16,13 +16,14 @@ export default function TypingPanel({
   numbers,
   language,
   sentenceSize,
-  isTimedTest,
   timeTestInfo,
   setTimeInfo,
-  setLastWPM,
   childInputRef,
   lastWPM,
-  recordTest,
+  correctChars,
+  mistakes,
+  setIsOpen,
+  isOpen,
 }: {
   punctuation: boolean;
   numbers: boolean;
@@ -47,12 +48,15 @@ export default function TypingPanel({
   setLastWPM: React.Dispatch<React.SetStateAction<number>>;
   lastWPM: number;
   recordTest: boolean;
+  mistakes: React.RefObject<number>;
+  correctChars: React.RefObject<number>;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   useEffect(() => {
     childInputRef?.current ? childInputRef?.current.focus() : null;
   }, [childInputRef]);
-  const [mistakes, setMistakes] = useState(0);
-  const [correctChars, setCorrectChars] = useState(0);
+
   const [charIndex, setCharIndex] = useState(0);
   const [cursorPos, setCursorPos] = useState({ row: 0, col: 0 });
   const generatedWords = useMemo(
@@ -67,10 +71,12 @@ export default function TypingPanel({
   );
   const { width, endCursorX } = useContainerDimensions(childInputRef!, words);
 
-  const finishTest = useCallback(() => {
-    const endTime = Date.now();
-    stopTimer(endTime);
-    recordTest && recordTypingStats(endTime);
+  const resetStatistics = useCallback(() => {
+    mistakes.current = 0;
+    correctChars.current = 0;
+  }, [mistakes, correctChars]);
+
+  const newTestPage = useCallback(() => {
     setCharIndex(0);
     resetStatistics();
     setCursorPos({ row: 0, col: 0 });
@@ -84,13 +90,7 @@ export default function TypingPanel({
       setColourOfChar(Array(words.length).fill(""));
       return words;
     });
-  }, [timeTestInfo, mistakes, correctChars, punctuation, numbers]);
-
-  useEffect(() => {
-    if (timeTestInfo.ended) {
-      finishTest();
-    }
-  }, [timeTestInfo.ended, finishTest]);
+  }, [language, punctuation, numbers, resetStatistics, sentenceSize]);
 
   function incrementCursorPosition() {
     if (cursorPos.col > endCursorX[cursorPos.row]) {
@@ -127,34 +127,6 @@ export default function TypingPanel({
     return `${-2 + cursorPos.row * (36 + 14.41)}px`;
   }
 
-  function stopTimer(endTime: number) {
-    setTimeInfo((timeTestInfo) => ({
-      ...timeTestInfo,
-      started: false,
-      end: endTime,
-    }));
-  }
-
-  function recordTypingStats(endTime: number) {
-    const wpm =
-      ((((correctChars - mistakes) /
-        (endTime - (timeTestInfo.start as number))) *
-        1000) /
-        5) *
-      60;
-    setLastWPM(wpm);
-    console.log(timeTestInfo.start, endTime);
-    console.log(wpm);
-    console.log("mistakes", mistakes);
-    console.log("correct characters", correctChars);
-  }
-
-  function resetStatistics() {
-    setTimeInfo((timeTestInfo) => ({ ...timeTestInfo, started: false }));
-    setMistakes(0);
-    setCorrectChars(0);
-  }
-
   function fetchNewWords() {
     setCharIndex(0);
     setCursorPos({ row: 0, col: 0 });
@@ -187,7 +159,7 @@ export default function TypingPanel({
       // Correct key pressed
       setCharIndex((charIndex) => {
         if (charIndex + 1 === words.length - 1) {
-          isTimedTest ? fetchNewWords() : finishTest();
+          fetchNewWords();
         }
         return charIndex < words.length ? charIndex + 1 : charIndex;
       });
@@ -198,7 +170,7 @@ export default function TypingPanel({
         newWordsResult[charIndex] = "s";
         return newWordsResult;
       });
-      setCorrectChars((correctChars) => ++correctChars);
+      correctChars.current++;
     } else if (e.key === "Backspace") {
       setCharIndex((charIndex) => {
         setColourOfChar((wordsResult) => {
@@ -212,7 +184,7 @@ export default function TypingPanel({
         decrementCursorPosition();
       }
     } else {
-      setMistakes((mistakes) => ++mistakes);
+      mistakes.current++;
       setCharIndex((charIndex) => {
         setColourOfChar((wordsResult) => {
           if (charIndex < words.length) {
@@ -257,7 +229,10 @@ export default function TypingPanel({
       <Cursor left={getCursorLeftPosition()} top={getCursorTopPosition()} />
       <WordsToType colourOfChar={colourOfChar} words={words} />
       <ResultsModal
-        timeTestInfo={timeTestInfo}
+        key={isOpen.toString() + lastWPM + mistakes + correctChars}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        newTestPage={newTestPage}
         setTimeInfo={setTimeInfo}
         lastWPM={lastWPM}
         mistakes={mistakes}
