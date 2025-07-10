@@ -17,6 +17,7 @@ interface Props {
   mistakes: React.RefObject<number>;
   correctChars: React.RefObject<number>;
   childInputRef: React.RefObject<HTMLDivElement | null>;
+  setResetCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 export const ResultsModal = ({
   lastWPM,
@@ -27,6 +28,7 @@ export const ResultsModal = ({
   newTestPage,
   setIsOpen,
   childInputRef,
+  setResetCounter,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -43,6 +45,7 @@ export const ResultsModal = ({
           ended: false,
         }));
         setIsOpen(false);
+        setResetCounter((counter) => counter + 1);
       }}
     >
       <ModalDialog>

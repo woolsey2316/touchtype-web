@@ -24,6 +24,7 @@ export const Component = function Test(): JSX.Element {
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
   const [lastWPM, setLastWPM] = useState(0);
+  const [resetCounter, setResetCounter] = useState(0);
   const [timeTestInfo, setTimeInfo] = useState<{
     started: boolean;
     start: number | null;
@@ -76,7 +77,7 @@ export const Component = function Test(): JSX.Element {
           Typing Test
         </Typography>
         <CountdownTimer
-          key={isTimedTest.toString() + timeLimit}
+          key={isTimedTest.toString() + timeLimit + resetCounter}
           timeTestInfo={timeTestInfo}
           setTimeInfo={setTimeInfo}
           wantTimer={isTimedTest}
@@ -158,6 +159,7 @@ export const Component = function Test(): JSX.Element {
               correctChars={correctChars}
               isOpen={isOpen}
               setIsOpen={setIsOpen}
+              setResetCounter={setResetCounter}
             />
           </CardContent>
         </Card>

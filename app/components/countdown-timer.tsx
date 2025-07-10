@@ -59,7 +59,6 @@ const CountdownTimer = ({
   );
 
   useEffect(() => {
-    console.log("CountdownTimer useEffect", wantTimer, timeTestInfo);
     const timer = setTimeout(() => {
       wantTimer &&
         timeTestInfo.started &&

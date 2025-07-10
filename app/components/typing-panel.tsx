@@ -24,6 +24,7 @@ export default function TypingPanel({
   mistakes,
   setIsOpen,
   isOpen,
+  setResetCounter,
 }: {
   punctuation: boolean;
   numbers: boolean;
@@ -52,6 +53,7 @@ export default function TypingPanel({
   correctChars: React.RefObject<number>;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setResetCounter: React.Dispatch<React.SetStateAction<number>>;
 }) {
   useEffect(() => {
     childInputRef?.current ? childInputRef?.current.focus() : null;
@@ -238,6 +240,7 @@ export default function TypingPanel({
         mistakes={mistakes}
         correctChars={correctChars}
         childInputRef={childInputRef}
+        setResetCounter={setResetCounter}
       />
     </Box>
   );
