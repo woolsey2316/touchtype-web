@@ -55,6 +55,9 @@ export const mochaTheme = {
     level2: "#303446",
     level3: "#414559",
   },
+  grey: {
+    800: "#333",
+  },
   primary: {
     50: "#f2d5cf",
     100: "#eebebe",
@@ -90,5 +93,7 @@ export const mochaTheme = {
     plainHoverBg: "#99d1db",
     plainHoverColor: "#232634",
     plainActiveColor: "#232634",
+    softBg: "#414559",
+    softHoverBg: "#414559",
   },
 };

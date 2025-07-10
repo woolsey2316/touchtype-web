@@ -34,7 +34,10 @@ export const router = createBrowserRouter([
       { path: "dashboard", lazy: () => import("./dashboard") },
       { path: "tasks", lazy: () => import("./tasks") },
       { path: "messages", lazy: () => import("./messages") },
-      { path: "settings", lazy: () => import("./settings") },
+      {
+        path: "change-colour-theme",
+        lazy: () => import("./colour-theme-changer"),
+      },
     ],
   },
 ]);

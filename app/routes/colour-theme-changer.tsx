@@ -15,8 +15,12 @@ import { Language, ProgrammingLanguage } from "../types/words.type";
 import { MainOptionsBar } from "../components/main-options-bar";
 import { LastWPM } from "../components/last-wpm";
 import { ColourThemeSettings } from "../components/modal/colour-theme-settings";
+import { OpenModalButton } from "../components/open-modal-button";
+import { Cursor } from "../components/cursor";
+import { WordsToType } from "../components/words-to-type";
+
 export const Component = function Settings(): JSX.Element {
-  usePageEffect({ title: "Settings" });
+  usePageEffect({ title: "Colour Theme Changer" });
   /* state for typing test page*/
   const [punctuation, setPunctuation] = useState(false);
   const [numbers, setNumbers] = useState(false);
@@ -27,6 +31,7 @@ export const Component = function Settings(): JSX.Element {
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
   const [lastWPM] = useState(0);
+  const [isModalOpen, setIsOpen] = useState(true);
   const [timeTestInfo] = useState<{
     started: boolean;
     start: number | null;
@@ -34,19 +39,46 @@ export const Component = function Settings(): JSX.Element {
     ended: boolean;
   }>({ started: false, start: null, end: null, ended: false });
   const { mode } = useColorScheme();
+  const [words] = useState<string>("correct incorrect still to type");
+  const [colourOfChar] = useState<string[]>([
+    "s",
+    "s",
+    "s",
+    "s",
+    "s",
+    "s",
+    "s",
+    "s",
+    "f",
+    "f",
+    "f",
+    "f",
+    "f",
+    "f",
+    "f",
+    "f",
+    "f",
+    "f",
+  ]);
   const childInputRef = useRef<HTMLDivElement>(null);
   // Function to focus the typing panel
   const focusChild = () => {
     childInputRef.current && childInputRef.current.focus();
   };
-  /* state for settings page */
   return (
     <>
-      <ColourThemeSettings mode={mode}></ColourThemeSettings>
+      <ColourThemeSettings
+        isModalOpen={isModalOpen}
+        setIsOpen={setIsOpen}
+        mode={mode}
+      ></ColourThemeSettings>
       <Container sx={{ py: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography sx={{ mb: 2 }} level="h2">
             Typing Test
+          </Typography>
+          <Typography sx={{ mb: 2 }} level="h2" color="primary">
+            10 s
           </Typography>
           <LastWPM lastWPM={lastWPM}></LastWPM>
         </Box>
@@ -62,7 +94,8 @@ export const Component = function Settings(): JSX.Element {
             sx={(theme) => ({
               gridArea: "1 / 1 / 2 / -1",
               color: `${theme.vars.palette.primary[50]}`,
-              backgroundColor: `${theme.vars.palette.background.level3}`,
+              backgroundColor: "transparent",
+              border: "none",
             })}
           >
             <MainOptionsBar
@@ -91,17 +124,34 @@ export const Component = function Settings(): JSX.Element {
               <Typography
                 level="h3"
                 sx={{
-                  color: "#0CAADC",
                   marginBottom: "1em",
                 }}
               >
                 {programmingLanguage && ProgrammingLanguage[language]}
               </Typography>
-              <Box> typing test words will appear here</Box>
+              <Box
+                sx={(theme) => ({
+                  color: `${theme.vars.palette.primary[100]}`,
+                  display: "flex",
+                  position: "relative",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  gap: "14.41px",
+                  fontFamily: "Courier",
+                  fontSize: 24,
+                  outline: "none",
+                })}
+                ref={childInputRef}
+                tabIndex={0}
+              >
+                <Cursor left={"-10px"} top={"0px"} />
+                <WordsToType colourOfChar={colourOfChar} words={words} />
+              </Box>
             </CardContent>
           </Card>
         </Box>
       </Container>
+      <OpenModalButton setIsOpen={setIsOpen}></OpenModalButton>
     </>
   );
 };

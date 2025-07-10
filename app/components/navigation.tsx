@@ -53,8 +53,8 @@ export const Navigation = memo(function Navigation(
         icon={<ChatRounded sx={{ color: "inherit" }} />}
       />
       <NavItem
-        path="/settings"
-        label="Settings"
+        path="/change-colour-theme"
+        label="Colour Theme"
         icon={<Settings sx={{ color: "inherit" }} />}
       />
     </List>

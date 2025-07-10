@@ -37,6 +37,15 @@ export function getCustomTheme() {
 const customLightTheme = latteTheme;
 
 const theme = extendTheme({
+  components: {
+    JoyButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "4px",
+        },
+      },
+    },
+  },
   colorSchemes: {
     light: {
       palette: {

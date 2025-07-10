@@ -5,6 +5,7 @@ import Input from "@mui/joy/Input";
 import Modal from "@mui/joy/Modal";
 import ModalDialog from "@mui/joy/ModalDialog";
 import DialogTitle from "@mui/joy/DialogTitle";
+import ModalClose from "@mui/joy/ModalClose";
 import Stack from "@mui/joy/Stack";
 import Box from "@mui/joy/Box";
 import Card from "@mui/joy/Card";
@@ -17,6 +18,8 @@ import { getAllKeys, deepGet, hexToRgb, rgb_to_hex } from "../../utils/util";
 
 interface Props {
   mode: "dark" | "light" | "system" | undefined;
+  isModalOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 interface State {
   open: boolean;
@@ -96,8 +99,8 @@ export class ColourThemeSettings extends React.Component<Props, State> {
             backdropFilter: "blur(0px)",
           },
         }}
-        open={this.state.open}
-        onClose={() => this.setOpen(false)}
+        open={this.props.isModalOpen}
+        onClose={() => this.props.setIsOpen(false)}
       >
         <ModalDialog
           sx={{
@@ -107,6 +110,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
             maxHeight: "100%",
           }}
         >
+          <ModalClose />
           <Card variant="plain">
             <CardOverflow>
               <CardContent orientation="horizontal" sx={{ gap: 2 }}>
