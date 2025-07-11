@@ -75,7 +75,7 @@ export const Component = function Settings(): JSX.Element {
       <Container sx={{ py: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography sx={{ mb: 2 }} level="h2">
-            Typing Test
+            Display Only
           </Typography>
           <Typography sx={{ mb: 2 }} level="h2" color="primary">
             10 s

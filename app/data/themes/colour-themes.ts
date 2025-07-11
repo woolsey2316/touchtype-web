@@ -1,4 +1,4 @@
-export const latteTheme = {
+export const LATTE_THEME = {
   danger: {
     plainColor: "#d20f39",
   },
@@ -10,6 +10,7 @@ export const latteTheme = {
     level1: "#e6e9ef",
     level2: "#eff1f5",
     level3: "#ccd0da",
+    popup: "#dce0e8",
   },
   primary: {
     50: "#dc8a78",
@@ -22,9 +23,13 @@ export const latteTheme = {
     700: "#df8e1d",
     800: "#179299",
     900: "#7287fd",
-    softBg: "#9ca0b0",
-    softHoverBg: "#8c8fa1",
-    plainHoverColor: "#000000",
+    plainColor: "#8caaee",
+    plainHoverColor: "#85c1dc",
+    plainHoverBg: "#000",
+    plainActiveBg: "transparent",
+    softBg: "transparent",
+    softHoverBg: "transparent",
+    plainActiveColor: "#232634",
   },
   neutral: {
     50: "#4c4f69",
@@ -37,12 +42,17 @@ export const latteTheme = {
     700: "#8c8fa1",
     800: "#7c7f93",
     900: "#6c6f85",
-    plainActiveBg: "#ccd0da",
-    plainHoverBg: "#eff1f5",
+    mainChannel: "229 200 144",
+    plainActiveBg: "#ca9ee6",
+    plainHoverBg: "#99d1db",
+    plainHoverColor: "#232634",
+    plainActiveColor: "#232634",
+    softBg: "#414559",
+    softHoverBg: "#414559",
   },
 };
 
-export const mochaTheme = {
+export const FRAPPE_THEME = {
   danger: {
     plainColor: "#d20f39",
   },
@@ -54,9 +64,7 @@ export const mochaTheme = {
     level1: "#292c3c",
     level2: "#303446",
     level3: "#414559",
-  },
-  grey: {
-    800: "#333",
+    popup: "#232634",
   },
   primary: {
     50: "#f2d5cf",
@@ -88,7 +96,7 @@ export const mochaTheme = {
     700: "#8c8fa1",
     800: "#7c7f93",
     900: "#6c6f85",
-    mainChannel: "231 130 132",
+    mainChannel: "229 200 144",
     plainActiveBg: "#ca9ee6",
     plainHoverBg: "#99d1db",
     plainHoverColor: "#232634",
@@ -96,4 +104,119 @@ export const mochaTheme = {
     softBg: "#414559",
     softHoverBg: "#414559",
   },
+};
+
+export const MACCHIATO_THEME = {
+  danger: {
+    plainColor: "#ed8796",
+  },
+  success: {
+    plainColor: "#91d7e3",
+  },
+  background: {
+    body: "#181926",
+    level1: "#1e2030",
+    level2: "#24273a",
+    level3: "#363a4f",
+    popup: "#181926",
+  },
+  primary: {
+    50: "#f4dbd6",
+    100: "#f0c6c6",
+    200: "#eebebe",
+    300: "#c6a0f6",
+    400: "#ed8796",
+    500: "#f5a97f",
+    600: "#a6da95",
+    700: "#8bd5ca",
+    800: "#91d7e3",
+    900: "#8aadf4",
+    plainColor: "#8aadf4",
+    plainHoverColor: "#7dc4e4",
+    plainHoverBg: "transparent",
+    plainActiveBg: "transparent",
+    softBg: "transparent",
+    softHoverBg: "transparent",
+    plainActiveColor: "#181926",
+  },
+  neutral: {
+    50: "#dce0e8",
+    100: "#e6e9ef",
+    200: "#eff1f5",
+    300: "#ccd0da",
+    400: "#bcc0cc",
+    500: "#acb0be",
+    600: "#9ca0b0",
+    700: "#8c8fa1",
+    800: "#7c7f93",
+    900: "#6c6f85",
+    mainChannel: "229 200 144",
+    plainActiveBg: "#c6a0f6",
+    plainHoverBg: "#91d7e3",
+    plainHoverColor: "#181926",
+    plainActiveColor: "#181926",
+    softBg: "#363a4f",
+    softHoverBg: "#363a4f",
+  },
+};
+
+export const MOCHA_THEME = {
+  danger: {
+    plainColor: "#f38ba8",
+  },
+  success: {
+    plainColor: "#a6e3a1",
+  },
+  background: {
+    body: "#181825",
+    level1: "#1e1e2e",
+    level2: "#313244",
+    level3: "#45475a",
+    popup: "#181825",
+  },
+  primary: {
+    50: "#f5e0dc",
+    100: "#f2cdcd",
+    200: "#f5c2e7",
+    300: "#cba6f7",
+    400: "#f38ba8",
+    500: "#fab387",
+    600: "#a6e3a1",
+    700: "#94e2d5",
+    800: "#89dceb",
+    900: "#89b4fa",
+    plainColor: "#89b4fa",
+    plainHoverColor: "#74c7ec",
+    plainHoverBg: "transparent",
+    plainActiveBg: "transparent",
+    softBg: "transparent",
+    softHoverBg: "transparent",
+    plainActiveColor: "#11111b",
+  },
+  neutral: {
+    50: "#dce0e8",
+    100: "#e6e9ef",
+    200: "#eff1f5",
+    300: "#ccd0da",
+    400: "#bcc0cc",
+    500: "#acb0be",
+    600: "#9ca0b0",
+    700: "#8c8fa1",
+    800: "#7c7f93",
+    900: "#6c6f85",
+    mainChannel: "229 200 144",
+    plainActiveBg: "#ca9ee6",
+    plainHoverBg: "#99d1db",
+    plainHoverColor: "#232634",
+    plainActiveColor: "#232634",
+    softBg: "#414559",
+    softHoverBg: "#414559",
+  },
+};
+
+export const THEME_COLLECTION = {
+  MOCHA: MOCHA_THEME,
+  FRAPPE: FRAPPE_THEME,
+  MACCHIATO: MACCHIATO_THEME,
+  LATTE: LATTE_THEME,
 };

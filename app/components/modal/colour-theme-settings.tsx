@@ -10,11 +10,15 @@ import Stack from "@mui/joy/Stack";
 import Box from "@mui/joy/Box";
 import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
+import Select from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
+import Typography from "@mui/joy/Typography";
 import { CardOverflow } from "@mui/joy";
 import { extendTheme } from "@mui/joy/styles";
 import { getCustomTheme, customDarkTheme } from "../../core/theme";
 import { ThemeContext } from "../../index";
 import { getAllKeys, deepGet, hexToRgb, rgb_to_hex } from "../../utils/util";
+import { THEME_COLLECTION } from "../../data/themes/colour-themes";
 
 interface Props {
   mode: "dark" | "light" | "system" | undefined;
@@ -91,12 +95,24 @@ export class ColourThemeSettings extends React.Component<Props, State> {
     this.state.customTheme,
   ) as keyof (typeof this.state.customTheme)[];
 
+  handleChange = (
+    event: React.SyntheticEvent | null,
+    newValue: string | null,
+  ) => {
+    this.setState({
+      customTheme: getCustomTheme(newValue as keyof typeof THEME_COLLECTION),
+    });
+  };
+
   override render() {
     return (
       <Modal
-        sx={{
-          "& > .MuiModal-backdrop": {
-            backdropFilter: "blur(0px)",
+        slotProps={{
+          backdrop: {
+            style: {
+              backdropFilter: "blur(0px)",
+              backgroundColor: "transparent",
+            },
           },
         }}
         open={this.props.isModalOpen}
@@ -107,7 +123,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
             right: 0,
             left: "auto",
             transform: "translate(0%, -50%)",
-            maxHeight: "100%",
+            maxHeight: "95%",
           }}
         >
           <ModalClose />
@@ -120,11 +136,11 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                     this.saveColourTheme();
                   }}
                 >
-                  <DialogTitle>Create new colour pallette</DialogTitle>
+                  <DialogTitle>Create colour pallette</DialogTitle>
                   <Stack
                     sx={{
                       overflowY: "scroll",
-                      maxHeight: "85vh",
+                      maxHeight: "80vh",
                       display: "grid",
                       gridTemplateColumns: "auto auto",
                       width: "550px",
@@ -132,6 +148,129 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                     }}
                     spacing={2}
                   >
+                    {/* load theme from select menu  */}
+                    <Box sx={{ marginTop: "16px !important" }}>
+                      <Typography>Load theme</Typography>
+                      <Select
+                        placeholder="Select a theme..."
+                        onChange={this.handleChange}
+                        sx={{ width: 240 }}
+                      >
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="MOCHA"
+                        >
+                          Mocha
+                        </Option>
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="LATTE"
+                        >
+                          Latte
+                        </Option>
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="FRAPPE"
+                        >
+                          Frappe
+                        </Option>
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="MACCHIATO"
+                        >
+                          Macchiato
+                        </Option>
+                      </Select>
+                    </Box>
+                    {/* save theme into custom slot */}
+                    <Box>
+                      <Typography>Save theme</Typography>
+                      <Select
+                        placeholder="Select a theme..."
+                        sx={{ width: 240 }}
+                      >
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="custom1"
+                        >
+                          custom 1
+                        </Option>
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="custom2"
+                        >
+                          custom 2
+                        </Option>
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="custom3"
+                        >
+                          custom 3
+                        </Option>
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="custom4"
+                        >
+                          custom 4
+                        </Option>
+                      </Select>
+                    </Box>
                     {Array.isArray(this.keys) ? (
                       this.keys.map((key) => (
                         <Box
@@ -198,7 +337,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                       color="neutral"
                       sx={{ width: "100%" }}
                     >
-                      Undo
+                      Reset
                     </Button>
                     <Button type="submit" sx={{ width: "100%" }}>
                       Save

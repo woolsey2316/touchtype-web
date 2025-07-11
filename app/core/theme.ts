@@ -3,7 +3,7 @@
 
 import { ThemeProvider as Provider, extendTheme, Theme } from "@mui/joy/styles";
 import { createElement, type JSX, type ReactNode } from "react";
-import { latteTheme, mochaTheme } from "../data/themes/colour-themes";
+import { THEME_COLLECTION } from "../data/themes/colour-themes";
 // extend MUI joy UI theme with custom properties
 interface PaletteColor {
   [key: number]: string;
@@ -24,28 +24,21 @@ declare module "@mui/joy/styles" {
  * @see https://mui.com/joy-ui/customization/approaches/
  */
 
-let customDarkTheme = mochaTheme;
+let customDarkTheme = THEME_COLLECTION.MOCHA;
+
+const customLightTheme = THEME_COLLECTION.LATTE;
 
 export function setCustomDarkTheme(newTheme: typeof customDarkTheme) {
   customDarkTheme = { ...newTheme };
 }
 
-export function getCustomTheme() {
-  return customDarkTheme;
+export function getCustomTheme(
+  name: keyof typeof THEME_COLLECTION = "MOCHA",
+): typeof customDarkTheme {
+  return THEME_COLLECTION[name];
 }
 
-const customLightTheme = latteTheme;
-
 const theme = extendTheme({
-  components: {
-    JoyButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: "4px",
-        },
-      },
-    },
-  },
   colorSchemes: {
     light: {
       palette: {
