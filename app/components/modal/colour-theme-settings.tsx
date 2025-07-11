@@ -29,6 +29,7 @@ interface State {
   open: boolean;
   background: string;
   customTheme: typeof customDarkTheme;
+  revertCustomTheme: typeof customDarkTheme;
 }
 export class ColourThemeSettings extends React.Component<Props, State> {
   static override contextType = ThemeContext;
@@ -36,6 +37,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
   override state = {
     open: true,
     background: "#fff",
+    revertCustomTheme: structuredClone(getCustomTheme()),
     customTheme: {
       ...getCustomTheme(),
     },
@@ -99,8 +101,21 @@ export class ColourThemeSettings extends React.Component<Props, State> {
     event: React.SyntheticEvent | null,
     newValue: string | null,
   ) => {
+    this.setState(
+      {
+        customTheme: getCustomTheme(newValue as keyof typeof THEME_COLLECTION),
+      },
+      () => {
+        this.saveColourTheme();
+        this.setState({ revertCustomTheme: { ...this.state.customTheme } });
+      },
+    );
+  };
+
+  revertTheme = () => {
+    console.log(this.state.revertCustomTheme);
     this.setState({
-      customTheme: getCustomTheme(newValue as keyof typeof THEME_COLLECTION),
+      customTheme: { ...this.state.revertCustomTheme },
     });
   };
 
@@ -208,6 +223,58 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                         >
                           Macchiato
                         </Option>
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="CUSTOM1"
+                        >
+                          Custom 1
+                        </Option>
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="CUSTOM2"
+                        >
+                          Custom 2
+                        </Option>
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="CUSTOM3"
+                        >
+                          Custom 3
+                        </Option>
+                        <Option
+                          sx={(theme) => ({
+                            "&.Mui-selected": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                            "&.MuiOption-highlighted": {
+                              color: theme.palette.neutral.plainHoverColor,
+                            },
+                          })}
+                          value="CUSTOM4"
+                        >
+                          Custom 4
+                        </Option>
                       </Select>
                     </Box>
                     {/* save theme into custom slot */}
@@ -228,7 +295,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                           })}
                           value="custom1"
                         >
-                          custom 1
+                          Custom 1
                         </Option>
                         <Option
                           sx={(theme) => ({
@@ -241,7 +308,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                           })}
                           value="custom2"
                         >
-                          custom 2
+                          Custom 2
                         </Option>
                         <Option
                           sx={(theme) => ({
@@ -254,7 +321,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                           })}
                           value="custom3"
                         >
-                          custom 3
+                          Custom 3
                         </Option>
                         <Option
                           sx={(theme) => ({
@@ -267,7 +334,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                           })}
                           value="custom4"
                         >
-                          custom 4
+                          Custom 4
                         </Option>
                       </Select>
                     </Box>
@@ -336,6 +403,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                       type="button"
                       color="neutral"
                       sx={{ width: "100%" }}
+                      onClick={this.revertTheme}
                     >
                       Reset
                     </Button>
