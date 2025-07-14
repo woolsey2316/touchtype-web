@@ -24,18 +24,25 @@ declare module "@mui/joy/styles" {
  * @see https://mui.com/joy-ui/customization/approaches/
  */
 
-let customDarkTheme = THEME_COLLECTION.MOCHA;
+let customDarkTheme = THEME_COLLECTION["dark"].MOCHA;
 
-const customLightTheme = THEME_COLLECTION.LATTE;
+const customLightTheme = THEME_COLLECTION["light"].LATTE;
 
 export function setCustomDarkTheme(newTheme: typeof customDarkTheme) {
   customDarkTheme = { ...newTheme };
 }
 
-export function getCustomTheme(
-  name: keyof typeof THEME_COLLECTION = "MOCHA",
-): typeof customDarkTheme {
-  return THEME_COLLECTION[name];
+export function getCustomTheme({
+  mode,
+  name,
+}: {
+  mode: "dark" | "light" | "default";
+  name:
+    | keyof (typeof THEME_COLLECTION)["dark"]
+    | keyof (typeof THEME_COLLECTION)["light"]
+    | keyof (typeof THEME_COLLECTION)["default"];
+}): typeof customDarkTheme {
+  return THEME_COLLECTION[mode][name];
 }
 
 const theme = extendTheme({

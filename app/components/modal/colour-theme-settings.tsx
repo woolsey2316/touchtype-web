@@ -37,9 +37,17 @@ export class ColourThemeSettings extends React.Component<Props, State> {
   override state = {
     open: true,
     background: "#fff",
-    revertCustomTheme: structuredClone(getCustomTheme()),
+    revertCustomTheme: structuredClone(
+      getCustomTheme({
+        mode: "default",
+        name: "MOCHA",
+      }),
+    ),
     customTheme: {
-      ...getCustomTheme(),
+      ...getCustomTheme({
+        mode: "default",
+        name: "MOCHA",
+      }),
     },
   };
 
@@ -103,7 +111,11 @@ export class ColourThemeSettings extends React.Component<Props, State> {
   ) => {
     this.setState(
       {
-        customTheme: getCustomTheme(newValue as keyof typeof THEME_COLLECTION),
+        customTheme: getCustomTheme({
+          mode: this.props.mode === "dark" ? "dark" : "light",
+          name: newValue as keyof (typeof THEME_COLLECTION)["light"] &
+            keyof (typeof THEME_COLLECTION)["dark"] as keyof (typeof THEME_COLLECTION)["default"],
+        }),
       },
       () => {
         this.saveColourTheme();
@@ -171,110 +183,26 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                         onChange={this.handleChange}
                         sx={{ width: 240 }}
                       >
-                        <Option
-                          sx={(theme) => ({
-                            "&.Mui-selected": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                            "&.MuiOption-highlighted": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                          })}
-                          value="MOCHA"
-                        >
-                          Mocha
-                        </Option>
-                        <Option
-                          sx={(theme) => ({
-                            "&.Mui-selected": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                            "&.MuiOption-highlighted": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                          })}
-                          value="LATTE"
-                        >
-                          Latte
-                        </Option>
-                        <Option
-                          sx={(theme) => ({
-                            "&.Mui-selected": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                            "&.MuiOption-highlighted": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                          })}
-                          value="FRAPPE"
-                        >
-                          Frappe
-                        </Option>
-                        <Option
-                          sx={(theme) => ({
-                            "&.Mui-selected": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                            "&.MuiOption-highlighted": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                          })}
-                          value="MACCHIATO"
-                        >
-                          Macchiato
-                        </Option>
-                        <Option
-                          sx={(theme) => ({
-                            "&.Mui-selected": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                            "&.MuiOption-highlighted": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                          })}
-                          value="CUSTOM1"
-                        >
-                          Custom 1
-                        </Option>
-                        <Option
-                          sx={(theme) => ({
-                            "&.Mui-selected": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                            "&.MuiOption-highlighted": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                          })}
-                          value="CUSTOM2"
-                        >
-                          Custom 2
-                        </Option>
-                        <Option
-                          sx={(theme) => ({
-                            "&.Mui-selected": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                            "&.MuiOption-highlighted": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                          })}
-                          value="CUSTOM3"
-                        >
-                          Custom 3
-                        </Option>
-                        <Option
-                          sx={(theme) => ({
-                            "&.Mui-selected": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                            "&.MuiOption-highlighted": {
-                              color: theme.palette.neutral.plainHoverColor,
-                            },
-                          })}
-                          value="CUSTOM4"
-                        >
-                          Custom 4
-                        </Option>
+                        {Object.entries(
+                          THEME_COLLECTION[
+                            this.props.mode === "dark" ? "dark" : "light"
+                          ],
+                        ).map(([key]) => (
+                          <Option
+                            sx={(theme) => ({
+                              "&.Mui-selected": {
+                                color: theme.palette.neutral.plainHoverColor,
+                              },
+                              "&.MuiOption-highlighted": {
+                                color: theme.palette.neutral.plainHoverColor,
+                              },
+                            })}
+                            key={key}
+                            value={key}
+                          >
+                            {key.toLowerCase()}
+                          </Option>
+                        ))}
                       </Select>
                     </Box>
                     {/* save theme into custom slot */}

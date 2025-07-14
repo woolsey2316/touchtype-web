@@ -429,13 +429,34 @@ export const CUSTOM_THEME_4 = {
   },
 };
 
-export const THEME_COLLECTION = {
-  MOCHA: MOCHA_THEME,
-  FRAPPE: FRAPPE_THEME,
-  MACCHIATO: MACCHIATO_THEME,
-  LATTE: LATTE_THEME,
-  CUSTOM1: CUSTOM_THEME_1,
-  CUSTOM2: CUSTOM_THEME_2,
-  CUSTOM3: CUSTOM_THEME_3,
-  CUSTOM4: CUSTOM_THEME_4,
+export const THEME_COLLECTION: {
+  default: {
+    [key: string]: typeof MOCHA_THEME;
+  };
+  dark: {
+    [key: string]: typeof MOCHA_THEME;
+  };
+  light: {
+    [key: string]: typeof LATTE_THEME;
+  };
+} = {
+  default: {
+    MOCHA: MOCHA_THEME,
+  },
+  dark: {
+    MOCHA: MOCHA_THEME,
+    FRAPPE: FRAPPE_THEME,
+    MACCHIATO: MACCHIATO_THEME,
+    CUSTOM1: CUSTOM_THEME_1,
+    CUSTOM2: CUSTOM_THEME_2,
+    CUSTOM3: CUSTOM_THEME_3,
+    CUSTOM4: CUSTOM_THEME_4,
+  },
+  light: {
+    LATTE: LATTE_THEME,
+    CUSTOM1: LATTE_THEME,
+    CUSTOM2: LATTE_THEME,
+    CUSTOM3: LATTE_THEME,
+    CUSTOM4: LATTE_THEME,
+  },
 };
