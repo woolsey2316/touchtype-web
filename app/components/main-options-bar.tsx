@@ -51,7 +51,6 @@ export const MainOptionsBar = ({
         <Button
           variant="plain"
           sx={(theme) => ({
-            transition: "color 0.3s ease",
             color: punctuation
               ? `${theme.vars.palette.primary.plainColor}`
               : `${theme.vars.palette.neutral[100]}`,
@@ -70,7 +69,6 @@ export const MainOptionsBar = ({
         <Button
           variant="plain"
           sx={(theme) => ({
-            transition: "color 0.3s ease",
             color: numbers
               ? `${theme.vars.palette.primary.plainColor}`
               : `${theme.vars.palette.neutral[100]}`,
@@ -86,11 +84,17 @@ export const MainOptionsBar = ({
         >
           numbers
         </Button>
-        <Box sx={{ color: "#fff", padding: "5px" }}>|</Box>
+        <Box
+          sx={(theme) => ({
+            color: theme.palette.neutral[100],
+            padding: "5px",
+          })}
+        >
+          |
+        </Box>
         <Box>
           <Button
             sx={(theme) => ({
-              transition: "color 0.3s ease",
               color: isTimedTest
                 ? `${theme.vars.palette.primary.plainColor}`
                 : `${theme.vars.palette.neutral[100]}`,
@@ -115,7 +119,6 @@ export const MainOptionsBar = ({
               <Button
                 variant="plain"
                 sx={(theme) => ({
-                  transition: "color 0.3s ease",
                   fontSize: "11px",
                   padding: "8px",
                   height: "10px",
@@ -139,7 +142,6 @@ export const MainOptionsBar = ({
               <Button
                 variant="plain"
                 sx={(theme) => ({
-                  transition: "color 0.3s ease",
                   fontSize: "11px",
                   padding: "8px",
                   height: "10px",
@@ -163,7 +165,6 @@ export const MainOptionsBar = ({
               <Button
                 variant="plain"
                 sx={(theme) => ({
-                  transition: "color 0.3s ease",
                   fontSize: "11px",
                   padding: "8px",
                   height: "10px",
@@ -190,7 +191,6 @@ export const MainOptionsBar = ({
         <Box>
           <Button
             sx={(theme) => ({
-              transition: "color 0.3s ease",
               color: fixedSentenceSize
                 ? `${theme.vars.palette.primary.plainColor}`
                 : `${theme.vars.palette.neutral[100]}`,
@@ -208,7 +208,7 @@ export const MainOptionsBar = ({
             }}
             variant="plain"
           >
-            sentence size
+            word size
           </Button>
           {fixedSentenceSize && (
             <ButtonGroup sx={{ justifyContent: "center" }}>
@@ -216,7 +216,6 @@ export const MainOptionsBar = ({
                 variant="plain"
                 sx={(theme) => ({
                   fontSize: "11px",
-                  transition: "color 0.3s ease",
                   padding: "8px",
                   height: "10px",
                   minHeight: "10px",
@@ -240,7 +239,6 @@ export const MainOptionsBar = ({
                 variant="plain"
                 sx={(theme) => ({
                   fontSize: "11px",
-                  transition: "color 0.3s ease",
                   padding: "8px",
                   height: "10px",
                   minHeight: "10px",
@@ -264,7 +262,6 @@ export const MainOptionsBar = ({
                 variant="plain"
                 sx={(theme) => ({
                   fontSize: "11px",
-                  transition: "color 0.3s ease",
                   padding: "8px",
                   height: "10px",
                   minHeight: "10px",
@@ -287,11 +284,17 @@ export const MainOptionsBar = ({
             </ButtonGroup>
           )}
         </Box>
-        <Box sx={{ color: "#fff", padding: "5px" }}>|</Box>
+        <Box
+          sx={(theme) => ({
+            color: theme.palette.neutral[100],
+            padding: "5px",
+          })}
+        >
+          |
+        </Box>
         <Button
           variant="plain"
           sx={(theme) => ({
-            transition: "color 0.3s ease",
             color: programmingLanguage
               ? `${theme.vars.palette.primary.plainColor}`
               : `${theme.vars.palette.neutral[100]}`,

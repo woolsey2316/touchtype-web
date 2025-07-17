@@ -15,6 +15,7 @@ declare module "@mui/joy/styles" {
       plainHoverColor: string;
       plainColor: string;
       plainActiveColor: string;
+      solidColor: string;
     };
   }
 }
@@ -55,6 +56,17 @@ const theme = extendTheme({
     dark: {
       palette: {
         ...customDarkTheme,
+      },
+    },
+  },
+  components: {
+    JoyButton: {
+      styleOverrides: {
+        root: ({ ownerState, theme }) => ({
+          ...(ownerState.color === "primary" && {
+            color: theme.palette.primary.solidColor,
+          }),
+        }),
       },
     },
   },

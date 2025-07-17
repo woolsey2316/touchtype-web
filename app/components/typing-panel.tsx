@@ -126,7 +126,7 @@ export default function TypingPanel({
   }
 
   function getCursorTopPosition() {
-    return `${-2 + cursorPos.row * (36 + 14.41)}px`;
+    return `${-1 + cursorPos.row * (39 + 14.41)}px`;
   }
 
   function fetchNewWords() {

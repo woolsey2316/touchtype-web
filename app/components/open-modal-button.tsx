@@ -8,6 +8,7 @@ export const OpenModalButton = ({ setIsOpen }: Props) => {
     <Button
       startDecorator={<Colorize />}
       sx={{
+        "& .MuiButton-startDecorator": { marginRight: "0px" },
         position: "absolute",
         bottom: 10,
         right: 10,
