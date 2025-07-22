@@ -1,8 +1,7 @@
 /* SPDX-FileCopyrightText: 2014-present Kriasoft */
 /* SPDX-License-Identifier: MIT */
-
-import { BrightnessAutoRounded } from "@mui/icons-material";
-import { Box, IconButton, Typography, type BoxProps } from "@mui/joy";
+import { LogoIcon } from "../icons/logo";
+import { Box, IconButton, type BoxProps } from "@mui/joy";
 import type { JSX } from "react";
 import { Link } from "react-router-dom";
 
@@ -12,7 +11,7 @@ export function Logo(props: LogoProps): JSX.Element {
   return (
     <Box
       sx={{
-        py: 1,
+        py: 2,
         px: 2,
         display: "flex",
         alignItems: "center",
@@ -21,12 +20,15 @@ export function Logo(props: LogoProps): JSX.Element {
       }}
       {...other}
     >
-      <IconButton component={Link} to="/" color="primary" variant="soft">
-        <BrightnessAutoRounded />
+      <IconButton
+        sx={{ width: "100%" }}
+        component={Link}
+        to="/"
+        color="primary"
+        variant="soft"
+      >
+        <LogoIcon />
       </IconButton>
-      <Typography sx={{ fontSize: "1.25rem" }} level="h4" component="div">
-        {import.meta.env.VITE_APP_NAME}
-      </Typography>
     </Box>
   );
 }
