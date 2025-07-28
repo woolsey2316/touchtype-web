@@ -7,7 +7,7 @@ import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
 import { Language, ProgrammingLanguage } from "../types/words.type";
 import { MainOptionsBar } from "../components/main-options-bar";
-import { LastWPM } from "../components/last-wpm";
+import { CurrentWPM } from "../components/current-wpm";
 import CountdownTimer from "../components/countdown-timer";
 
 export const Component = function Test(): JSX.Element {
@@ -23,7 +23,12 @@ export const Component = function Test(): JSX.Element {
   const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
-  const [lastWPM, setLastWPM] = useState(0);
+  const [currentWPM, setCurrentWPM] = useState(0);
+  // const [averageWPM, setAverageWPM] = useState(0);
+  // const [currentAccuracy, setCurrentAccuracy] = useState(0);
+  // const [averageAccuracy, setAverageAccuracy] = useState(0);
+  // const [currentScore, setCurrentScore] = useState(0);
+  // const [averageScore, setAverageScore] = useState(0);
   const [resetCounter, setResetCounter] = useState(0);
   const [timeTestInfo, setTimeInfo] = useState<{
     started: boolean;
@@ -45,14 +50,13 @@ export const Component = function Test(): JSX.Element {
     ) => {
       const wpm =
         ((((correctChars - mistakes) / (endTime - startTime)) * 1000) / 5) * 60;
-      setLastWPM(wpm);
-      console.log("wpm: ", wpm);
-      console.log("correctChars: ", correctChars);
-      console.log("mistakes: ", mistakes);
-      console.log("startTime: ", startTime);
-      console.log("endTime: ", endTime);
+      setCurrentWPM(wpm);
+      const accuracy = ((correctChars - mistakes) / correctChars) * 100;
+      const score = wpm * Math.pow((accuracy / 100), 5);
+      // setCurrentAccuracy(accuracy);
+      // setCurrentScore(score);
     },
-    [setLastWPM],
+    [setCurrentWPM],
   );
   const onEnd = useCallback(() => {
     recordTypingStats(
@@ -85,7 +89,7 @@ export const Component = function Test(): JSX.Element {
           timeLimit={timeLimit}
           onEnd={onEnd}
         ></CountdownTimer>
-        <LastWPM lastWPM={lastWPM}></LastWPM>
+        <CurrentWPM currentWPM={currentWPM}></CurrentWPM>
       </Box>
 
       <Box
@@ -142,7 +146,7 @@ export const Component = function Test(): JSX.Element {
                 Number(numbers) +
                 sentenceSize +
                 Number(isTimedTest) +
-                lastWPM
+                currentWPM
               }
               punctuation={punctuation}
               language={language}
@@ -151,8 +155,8 @@ export const Component = function Test(): JSX.Element {
               isTimedTest={isTimedTest}
               timeTestInfo={timeTestInfo}
               setTimeInfo={setTimeInfo}
-              setLastWPM={setLastWPM}
-              lastWPM={lastWPM}
+              setCurrentWPM={setCurrentWPM}
+              currentWPM={currentWPM}
               recordTest={true}
               childInputRef={childInputRef}
               mistakes={mistakes}

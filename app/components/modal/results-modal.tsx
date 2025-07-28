@@ -10,7 +10,7 @@ interface Props {
       ended: boolean;
     }>
   >;
-  lastWPM: number;
+  currentWPM: number;
   isOpen: boolean;
   newTestPage: () => void;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +20,7 @@ interface Props {
   setResetCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 export const ResultsModal = ({
-  lastWPM,
+  currentWPM,
   mistakes,
   correctChars,
   setTimeInfo,
@@ -53,7 +53,7 @@ export const ResultsModal = ({
         <Typography level="h4" component="h2">
           Results
         </Typography>
-        <Typography>WPM: {Math.round(lastWPM * 100) / 100}</Typography>
+        <Typography>WPM: {Math.round(currentWPM * 100) / 100}</Typography>
         <Typography>Mistakes {mistakes.current}</Typography>
         <Typography>Correct Characters {correctChars.current}</Typography>
       </ModalDialog>

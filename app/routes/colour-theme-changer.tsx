@@ -13,7 +13,7 @@ import { useState, useRef, type JSX } from "react";
 import { usePageEffect } from "../core/page";
 import { Language, ProgrammingLanguage } from "../types/words.type";
 import { MainOptionsBar } from "../components/main-options-bar";
-import { LastWPM } from "../components/last-wpm";
+import { CurrentWPM } from "../components/last-wpm";
 import { ColourThemeSettings } from "../components/modal/colour-theme-settings";
 import { OpenModalButton } from "../components/open-modal-button";
 import { Cursor } from "../components/cursor";
@@ -30,7 +30,7 @@ export const Component = function Settings(): JSX.Element {
   const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
-  const [lastWPM] = useState(0);
+  const [currentWPM] = useState(0);
   const [isModalOpen, setIsOpen] = useState(true);
   const [timeTestInfo] = useState<{
     started: boolean;
@@ -80,7 +80,7 @@ export const Component = function Settings(): JSX.Element {
           <Typography sx={{ mb: 2 }} level="h2" color="primary">
             10 s
           </Typography>
-          <LastWPM lastWPM={lastWPM}></LastWPM>
+          <CurrentWPM CurrentWPM={CurrentWPM}></CurrentWPM>
         </Box>
 
         <Box

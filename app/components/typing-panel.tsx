@@ -19,7 +19,7 @@ export default function TypingPanel({
   timeTestInfo,
   setTimeInfo,
   childInputRef,
-  lastWPM,
+  currentWPM,
   correctChars,
   mistakes,
   setIsOpen,
@@ -46,8 +46,8 @@ export default function TypingPanel({
       ended: boolean;
     }>
   >;
-  setLastWPM: React.Dispatch<React.SetStateAction<number>>;
-  lastWPM: number;
+  setCurrentWPM: React.Dispatch<React.SetStateAction<number>>;
+  currentWPM: number;
   recordTest: boolean;
   mistakes: React.RefObject<number>;
   correctChars: React.RefObject<number>;
@@ -231,12 +231,12 @@ export default function TypingPanel({
       <Cursor left={getCursorLeftPosition()} top={getCursorTopPosition()} />
       <WordsToType colourOfChar={colourOfChar} words={words} />
       <ResultsModal
-        key={isOpen.toString() + lastWPM + mistakes + correctChars}
+        key={isOpen.toString() + currentWPM + mistakes + correctChars}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         newTestPage={newTestPage}
         setTimeInfo={setTimeInfo}
-        lastWPM={lastWPM}
+        currentWPM={currentWPM}
         mistakes={mistakes}
         correctChars={correctChars}
         childInputRef={childInputRef}
