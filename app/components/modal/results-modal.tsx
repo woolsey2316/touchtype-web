@@ -1,4 +1,9 @@
-import { Modal, ModalClose, ModalDialog, Typography } from "@mui/joy";
+import { BullseyeIcon } from "../../icons/bullseye";
+import { ClockIcon } from "../../icons/clock";
+import { ProgressCircleIcon } from "../../icons/progress-circle";
+import { FlagIcon } from "../../icons/flag";
+import { RadarIcon } from "../../icons/radar";
+import { Modal, ModalClose, ModalDialog, Typography, Box } from "@mui/joy";
 import { useRef } from "react";
 
 interface Props {
@@ -32,6 +37,21 @@ export const ResultsModal = ({
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
 
+  // Example values for demonstration; replace with your actual logic
+  const accuracy = correctChars.current
+    ? Math.round(
+        (correctChars.current /
+          (correctChars.current + (mistakes.current || 0))) *
+          100 *
+          10,
+      ) / 10
+    : 0;
+  const score = 2025; // Replace with your score logic
+  const timeSpent = 5.2; // Replace with your time logic
+  const wpmDelta = "+2.7";
+  const accDelta = "+1.8%";
+  const scoreDelta = "-1920";
+
   return (
     <Modal
       ref={ref}
@@ -48,14 +68,174 @@ export const ResultsModal = ({
         setResetCounter((counter) => counter + 1);
       }}
     >
-      <ModalDialog>
+      <ModalDialog
+        sx={{
+          bgcolor: (theme) => theme.palette.neutral[600],
+          borderRadius: "md",
+          boxShadow: "lg",
+          width: "797px",
+          p: 4,
+        }}
+      >
         <ModalClose />
-        <Typography level="h4" component="h2">
-          Results
-        </Typography>
-        <Typography>WPM: {Math.round(currentWPM * 100) / 100}</Typography>
-        <Typography>Mistakes {mistakes.current}</Typography>
-        <Typography>Correct Characters {correctChars.current}</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            gap: "22px",
+            justifyContent: "space-between",
+          }}
+        >
+          {/* WPM */}
+          <Box
+            sx={{
+              bgcolor: (theme) => theme.palette.neutral[700],
+              borderRadius: "30px",
+              padding: "22px",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "start",
+              position: "relative",
+            }}
+          >
+            <Box
+              display="flex"
+              flexDirection="row"
+              alignItems="flex-start"
+              mb={1}
+              gap="3px"
+            >
+              <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
+                WPM
+              </Typography>
+              <RadarIcon
+                sx={{ marginTop: "7px", width: "22px", height: "13px" }}
+              />
+            </Box>
+            <Typography level="h2" sx={{ fontWeight: 700 }}>
+              {Math.round(currentWPM * 10) / 10}
+            </Typography>
+            <Typography
+              level="body-xs"
+              sx={{ fontSize: "14px", color: "#a6e3a1" }}
+            >
+              {wpmDelta}
+            </Typography>
+          </Box>
+          {/* Accuracy */}
+          <Box
+            sx={{
+              bgcolor: (theme) => theme.palette.neutral[700],
+              borderRadius: "30px",
+              padding: "22px",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "start",
+              position: "relative",
+            }}
+          >
+            <Box
+              display="flex"
+              flexDirection="row"
+              alignItems="start"
+              mb={1}
+              gap="3px"
+            >
+              <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
+                Accuracy
+              </Typography>
+              <BullseyeIcon
+                sx={{ marginTop: "-3px", width: "27px", height: "30px" }}
+              />
+            </Box>
+            <Typography level="h2" sx={{ fontWeight: 700 }}>
+              {accuracy}%
+            </Typography>
+            <Typography
+              level="body-xs"
+              sx={{ fontSize: "14px", color: "#a6e3a1" }}
+            >
+              {accDelta}
+            </Typography>
+          </Box>
+          {/* Score */}
+          <Box
+            sx={{
+              bgcolor: (theme) => theme.palette.neutral[700],
+              borderRadius: "30px",
+              padding: "22px",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "start",
+              position: "relative",
+            }}
+          >
+            <Box
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+              mb={1}
+              gap="4px"
+            >
+              <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
+                Score
+              </Typography>
+              <FlagIcon
+                sx={{ marginBottom: "5px", width: "16px", height: "16px" }}
+              />
+            </Box>
+            <Typography level="h2" sx={{ fontWeight: 700 }}>
+              {score}
+            </Typography>
+            <Typography
+              level="body-xs"
+              sx={{ fontSize: "14px", color: "#f38ba8" }}
+            >
+              {scoreDelta}
+            </Typography>
+          </Box>
+          {/* Time Spent */}
+          <Box
+            sx={{
+              bgcolor: (theme) => theme.palette.neutral[700],
+              borderRadius: "30px",
+              padding: "22px",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "start",
+            }}
+          >
+            <Box
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+              mb={1}
+              gap="3px"
+            >
+              <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
+                Daily Time
+              </Typography>
+              <ClockIcon
+                sx={{ width: "18px", height: "18px", mb: 1, ml: "3px" }}
+              />
+            </Box>
+            <ProgressCircleIcon
+              progress={(timeSpent / 15) * 100}
+              sx={{
+                width: "60px",
+                height: "60px",
+                mt: 2,
+              }}
+            />
+          </Box>
+        </Box>
       </ModalDialog>
     </Modal>
   );
