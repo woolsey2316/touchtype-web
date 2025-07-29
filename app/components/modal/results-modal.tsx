@@ -18,7 +18,7 @@ interface Props {
   currentWPM: number;
   isOpen: boolean;
   newTestPage: () => void;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsResultsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   mistakes: React.RefObject<number>;
   correctChars: React.RefObject<number>;
   childInputRef: React.RefObject<HTMLDivElement | null>;
@@ -31,7 +31,7 @@ export const ResultsModal = ({
   setTimeInfo,
   isOpen,
   newTestPage,
-  setIsOpen,
+  setIsResultsModalOpen,
   childInputRef,
   setResetCounter,
 }: Props) => {
@@ -64,7 +64,7 @@ export const ResultsModal = ({
           started: false,
           ended: false,
         }));
-        setIsOpen(false);
+        setIsResultsModalOpen(false);
         setResetCounter((counter) => counter + 1);
       }}
     >

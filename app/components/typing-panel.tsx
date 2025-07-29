@@ -11,18 +11,20 @@ import { WordsGenerator } from "../utils/wordsGenerator";
 import { Cursor } from "./cursor";
 import { WordsToType } from "./words-to-type";
 import { ResultsModal } from "./modal/results-modal";
+
 export default function TypingPanel({
   punctuation,
   numbers,
   language,
   sentenceSize,
   timeTestInfo,
+  isTimedTest,
   setTimeInfo,
   childInputRef,
   currentWPM,
   correctChars,
   mistakes,
-  setIsOpen,
+  setIsResultsModalOpen,
   isOpen,
   setResetCounter,
 }: {
@@ -52,7 +54,7 @@ export default function TypingPanel({
   mistakes: React.RefObject<number>;
   correctChars: React.RefObject<number>;
   isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsResultsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setResetCounter: React.Dispatch<React.SetStateAction<number>>;
 }) {
   useEffect(() => {
@@ -144,6 +146,28 @@ export default function TypingPanel({
     });
   }
 
+  function finishTest() {
+    setTimeInfo((timeInfo) => ({
+      ...timeInfo,
+      end: Date.now(),
+      ended: true,
+      started: false,
+    }));
+    setIsResultsModalOpen(true);
+    setCharIndex(0);
+    setCursorPos({ row: 0, col: 0 });
+    setWords(() => {
+      const words = WordsGenerator({
+        count: sentenceSize,
+        punctuation,
+        numbers,
+        language,
+      });
+      setColourOfChar(Array(words.length).fill(""));
+      return words;
+    });
+  }
+
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     // this stops the result modal from closing when the user presses a key
     if (timeTestInfo.ended) return;
@@ -161,7 +185,11 @@ export default function TypingPanel({
       // Correct key pressed
       setCharIndex((charIndex) => {
         if (charIndex + 1 === words.length - 1) {
-          fetchNewWords();
+          if (isTimedTest) {
+            fetchNewWords();
+          } else {
+            finishTest();
+          }
         }
         return charIndex < words.length ? charIndex + 1 : charIndex;
       });
@@ -233,7 +261,7 @@ export default function TypingPanel({
       <ResultsModal
         key={isOpen.toString() + currentWPM + mistakes + correctChars}
         isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        setIsResultsModalOpen={setIsResultsModalOpen}
         newTestPage={newTestPage}
         setTimeInfo={setTimeInfo}
         currentWPM={currentWPM}

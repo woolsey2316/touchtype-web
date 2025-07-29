@@ -23,7 +23,7 @@ import { THEME_COLLECTION } from "../../data/themes/colour-themes";
 interface Props {
   mode: "dark" | "light" | "system" | undefined;
   isModalOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsResultsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 interface State {
   open: boolean;
@@ -143,7 +143,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
           },
         }}
         open={this.props.isModalOpen}
-        onClose={() => this.props.setIsOpen(false)}
+        onClose={() => this.props.setIsResultsModalOpen(false)}
       >
         <ModalDialog
           sx={{

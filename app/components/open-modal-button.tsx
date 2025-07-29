@@ -1,9 +1,9 @@
 import { Button } from "@mui/joy";
 import { Colorize } from "@mui/icons-material";
 interface Props {
-  setIsOpen: (open: boolean) => void;
+  setIsResultsModalOpen: (open: boolean) => void;
 }
-export const OpenModalButton = ({ setIsOpen }: Props) => {
+export const OpenModalButton = ({ setIsResultsModalOpen }: Props) => {
   return (
     <Button
       startDecorator={<Colorize />}
@@ -13,7 +13,7 @@ export const OpenModalButton = ({ setIsOpen }: Props) => {
         bottom: 10,
         right: 10,
       }}
-      onClick={() => setIsOpen(true)}
+      onClick={() => setIsResultsModalOpen(true)}
     ></Button>
   );
 };

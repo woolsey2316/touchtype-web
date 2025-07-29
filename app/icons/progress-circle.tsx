@@ -4,7 +4,10 @@ interface CircleProgressProps extends SvgIconProps {
   progress: number;
 }
 
-export const ProgressCircleIcon = ({ progress, ...props }: CircleProgressProps) => {
+export const ProgressCircleIcon = ({
+  progress,
+  ...props
+}: CircleProgressProps) => {
   const theme = useTheme();
 
   // Calculate the stroke-dashoffset based on progress percentage

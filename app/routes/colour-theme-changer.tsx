@@ -31,7 +31,7 @@ export const Component = function Settings(): JSX.Element {
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
   const [currentWPM] = useState(0);
-  const [isModalOpen, setIsOpen] = useState(true);
+  const [isModalOpen, setIsResultsModalOpen] = useState(true);
   const { mode } = useColorScheme();
   const [words] = useState<string>("correct incorrect still to type");
   const [colourOfChar] = useState<string[]>([
@@ -63,7 +63,7 @@ export const Component = function Settings(): JSX.Element {
     <>
       <ColourThemeSettings
         isModalOpen={isModalOpen}
-        setIsOpen={setIsOpen}
+        setIsResultsModalOpen={setIsResultsModalOpen}
         mode={mode}
       ></ColourThemeSettings>
       <Container sx={{ py: 2 }}>
@@ -145,7 +145,9 @@ export const Component = function Settings(): JSX.Element {
           </Card>
         </Box>
       </Container>
-      <OpenModalButton setIsOpen={setIsOpen}></OpenModalButton>
+      <OpenModalButton
+        setIsResultsModalOpen={setIsResultsModalOpen}
+      ></OpenModalButton>
     </>
   );
 };

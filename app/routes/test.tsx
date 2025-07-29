@@ -15,7 +15,7 @@ export const Component = function Test(): JSX.Element {
   const mistakes = useRef(0);
   const correctChars = useRef(0);
   const [punctuation, setPunctuation] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsResultsModalOpen] = useState(false);
   const [numbers, setNumbers] = useState(false);
   const [programmingLanguage, setProgrammingLanguage] = useState(false);
   const [language, setLanguage] = useState<Language>(Language.ENGLISH);
@@ -66,13 +66,13 @@ export const Component = function Test(): JSX.Element {
       mistakes.current,
       timeTestInfo.start!,
     );
-    setIsOpen(true);
+    setIsResultsModalOpen(true);
   }, [
     correctChars,
     mistakes,
     recordTypingStats,
     timeTestInfo.start,
-    setIsOpen,
+    setIsResultsModalOpen,
   ]);
 
   return (
@@ -164,7 +164,7 @@ export const Component = function Test(): JSX.Element {
               mistakes={mistakes}
               correctChars={correctChars}
               isOpen={isOpen}
-              setIsOpen={setIsOpen}
+              setIsResultsModalOpen={setIsResultsModalOpen}
               setResetCounter={setResetCounter}
             />
           </CardContent>
