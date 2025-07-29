@@ -147,6 +147,7 @@ export const Component = function Test(): JSX.Element {
                 Number(numbers) +
                 sentenceSize +
                 Number(isTimedTest) +
+                timeLimit +
                 currentWPM
               }
               punctuation={punctuation}
