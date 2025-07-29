@@ -9,12 +9,19 @@ type Props = {
   setIsTimedTest: React.Dispatch<React.SetStateAction<boolean>>;
   setSentenceSize: React.Dispatch<React.SetStateAction<number>>;
   setTimeLimit: React.Dispatch<React.SetStateAction<number>>;
+  setTimeInfo: React.Dispatch<
+    React.SetStateAction<{
+      started: boolean;
+      start: number | null;
+      end: number | null;
+      ended: boolean;
+    }>
+  >;
   punctuation: boolean;
   programmingLanguage: boolean;
   numbers: boolean;
   sentenceSize: number;
   fixedSentenceSize: boolean;
-  started: boolean;
   timeLimit: number;
   isTimedTest: boolean;
   language: Language;
@@ -28,12 +35,12 @@ export const MainOptionsBar = ({
   setIsTimedTest,
   setSentenceSize,
   setTimeLimit,
+  setTimeInfo,
   sentenceSize,
   programmingLanguage,
   punctuation,
   numbers,
   fixedSentenceSize,
-  started,
   timeLimit,
   isTimedTest,
   language,
@@ -60,9 +67,13 @@ export const MainOptionsBar = ({
                 : `${theme.vars.palette.primary.plainHoverColor}`,
             },
           })}
-          onClick={() =>
-            !started && setPunctuation((punctuation) => !punctuation)
-          }
+          onClick={() => {
+            setTimeInfo((timeInfo) => ({
+              ...timeInfo,
+              started: false,
+            }));
+            setPunctuation((punctuation) => !punctuation);
+          }}
         >
           punctuation
         </Button>
@@ -79,7 +90,11 @@ export const MainOptionsBar = ({
             },
           })}
           onClick={() => {
-            !started && setNumbers((numbers) => !numbers);
+            setTimeInfo((timeInfo) => ({
+              ...timeInfo,
+              started: false,
+            }));
+            setNumbers((numbers) => !numbers);
           }}
         >
           numbers
@@ -105,10 +120,12 @@ export const MainOptionsBar = ({
               },
             })}
             onClick={() => {
-              if (!started) {
-                setIsFixedSentenceSize(false);
-                setIsTimedTest(true);
-              }
+              setTimeInfo((timeInfo) => ({
+                ...timeInfo,
+                started: false,
+              }));
+              setIsFixedSentenceSize(false);
+              setIsTimedTest(true);
             }}
             variant="plain"
           >
@@ -135,7 +152,13 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => !started && setTimeLimit(10)}
+                onClick={() => {
+                  setTimeInfo((timeInfo) => ({
+                    ...timeInfo,
+                    started: false,
+                  }));
+                  setTimeLimit(10);
+                }}
               >
                 10
               </Button>
@@ -158,7 +181,13 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => !started && setTimeLimit(30)}
+                onClick={() => {
+                  setTimeInfo((timeInfo) => ({
+                    ...timeInfo,
+                    started: false,
+                  }));
+                  setTimeLimit(30);
+                }}
               >
                 30
               </Button>
@@ -181,7 +210,13 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => !started && setTimeLimit(60)}
+                onClick={() => {
+                  setTimeInfo((timeInfo) => ({
+                    ...timeInfo,
+                    started: false,
+                  }));
+                  setTimeLimit(60);
+                }}
               >
                 60
               </Button>
@@ -201,10 +236,12 @@ export const MainOptionsBar = ({
               },
             })}
             onClick={() => {
-              if (!started) {
-                setIsFixedSentenceSize(true);
-                setIsTimedTest(false);
-              }
+              setTimeInfo((timeInfo) => ({
+                ...timeInfo,
+                started: false,
+              }));
+              setIsFixedSentenceSize(true);
+              setIsTimedTest(false);
             }}
             variant="plain"
           >
@@ -231,7 +268,13 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => !started && setSentenceSize(15)}
+                onClick={() => {
+                  setTimeInfo((timeInfo) => ({
+                    ...timeInfo,
+                    started: false,
+                  }));
+                  setSentenceSize(15);
+                }}
               >
                 15
               </Button>
@@ -254,7 +297,13 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => !started && setSentenceSize(25)}
+                onClick={() => {
+                  setTimeInfo((timeInfo) => ({
+                    ...timeInfo,
+                    started: false,
+                  }));
+                  setSentenceSize(25);
+                }}
               >
                 25
               </Button>
@@ -277,7 +326,13 @@ export const MainOptionsBar = ({
                     backgroundColor: "transparent",
                   },
                 })}
-                onClick={() => !started && setSentenceSize(50)}
+                onClick={() => {
+                  setTimeInfo((timeInfo) => ({
+                    ...timeInfo,
+                    started: false,
+                  }));
+                  setSentenceSize(51);
+                }}
               >
                 50
               </Button>
@@ -305,10 +360,12 @@ export const MainOptionsBar = ({
             },
           })}
           onClick={() => {
-            if (!started) {
-              if (programmingLanguage) setLanguage(0);
-              setProgrammingLanguage((programming) => !programming);
-            }
+            setTimeInfo((timeInfo) => ({
+              ...timeInfo,
+              started: false,
+            }));
+            if (programmingLanguage) setLanguage(0);
+            setProgrammingLanguage((programming) => !programming);
           }}
         >
           programming language

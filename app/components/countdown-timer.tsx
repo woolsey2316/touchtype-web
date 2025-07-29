@@ -50,7 +50,6 @@ const CountdownTimer = ({
       }));
       onEnd();
     }
-    console.log("timeLeft: ", timeLeft);
     return timeLeft;
   }, [setTimeInfo, targetDate, onEnd]);
 

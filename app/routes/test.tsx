@@ -11,7 +11,7 @@ import { CurrentWPM } from "../components/current-wpm";
 import CountdownTimer from "../components/countdown-timer";
 
 export const Component = function Test(): JSX.Element {
-  usePageEffect({ title: "TypingTest" });
+  usePageEffect({ title: "Typing Test" });
   const mistakes = useRef(0);
   const correctChars = useRef(0);
   const [punctuation, setPunctuation] = useState(false);
@@ -52,7 +52,8 @@ export const Component = function Test(): JSX.Element {
         ((((correctChars - mistakes) / (endTime - startTime)) * 1000) / 5) * 60;
       setCurrentWPM(wpm);
       const accuracy = ((correctChars - mistakes) / correctChars) * 100;
-      const score = wpm * Math.pow((accuracy / 100), 5);
+      const score = wpm * Math.pow(accuracy / 100, 5);
+      console.log(score);
       // setCurrentAccuracy(accuracy);
       // setCurrentScore(score);
     },
@@ -116,10 +117,10 @@ export const Component = function Test(): JSX.Element {
             setIsTimedTest={setIsTimedTest}
             setSentenceSize={setSentenceSize}
             setTimeLimit={setTimeLimit}
+            setTimeInfo={setTimeInfo}
             fixedSentenceSize={fixedSentenceSize}
             programmingLanguage={programmingLanguage}
             isTimedTest={isTimedTest}
-            started={timeTestInfo.started}
             timeLimit={timeLimit}
             punctuation={punctuation}
             numbers={numbers}

@@ -13,7 +13,7 @@ import { useState, useRef, type JSX } from "react";
 import { usePageEffect } from "../core/page";
 import { Language, ProgrammingLanguage } from "../types/words.type";
 import { MainOptionsBar } from "../components/main-options-bar";
-import { CurrentWPM } from "../components/last-wpm";
+import { CurrentWPM } from "../components/current-wpm";
 import { ColourThemeSettings } from "../components/modal/colour-theme-settings";
 import { OpenModalButton } from "../components/open-modal-button";
 import { Cursor } from "../components/cursor";
@@ -80,7 +80,7 @@ export const Component = function Settings(): JSX.Element {
           <Typography sx={{ mb: 2 }} level="h2" color="primary">
             10 s
           </Typography>
-          <CurrentWPM CurrentWPM={CurrentWPM}></CurrentWPM>
+          <CurrentWPM currentWPM={currentWPM}></CurrentWPM>
         </Box>
 
         <Box
@@ -107,10 +107,10 @@ export const Component = function Settings(): JSX.Element {
               setIsTimedTest={setIsTimedTest}
               setSentenceSize={setSentenceSize}
               setTimeLimit={setTimeLimit}
+              setTimeInfo={() => { }}
               fixedSentenceSize={fixedSentenceSize}
               programmingLanguage={programmingLanguage}
               isTimedTest={isTimedTest}
-              started={timeTestInfo.started}
               timeLimit={timeLimit}
               punctuation={punctuation}
               numbers={numbers}
