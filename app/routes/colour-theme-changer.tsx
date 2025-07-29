@@ -32,12 +32,6 @@ export const Component = function Settings(): JSX.Element {
   const [timeLimit, setTimeLimit] = useState(10);
   const [currentWPM] = useState(0);
   const [isModalOpen, setIsOpen] = useState(true);
-  const [timeTestInfo] = useState<{
-    started: boolean;
-    start: number | null;
-    end: number | null;
-    ended: boolean;
-  }>({ started: false, start: null, end: null, ended: false });
   const { mode } = useColorScheme();
   const [words] = useState<string>("correct incorrect still to type");
   const [colourOfChar] = useState<string[]>([
@@ -107,7 +101,7 @@ export const Component = function Settings(): JSX.Element {
               setIsTimedTest={setIsTimedTest}
               setSentenceSize={setSentenceSize}
               setTimeLimit={setTimeLimit}
-              setTimeInfo={() => { }}
+              setTimeInfo={() => {}}
               fixedSentenceSize={fixedSentenceSize}
               programmingLanguage={programmingLanguage}
               isTimedTest={isTimedTest}
