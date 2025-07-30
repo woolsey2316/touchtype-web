@@ -5,6 +5,8 @@ import { FlagIcon } from "../../icons/flag";
 import { RadarIcon } from "../../icons/radar";
 import { Modal, ModalClose, ModalDialog, Typography, Box } from "@mui/joy";
 import { useRef } from "react";
+import { useTheme } from "@mui/joy/styles";
+import { addPlus } from "../../utils/util";
 
 interface Props {
   setTimeInfo: React.Dispatch<
@@ -46,12 +48,13 @@ export const ResultsModal = ({
           10,
       ) / 10
     : 0;
-  const score = 2025; // Replace with your score logic
-  const timeSpent = 5.2; // Replace with your time logic
-  const wpmDelta = "+2.7";
-  const accDelta = "+1.8%";
-  const scoreDelta = "-1920";
+  const score = 2025;
+  const timeSpent = 5.2;
+  const wpmDelta = 2.7;
+  const accDelta = 1.8;
+  const scoreDelta = -1920;
 
+  const theme = useTheme();
   return (
     <Modal
       ref={ref}
@@ -118,9 +121,15 @@ export const ResultsModal = ({
             </Typography>
             <Typography
               level="body-xs"
-              sx={{ fontSize: "14px", color: "#a6e3a1" }}
+              sx={{
+                fontSize: "14px",
+                color:
+                  wpmDelta >= 0
+                    ? theme.vars.palette.success.plainColor
+                    : theme.vars.palette.danger.plainColor,
+              }}
             >
-              {wpmDelta}
+              {addPlus(wpmDelta)}
             </Typography>
           </Box>
           {/* Accuracy */}
@@ -156,9 +165,15 @@ export const ResultsModal = ({
             </Typography>
             <Typography
               level="body-xs"
-              sx={{ fontSize: "14px", color: "#a6e3a1" }}
+              sx={{
+                fontSize: "14px",
+                color:
+                  accDelta >= 0
+                    ? theme.vars.palette.success.plainColor
+                    : theme.vars.palette.danger.plainColor,
+              }}
             >
-              {accDelta}
+              {addPlus(accDelta)}%
             </Typography>
           </Box>
           {/* Score */}
@@ -194,9 +209,15 @@ export const ResultsModal = ({
             </Typography>
             <Typography
               level="body-xs"
-              sx={{ fontSize: "14px", color: "#f38ba8" }}
+              sx={{
+                fontSize: "14px",
+                color:
+                  scoreDelta >= 0
+                    ? theme.vars.palette.success.plainColor
+                    : theme.vars.palette.danger.plainColor,
+              }}
             >
-              {scoreDelta}
+              {addPlus(scoreDelta)}
             </Typography>
           </Box>
           {/* Time Spent */}
@@ -231,7 +252,6 @@ export const ResultsModal = ({
               sx={{
                 width: "60px",
                 height: "60px",
-                mt: 2,
               }}
             />
           </Box>

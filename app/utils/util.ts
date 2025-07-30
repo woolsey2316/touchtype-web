@@ -40,3 +40,7 @@ export function hexToRgb(hex: string) {
       }
     : null;
 }
+
+export function addPlus(value: number): string {
+  return value >= 0 ? `+${value}` : `${value}`;
+}
