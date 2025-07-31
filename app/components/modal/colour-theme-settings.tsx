@@ -16,7 +16,7 @@ import Typography from "@mui/joy/Typography";
 import { CardOverflow } from "@mui/joy";
 import { extendTheme } from "@mui/joy/styles";
 import { getCustomTheme, customDarkTheme } from "../../core/theme";
-import { ThemeContext } from "../../index";
+import { ThemeContext } from "../../context/ThemeContext/ThemeContext";
 import { getAllKeys, deepGet, hexToRgb, rgb_to_hex } from "../../utils/util";
 import { THEME_COLLECTION } from "../../data/themes/colour-themes";
 

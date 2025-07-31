@@ -75,6 +75,32 @@ export const Component = function Settings(): JSX.Element {
     childInputRef.current && childInputRef.current.focus();
   };
   const theme = useTheme();
+  const cursorIndices = [
+    [0, 0],
+    [0, 1],
+    [0, 2],
+    [0, 3],
+    [0, 4],
+    [0, 5],
+    [0, 6],
+    [0, 7],
+    [1, 0],
+    [1, 1],
+    [1, 2],
+    [1, 3],
+    [1, 4],
+    [1, 5],
+    [1, 6],
+    [1, 7],
+    [1, 8],
+    [1, 9],
+    [1, 10],
+    [1, 11],
+    [1, 12],
+    [1, 13],
+    [1, 14],
+    [1, 15],
+  ];
   return (
     <>
       <ColourThemeSettings
@@ -155,7 +181,11 @@ export const Component = function Settings(): JSX.Element {
                 tabIndex={0}
               >
                 <Cursor left={"-10px"} top={"0px"} />
-                <WordsToType colourOfChar={colourOfChar} words={words} />
+                <WordsToType
+                  validCursorIndices={cursorIndices}
+                  colourOfChar={colourOfChar}
+                  words={words}
+                />
               </Box>
             </CardContent>
           </Card>

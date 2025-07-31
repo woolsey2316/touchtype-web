@@ -150,6 +150,7 @@ export const Component = function Test(): JSX.Element {
                 timeLimit +
                 currentWPM
               }
+              programmingLanguage={programmingLanguage}
               punctuation={punctuation}
               language={language}
               sentenceSize={sentenceSize}

@@ -14,11 +14,13 @@ export const WordsGenerator = ({
   numbers,
   punctuation,
   language,
+  programmingLanguage,
 }: {
   count: number;
   numbers?: boolean;
   punctuation?: boolean;
   language?: Language;
+  programmingLanguage?: boolean;
 }) => {
   let wordsToType = "";
   let words = ENGLISH_WORDS;
@@ -56,6 +58,11 @@ export const WordsGenerator = ({
       break;
     }
   }
+  if (programmingLanguage) {
+    const wordsIndex = Math.round(Math.random() * words.length);
+    wordsToType = words[wordsIndex];
+    return wordsToType;
+  }
   for (let i = 0; i < count; i++) {
     const wordIndex = Math.round(Math.random() * words.length);
     wordsToType = wordsToType + words[wordIndex];
@@ -71,5 +78,5 @@ export const WordsGenerator = ({
     }
     wordsToType = `${wordsToType} `;
   }
-  return wordsToType;
+  return wordsToType.trim();
 };
