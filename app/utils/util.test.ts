@@ -44,4 +44,42 @@ describe("validCursorIndices", () => {
 
     expect(result).toEqual([]);
   });
+
+  it("should skip over tabs", () => {
+    const words = "\tp";
+    const width = 500;
+    const result = validCursorIndices(words, width);
+
+    expect(result).toEqual([
+      [0, 2],
+      [0, 3],
+    ]);
+  });
+
+  it("should skip over tabs", () => {
+    const words = "<div\n\t\tp";
+    const width = 500;
+    const result = validCursorIndices(words, width);
+
+    expect(result).toEqual([
+      [0, 0],
+      [0, 1],
+      [0, 2],
+      [0, 3],
+      [0, 4],
+      [1, 4],
+      [1, 5],
+    ]);
+  });
+
+  it("single char", () => {
+    const words = "a";
+    const width = 500;
+    const result = validCursorIndices(words, width);
+
+    expect(result).toEqual([
+      [0, 0],
+      [0, 1],
+    ]);
+  });
 });

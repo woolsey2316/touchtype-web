@@ -49,59 +49,41 @@ export function validCursorIndices(words: string, width: number): number[][] {
   if (!words || words.length === 0) {
     return [];
   }
-  const wordsArr = words.split(" ");
-  let endX = 0;
+
+  let lineWidth = 0;
   const validCursorIndices: number[][] = [];
-  let index = 0;
   let row = 0;
   let col = 0;
 
-  for (const word of wordsArr) {
-    if (word.length * 14.41 + endX < width) {
-      for (let i = 0; i < word.length; i++) {
-        if (words[index + i] === "\t") {
+  for (const line of words.split("\n")) {
+    for (const char of line.split("")) {
+      if (14.41 + lineWidth < width) {
+        if (char === "\t") {
           col += 2; // Assuming tab is 2 spaces
-          i++;
+          lineWidth += 2 * 14.41;
           continue;
         }
-        // Add entire word to current row becuase it fits on it
-        validCursorIndices.push([row, col + i]);
-      }
-      index += word.length;
-      col += word.length;
-      endX += word.length * 14.41;
-
-      // Check if space character can fit on current row
-      if (endX + 14.41 > width) {
-        endX = 0;
-        col = 0;
-        row++;
-        index++;
-        words[index] !== "\t" && validCursorIndices.push([row, col]);
+        validCursorIndices.push([row, col++]);
+        lineWidth += 14.41;
       } else {
-        words[index] !== "\t" && validCursorIndices.push([row, col]);
-
-        endX += 14.41; // Adding space width
-        index += 1; // Incrementing for the space
-        col++; // Incrementing column for the space
-      }
-    } else {
-      // reset state
-      endX = word.length * 14.41 + 14.41;
-      index = word.length + 1;
-      row++;
-      col = word.length + 1; // +1 for the space character
-      for (let i = 0; i < col; i++) {
-        if (words[index + i] === "\t") {
+        row++;
+        col = 0; // Reset column for the new line
+        if (char === "\t") {
           col += 2; // Assuming tab is 2 spaces
-          i++;
+          lineWidth += 2 * 14.41;
           continue;
         }
-        // Add entire word to current row becuase it fits on it
-        validCursorIndices.push([row, i]);
+        validCursorIndices.push([row, col]);
+        col++;
+        lineWidth = 14.41; // Reset endX for the new line
       }
     }
+    validCursorIndices.push([row, col]);
+    col = 0; // Reset column for the next line
+    lineWidth = 0; // Reset endX for the next line
+    row++; // Move to the next row
   }
 
+  console.log(validCursorIndices);
   return validCursorIndices;
 }

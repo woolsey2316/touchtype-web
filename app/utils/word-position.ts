@@ -4,22 +4,36 @@ export const getNextWordLength = (charIndex: number, words: string): number => {
 
 export function getNextCharIndex(charIndex: number, words: string): number {
   let skipTabs = 0;
+  charIndex++;
   while (
-    charIndex + 1 + skipTabs < words.length &&
-    words[charIndex + 1 + skipTabs].charCodeAt(0) === 9
+    charIndex + skipTabs < words.length &&
+    words[charIndex + skipTabs].charCodeAt(0) === 9
   ) {
+    console.log("encountered tab");
+    console.log(charIndex + skipTabs);
     skipTabs++;
   }
-  return skipTabs ? charIndex + skipTabs + 1 : charIndex + 1;
+  return charIndex + skipTabs;
 }
 
 export function getPreviousCharIndex(charIndex: number, words: string): number {
   let skipTabs = 0;
+  charIndex--;
   while (
-    charIndex + 1 + skipTabs >= words.length &&
-    words[charIndex - 1 - skipTabs].charCodeAt(0) === 9
+    charIndex + skipTabs >= 0 &&
+    words[charIndex - skipTabs].charCodeAt(0) === 9
   ) {
+    console.log("found tab");
+    console.log(charIndex + skipTabs);
     skipTabs++;
   }
-  return skipTabs ? charIndex - 1 - skipTabs : charIndex - 1;
+  return charIndex - skipTabs;
+}
+
+export function maybeIncrement(charIndex: number, words: string) {
+  return charIndex + 1 < words.length ? charIndex + 1 : charIndex;
+}
+
+export function maybeDecrement(charIndex: number) {
+  return charIndex - 1 >= 0 ? charIndex - 1 : charIndex;
 }

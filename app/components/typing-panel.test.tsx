@@ -3,10 +3,6 @@ import { describe, beforeEach, afterEach, it, vi, expect } from "vitest";
 import { render, fireEvent, screen, cleanup } from "@testing-library/react";
 import TypingPanel from "./typing-panel";
 import { MockThemeProvider } from "../context/mocks/ThemeContext";
-// Mock WordsGenerator to return a known string
-vi.mock("../utils/wordsGenerator", () => ({
-  WordsGenerator: () => "abc",
-}));
 
 describe("TypingPanel", () => {
   let correctChars: React.RefObject<number>,
@@ -38,6 +34,10 @@ describe("TypingPanel", () => {
         useRef: vi.fn(() => ({ current: 0 })), // Mock useRef to return a specific value
       };
     });
+    // Mock WordsGenerator to return a known string
+    vi.mock("../utils/wordsGenerator", () => ({
+      WordsGenerator: () => "abc",
+    }));
     correctChars = mockRefObject;
     mistakes = mockRefObject;
     setTimeInfo = vi.fn();
@@ -47,7 +47,7 @@ describe("TypingPanel", () => {
     childInputRef = React.createRef();
   });
 
-  it("changes colourOfChar to green for correct key and red for incorrect key", () => {
+  it("correct char = green, failed char = red", () => {
     render(
       <MockThemeProvider>
         <TypingPanel
@@ -83,12 +83,60 @@ describe("TypingPanel", () => {
     // Type incorrect key 'x'
     fireEvent.keyDown(panel, { key: "x" });
 
-    const chars = panel.querySelectorAll('[data-testid="words-to-type"] p');
+    const chars = panel.querySelectorAll('[data-testid="words-to-type"] div p');
     expect((chars[0] as HTMLElement).style.color).toBe("green");
     expect((chars[1] as HTMLElement).style.color).toBe("red");
   });
 
-  it("finishes test appropriately", () => {
+  it("correctly types abc", () => {
+    render(
+      <MockThemeProvider>
+        <TypingPanel
+          programmingLanguage={false}
+          punctuation={false}
+          numbers={false}
+          language={0}
+          sentenceSize={3}
+          timeTestInfo={{
+            started: false,
+            start: null,
+            end: null,
+            ended: false,
+          }}
+          isTimedTest={false}
+          setTimeInfo={setTimeInfo}
+          childInputRef={childInputRef}
+          currentWPM={0}
+          setCurrentWPM={setCurrentWPM}
+          recordTest={false}
+          correctChars={correctChars}
+          mistakes={mistakes}
+          setIsResultsModalOpen={setIsResultsModalOpen}
+          isOpen={false}
+          setResetCounter={setResetCounter}
+        />
+      </MockThemeProvider>,
+    );
+
+    const panel = screen.getByTestId("typing-panel");
+    const chars = panel.querySelectorAll('[data-testid="words-to-type"] p');
+
+    fireEvent.keyDown(panel, { key: "a" });
+    fireEvent.keyDown(panel, { key: "b" });
+
+    expect((chars[0] as HTMLElement).style.color).toBe("green");
+    expect((chars[1] as HTMLElement).style.color).toBe("green");
+
+    fireEvent.keyDown(panel, { key: "c" });
+
+    expect(setIsResultsModalOpen).toHaveBeenCalledWith(true);
+  });
+
+  it("multiline text with tabs", () => {
+    vi.mock("../utils/wordsGenerator", () => ({
+      WordsGenerator: () => "a\n\tb",
+    }));
+
     render(
       <MockThemeProvider>
         <TypingPanel
@@ -120,9 +168,16 @@ describe("TypingPanel", () => {
 
     const panel = screen.getByTestId("typing-panel");
     fireEvent.keyDown(panel, { key: "a" });
+    fireEvent.keyDown(panel, { key: "Enter" });
     fireEvent.keyDown(panel, { key: "b" });
-    fireEvent.keyDown(panel, { key: "c" });
 
-    expect(setIsResultsModalOpen).toHaveBeenCalledWith(true);
+    const divs = panel.querySelectorAll('[data-testid="words-to-type"] div');
+    divs.forEach((div) => {
+      const chars = div.querySelectorAll("p");
+      chars.forEach((char) => {
+        console.log(char.style.color);
+        expect((char as HTMLElement).style.color).toBe("green");
+      });
+    });
   });
 });

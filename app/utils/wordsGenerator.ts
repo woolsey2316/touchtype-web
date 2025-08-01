@@ -78,5 +78,6 @@ export const WordsGenerator = ({
     }
     wordsToType = `${wordsToType} `;
   }
-  return wordsToType.trim();
+  const result = wordsToType.trim();
+  return result;
 };

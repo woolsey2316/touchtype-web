@@ -20,6 +20,7 @@ export const Letter = ({
         fontSize: 26,
         fontFamily: "inherit",
         width: `${width}px`,
+        paddingBottom: "14.41px",
       }}
       style={{
         color:

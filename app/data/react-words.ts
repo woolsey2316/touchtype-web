@@ -3,7 +3,7 @@ export const REACT_WORDS = [
   `<button onClick={handleClick} disabled={disabled} type="submit" className="btn-primary">\n\t{children}\n</button>`,
 
   // 2. Input
-  `<input \n\tvalue={value} \n\tonChange={handleChange} \n\tplaceholder="Enter text" \n\ttype="text" \n\tdisabled={disabled}\n\trequired={required}\n\tname="inputName"\n\tclassName="form-input"\n/>`,
+  `<input\n\tvalue={value}\n\tonChange={handleChange}\n\tplaceholder="Enter text"\n\ttype="text"\n\tdisabled={disabled}\n\trequired={required}\n\tname="inputName"\n\tclassName="form-input"\n/>`,
 
   // 3. Label
   `<label htmlFor="inputId" className="form-label" required={required}>\n\t{labelText}\n</label>`,
@@ -12,7 +12,7 @@ export const REACT_WORDS = [
   `<textarea\n\tvalue={value}\n\tonChange={handleChange}\n\tplaceholder="Enter message"\n\trows={4}\n\tcols={50}\n\tdisabled={disabled}\n\tclassName="form-textarea"\n\tmaxLength={500}\n/>`,
 
   // 5. Select
-  `<select value={selectedValue} onChange={handleChange} disabled={disabled} className="form-select">\n\t<option value="">Choose option</option>\n\t{options.map(option => \n\t\t<option key={option.value} value={option.value}>{option.label}</option>\n\t)}\n</select>`,
+  `<select value={selectedValue} onChange={handleChange} disabled={disabled} className="form-select">\n\t<option value="">Choose option</option>\n\t{options.map(option =>\n\t\t<option key={option.value} value={option.value}>{option.label}</option>\n\t)}\n</select>`,
 
   // 6. Checkbox
   `<div className="checkbox-wrapper">\n\t<input\n\t\ttype="checkbox"\n\t\tchecked={checked}\n\t\tonChange={handleChange}\n\t\tdisabled={disabled}\n\t\tid="checkbox1"\n\t\tvalue="checkboxValue"\n\t/>\n\t<label htmlFor="checkbox1">{label}</label>\n</div>`,
