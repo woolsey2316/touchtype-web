@@ -1,6 +1,6 @@
 import { vi } from "vitest";
+import { ThemeContext } from "../ThemeContext/ThemeContext";
 import * as React from "react";
-
 // Create a mock context object with mock functions
 export const mockContextValue = {
   value: "Mocked Value",
@@ -8,10 +8,32 @@ export const mockContextValue = {
 };
 
 // Create a mock provider component
-export const ThemeContextProvider = ({
+
+export const MockThemeProvider = ({
   children,
 }: {
-  children: React.ReactElement;
+  children: React.ReactNode;
 }) => {
-  return <div data-testid="mock-provider">{children}</div>;
+  // Use the provided mockValue or a default mock value if not provided
+  const mockTheme = {
+    vars: {
+      palette: {
+        success: {
+          plainColor: "green",
+        },
+        danger: {
+          plainColor: "red",
+        },
+        neutral: {
+          500: "grey",
+        },
+      },
+    },
+  };
+  return (
+    // @ts-expect-error theme is too big for the mock
+    <ThemeContext.Provider value={{ theme: mockTheme, setTheme: vi.fn() }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 };

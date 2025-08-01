@@ -89,7 +89,7 @@ export default function TypingPanel({
     () => validCursorIndices(words, width),
     [words, width],
   );
-  console.log("cursorIndices", cursorIndices);
+
   const resetStatistics = useCallback(() => {
     mistakes.current = 0;
     correctChars.current = 0;
@@ -186,7 +186,7 @@ export default function TypingPanel({
     if (e.key === "Enter" && words[charIndex].charCodeAt(0) === 10) {
       incrementCursorPosition(charIndex);
       setCharIndex((charIndex) => {
-        if (charIndex + 1 === words.length - 1) {
+        if (charIndex + 1 === words.length) {
           if (isTimedTest) {
             fetchNewWords();
           } else {
@@ -208,7 +208,7 @@ export default function TypingPanel({
     if (e.key === words[charIndex]) {
       // Correct key pressed
       setCharIndex((charIndex) => {
-        if (charIndex + 1 === words.length - 1) {
+        if (charIndex + 1 === words.length) {
           if (isTimedTest) {
             fetchNewWords();
           } else {
@@ -219,7 +219,7 @@ export default function TypingPanel({
         const nextCharIndex = getNextCharIndex(charIndex, words);
         return nextCharIndex < words.length ? nextCharIndex : charIndex;
       });
-      if (charIndex < words.length - 1) incrementCursorPosition(charIndex);
+      if (charIndex < words.length) incrementCursorPosition(charIndex);
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
         // stands for "success"
@@ -255,9 +255,9 @@ export default function TypingPanel({
         });
         const nextCharIndex = getNextCharIndex(charIndex, words);
 
-        return charIndex < words.length - 1 ? nextCharIndex : charIndex;
+        return charIndex < words.length ? nextCharIndex : charIndex;
       });
-      if (charIndex < words.length - 1) incrementCursorPosition(charIndex);
+      if (charIndex < words.length) incrementCursorPosition(charIndex);
     }
     if (!timeTestInfo.started) {
       setTimeInfo({
