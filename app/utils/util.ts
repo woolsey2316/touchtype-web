@@ -49,41 +49,67 @@ export function validCursorIndices(words: string, width: number): number[][] {
   if (!words || words.length === 0) {
     return [];
   }
-
-  let lineWidth = 0;
+  const CHAR_WIDTH = Math.round(14.41);
+  const maxCursorXInd = Math.floor(width / CHAR_WIDTH);
+  let currLineInd = 0;
   const validCursorIndices: number[][] = [];
   let row = 0;
   let col = 0;
+  let charIdx = 0;
+  let right = 0;
 
-  for (const line of words.split("\n")) {
-    for (const char of line.split("")) {
-      if (14.41 + lineWidth < width) {
-        if (char === "\t") {
-          col += 2; // Assuming tab is 2 spaces
-          lineWidth += 2 * 14.41;
-          continue;
-        }
-        validCursorIndices.push([row, col++]);
-        lineWidth += 14.41;
-      } else {
-        row++;
-        col = 0; // Reset column for the new line
-        if (char === "\t") {
-          col += 2; // Assuming tab is 2 spaces
-          lineWidth += 2 * 14.41;
-          continue;
-        }
+  while (charIdx < words.length) {
+    if (words[charIdx] === "\n") {
+      validCursorIndices.push([row, col]);
+      row++;
+      col = 0;
+      charIdx++;
+      currLineInd = 0;
+    } else if (words[charIdx] === "\t") {
+      col += 2;
+      charIdx++;
+      currLineInd += 2;
+    } else if (words[charIdx] === " ") {
+      if (col + 1 < maxCursorXInd) {
         validCursorIndices.push([row, col]);
         col++;
-        lineWidth = 14.41; // Reset endX for the new line
+        currLineInd++;
+      } else {
+        col = 0;
+        row++;
+        currLineInd = 0;
       }
+      charIdx++;
+      currLineInd++;
+    } else {
+      right = charIdx;
+      while (
+        words[right] !== " " &&
+        words[right] !== "\n" &&
+        words[right] != "\t" &&
+        right < words.length
+      ) {
+        right++;
+        currLineInd += 1;
+      }
+      right--;
+      currLineInd--;
+      if (currLineInd <= maxCursorXInd) {
+        for (; charIdx <= right; charIdx++) {
+          validCursorIndices.push([row, col]);
+          col++;
+        }
+      } else {
+        col = 0;
+        row++;
+        currLineInd = 0;
+        for (; col <= right - charIdx; col++) {
+          validCursorIndices.push([row, col]);
+        }
+      }
+      charIdx = right + 1;
     }
-    validCursorIndices.push([row, col]);
-    col = 0; // Reset column for the next line
-    lineWidth = 0; // Reset endX for the next line
-    row++; // Move to the next row
   }
-
-  console.log(validCursorIndices);
+  validCursorIndices.push([row, col]);
   return validCursorIndices;
 }

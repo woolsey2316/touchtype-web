@@ -36,20 +36,41 @@ export const WordsToType = ({
         key={`line-${lineIdx}`}
         display="flex"
       >
-        {line.split("").map((char, charIdx) => {
+        {line.split(" ").map((word, wordIdx) => {
           globalCharIndex++;
-          if (char === " " && isSpaceOnfirstColumn(globalCharIndex)) {
-            return <></>;
-          }
-          if (isTab(char)) globalCharIndex--;
+
           return (
-            <Letter
-              colourOfChar={isTab(char) ? "s" : colourOfChar[globalCharIndex]}
-              width={isTab(char) ? 2 * 14.41 : 14.41}
-              key={`char-${lineIdx}-${charIdx}`}
-            >
-              {char}
-            </Letter>
+            <>
+              <Box display="flex">
+                {word.split("").map((char, charIdx) => {
+                  globalCharIndex++;
+
+                  if (isTab(char)) globalCharIndex--;
+                  return (
+                    <Letter
+                      colourOfChar={
+                        isTab(char) ? "s" : colourOfChar[globalCharIndex]
+                      }
+                      width={isTab(char) ? 2 * 14.41 : 14.41}
+                      key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
+                    >
+                      {char}
+                    </Letter>
+                  );
+                })}
+              </Box>
+              {isSpaceOnfirstColumn(globalCharIndex) ? (
+                <></>
+              ) : (
+                <Letter
+                  colourOfChar={colourOfChar[globalCharIndex]}
+                  width={14.41}
+                  key={`char-${lineIdx}-${wordIdx}`}
+                >
+                  {validCursorIndices[globalCharIndex][1].toString()}
+                </Letter>
+              )}
+            </>
           );
         })}
       </Box>
