@@ -93,7 +93,8 @@ export default function TypingPanel({
     () => validCursorIndices(words, width),
     [words, width],
   );
-
+  console.log("cursor idx", cursorIndex);
+  console.log(cursorIndices[cursorIndex]);
   const resetStatistics = useCallback(() => {
     mistakes.current = 0;
     correctChars.current = 0;
@@ -115,11 +116,11 @@ export default function TypingPanel({
   }, [language, punctuation, numbers, resetStatistics, sentenceSize]);
 
   function getCursorLeftPosition() {
-    return `${-7 + ((cursorIndices[cursorIndex][1] * 14.41) % width)}px`;
+    return `${-7 + cursorIndices[cursorIndex][1] * 14}px`;
   }
 
   function getCursorTopPosition() {
-    return `${-1 + cursorIndices[cursorIndex][0] * (39 + 14.41)}px`;
+    return `${-1 + cursorIndices[cursorIndex][0] * (39 + 14)}px`;
   }
 
   function fetchNewWords() {

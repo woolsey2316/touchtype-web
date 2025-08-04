@@ -51,65 +51,71 @@ export function validCursorIndices(words: string, width: number): number[][] {
   }
   const CHAR_WIDTH = Math.round(14.41);
   const maxCursorXInd = Math.floor(width / CHAR_WIDTH);
-  let currLineInd = 0;
   const validCursorIndices: number[][] = [];
+  let currentLineWidth = 0;
   let row = 0;
   let col = 0;
-  let charIdx = 0;
-  let right = 0;
-
-  while (charIdx < words.length) {
-    if (words[charIdx] === "\n") {
+  let slow = 0;
+  let fast = 0;
+  let isFinalCharSpace = false;
+  while (slow < words.length) {
+    if (words[slow] === "\n") {
       validCursorIndices.push([row, col]);
       row++;
       col = 0;
-      charIdx++;
-      currLineInd = 0;
-    } else if (words[charIdx] === "\t") {
+      slow++;
+      currentLineWidth = 0;
+    } else if (words[slow] === "\t") {
       col += 2;
-      charIdx++;
-      currLineInd += 2;
-    } else if (words[charIdx] === " ") {
-      if (col + 1 < maxCursorXInd) {
+      slow++;
+      currentLineWidth += 2;
+    } else if (words[slow] === " ") {
+      if (slow === words.length - 1) {
+        isFinalCharSpace = true;
+      }
+      if (currentLineWidth < maxCursorXInd) {
         validCursorIndices.push([row, col]);
+        slow++;
         col++;
-        currLineInd++;
+        currentLineWidth++;
       } else {
         col = 0;
+        currentLineWidth++;
         row++;
-        currLineInd = 0;
+        slow++;
       }
-      charIdx++;
-      currLineInd++;
     } else {
-      right = charIdx;
+      fast = slow + 1;
+      currentLineWidth++;
       while (
-        words[right] !== " " &&
-        words[right] !== "\n" &&
-        words[right] != "\t" &&
-        right < words.length
+        words[fast] !== " " &&
+        words[fast] !== "\n" &&
+        words[fast] != "\t" &&
+        fast < words.length
       ) {
-        right++;
-        currLineInd += 1;
+        fast++;
+        currentLineWidth++;
       }
-      right--;
-      currLineInd--;
-      if (currLineInd <= maxCursorXInd) {
-        for (; charIdx <= right; charIdx++) {
+
+      fast--;
+      currentLineWidth--;
+      if (currentLineWidth < maxCursorXInd) {
+        for (; slow <= fast; slow++, col++) {
           validCursorIndices.push([row, col]);
-          col++;
         }
       } else {
         col = 0;
+        currentLineWidth = 0;
         row++;
-        currLineInd = 0;
-        for (; col <= right - charIdx; col++) {
+        for (; col <= fast - slow; col++) {
           validCursorIndices.push([row, col]);
         }
       }
-      charIdx = right + 1;
+      slow = fast + 1;
     }
   }
-  validCursorIndices.push([row, col]);
+  if (!isFinalCharSpace) {
+    validCursorIndices.push([row, col]);
+  }
   return validCursorIndices;
 }

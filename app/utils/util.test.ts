@@ -26,12 +26,27 @@ describe("validCursorIndices", () => {
 
   it("should not contain duplicate, consecutive indices", () => {
     const words = "This is a very long word that should wrap";
-    const width = 25;
+    const width = 42;
     const result = validCursorIndices(words, width);
     let previousRow = -1;
     let prevCol = -1;
     for (const [row, col] of result) {
       expect(row !== previousRow || col !== prevCol).toBe(true);
+      expect(col > prevCol || row > previousRow);
+      previousRow = row;
+      prevCol = col;
+    }
+  });
+
+  it("each cursor index should be non-decreasing", () => {
+    const words = "mention ghost contact funeral more poll regular";
+    const width = 522;
+    const result = validCursorIndices(words, width);
+    let previousRow = -1;
+    let prevCol = -1;
+    for (const [row, col] of result) {
+      expect(row !== previousRow || col !== prevCol).toBe(true);
+      expect(col > prevCol || row > previousRow);
       previousRow = row;
       prevCol = col;
     }
@@ -53,13 +68,14 @@ describe("validCursorIndices", () => {
     expect(result).toEqual([
       [0, 0],
       [0, 1],
+      [0, 2],
       [1, 0],
       [1, 1],
       [1, 2],
     ]);
   });
 
-  it("should delete cursor for space at end of line", () => {
+  it("ab cd , width = 42", () => {
     const words = "ab cd ";
     const width = 42;
     const result = validCursorIndices(words, width);
@@ -67,9 +83,25 @@ describe("validCursorIndices", () => {
     expect(result).toEqual([
       [0, 0],
       [0, 1],
+      [0, 2],
       [1, 0],
       [1, 1],
-      [2, 0],
+      [1, 2],
+    ]);
+  });
+
+  it("ab cd , width = 41", () => {
+    const words = "ab cd ";
+    const width = 41;
+    const result = validCursorIndices(words, width);
+
+    expect(result).toEqual([
+      [0, 0],
+      [0, 1],
+      [0, 2],
+      [1, 0],
+      [1, 1],
+      [1, 2],
     ]);
   });
 

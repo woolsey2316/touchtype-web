@@ -16,6 +16,7 @@ export const WordsToType = ({
     if (index >= validCursorIndices.length - 1) {
       return false;
     }
+    if (index < 0) return false;
     return validCursorIndices[index][1] === 0;
   }
 
@@ -25,7 +26,7 @@ export const WordsToType = ({
 
   // Split by <CR> to create lines
   const lines = words.split("\n");
-  let globalCharIndex = -2;
+  let globalCharIndex = -3;
   const jsx = lines.map((line, lineIdx) => {
     globalCharIndex++;
 
@@ -67,7 +68,7 @@ export const WordsToType = ({
                   width={14.41}
                   key={`char-${lineIdx}-${wordIdx}`}
                 >
-                  {validCursorIndices[globalCharIndex][1].toString()}
+                  {" "}
                 </Letter>
               )}
             </>
