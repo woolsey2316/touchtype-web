@@ -13,11 +13,18 @@ export const WordsToType = ({
   validCursorIndices,
 }: Props) => {
   function isSpaceOnfirstColumn(index: number): boolean {
-    if (index >= validCursorIndices.length - 1) {
+    if (index >= validCursorIndices.length - 3) {
       return false;
     }
     if (index < 0) return false;
-    return validCursorIndices[index][1] === 0;
+    return words[index] === " " && validCursorIndices[index][1] === 0;
+  }
+  function isSpaceOnLastColumn(index: number): boolean {
+    if (index >= validCursorIndices.length - 3) {
+      return false;
+    }
+    if (index < 0) return false;
+    return validCursorIndices[index + 1][1] <= validCursorIndices[index][1];
   }
 
   function isTab(char: string): boolean {
@@ -39,20 +46,20 @@ export const WordsToType = ({
       >
         {line.split(" ").map((word, wordIdx) => {
           globalCharIndex++;
-
           return (
             <>
               <Box display="flex">
                 {word.split("").map((char, charIdx) => {
                   globalCharIndex++;
-
-                  if (isTab(char)) globalCharIndex--;
+                  if (isTab(char)) {
+                    globalCharIndex -= 2;
+                  }
                   return (
                     <Letter
                       colourOfChar={
                         isTab(char) ? "s" : colourOfChar[globalCharIndex]
                       }
-                      width={isTab(char) ? 2 * 14.41 : 14.41}
+                      width={isTab(char) ? 2 * 14 : 14}
                       key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
                     >
                       {char}
@@ -60,12 +67,14 @@ export const WordsToType = ({
                   );
                 })}
               </Box>
-              {isSpaceOnfirstColumn(globalCharIndex) ? (
-                <></>
+              {isSpaceOnfirstColumn(globalCharIndex + 1) ||
+              isSpaceOnLastColumn(globalCharIndex + 1) ||
+              wordIdx === line.split(" ").length - 1 ? (
+                <Box width="0px" flexBasis="100%"></Box>
               ) : (
                 <Letter
-                  colourOfChar={colourOfChar[globalCharIndex]}
-                  width={14.41}
+                  colourOfChar={colourOfChar[globalCharIndex + 1]}
+                  width={14}
                   key={`char-${lineIdx}-${wordIdx}`}
                 >
                   {" "}

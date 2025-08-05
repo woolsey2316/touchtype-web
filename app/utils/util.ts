@@ -79,8 +79,9 @@ export function validCursorIndices(words: string, width: number): number[][] {
         col++;
         currentLineWidth++;
       } else {
+        validCursorIndices.push([row, col]);
         col = 0;
-        currentLineWidth++;
+        currentLineWidth = 0;
         row++;
         slow++;
       }
@@ -105,13 +106,14 @@ export function validCursorIndices(words: string, width: number): number[][] {
         }
       } else {
         col = 0;
-        currentLineWidth = 0;
+        currentLineWidth = fast - slow;
         row++;
         for (; col <= fast - slow; col++) {
           validCursorIndices.push([row, col]);
         }
       }
       slow = fast + 1;
+      currentLineWidth++;
     }
   }
   if (!isFinalCharSpace) {

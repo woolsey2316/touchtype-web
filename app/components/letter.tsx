@@ -6,10 +6,12 @@ export const Letter = ({
   width,
   children: char,
   colourOfChar,
+  flexBasis,
 }: {
   width: number;
   children: string;
   colourOfChar: string;
+  flexBasis?: string;
 }) => {
   const { theme } = useContext(ThemeContext);
   return (
@@ -20,7 +22,8 @@ export const Letter = ({
         fontSize: 26,
         fontFamily: "inherit",
         width: `${width}px`,
-        paddingBottom: "14.41px",
+        paddingBottom: "14px",
+        flexBasis: flexBasis,
       }}
       style={{
         color:

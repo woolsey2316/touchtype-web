@@ -1,5 +1,5 @@
 export const getNextWordLength = (charIndex: number, words: string): number => {
-  return words.substring(charIndex).split(" ", 2)[0].length * 14.41;
+  return words.substring(charIndex).split(" ", 2)[0].length * 14;
 };
 
 export function getNextCharIndex(charIndex: number, words: string): number {
@@ -26,8 +26,8 @@ export function getPreviousCharIndex(charIndex: number, words: string): number {
   return charIndex - skipTabs;
 }
 
-export function maybeIncrement(index: number, words: string) {
-  return index + 1 < words.length ? index + 1 : index;
+export function maybeIncrement(index: number, cursorIndices: number[][]) {
+  return index + 1 < cursorIndices.length ? index + 1 : index;
 }
 
 export function maybeDecrement(index: number) {

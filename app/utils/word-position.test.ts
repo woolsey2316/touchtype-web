@@ -6,11 +6,11 @@ import {
 import { expect, describe, it } from "vitest";
 
 describe("getNextWordLength", () => {
-  it("returns length of next word times 14.41", () => {
-    expect(getNextWordLength(0, "hello world")).toBe(5 * 14.41);
-    expect(getNextWordLength(6, "hello world")).toBe(5 * 14.41);
-    expect(getNextWordLength(0, "a b c")).toBe(1 * 14.41);
-    expect(getNextWordLength(2, "a b c")).toBe(1 * 14.41);
+  it("returns length of next word times 14", () => {
+    expect(getNextWordLength(0, "hello world")).toBe(5 * 14);
+    expect(getNextWordLength(6, "hello world")).toBe(5 * 14);
+    expect(getNextWordLength(0, "a b c")).toBe(1 * 14);
+    expect(getNextWordLength(2, "a b c")).toBe(1 * 14);
   });
 });
 

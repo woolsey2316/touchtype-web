@@ -9,7 +9,7 @@ import {
 import { useContainerDimensions } from "../hooks/useContainerDimensions";
 import { WordsGenerator } from "../utils/wordsGenerator";
 import { Cursor } from "./cursor";
-import { WordsToType } from "./words-to-type";
+import { WordsToType } from "./words-to-type2";
 import { ResultsModal } from "./modal/results-modal";
 import { validCursorIndices } from "../utils/util";
 import {
@@ -93,8 +93,8 @@ export default function TypingPanel({
     () => validCursorIndices(words, width),
     [words, width],
   );
-  console.log("cursor idx", cursorIndex);
-  console.log(cursorIndices[cursorIndex]);
+  console.log(cursorIndex);
+  console.log(cursorIndices.length);
   const resetStatistics = useCallback(() => {
     mistakes.current = 0;
     correctChars.current = 0;
@@ -186,7 +186,7 @@ export default function TypingPanel({
             finishTest();
           }
         }
-        return maybeIncrement(cursorIndex, words);
+        return maybeIncrement(cursorIndex, cursorIndices);
       });
       setCharIndex(getNextCharIndex(charIndex, words));
       correctChars.current++;
@@ -209,7 +209,7 @@ export default function TypingPanel({
           }
         }
 
-        return maybeIncrement(cursorIndex, words);
+        return maybeIncrement(cursorIndex, cursorIndices);
       });
       setCharIndex(getNextCharIndex(charIndex, words));
       correctChars.current++;
@@ -236,7 +236,7 @@ export default function TypingPanel({
             return wordsResult;
           }
         });
-        return maybeIncrement(cursorIndex, words);
+        return maybeIncrement(cursorIndex, cursorIndices);
       });
       setCharIndex(getNextCharIndex(charIndex, words));
     }

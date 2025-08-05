@@ -52,6 +52,15 @@ describe("validCursorIndices", () => {
     }
   });
 
+  it("test cursor", () => {
+    const words = "emplyoee movie operator muscle cup group";
+    const width = 532;
+    const result = validCursorIndices(words, width);
+    console.log(result);
+    for (const [, col] of result) {
+      expect(col * 14).toBeLessThanOrEqual(width);
+    }
+  });
   it("should handle empty strings", () => {
     const words = "";
     const width = 100;

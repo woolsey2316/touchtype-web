@@ -171,13 +171,11 @@ describe("TypingPanel", () => {
     fireEvent.keyDown(panel, { key: "Enter" });
     fireEvent.keyDown(panel, { key: "b" });
 
-    const divs = panel.querySelectorAll('[data-testid="words-to-type"] div');
-    divs.forEach((div) => {
-      const chars = div.querySelectorAll("p");
-      chars.forEach((char) => {
-        console.log(char.style.color);
-        expect((char as HTMLElement).style.color).toBe("green");
-      });
+    const chars = panel.querySelectorAll('[data-testid="words-to-type"] p');
+    chars.forEach((char) => {
+      console.log(char.innerHTML);
+      console.log((char as HTMLElement).style.color);
+      expect((char as HTMLElement).style.color).toBe("green");
     });
   });
 });
