@@ -123,6 +123,9 @@ export default function TypingPanel({
   ]);
 
   function getCursorLeftPosition() {
+    if (cursorIndex >= cursorIndices.length) {
+      return "-7px";
+    }
     return `${-7 + cursorIndices[cursorIndex][1] * 14}px`;
   }
 

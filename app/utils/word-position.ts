@@ -16,6 +16,7 @@ export function getNextCharIndex(charIndex: number, words: string): number {
 
 export function getPreviousCharIndex(charIndex: number, words: string): number {
   let skipTabs = 0;
+  if (charIndex <= 0) return 0; // Prevent going out of bounds
   charIndex--;
   while (
     charIndex + skipTabs >= 0 &&
