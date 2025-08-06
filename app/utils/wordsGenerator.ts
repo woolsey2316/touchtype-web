@@ -5,6 +5,7 @@ import { REACT_WORDS } from "../data/react-words";
 import { VIM_WORDS } from "../data/vim-words";
 import { ANGULAR_WORDS } from "../data/angular-words";
 import { JAVASCRIPT_WORDS } from "../data/javaScript-words";
+import { TYPESCRIPT_WORDS } from "../data/typescript-words";
 import { C_WORDS } from "../data/c-words";
 import { CPLUSPLUS_WORDS } from "../data/cplusplus-words";
 import { JAVA_WORDS } from "../data/java-words";
@@ -44,6 +45,10 @@ export const WordsGenerator = ({
     }
     case Language.JAVASCRIPT: {
       words = JAVASCRIPT_WORDS;
+      break;
+    }
+    case Language.TYPESCRIPT: {
+      words = TYPESCRIPT_WORDS;
       break;
     }
     case Language.C: {

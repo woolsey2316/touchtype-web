@@ -126,7 +126,7 @@ export const REACT_WORDS = [
   `<nav className="navbar">\n\t<div className="navbar-brand">\n\t\t<a href="/" className="navbar-brand-link">{brandName}</a>\n\t</div>\n\t<div className="navbar-menu">\n\t\t{menuItems.map(item => (\n\t\t\t<a key={item.id} href={item.href} className="navbar-item">\n\t\t\t\t{item.label}\n\t\t\t</a>\n\t\t))}\n\t</div>\n\t<button className="navbar-toggle" onClick={toggleMenu}>\n\t\t☰\n\t</button>\n</nav>`,
 
   // 43. Toast
-  `<div className="toast toast-success">\n\t<div className="toast-icon">{icon}</div>\n\t<div className="toast-content">\n\t\t<div className="toast-title">{title}</div>\n\t\t<div className="toast-message">{message}</div>\n\t</div>\n\t<button className="toast-close" onClick={onClose}>×</button>\n</div>`,
+  `<div className="toast toast-success">\n\t<div className="toast-icon">{icon}</div>\n\t<div className="toast-content">\n\t\t<div className="toast-title">{title}</div>\n\t\t<div className="toast-message">{message}</div>\n\t</div>\n\t<button className="toast-close" onClick={onClose}>x</button>\n</div>`,
 
   // 44. Button Group
   `<div className="button-group">\n\t{buttons.map((button, index) => (\n\t\t<button\n\t\t\tkey={index}\n\t\t\tclassName={button.active ? "button active" : "button"}\n\t\t\tonClick={button.onClick}\n\t\t>\n\t\t\t{button.label}\n\t\t</button>\n\t))}\n</div>`,
@@ -147,5 +147,5 @@ export const REACT_WORDS = [
   `<button className="icon-button" onClick={handleClick} aria-label={ariaLabel}>\n\t<span className="icon">{icon}</span>\n</button>`,
 
   // 50. Multi Select
-  `<div className="multi-select">\n\t<div className="multi-select-control" onClick={toggleDropdown}>\n\t\t<div className="multi-select-value">\n\t\t\t{selectedItems.length > 0 ? \`\${selectedItems.length} selected\` : placeholder}\n\t\t</div>\n\t\t<span className="multi-select-arrow">▼</span>\n\t</div>\n\t{isOpen && (\n\t\t<div className="multi-select-dropdown">\n\t\t\t{options.map(option => (\n\t\t\t\t<div\n\t\t\t\t\tkey={option.value}\n\t\t\t\t\tclassName="multi-select-option"\n\t\t\t\t\tonClick={() => toggleOption(option.value)}\n\t\t\t\t>\n\t\t\t\t\t<input\n\t\t\t\t\t\ttype="checkbox"\n\t\t\t\t\t\tchecked={selectedItems.includes(option.value)}\n\t\t\t\t\t\treadOnly\n\t\t\t\t\t/>\n\t\t\t\t\t{option.label}\n\t\t\t\t</div>\n\t\t\t))}\n\t\t</div>\n\t)}\n</div>`,
+  `<div className="multi-select">\n\t<div className="multi-select-control" onClick={toggleDropdown}>\n\t\t<div className="multi-select-value">\n\t\t\t{selectedItems.length > 0 ? \`\${selectedItems.length} selected\` : placeholder}\n\t\t</div>\n\t\t<span className="multi-select-arrow">d</span>\n\t</div>\n\t{isOpen && (\n\t\t<div className="multi-select-dropdown">\n\t\t\t{options.map(option => (\n\t\t\t\t<div\n\t\t\t\t\tkey={option.value}\n\t\t\t\t\tclassName="multi-select-option"\n\t\t\t\t\tonClick={() => toggleOption(option.value)}\n\t\t\t\t>\n\t\t\t\t\t<input\n\t\t\t\t\t\ttype="checkbox"\n\t\t\t\t\t\tchecked={selectedItems.includes(option.value)}\n\t\t\t\t\t\treadOnly\n\t\t\t\t\t/>\n\t\t\t\t\t{option.label}\n\t\t\t\t</div>\n\t\t\t))}\n\t\t</div>\n\t)}\n</div>`,
 ];

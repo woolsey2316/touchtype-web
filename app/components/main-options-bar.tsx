@@ -409,6 +409,7 @@ export const MainOptionsBar = ({
             <Option value={Language.ANGULAR.toString()}>Angular</Option>
             <Option value={Language.CPLUSPLUS.toString()}>C++</Option>
             <Option value={Language.JAVASCRIPT.toString()}>JavaScript</Option>
+            <Option value={Language.TYPESCRIPT.toString()}>TypeScript</Option>
             <Option value={Language.JAVA.toString()}>Java</Option>
             <Option value={Language.C.toString()}>C</Option>
           </Select>
