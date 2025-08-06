@@ -9,6 +9,10 @@ vi.mock("../utils/wordsGenerator", () => ({
   WordsGenerator: vi.fn(() => mockWordsGeneratorImpl()),
 }));
 
+vi.mock("../hooks/useContainerDimensions", () => ({
+  useContainerDimensions: () => ({ width: 500 }),
+}));
+
 describe("TypingPanel", () => {
   let correctChars: React.RefObject<number>,
     mistakes: React.RefObject<number>,
@@ -50,7 +54,7 @@ describe("TypingPanel", () => {
     childInputRef = React.createRef();
   });
 
-  it("correct char = green, failed char = red", () => {
+  it("correct char = green, failed char = red", async () => {
     render(
       <MockThemeProvider>
         <TypingPanel
@@ -85,13 +89,15 @@ describe("TypingPanel", () => {
     fireEvent.keyDown(panel, { key: "a" });
     // Type incorrect key 'x'
     fireEvent.keyDown(panel, { key: "x" });
+    // Wait for the container to appear
+    const wordsToType = await screen.findByTestId("words-to-type");
 
-    const chars = panel.querySelectorAll('[data-testid="words-to-type"] p');
+    const chars = wordsToType.querySelectorAll("p");
     expect((chars[0] as HTMLElement).style.color).toBe("green");
     expect((chars[1] as HTMLElement).style.color).toBe("red");
   });
 
-  it("correctly types abc", () => {
+  it("correctly types abc", async () => {
     render(
       <MockThemeProvider>
         <TypingPanel
@@ -131,13 +137,14 @@ describe("TypingPanel", () => {
     expect((chars[1] as HTMLElement).style.color).toBe("green");
 
     fireEvent.keyDown(panel, { key: "c" });
-
+    await vi.waitFor(() => {
+      expect(setIsResultsModalOpen).toHaveBeenCalledWith(true);
+    });
     expect(setIsResultsModalOpen).toHaveBeenCalledWith(true);
   });
 
-  it("multiline text with tabs", () => {
+  it("multiline text with tabs", async () => {
     mockWordsGeneratorImpl = () => "a\n\tb";
-
     render(
       <MockThemeProvider>
         <TypingPanel
@@ -177,6 +184,9 @@ describe("TypingPanel", () => {
     expect((chars[1] as HTMLElement).style.color).toBe("");
 
     fireEvent.keyDown(panel, { key: "b" });
+    await vi.waitFor(() => {
+      expect(setIsResultsModalOpen).toHaveBeenCalledWith(true);
+    });
 
     expect(setIsResultsModalOpen).toHaveBeenCalledWith(true);
   });

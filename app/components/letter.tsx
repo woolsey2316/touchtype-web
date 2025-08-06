@@ -25,7 +25,6 @@ export const Letter = ({
         fontFamily: "inherit",
         width: `${width}px`,
         paddingBottom: "14px",
-        color: colourOfChar,
         flexBasis: flexBasis,
         opacity: fadeOut ? 0 : 1,
         transform: fadeOut
@@ -35,6 +34,7 @@ export const Letter = ({
           : "none",
         transition: "opacity 0.5s ease, transform 0.5s ease",
       }}
+      style={{ color: colourOfChar }}
     >
       {char}
     </Typography>

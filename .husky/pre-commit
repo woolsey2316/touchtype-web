@@ -1,4 +1,5 @@
 
+yarn vitest run
 yarn prettier --check .
 yarn lint
 yarn tsc --build
