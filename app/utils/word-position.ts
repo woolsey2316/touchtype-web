@@ -25,11 +25,3 @@ export function getPreviousCharIndex(charIndex: number, words: string): number {
   }
   return charIndex - skipTabs;
 }
-
-export function maybeIncrement(index: number, cursorIndices: number[][]) {
-  return index + 1 < cursorIndices.length ? index + 1 : index;
-}
-
-export function maybeDecrement(index: number) {
-  return index - 1 >= 0 ? index - 1 : index;
-}

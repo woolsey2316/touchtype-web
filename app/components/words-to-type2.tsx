@@ -47,7 +47,7 @@ export const WordsToType = ({
       }
       if (!poppedIndices.includes(charIdx - skipTabs)) {
         poppedIndices.push(charIdx - skipTabs);
-        wordsToType.push(<Box width="100%"></Box>);
+        wordsToType.push(<Box key={`char-${charIdx}`} width="100%"></Box>);
       }
     }
     charIdx++;

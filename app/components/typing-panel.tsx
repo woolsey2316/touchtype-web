@@ -13,12 +13,7 @@ import { Cursor } from "./cursor";
 import { WordsToType } from "./words-to-type2";
 import { ResultsModal } from "./modal/results-modal";
 import { validCursorIndices } from "../utils/util";
-import {
-  getNextCharIndex,
-  getPreviousCharIndex,
-  maybeIncrement,
-  maybeDecrement,
-} from "../utils/word-position";
+import { getNextCharIndex, getPreviousCharIndex } from "../utils/word-position";
 import { ThemeContext } from "../context/ThemeContext/ThemeContext";
 
 export default function TypingPanel({
@@ -228,7 +223,7 @@ export default function TypingPanel({
       });
       // Correct key pressed
       setCursorIndex((cursorIndex) =>
-        maybeIncrement(cursorIndex, cursorIndices),
+        Math.min(cursorIndex + 1, cursorIndices.length - 1),
       );
 
       setCharIndex((charIndex) => getNextCharIndex(charIndex, words));
@@ -243,7 +238,7 @@ export default function TypingPanel({
       });
       // Correct key pressed
       setCursorIndex((cursorIndex) =>
-        maybeIncrement(cursorIndex, cursorIndices),
+        Math.min(cursorIndex + 1, cursorIndices.length - 1),
       );
 
       setCharIndex((charIndex) => getNextCharIndex(charIndex, words));
@@ -256,7 +251,7 @@ export default function TypingPanel({
             theme.vars.palette.neutral[500];
           return newWordsResult;
         });
-        return maybeDecrement(cursorIndex);
+        return Math.max(cursorIndex - 1, 0);
       });
       setCharIndex(getPreviousCharIndex(charIndex, words));
     } else {
@@ -271,7 +266,7 @@ export default function TypingPanel({
             return wordsResult;
           }
         });
-        return maybeIncrement(cursorIndex, cursorIndices);
+        return Math.min(cursorIndex + 1, cursorIndices.length - 1);
       });
       setCharIndex(getNextCharIndex(charIndex, words));
     }
