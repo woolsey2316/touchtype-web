@@ -174,7 +174,7 @@ export default function TypingPanel({
       );
       return words;
     });
-  }, []);
+  }, [setIsResultsModalOpen, sentenceSize, punctuation, numbers, language]);
 
   useEffect(() => {
     if (cursorIndex === cursorIndices.length - 1) {
