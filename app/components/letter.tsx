@@ -21,6 +21,12 @@ export const Letter = ({
         width: `${width}px`,
         paddingBottom: "14px",
         flexBasis: flexBasis,
+        opacity: 0,
+        animation: "fadeIn 0.5s forwards",
+        "@keyframes fadeIn": {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
       }}
       style={{
         color: colourOfChar,
