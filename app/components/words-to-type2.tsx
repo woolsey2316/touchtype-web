@@ -1,6 +1,7 @@
 import { Box } from "@mui/joy";
 import { Letter } from "./letter";
-
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext/ThemeContext";
 interface Props {
   words: string;
   colourOfChar: string[];
@@ -12,6 +13,7 @@ export const WordsToType = ({
   colourOfChar,
   validCursorIndices,
 }: Props) => {
+  const { theme } = useContext(ThemeContext);
   function isTab(char: string): boolean {
     return char.charCodeAt(0) === 9;
   }
@@ -34,6 +36,10 @@ export const WordsToType = ({
       wordsToType.push(
         <Letter
           colourOfChar={isTab(words[charIdx]) ? "" : colourOfChar[charIdx]}
+          fadeOut={
+            colourOfChar[charIdx] === theme.vars.palette.success.plainColor
+          }
+          even={charIdx % 2 === 0}
           width={isTab(words[charIdx]) ? 2 * 14 : 14}
           key={`char-${charIdx}`}
         >
@@ -54,7 +60,18 @@ export const WordsToType = ({
   }
 
   return (
-    <Box display="flex" flexWrap="wrap" data-testid="words-to-type">
+    <Box
+      display="flex"
+      sx={{
+        animation: "fadeIn 0.5s forwards",
+        "@keyframes fadeIn": {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
+      }}
+      flexWrap="wrap"
+      data-testid="words-to-type"
+    >
       {wordsToType}
     </Box>
   );
