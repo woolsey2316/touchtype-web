@@ -88,8 +88,9 @@ export default function TypingPanel({
   const [charIndex, setCharIndex] = useState(0);
   const { width } = useContainerDimensions(childInputRef!, words);
 
+  console.log("Width of typing panel:", width);
   const cursorIndices = useMemo(
-    () => validCursorIndices(words, width),
+    () => (width > 0 ? validCursorIndices(words, width) : []),
     [words, width],
   );
 
@@ -228,7 +229,6 @@ export default function TypingPanel({
 
       setCharIndex((charIndex) => getNextCharIndex(charIndex, words));
       correctChars.current++;
-      return;
     }
     if (e.key === words[charIndex]) {
       setColourOfChar((wordsResult) => {
@@ -290,18 +290,24 @@ export default function TypingPanel({
         fontFamily: "Courier",
         fontSize: 24,
         outline: "none",
+        minWidth: "100%",
       })}
       ref={childInputRef}
       data-testid="typing-panel"
       tabIndex={0}
       onKeyDown={onKeyDown}
     >
-      <Cursor left={getCursorLeftPosition()} top={getCursorTopPosition()} />
-      <WordsToType
-        validCursorIndices={cursorIndices}
-        colourOfChar={colourOfChar}
-        words={words}
-      />
+      {/* Check if width is greater than 0 to avoid rendering issues */}
+      {width > 0 && (
+        <>
+          <Cursor left={getCursorLeftPosition()} top={getCursorTopPosition()} />
+          <WordsToType
+            validCursorIndices={cursorIndices}
+            colourOfChar={colourOfChar}
+            words={words}
+          />
+        </>
+      )}
       <ResultsModal
         key={isOpen.toString() + currentWPM + mistakes + correctChars}
         isOpen={isOpen}
