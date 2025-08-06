@@ -3,7 +3,6 @@ import { describe, beforeEach, afterEach, it, vi, expect } from "vitest";
 import { render, fireEvent, screen, cleanup } from "@testing-library/react";
 import TypingPanel from "./typing-panel";
 import { MockThemeProvider } from "../context/mocks/ThemeContext";
-import { WordsGenerator } from "../utils/wordsGenerator";
 
 let mockWordsGeneratorImpl = () => "abc";
 vi.mock("../utils/wordsGenerator", () => ({

@@ -98,22 +98,6 @@ export default function TypingPanel({
     [words, width],
   );
 
-  useEffect(() => {
-    if (cursorIndex === cursorIndices.length - 1) {
-      if (isTimedTest) {
-        fetchNewWords();
-      } else {
-        setTimeInfo((timeInfo) => ({
-          ...timeInfo,
-          end: Date.now(),
-          ended: true,
-          started: false,
-        }));
-        setTimeout(() => finishTest());
-      }
-    }
-  }, [cursorIndex, cursorIndices, isTimedTest, fetchNewWords, finishTest]);
-
   const resetStatistics = useCallback(() => {
     mistakes.current = 0;
     correctChars.current = 0;
@@ -144,7 +128,7 @@ export default function TypingPanel({
     return `${-1 + cursorIndices[cursorIndex][0] * (39 + 14)}px`;
   }
 
-  function fetchNewWords() {
+  const fetchNewWords = useCallback(() => {
     setTimeout(() => setCursorIndex(0), 200);
     setCharIndex(0);
     setWords(() => {
@@ -159,7 +143,13 @@ export default function TypingPanel({
       );
       return words;
     });
-  }
+  }, [
+    sentenceSize,
+    punctuation,
+    numbers,
+    language,
+    theme.vars.palette.neutral,
+  ]);
 
   function finishTest() {
     setIsResultsModalOpen(true);
@@ -178,6 +168,30 @@ export default function TypingPanel({
       return words;
     });
   }
+
+  useEffect(() => {
+    if (cursorIndex === cursorIndices.length - 1) {
+      if (isTimedTest) {
+        fetchNewWords();
+      } else {
+        setTimeInfo((timeInfo) => ({
+          ...timeInfo,
+          end: Date.now(),
+          ended: true,
+          started: false,
+        }));
+        setTimeout(() => finishTest());
+      }
+    }
+  }, [
+    cursorIndex,
+    cursorIndices,
+    isTimedTest,
+    fetchNewWords,
+    setTimeInfo,
+    finishTest,
+    theme.vars.palette.neutral,
+  ]);
 
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     // this stops the result modal from closing when the user presses a key
