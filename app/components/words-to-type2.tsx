@@ -17,12 +17,8 @@ export const WordsToType = ({
   }
 
   function lastLetterOnRow(validCursorIndices: number[][], charIdx: number) {
-    if (charIdx + 1 >= validCursorIndices.length) return false;
-    console.log(
-      validCursorIndices[charIdx + 1][1],
-      validCursorIndices[charIdx][1],
-    );
-    return validCursorIndices[charIdx + 1][1] <= validCursorIndices[charIdx][1];
+    if (charIdx + 1 >= validCursorIndices.length) return true;
+    return validCursorIndices[charIdx + 1][0] > validCursorIndices[charIdx][0];
   }
   const wordsToType = [];
   let charIdx = 0;
@@ -33,12 +29,11 @@ export const WordsToType = ({
     if (isTab(words[charIdx])) {
       skipTabs++;
     }
+
     if (words[charIdx] !== "\n") {
       wordsToType.push(
         <Letter
-          colourOfChar={
-            isTab(words[charIdx]) ? "s" : colourOfChar[charIdx - skipTabs]
-          }
+          colourOfChar={isTab(words[charIdx]) ? "" : colourOfChar[charIdx]}
           width={isTab(words[charIdx]) ? 2 * 14 : 14}
           key={`char-${charIdx}`}
         >

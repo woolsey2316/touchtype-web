@@ -56,7 +56,6 @@ describe("validCursorIndices", () => {
     const words = "emplyoee movie operator muscle cup group";
     const width = 532;
     const result = validCursorIndices(words, width);
-    console.log(result);
     for (const [, col] of result) {
       expect(col * 14).toBeLessThanOrEqual(width);
     }
@@ -96,6 +95,7 @@ describe("validCursorIndices", () => {
       [1, 0],
       [1, 1],
       [1, 2],
+      [1, 3],
     ]);
   });
 
@@ -111,6 +111,7 @@ describe("validCursorIndices", () => {
       [1, 0],
       [1, 1],
       [1, 2],
+      [2, 0],
     ]);
   });
 
@@ -122,6 +123,19 @@ describe("validCursorIndices", () => {
     expect(result).toEqual([
       [0, 2],
       [0, 3],
+    ]);
+  });
+
+  it("a\n\tb", () => {
+    const words = "a\n\tb";
+    const width = 500;
+    const result = validCursorIndices(words, width);
+
+    expect(result).toEqual([
+      [0, 0],
+      [0, 1],
+      [1, 2],
+      [1, 3],
     ]);
   });
 

@@ -7,14 +7,11 @@ export const mockContextValue = {
   updateValue: vi.fn(), // Mock the updateValue function
 };
 
-// Create a mock provider component
-
 export const MockThemeProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  // Use the provided mockValue or a default mock value if not provided
   const mockTheme = {
     vars: {
       palette: {

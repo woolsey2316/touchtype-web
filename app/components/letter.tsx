@@ -1,6 +1,4 @@
 import { Typography } from "@mui/joy";
-import { useContext } from "react";
-import { ThemeContext } from "../context/ThemeContext/ThemeContext";
 
 export const Letter = ({
   width,
@@ -13,7 +11,6 @@ export const Letter = ({
   colourOfChar: string;
   flexBasis?: string;
 }) => {
-  const { theme } = useContext(ThemeContext);
   return (
     <Typography
       level="body-lg"
@@ -26,12 +23,7 @@ export const Letter = ({
         flexBasis: flexBasis,
       }}
       style={{
-        color:
-          colourOfChar === "s"
-            ? theme.vars.palette.success.plainColor
-            : colourOfChar === "f"
-              ? theme.vars.palette.danger.plainColor
-              : theme.vars.palette.neutral[500],
+        color: colourOfChar,
       }}
     >
       {char}

@@ -3,6 +3,12 @@ import { describe, beforeEach, afterEach, it, vi, expect } from "vitest";
 import { render, fireEvent, screen, cleanup } from "@testing-library/react";
 import TypingPanel from "./typing-panel";
 import { MockThemeProvider } from "../context/mocks/ThemeContext";
+import { WordsGenerator } from "../utils/wordsGenerator";
+
+let mockWordsGeneratorImpl = () => "abc";
+vi.mock("../utils/wordsGenerator", () => ({
+  WordsGenerator: vi.fn(() => mockWordsGeneratorImpl()),
+}));
 
 describe("TypingPanel", () => {
   let correctChars: React.RefObject<number>,
@@ -34,10 +40,8 @@ describe("TypingPanel", () => {
         useRef: vi.fn(() => ({ current: 0 })), // Mock useRef to return a specific value
       };
     });
-    // Mock WordsGenerator to return a known string
-    vi.mock("../utils/wordsGenerator", () => ({
-      WordsGenerator: () => "abc",
-    }));
+    mockWordsGeneratorImpl = () => "abc";
+
     correctChars = mockRefObject;
     mistakes = mockRefObject;
     setTimeInfo = vi.fn();
@@ -83,7 +87,7 @@ describe("TypingPanel", () => {
     // Type incorrect key 'x'
     fireEvent.keyDown(panel, { key: "x" });
 
-    const chars = panel.querySelectorAll('[data-testid="words-to-type"] div p');
+    const chars = panel.querySelectorAll('[data-testid="words-to-type"] p');
     expect((chars[0] as HTMLElement).style.color).toBe("green");
     expect((chars[1] as HTMLElement).style.color).toBe("red");
   });
@@ -133,9 +137,7 @@ describe("TypingPanel", () => {
   });
 
   it("multiline text with tabs", () => {
-    vi.mock("../utils/wordsGenerator", () => ({
-      WordsGenerator: () => "a\n\tb",
-    }));
+    mockWordsGeneratorImpl = () => "a\n\tb";
 
     render(
       <MockThemeProvider>
@@ -169,13 +171,14 @@ describe("TypingPanel", () => {
     const panel = screen.getByTestId("typing-panel");
     fireEvent.keyDown(panel, { key: "a" });
     fireEvent.keyDown(panel, { key: "Enter" });
-    fireEvent.keyDown(panel, { key: "b" });
 
     const chars = panel.querySelectorAll('[data-testid="words-to-type"] p');
-    chars.forEach((char) => {
-      console.log(char.innerHTML);
-      console.log((char as HTMLElement).style.color);
-      expect((char as HTMLElement).style.color).toBe("green");
-    });
+
+    expect((chars[0] as HTMLElement).style.color).toBe("green");
+    expect((chars[1] as HTMLElement).style.color).toBe("");
+
+    fireEvent.keyDown(panel, { key: "b" });
+
+    expect(setIsResultsModalOpen).toHaveBeenCalledWith(true);
   });
 });

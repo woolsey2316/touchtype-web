@@ -57,7 +57,6 @@ export function validCursorIndices(words: string, width: number): number[][] {
   let col = 0;
   let slow = 0;
   let fast = 0;
-  let isFinalCharSpace = false;
   while (slow < words.length) {
     if (words[slow] === "\n") {
       validCursorIndices.push([row, col]);
@@ -70,9 +69,6 @@ export function validCursorIndices(words: string, width: number): number[][] {
       slow++;
       currentLineWidth += 2;
     } else if (words[slow] === " ") {
-      if (slow === words.length - 1) {
-        isFinalCharSpace = true;
-      }
       if (currentLineWidth < maxCursorXInd) {
         validCursorIndices.push([row, col]);
         slow++;
@@ -116,7 +112,7 @@ export function validCursorIndices(words: string, width: number): number[][] {
       currentLineWidth++;
     }
   }
-  if (!isFinalCharSpace) {
+  if (!words.endsWith("\n")) {
     validCursorIndices.push([row, col]);
   }
   return validCursorIndices;

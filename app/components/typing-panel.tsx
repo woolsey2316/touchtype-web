@@ -2,6 +2,7 @@ import { Box } from "@mui/joy";
 import {
   useState,
   useCallback,
+  useContext,
   useMemo,
   type KeyboardEvent,
   useEffect,
@@ -18,6 +19,7 @@ import {
   maybeIncrement,
   maybeDecrement,
 } from "../utils/word-position";
+import { ThemeContext } from "../context/ThemeContext/ThemeContext";
 
 export default function TypingPanel({
   programmingLanguage,
@@ -66,6 +68,7 @@ export default function TypingPanel({
   setIsResultsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setResetCounter: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const { theme } = useContext(ThemeContext);
   useEffect(() => {
     childInputRef?.current ? childInputRef?.current.focus() : null;
   }, [childInputRef]);
@@ -83,8 +86,9 @@ export default function TypingPanel({
     [sentenceSize, punctuation, numbers, language, programmingLanguage],
   );
   const [words, setWords] = useState(generatedWords);
+  // ["grey", "grey", "grey", ...]
   const [colourOfChar, setColourOfChar] = useState(
-    Array(words.length).fill(""),
+    Array(words.length).fill(theme.vars.palette.neutral[500]),
   );
   const [charIndex, setCharIndex] = useState(0);
   const { width } = useContainerDimensions(childInputRef!, words);
@@ -93,8 +97,23 @@ export default function TypingPanel({
     () => validCursorIndices(words, width),
     [words, width],
   );
-  console.log(cursorIndex);
-  console.log(cursorIndices.length);
+
+  useEffect(() => {
+    if (cursorIndex === cursorIndices.length - 1) {
+      if (isTimedTest) {
+        fetchNewWords();
+      } else {
+        setTimeInfo((timeInfo) => ({
+          ...timeInfo,
+          end: Date.now(),
+          ended: true,
+          started: false,
+        }));
+        setTimeout(() => finishTest());
+      }
+    }
+  }, [cursorIndex, cursorIndices, isTimedTest, fetchNewWords, finishTest]);
+
   const resetStatistics = useCallback(() => {
     mistakes.current = 0;
     correctChars.current = 0;
@@ -110,7 +129,9 @@ export default function TypingPanel({
         numbers,
         language,
       });
-      setColourOfChar(Array(words.length).fill(""));
+      setColourOfChar(
+        Array(words.length).fill(theme.vars.palette.neutral[500]),
+      );
       return words;
     });
   }, [language, punctuation, numbers, resetStatistics, sentenceSize]);
@@ -124,7 +145,8 @@ export default function TypingPanel({
   }
 
   function fetchNewWords() {
-    setCursorIndex(0);
+    setTimeout(() => setCursorIndex(0), 200);
+    setCharIndex(0);
     setWords(() => {
       const words = WordsGenerator({
         count: sentenceSize,
@@ -132,20 +154,17 @@ export default function TypingPanel({
         numbers,
         language,
       });
-      setColourOfChar(Array(words.length).fill(""));
+      setColourOfChar(
+        Array(words.length).fill(theme.vars.palette.neutral[500]),
+      );
       return words;
     });
   }
 
   function finishTest() {
-    setTimeInfo((timeInfo) => ({
-      ...timeInfo,
-      end: Date.now(),
-      ended: true,
-      started: false,
-    }));
     setIsResultsModalOpen(true);
-    setCursorIndex(0);
+    setTimeout(() => setCursorIndex(0), 500);
+    setCharIndex(0);
     setWords(() => {
       const words = WordsGenerator({
         count: sentenceSize,
@@ -153,7 +172,9 @@ export default function TypingPanel({
         numbers,
         language,
       });
-      setColourOfChar(Array(words.length).fill(""));
+      setColourOfChar(
+        Array(words.length).fill(theme.vars.palette.neutral[500]),
+      );
       return words;
     });
   }
@@ -174,50 +195,37 @@ export default function TypingPanel({
     if (e.key === "Enter" && words[charIndex].charCodeAt(0) === 10) {
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
-        // stands for "success"
-        newWordsResult[cursorIndex] = "s";
+        newWordsResult[charIndex] = theme.vars.palette.success.plainColor;
         return newWordsResult;
       });
-      setCursorIndex((cursorIndex) => {
-        if (cursorIndex + 1 === words.length) {
-          if (isTimedTest) {
-            fetchNewWords();
-          } else {
-            finishTest();
-          }
-        }
-        return maybeIncrement(cursorIndex, cursorIndices);
-      });
-      setCharIndex(getNextCharIndex(charIndex, words));
+      // Correct key pressed
+      setCursorIndex((cursorIndex) =>
+        maybeIncrement(cursorIndex, cursorIndices),
+      );
+
+      setCharIndex((charIndex) => getNextCharIndex(charIndex, words));
       correctChars.current++;
       return;
     }
     if (e.key === words[charIndex]) {
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
-        // stands for "success"
-        newWordsResult[cursorIndex] = "s";
+        newWordsResult[charIndex] = theme.vars.palette.success.plainColor;
         return newWordsResult;
       });
       // Correct key pressed
-      setCursorIndex((cursorIndex) => {
-        if (cursorIndex + 1 === words.length) {
-          if (isTimedTest) {
-            fetchNewWords();
-          } else {
-            finishTest();
-          }
-        }
+      setCursorIndex((cursorIndex) =>
+        maybeIncrement(cursorIndex, cursorIndices),
+      );
 
-        return maybeIncrement(cursorIndex, cursorIndices);
-      });
-      setCharIndex(getNextCharIndex(charIndex, words));
+      setCharIndex((charIndex) => getNextCharIndex(charIndex, words));
       correctChars.current++;
     } else if (e.key === "Backspace") {
       setCursorIndex((cursorIndex) => {
         setColourOfChar((wordsResult) => {
           const newWordsResult = [...wordsResult];
-          newWordsResult[cursorIndex - 1] = "";
+          newWordsResult[getPreviousCharIndex(charIndex, words)] =
+            theme.vars.palette.neutral[500];
           return newWordsResult;
         });
         return maybeDecrement(cursorIndex);
@@ -229,8 +237,7 @@ export default function TypingPanel({
         setColourOfChar((wordsResult) => {
           if (cursorIndex < words.length) {
             const newWordsResult = [...wordsResult];
-            // stands for "failure"
-            newWordsResult[cursorIndex] = "f";
+            newWordsResult[charIndex] = theme.vars.palette.danger.plainColor;
             return newWordsResult;
           } else {
             return wordsResult;

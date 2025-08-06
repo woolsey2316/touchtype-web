@@ -9,6 +9,7 @@ import { C_WORDS } from "../data/c-words";
 import { CPLUSPLUS_WORDS } from "../data/cplusplus-words";
 import { JAVA_WORDS } from "../data/java-words";
 import { Language } from "../types/words.type";
+
 export const WordsGenerator = ({
   count,
   numbers,
