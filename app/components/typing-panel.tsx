@@ -180,7 +180,7 @@ export default function TypingPanel({
     punctuation,
     numbers,
     language,
-    theme.palette.neutral,
+    theme.vars.palette.neutral,
   ]);
 
   useEffect(() => {
