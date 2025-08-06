@@ -118,7 +118,14 @@ export default function TypingPanel({
       );
       return words;
     });
-  }, [language, punctuation, numbers, resetStatistics, sentenceSize]);
+  }, [
+    language,
+    punctuation,
+    numbers,
+    resetStatistics,
+    sentenceSize,
+    theme.vars.palette.neutral,
+  ]);
 
   function getCursorLeftPosition() {
     return `${-7 + cursorIndices[cursorIndex][1] * 14}px`;
@@ -151,7 +158,7 @@ export default function TypingPanel({
     theme.vars.palette.neutral,
   ]);
 
-  function finishTest() {
+  const finishTest = useCallback(() => {
     setIsResultsModalOpen(true);
     setTimeout(() => setCursorIndex(0), 500);
     setCharIndex(0);
@@ -167,7 +174,7 @@ export default function TypingPanel({
       );
       return words;
     });
-  }
+  }, []);
 
   useEffect(() => {
     if (cursorIndex === cursorIndices.length - 1) {
