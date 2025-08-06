@@ -68,11 +68,13 @@ export const MainOptionsBar = ({
             },
           })}
           onClick={() => {
-            setTimeInfo((timeInfo) => ({
-              ...timeInfo,
-              started: false,
-            }));
-            setPunctuation((punctuation) => !punctuation);
+            if (!programmingLanguage) {
+              setTimeInfo((timeInfo) => ({
+                ...timeInfo,
+                started: false,
+              }));
+              setPunctuation((punctuation) => !punctuation);
+            }
           }}
         >
           punctuation
@@ -90,11 +92,14 @@ export const MainOptionsBar = ({
             },
           })}
           onClick={() => {
-            setTimeInfo((timeInfo) => ({
-              ...timeInfo,
-              started: false,
-            }));
-            setNumbers((numbers) => !numbers);
+            if (!programmingLanguage) {
+              setTimeInfo((timeInfo) => ({
+                ...timeInfo,
+                started: false,
+              }));
+
+              setNumbers((numbers) => !numbers);
+            }
           }}
         >
           numbers
@@ -124,8 +129,10 @@ export const MainOptionsBar = ({
                 ...timeInfo,
                 started: false,
               }));
-              setIsFixedSentenceSize(false);
-              setIsTimedTest(true);
+              if (!programmingLanguage) {
+                setIsFixedSentenceSize(false);
+                setIsTimedTest(true);
+              }
             }}
             variant="plain"
           >
@@ -240,8 +247,10 @@ export const MainOptionsBar = ({
                 ...timeInfo,
                 started: false,
               }));
-              setIsFixedSentenceSize(true);
-              setIsTimedTest(false);
+              if (!programmingLanguage) {
+                setIsFixedSentenceSize(true);
+                setIsTimedTest(false);
+              }
             }}
             variant="plain"
           >
@@ -331,7 +340,7 @@ export const MainOptionsBar = ({
                     ...timeInfo,
                     started: false,
                   }));
-                  setSentenceSize(51);
+                  setSentenceSize(50);
                 }}
               >
                 50
@@ -364,7 +373,16 @@ export const MainOptionsBar = ({
               ...timeInfo,
               started: false,
             }));
-            if (programmingLanguage) setLanguage(0);
+            if (!programmingLanguage) {
+              setIsFixedSentenceSize(false);
+              setIsTimedTest(false);
+              setLanguage(0);
+              setSentenceSize(1);
+            }
+            if (programmingLanguage) {
+              setLanguage(Language.ENGLISH);
+              setSentenceSize(15);
+            }
             setProgrammingLanguage((programming) => !programming);
           }}
         >
