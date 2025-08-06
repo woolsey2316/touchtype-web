@@ -174,7 +174,14 @@ export default function TypingPanel({
       );
       return words;
     });
-  }, [setIsResultsModalOpen, sentenceSize, punctuation, numbers, language]);
+  }, [
+    setIsResultsModalOpen,
+    sentenceSize,
+    punctuation,
+    numbers,
+    language,
+    theme.palette.neutral,
+  ]);
 
   useEffect(() => {
     if (cursorIndex === cursorIndices.length - 1) {
