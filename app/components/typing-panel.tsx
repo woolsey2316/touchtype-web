@@ -88,7 +88,6 @@ export default function TypingPanel({
   const [charIndex, setCharIndex] = useState(0);
   const { width } = useContainerDimensions(childInputRef!, words);
 
-  console.log("Width of typing panel:", width);
   const cursorIndices = useMemo(
     () => (width > 0 ? validCursorIndices(words, width) : []),
     [words, width],
@@ -206,6 +205,11 @@ export default function TypingPanel({
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     // this stops the result modal from closing when the user presses a key
     if (timeTestInfo.ended) return;
+    //prevent scrollling when space is pressed
+    if (e.key === " ") {
+      e.preventDefault();
+    }
+
     if (
       e.key === "Shift" ||
       e.key === "F12" ||
