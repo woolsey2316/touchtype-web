@@ -130,6 +130,9 @@ export default function TypingPanel({
   }
 
   function getCursorTopPosition() {
+    if (cursorIndex >= cursorIndices.length) {
+      return "-1px";
+    }
     return `${-1 + cursorIndices[cursorIndex][0] * (39 + 14)}px`;
   }
 
@@ -192,7 +195,7 @@ export default function TypingPanel({
           ended: true,
           started: false,
         }));
-        setTimeout(() => finishTest());
+        finishTest();
       }
     }
   }, [
@@ -236,8 +239,7 @@ export default function TypingPanel({
 
       setCharIndex((charIndex) => getNextCharIndex(charIndex, words));
       correctChars.current++;
-    }
-    if (e.key === words[charIndex]) {
+    } else if (e.key === words[charIndex]) {
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
         newWordsResult[charIndex] = theme.vars.palette.success.plainColor;
