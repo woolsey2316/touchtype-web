@@ -1,14 +1,8 @@
 import { Typography } from "@mui/joy";
+import { ReturnIcon } from "../icons/return";
+import { memo } from "react";
 
-export const Letter = ({
-  width,
-  children: char,
-  colourOfChar,
-  flexBasis,
-  fadeOut = false,
-  even = false,
-  opaque = false,
-}: {
+interface LetterProps {
   width: number;
   children: string;
   colourOfChar: string;
@@ -16,7 +10,16 @@ export const Letter = ({
   fadeOut?: boolean;
   even?: boolean;
   opaque: boolean;
-}) => {
+}
+export const Letter = memo(function Letter({
+  width,
+  children: char,
+  colourOfChar,
+  flexBasis,
+  fadeOut = false,
+  even = false,
+  opaque = false,
+}: LetterProps) {
   return (
     <Typography
       level="body-lg"
@@ -38,7 +41,7 @@ export const Letter = ({
       }}
       style={{ color: colourOfChar }}
     >
-      {char}
+      {char === "↵" ? <ReturnIcon /> : char}
     </Typography>
   );
-};
+});

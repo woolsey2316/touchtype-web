@@ -161,7 +161,8 @@ export default function TypingPanel({
 
   const finishTest = useCallback(() => {
     setIsResultsModalOpen(true);
-    setTimeout(() => setCursorIndex(0), 500);
+    setCursorIndex(0);
+    console.log("setting char index to 0");
     setCharIndex(0);
     setWords(() => {
       const words = WordsGenerator({
@@ -211,7 +212,7 @@ export default function TypingPanel({
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     // this stops the result modal from closing when the user presses a key
     if (timeTestInfo.ended) return;
-    //prevent scrollling when space is pressed
+    // prevent scrollling when space is pressed
     if (e.key === " ") {
       e.preventDefault();
     }
@@ -226,6 +227,8 @@ export default function TypingPanel({
     ) {
       return;
     }
+    // when typing blazingly fast you may increment after the test finishes
+    if (!words[charIndex]) return;
     if (e.key === "Enter" && words[charIndex] === "↵") {
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];

@@ -4,6 +4,7 @@ export const getNextWordLength = (charIndex: number, words: string): number => {
 
 export function getNextCharIndex(charIndex: number, words: string): number {
   let skipTabs = 0;
+  if (charIndex >= words.length) return words.length - 1; // Prevent going out of bounds
   charIndex++;
   while (
     charIndex + skipTabs < words.length &&

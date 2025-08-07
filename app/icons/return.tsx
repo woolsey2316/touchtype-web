@@ -1,0 +1,31 @@
+import { SvgIcon } from "@mui/material";
+
+export const ReturnIcon = () => {
+  return (
+    <SvgIcon
+      sx={{
+        width: "15px",
+        height: "15px",
+        marginLeft: "3px",
+      }}
+      viewBox="0 0 3.8906863 4.1168919"
+      version="1.1"
+      id="svg1"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs id="defs1" />
+      <g id="layer1" transform="translate(-164.33522,-126.49873)">
+        <path
+          id="path29"
+          style={{
+            fill: "#ccd0da",
+            fillOpacity: 0.5,
+            fillRule: "nonzero",
+            strokeDasharray: "none",
+          }}
+          d="m 168.22591,126.49873 -0.67851,0.005 0.0331,2.57969 h -2.44636 l 0.44958,-0.63976 -0.42323,-0.36845 -0.82475,1.2485 -5.2e-4,5.2e-4 v 5.2e-4 l 5.2e-4,5.1e-4 0.86196,1.29036 0.39429,-0.38499 -0.42064,-0.60823 2.36574,0.0103 c 0,0 0.42009,0.0194 0.57516,-0.1049 0.1419,-0.11375 0.10797,-0.58705 0.10797,-0.58705 z"
+        />
+      </g>
+    </SvgIcon>
+  );
+};

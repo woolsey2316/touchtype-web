@@ -27,7 +27,6 @@ export const WordsToType = ({
   let skipTabs = 0;
   const poppedIndices: number[] = [];
 
-  console.log("wordsToType", words);
   while (charIdx < words.length) {
     if (isTab(words[charIdx])) {
       skipTabs++;

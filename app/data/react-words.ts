@@ -96,13 +96,13 @@ export const REACT_WORDS = [
   `<div className="file-upload">↵→<input↵→→type="file"↵→→onChange={handleFileSelect}↵→→accept=".jpg,.png,.pdf"↵→→multiple={true}↵→→className="file-input"↵→/>↵→<label className="file-label">↵→→Choose Files or Drag & Drop↵→</label>↵</div>`,
 
   // 33. Rating
-  `<div className="rating">↵→{[1, 2, 3, 4, 5].map(star => (↵→→<button↵→→→key={star}↵→→→className={rating >= star ? "star filled" : "star"}↵→→→onClick={() => setRating(star)}↵→→>↵→→→★↵→→</button>↵→))}↵</div>`,
+  `<div className="rating">↵→{[1, 2, 3, 4, 5].map(star => (↵→→<button↵→→→key={star}↵→→→className={rating >= star ? "star filled" : "star"}↵→→→onClick={() => setRating(star)}↵→→>↵→→→*↵→→</button>↵→))}↵</div>`,
 
   // 34. Tag
-  `<span className="tag tag-primary">↵→{tagText}↵→<button className="tag-remove" onClick={handleRemove}>↵→→×↵→</button>↵</span>`,
+  `<span className="tag tag-primary">↵→{tagText}↵→<button className="tag-remove" onClick={handleRemove}>↵→→x↵→</button>↵</span>`,
 
   // 35. Chip
-  `<div className="chip">↵→{avatar && <img src={avatar} alt="" className="chip-avatar" />}↵→<span className="chip-text">{text}</span>↵→{removable && (↵→→<button className="chip-remove" onClick={onRemove}>↵→→→×↵→→</button>↵→)}↵</div>`,
+  `<div className="chip">↵→{avatar && <img src={avatar} alt="" className="chip-avatar" />}↵→<span className="chip-text">{text}</span>↵→{removable && (↵→→<button className="chip-remove" onClick={onRemove}>↵→→→x↵→→</button>↵→)}↵</div>`,
 
   // 36. Stepper
   `<div className="stepper">↵→{steps.map((step, index) => (↵→→<div key={index} className={currentStep >= index ? "step active" : "step"}>↵→→→<div className="step-indicator">{index + 1}</div>↵→→→<div className="step-content">↵→→→→<div className="step-title">{step.title}</div>↵→→→→<div className="step-description">{step.description}</div>↵→→→</div>↵→→</div>↵→))}↵</div>`,
