@@ -58,13 +58,13 @@ export function validCursorIndices(words: string, width: number): number[][] {
   let slow = 0;
   let fast = 0;
   while (slow < words.length) {
-    if (words[slow] === "\n") {
+    if (words[slow] === "↵") {
       validCursorIndices.push([row, col]);
       row++;
       col = 0;
       slow++;
       currentLineWidth = 0;
-    } else if (words[slow] === "\t") {
+    } else if (words[slow] === "→") {
       col += 2;
       slow++;
       currentLineWidth += 2;
@@ -86,8 +86,8 @@ export function validCursorIndices(words: string, width: number): number[][] {
       currentLineWidth++;
       while (
         words[fast] !== " " &&
-        words[fast] !== "\n" &&
-        words[fast] != "\t" &&
+        words[fast] !== "↵" &&
+        words[fast] != "→" &&
         fast < words.length
       ) {
         fast++;
@@ -112,7 +112,7 @@ export function validCursorIndices(words: string, width: number): number[][] {
       currentLineWidth++;
     }
   }
-  if (!words.endsWith("\n")) {
+  if (!words.endsWith("↵")) {
     validCursorIndices.push([row, col]);
   }
   return validCursorIndices;

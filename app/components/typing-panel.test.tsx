@@ -144,7 +144,7 @@ describe("TypingPanel", () => {
   });
 
   it("multiline text with tabs", async () => {
-    mockWordsGeneratorImpl = () => "a\n\tb";
+    mockWordsGeneratorImpl = () => "a↵→b";
     render(
       <MockThemeProvider>
         <TypingPanel
@@ -181,7 +181,7 @@ describe("TypingPanel", () => {
     const chars = panel.querySelectorAll('[data-testid="words-to-type"] p');
 
     expect((chars[0] as HTMLElement).style.color).toBe("green");
-    expect((chars[1] as HTMLElement).style.color).toBe("");
+    expect((chars[1] as HTMLElement).style.color).toBe("green");
 
     fireEvent.keyDown(panel, { key: "b" });
     await vi.waitFor(() => {

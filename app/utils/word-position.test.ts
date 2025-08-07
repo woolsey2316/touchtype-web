@@ -16,8 +16,8 @@ describe("getNextWordLength", () => {
 
 describe("getNextCharIndex", () => {
   it("skips tabs after current index", () => {
-    expect(getNextCharIndex(0, "a\t\tb")).toBe(3);
-    expect(getNextCharIndex(1, "a\tb")).toBe(2);
+    expect(getNextCharIndex(0, "a→→b")).toBe(3);
+    expect(getNextCharIndex(1, "a→b")).toBe(2);
     expect(getNextCharIndex(0, "abc")).toBe(1);
     expect(getNextCharIndex(1, "abc")).toBe(2);
   });
@@ -25,8 +25,8 @@ describe("getNextCharIndex", () => {
 
 describe("getPreviousCharIndex", () => {
   it("skips tabs before current index", () => {
-    expect(getPreviousCharIndex(3, "a\t\tb")).toBe(0);
-    expect(getPreviousCharIndex(2, "a\tb")).toBe(0);
+    expect(getPreviousCharIndex(3, "a→→b")).toBe(0);
+    expect(getPreviousCharIndex(2, "a→b")).toBe(0);
     expect(getPreviousCharIndex(2, "abc")).toBe(1);
     expect(getPreviousCharIndex(1, "abc")).toBe(0);
   });

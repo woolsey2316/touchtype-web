@@ -10,7 +10,7 @@ import {
 import { useContainerDimensions } from "../hooks/useContainerDimensions";
 import { WordsGenerator } from "../utils/wordsGenerator";
 import { Cursor } from "./cursor";
-import { WordsToType } from "./words-to-type2";
+import { WordsToType } from "./words-to-type";
 import { ResultsModal } from "./modal/results-modal";
 import { validCursorIndices } from "../utils/util";
 import { getNextCharIndex, getPreviousCharIndex } from "../utils/word-position";
@@ -226,7 +226,7 @@ export default function TypingPanel({
     ) {
       return;
     }
-    if (e.key === "Enter" && words[charIndex].charCodeAt(0) === 10) {
+    if (e.key === "Enter" && words[charIndex] === "↵") {
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
         newWordsResult[charIndex] = theme.vars.palette.success.plainColor;

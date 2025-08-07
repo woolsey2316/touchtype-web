@@ -7,6 +7,7 @@ export const Letter = ({
   flexBasis,
   fadeOut = false,
   even = false,
+  opaque = false,
 }: {
   width: number;
   children: string;
@@ -14,6 +15,7 @@ export const Letter = ({
   flexBasis?: string;
   fadeOut?: boolean;
   even?: boolean;
+  opaque: boolean;
 }) => {
   return (
     <Typography
@@ -26,7 +28,7 @@ export const Letter = ({
         width: `${width}px`,
         paddingBottom: "14px",
         flexBasis: flexBasis,
-        opacity: fadeOut ? 0 : 1,
+        opacity: fadeOut ? 0 : opaque ? 0.4 : 1,
         transform: fadeOut
           ? even
             ? "translate(-30px,-15px)"

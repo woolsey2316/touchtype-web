@@ -1,6 +1,7 @@
 import { Box } from "@mui/joy";
 import { Letter } from "./letter";
-
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext/ThemeContext";
 interface Props {
   words: string;
   colourOfChar: string[];
@@ -12,80 +13,68 @@ export const WordsToType = ({
   colourOfChar,
   validCursorIndices,
 }: Props) => {
-  function isSpaceOnfirstColumn(index: number): boolean {
-    if (index >= validCursorIndices.length - 3) {
-      return false;
-    }
-    if (index < 0) return false;
-    return words[index] === " " && validCursorIndices[index][1] === 0;
-  }
-  function isSpaceOnLastColumn(index: number): boolean {
-    if (index >= validCursorIndices.length - 3) {
-      return false;
-    }
-    if (index < 0) return false;
-    return validCursorIndices[index + 1][1] <= validCursorIndices[index][1];
-  }
-
+  const { theme } = useContext(ThemeContext);
   function isTab(char: string): boolean {
-    return char.charCodeAt(0) === 9;
+    return char === "→";
   }
 
-  // Split by <CR> to create lines
-  const lines = words.split("\n");
-  let globalCharIndex = -3;
-  const jsx = lines.map((line, lineIdx) => {
-    globalCharIndex++;
+  function lastLetterOnRow(validCursorIndices: number[][], charIdx: number) {
+    if (charIdx + 1 >= validCursorIndices.length) return true;
+    return validCursorIndices[charIdx + 1][0] > validCursorIndices[charIdx][0];
+  }
+  const wordsToType = [];
+  let charIdx = 0;
+  let skipTabs = 0;
+  const poppedIndices: number[] = [];
 
-    return (
-      <Box
-        flexWrap="wrap"
-        flexBasis="100%"
-        key={`line-${lineIdx}`}
-        display="flex"
+  console.log("wordsToType", words);
+  while (charIdx < words.length) {
+    if (isTab(words[charIdx])) {
+      skipTabs++;
+    }
+
+    wordsToType.push(
+      <Letter
+        colourOfChar={isTab(words[charIdx]) ? "" : colourOfChar[charIdx]}
+        fadeOut={
+          colourOfChar[charIdx] === theme.vars.palette.success.plainColor
+        }
+        even={charIdx % 2 === 0}
+        opaque={words[charIdx] === "↵"}
+        width={isTab(words[charIdx]) ? 2 * 14 : 14}
+        key={`char-${charIdx}-${skipTabs}`}
       >
-        {line.split(" ").map((word, wordIdx) => {
-          globalCharIndex++;
-          return (
-            <>
-              <Box display="flex">
-                {word.split("").map((char, charIdx) => {
-                  globalCharIndex++;
-                  if (isTab(char)) {
-                    globalCharIndex -= 2;
-                  }
-                  return (
-                    <Letter
-                      colourOfChar={
-                        isTab(char) ? "s" : colourOfChar[globalCharIndex]
-                      }
-                      width={isTab(char) ? 2 * 14 : 14}
-                      key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
-                    >
-                      {char}
-                    </Letter>
-                  );
-                })}
-              </Box>
-              {isSpaceOnfirstColumn(globalCharIndex + 1) ||
-              isSpaceOnLastColumn(globalCharIndex + 1) ||
-              wordIdx === line.split(" ").length - 1 ? (
-                <Box width="0px" flexBasis="100%"></Box>
-              ) : (
-                <Letter
-                  colourOfChar={colourOfChar[globalCharIndex + 1]}
-                  width={14}
-                  key={`char-${lineIdx}-${wordIdx}`}
-                >
-                  {" "}
-                </Letter>
-              )}
-            </>
-          );
-        })}
-      </Box>
+        {isTab(words[charIdx]) ? " " : words[charIdx]}
+      </Letter>,
     );
-  });
+    if (lastLetterOnRow(validCursorIndices, charIdx - skipTabs)) {
+      if (words[charIdx] === " ") {
+        wordsToType.pop();
+      }
+      if (!poppedIndices.includes(charIdx - skipTabs)) {
+        poppedIndices.push(charIdx - skipTabs);
+        wordsToType.push(
+          <Box key={`newline-${charIdx}-${skipTabs}`} width="100%"></Box>,
+        );
+      }
+    }
+    charIdx++;
+  }
 
-  return <Box data-testid="words-to-type">{jsx}</Box>;
+  return (
+    <Box
+      display="flex"
+      sx={{
+        animation: "fadeIn 0.5s forwards",
+        "@keyframes fadeIn": {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
+      }}
+      flexWrap="wrap"
+      data-testid="words-to-type"
+    >
+      {wordsToType}
+    </Box>
+  );
 };

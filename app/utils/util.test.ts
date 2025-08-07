@@ -115,8 +115,8 @@ describe("validCursorIndices", () => {
     ]);
   });
 
-  it("should skip over tabs", () => {
-    const words = "\tp";
+  it("→p", () => {
+    const words = "→p";
     const width = 500;
     const result = validCursorIndices(words, width);
 
@@ -126,8 +126,8 @@ describe("validCursorIndices", () => {
     ]);
   });
 
-  it("a\n\tb", () => {
-    const words = "a\n\tb";
+  it("a↵→b", () => {
+    const words = "a↵→b";
     const width = 500;
     const result = validCursorIndices(words, width);
 
@@ -139,8 +139,8 @@ describe("validCursorIndices", () => {
     ]);
   });
 
-  it("should skip over tabs (multiline)", () => {
-    const words = "<div\n\t\tp";
+  it("<div↵→→p", () => {
+    const words = "<div↵→→p";
     const width = 500;
     const result = validCursorIndices(words, width);
 

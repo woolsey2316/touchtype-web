@@ -7,7 +7,7 @@ export function getNextCharIndex(charIndex: number, words: string): number {
   charIndex++;
   while (
     charIndex + skipTabs < words.length &&
-    words[charIndex + skipTabs].charCodeAt(0) === 9
+    words[charIndex + skipTabs] === "→"
   ) {
     skipTabs++;
   }
@@ -18,10 +18,7 @@ export function getPreviousCharIndex(charIndex: number, words: string): number {
   let skipTabs = 0;
   if (charIndex <= 0) return 0; // Prevent going out of bounds
   charIndex--;
-  while (
-    charIndex + skipTabs >= 0 &&
-    words[charIndex - skipTabs].charCodeAt(0) === 9
-  ) {
+  while (charIndex + skipTabs >= 0 && words[charIndex - skipTabs] === "→") {
     skipTabs++;
   }
   return charIndex - skipTabs;
