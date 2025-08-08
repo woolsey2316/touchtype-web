@@ -5,7 +5,7 @@ import { Box, Card, CardContent, Container, Typography } from "@mui/joy";
 import { useState, useCallback, type JSX, useRef } from "react";
 import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
-import { Language, ProgrammingLanguage } from "../types/words.type";
+import { Language } from "../types/words.type";
 import { MainOptionsBar } from "../components/main-options-bar";
 import { CurrentWPM } from "../components/current-wpm";
 import CountdownTimer from "../components/countdown-timer";
@@ -128,18 +128,14 @@ export const Component = function Test(): JSX.Element {
             language={language}
           ></MainOptionsBar>
           <CardContent
-            sx={{ minHeight: 300, display: "flex", alignItems: "center" }}
+            sx={{
+              minHeight: 300,
+              display: "flex",
+              alignItems: "center",
+              paddingTop: "2em",
+            }}
             onClick={focusChild}
           >
-            <Typography
-              level="h3"
-              sx={{
-                color: "#0CAADC",
-                marginBottom: "1em",
-              }}
-            >
-              {programmingLanguage && ProgrammingLanguage[language]}
-            </Typography>
             <TypingPanel
               key={
                 Number(punctuation) +

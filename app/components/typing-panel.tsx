@@ -15,6 +15,7 @@ import { ResultsModal } from "./modal/results-modal";
 import { validCursorIndices } from "../utils/util";
 import { getNextCharIndex, getPreviousCharIndex } from "../utils/word-position";
 import { ThemeContext } from "../context/ThemeContext/ThemeContext";
+import { CHAR_WIDTH, ROW_HEIGHT } from "../core/constants";
 
 export default function TypingPanel({
   programmingLanguage,
@@ -126,18 +127,19 @@ export default function TypingPanel({
     if (cursorIndex >= cursorIndices.length) {
       return "-7px";
     }
-    return `${-7 + cursorIndices[cursorIndex][1] * 14}px`;
+    return `${-7 + cursorIndices[cursorIndex][1] * CHAR_WIDTH}px`;
   }
 
   function getCursorTopPosition() {
     if (cursorIndex >= cursorIndices.length) {
       return "-1px";
     }
-    return `${-1 + cursorIndices[cursorIndex][0] * (39 + 14)}px`;
+    return `${-1 + cursorIndices[cursorIndex][0] * ROW_HEIGHT}px`;
   }
 
   const fetchNewWords = useCallback(() => {
-    setTimeout(() => setCursorIndex(0), 200);
+    childInputRef?.current?.scrollTo({ top: 0, left: 0 });
+    setCursorIndex(0);
     setCharIndex(0);
     setWords(() => {
       const words = WordsGenerator({
@@ -152,6 +154,7 @@ export default function TypingPanel({
       return words;
     });
   }, [
+    childInputRef,
     sentenceSize,
     punctuation,
     numbers,
@@ -161,8 +164,8 @@ export default function TypingPanel({
 
   const finishTest = useCallback(() => {
     setIsResultsModalOpen(true);
+    childInputRef?.current?.scrollTo({ top: 0, left: 0 });
     setCursorIndex(0);
-    console.log("setting char index to 0");
     setCharIndex(0);
     setWords(() => {
       const words = WordsGenerator({
@@ -179,6 +182,7 @@ export default function TypingPanel({
   }, [
     setIsResultsModalOpen,
     sentenceSize,
+    childInputRef,
     punctuation,
     numbers,
     language,
@@ -236,9 +240,15 @@ export default function TypingPanel({
         return newWordsResult;
       });
       // Correct key pressed
-      setCursorIndex((cursorIndex) =>
-        Math.min(cursorIndex + 1, cursorIndices.length - 1),
-      );
+      setCursorIndex((cursorIndex) => {
+        const nextIndex = Math.min(cursorIndex + 1, cursorIndices.length - 1);
+        if (cursorIndices[nextIndex][0] > cursorIndices[cursorIndex][0]) {
+          if (childInputRef?.current)
+            childInputRef.current.scrollTop =
+              -1 + (cursorIndices[nextIndex][0] - 1) * ROW_HEIGHT;
+        }
+        return nextIndex;
+      });
 
       setCharIndex((charIndex) => getNextCharIndex(charIndex, words));
       correctChars.current++;
@@ -249,9 +259,15 @@ export default function TypingPanel({
         return newWordsResult;
       });
       // Correct key pressed
-      setCursorIndex((cursorIndex) =>
-        Math.min(cursorIndex + 1, cursorIndices.length - 1),
-      );
+      setCursorIndex((cursorIndex) => {
+        const nextIndex = Math.min(cursorIndex + 1, cursorIndices.length - 1);
+        if (cursorIndices[nextIndex][0] > cursorIndices[cursorIndex][0]) {
+          if (childInputRef?.current)
+            childInputRef.current.scrollTop =
+              -1 + (cursorIndices[nextIndex][0] - 1) * ROW_HEIGHT;
+        }
+        return nextIndex;
+      });
 
       setCharIndex((charIndex) => getNextCharIndex(charIndex, words));
       correctChars.current++;
@@ -263,7 +279,13 @@ export default function TypingPanel({
             theme.vars.palette.neutral[500];
           return newWordsResult;
         });
-        return Math.max(cursorIndex - 1, 0);
+        const nextIndex = Math.max(cursorIndex - 1, 0);
+        if (cursorIndices[nextIndex][0] < cursorIndices[cursorIndex][0]) {
+          if (childInputRef?.current)
+            childInputRef.current.scrollTop =
+              -1 + (cursorIndices[nextIndex][0] - 1) * ROW_HEIGHT;
+        }
+        return nextIndex;
       });
       setCharIndex(getPreviousCharIndex(charIndex, words));
     } else {
@@ -278,7 +300,13 @@ export default function TypingPanel({
             return wordsResult;
           }
         });
-        return Math.min(cursorIndex + 1, cursorIndices.length - 1);
+        const nextIndex = Math.min(cursorIndex + 1, cursorIndices.length - 1);
+        if (cursorIndices[nextIndex][0] > cursorIndices[cursorIndex][0]) {
+          if (childInputRef?.current)
+            childInputRef.current.scrollTop =
+              -1 + (cursorIndices[nextIndex][0] - 1) * ROW_HEIGHT;
+        }
+        return nextIndex;
       });
       setCharIndex(getNextCharIndex(charIndex, words));
     }
@@ -303,6 +331,14 @@ export default function TypingPanel({
         fontSize: 24,
         outline: "none",
         minWidth: "100%",
+        maxHeight: "350px",
+        overflowY: "auto",
+        overflowX: "hidden",
+        msOverflowStyle: "none" /* IE and Edge */,
+        scrollbarWidth: "none" /* Firefox */,
+        "::WebkitScrollbar": {
+          display: "none" /* Chrome, Safari, Opera */,
+        },
       })}
       ref={childInputRef}
       data-testid="typing-panel"

@@ -1,29 +1,28 @@
-import { SvgIcon } from "@mui/material";
+import SvgIcon, { SvgIconProps } from "@mui/joy/SvgIcon";
+import { useTheme } from "@mui/joy/styles";
 
-export const ReturnIcon = () => {
+export const ReturnIcon = (props: SvgIconProps) => {
+  const theme = useTheme();
   return (
     <SvgIcon
-      sx={{
-        width: "15px",
-        height: "15px",
-        marginLeft: "3px",
-      }}
-      viewBox="0 0 3.8906863 4.1168919"
-      version="1.1"
-      id="svg1"
-      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+      viewBox="0 0 5.0800352 3.575242"
+      sx={{ width: "20px", height: "14px" }}
     >
-      <defs id="defs1" />
-      <g id="layer1" transform="translate(-164.33522,-126.49873)">
+      <g transform="translate(-165.0151,-126.36872)">
         <path
-          id="path29"
+          d="m 170.09514,126.36871 -0.67851,0.005 0.0347,1.65361 -0.001,0.49355 -2.67947,0.003 0.008,-0.80455 c 0.006,-0.58589 -1.76326,0.88974 -1.76375,1.04531 -6.1e-4,0.19076 1.73961,1.64091 1.74462,1.03021 l 0.006,-0.731 c 0.89541,-0.025 2.69019,0.007 2.69019,0.007 0,0 0.39734,0.006 0.5312,-0.13369 0.12241,-0.1277 0.10587,-0.41815 0.10587,-0.41815 -0.006,-0.71672 -0.005,-1.43337 0.002,-2.15005 z"
           style={{
-            fill: "#ccd0da",
-            fillOpacity: 0.5,
+            fill: theme.vars.palette.neutral[500],
+            fillOpacity: 0.496802,
             fillRule: "nonzero",
+            stroke: "#181825",
+            strokeWidth: 0,
+            strokeLinecap: "butt",
+            strokeLinejoin: "miter",
             strokeDasharray: "none",
+            strokeOpacity: 1,
           }}
-          d="m 168.22591,126.49873 -0.67851,0.005 0.0331,2.57969 h -2.44636 l 0.44958,-0.63976 -0.42323,-0.36845 -0.82475,1.2485 -5.2e-4,5.2e-4 v 5.2e-4 l 5.2e-4,5.1e-4 0.86196,1.29036 0.39429,-0.38499 -0.42064,-0.60823 2.36574,0.0103 c 0,0 0.42009,0.0194 0.57516,-0.1049 0.1419,-0.11375 0.10797,-0.58705 0.10797,-0.58705 z"
         />
       </g>
     </SvgIcon>

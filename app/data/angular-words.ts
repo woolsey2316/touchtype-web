@@ -102,7 +102,7 @@ export const ANGULAR_WORDS = [
   `<span class="tag tag-primary">↵→{{ tagText }}↵→<button class="tag-remove" (click)="handleRemove()">×</button>↵</span>`,
 
   // 35. Chip
-  `<div class="chip">↵→<img *ngIf="avatar" [src]="avatar" alt="" class="chip-avatar" />↵→<span class="chip-text">{{ text }}</span>↵→<button *ngIf="removable" class="chip-remove" (click)="onRemove()">×</button>↵</div>`,
+  `<div class="chip">↵→<img *ngIf="avatar" [src]="avatar" alt="" class="chip-avatar" />↵→<span class="chip-text">{{ text }}</span>↵→<button *ngIf="removable" class="chip-remove" (click)="onRemove()">x</button>↵</div>`,
 
   // 36. Stepper
   `<div class="stepper">↵→<div *ngFor="let step of steps; let i = index"↵→→ [class.active]="currentStep >= i"↵→→ class="step">↵→→<div class="step-indicator">{{ i + 1 }}</div>↵→→<div class="step-content">↵→→→<div class="step-title">{{ step.title }}</div>↵→→→<div class="step-description">{{ step.description }}</div>↵→→</div>↵→</div>↵</div>`,
@@ -147,5 +147,5 @@ export const ANGULAR_WORDS = [
   `<button class="icon-button" (click)="handleClick()" [attr.aria-label]="ariaLabel">↵→<span class="icon">{{ icon }}</span>↵</button>`,
 
   // 50. Multi Select
-  `<div class="multi-select">↵→<div class="multi-select-control" (click)="toggleDropdown()">↵→→<div class="multi-select-value">↵→→→{{ selectedItems.length > 0 ? (selectedItems.length + ' selected') : placeholder }}↵→→</div>↵→→<span class="multi-select-arrow">▼</span>↵→</div>↵→<div *ngIf="isOpen" class="multi-select-dropdown">↵→→<div *ngFor="let option of options"↵→→→→class="multi-select-option"↵→→→→(click)="toggleOption(option.value)">↵→→→<input↵→→→→type="checkbox"↵→→→→[checked]="selectedItems.includes(option.value)"↵→→→→readonly↵→→→/>↵→→→{{ option.label }}↵→→</div>↵→</div>↵</div>`,
+  `<div class="multi-select">↵→<div class="multi-select-control" (click)="toggleDropdown()">↵→→<div class="multi-select-value">↵→→→{{ selectedItems.length > 0 ? (selectedItems.length + ' selected') : placeholder }}↵→→</div>↵→→<span class="multi-select-arrow"></span>↵→</div>↵→<div *ngIf="isOpen" class="multi-select-dropdown">↵→→<div *ngFor="let option of options"↵→→→→class="multi-select-option"↵→→→→(click)="toggleOption(option.value)">↵→→→<input↵→→→→type="checkbox"↵→→→→[checked]="selectedItems.includes(option.value)"↵→→→→readonly↵→→→/>↵→→→{{ option.label }}↵→→</div>↵→</div>↵</div>`,
 ];

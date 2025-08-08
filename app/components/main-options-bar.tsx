@@ -1,4 +1,4 @@
-import { Language, ProgrammingLanguage } from "../types/words.type";
+import { Language } from "../types/words.type";
 import { Box, Button, ButtonGroup, Option, Select } from "@mui/joy";
 type Props = {
   setPunctuation: React.Dispatch<React.SetStateAction<boolean>>;
@@ -376,7 +376,7 @@ export const MainOptionsBar = ({
             if (!programmingLanguage) {
               setIsFixedSentenceSize(false);
               setIsTimedTest(false);
-              setLanguage(0);
+              setLanguage(Language.REACT);
               setSentenceSize(1);
             }
             if (programmingLanguage) {
@@ -400,18 +400,21 @@ export const MainOptionsBar = ({
             ) => {
               setLanguage(Number(value));
             }}
-            placeholder="Select programming language"
-            value={ProgrammingLanguage[language]}
-            sx={{ marginLeft: "10px" }}
+            defaultValue={Language.REACT}
+            placeholder="Select a programming language"
+            renderValue={(selected) => {
+              return <Box>{selected?.label ?? "Select a language"}</Box>;
+            }}
+            value={language}
+            sx={{ marginLeft: "10px", minWidth: "150px" }}
           >
-            <Option value={Language.ENGLISH.toString()}>English</Option>
-            <Option value={Language.REACT.toString()}>React</Option>
-            <Option value={Language.ANGULAR.toString()}>Angular</Option>
-            <Option value={Language.CPLUSPLUS.toString()}>C++</Option>
-            <Option value={Language.JAVASCRIPT.toString()}>JavaScript</Option>
-            <Option value={Language.TYPESCRIPT.toString()}>TypeScript</Option>
-            <Option value={Language.JAVA.toString()}>Java</Option>
-            <Option value={Language.C.toString()}>C</Option>
+            <Option value={Language.REACT}>React</Option>
+            <Option value={Language.ANGULAR}>Angular</Option>
+            <Option value={Language.CPLUSPLUS}>C++</Option>
+            <Option value={Language.JAVASCRIPT}>JavaScript</Option>
+            <Option value={Language.TYPESCRIPT}>TypeScript</Option>
+            <Option value={Language.JAVA}>Java</Option>
+            <Option value={Language.C}>C</Option>
           </Select>
         )}
       </Box>

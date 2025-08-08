@@ -11,7 +11,6 @@ export enum Language {
 }
 
 export const ProgrammingLanguage = [
-  "None",
   "React",
   "Typescript",
   "c",
