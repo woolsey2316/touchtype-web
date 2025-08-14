@@ -100,11 +100,11 @@ export const ResultsModal = ({
       onClose={() => {
         childInputRef?.current ? childInputRef?.current.focus() : null;
         newTestPage();
-        setTimeInfo((timeTestInfo) => ({
-          ...timeTestInfo,
+        keyTimeMap.current = {};
+        setTimeInfo({
           started: false,
           ended: false,
-        }));
+        });
         setIsResultsModalOpen(false);
         setResetCounter((counter) => counter + 1);
       }}

@@ -173,7 +173,6 @@ export default function TypingPanel({
   ]);
 
   const finishTest = useCallback(() => {
-    console.log(keyTimeMap.current);
     onEnd();
     setIsResultsModalOpen(true);
     childInputRef?.current?.scrollTo({ top: 0, left: 0 });

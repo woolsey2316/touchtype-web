@@ -116,7 +116,7 @@ export const Component = function Settings(): JSX.Element {
   ];
   const timeArray = [
     450, 430, 400, 350, 350, 300, 250, 250, 240, 235, 230, 220, 210, 200, 200,
-    200, 180, 175, 160, 150, 150, 150, 140, 138, 120, 120, 100, 100,
+    200, 180, 175, 160, 150, 150, 150, 140, 138, 120, 120,
   ];
 
   const childInputRef = useRef<HTMLDivElement>(null);

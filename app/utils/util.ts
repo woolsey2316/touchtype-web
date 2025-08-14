@@ -59,7 +59,16 @@ export function validCursorIndices(words: string, width: number): number[][] {
   let fast = 0;
   while (slow < words.length) {
     if (words[slow] === "↵") {
-      validCursorIndices.push([row, col]);
+      // return character width is 2 spaces, so we increment again
+      currentLineWidth++;
+      if (currentLineWidth < maxCursorXInd) {
+        validCursorIndices.push([row, col]);
+      } else {
+        col = 0;
+        row++;
+        currentLineWidth = 0;
+        validCursorIndices.push([row, col]);
+      }
       row++;
       col = 0;
       slow++;
@@ -84,6 +93,7 @@ export function validCursorIndices(words: string, width: number): number[][] {
     } else {
       fast = slow + 1;
       currentLineWidth++;
+      // go ahead and add whole word at once
       while (
         words[fast] !== " " &&
         words[fast] !== "↵" &&
