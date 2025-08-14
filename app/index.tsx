@@ -1,6 +1,6 @@
 /* SPDX-FileCopyrightText: 2014-present Kriasoft */
 /* SPDX-License-Identifier: MIT */
-
+import "./index.css";
 import { useState, StrictMode } from "react";
 import { CssBaseline, CssVarsProvider } from "@mui/joy";
 import { SnackbarProvider } from "notistack";

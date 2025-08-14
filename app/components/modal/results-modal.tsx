@@ -1,23 +1,25 @@
-import { BullseyeIcon } from "../../icons/bullseye";
-import { ClockIcon } from "../../icons/clock";
+import BullseyeIcon from "../../icons/bullseye";
 import { ProgressCircleIcon } from "../../icons/progress-circle";
-import { FlagIcon } from "../../icons/flag";
-import { RadarIcon } from "../../icons/radar";
+import ScoreIcon from "../../icons/score";
+import WPMIcon from "../../icons/wpm";
 import { Modal, ModalClose, ModalDialog, Typography, Box } from "@mui/joy";
-import { useRef } from "react";
+import { useRef, useEffect, useState, RefAttributes } from "react";
 import { useTheme } from "@mui/joy/styles";
 import { addPlus } from "../../utils/util";
+import { BarChartProps } from "@mui/x-charts/BarChart";
 
 interface Props {
   setTimeInfo: React.Dispatch<
     React.SetStateAction<{
       started: boolean;
-      start: number | null;
-      end: number | null;
       ended: boolean;
     }>
   >;
   currentWPM: number;
+  currentAccuracy: number;
+  currentScore: number;
+  currentTime: number;
+  keyTimeMap: React.RefObject<Record<string, number[]>>;
   isOpen: boolean;
   newTestPage: () => void;
   setIsResultsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,10 +28,13 @@ interface Props {
   childInputRef: React.RefObject<HTMLDivElement | null>;
   setResetCounter: React.Dispatch<React.SetStateAction<number>>;
 }
+
 export const ResultsModal = ({
   currentWPM,
-  mistakes,
-  correctChars,
+  currentAccuracy,
+  currentScore,
+  currentTime,
+  keyTimeMap,
   setTimeInfo,
   isOpen,
   newTestPage,
@@ -40,19 +45,52 @@ export const ResultsModal = ({
   const ref = useRef<HTMLDivElement>(null);
 
   // Example values for demonstration; replace with your actual logic
-  const accuracy = correctChars.current
-    ? Math.round(
-        (correctChars.current /
-          (correctChars.current + (mistakes.current || 0))) *
-          100 *
-          10,
-      ) / 10
-    : 0;
-  const score = 2025;
-  const timeSpent = 5.2;
+  const timeSpent = 5.2 + currentTime / 60;
   const wpmDelta = 2.7;
   const accDelta = 1.8;
   const scoreDelta = -1920;
+  const [keyArray, setKeyArray] = useState<string[]>([]);
+  const [timeArray, setTimeArray] = useState<number[]>([]);
+  const [BarChartComponent, setBarChartComponent] =
+    useState<null | React.ComponentType<
+      BarChartProps & RefAttributes<SVGSVGElement>
+    >>(null);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "test") {
+      import("@mui/x-charts").then((mui) => {
+        setBarChartComponent(mui.BarChart);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const keyArr = keyTimeMap?.current ? Object.keys(keyTimeMap.current) : [];
+    const timeArr = keyTimeMap?.current
+      ? Object.values(keyTimeMap.current).reduce((acc, curr) => {
+          const totalTime = curr.reduce((sum, time) => sum + time, 0);
+          acc.push(totalTime / curr.length);
+          return acc;
+        }, [])
+      : [];
+    const list = [];
+    for (let j = 0; j < keyArr.length; j++)
+      list.push({ key: keyArr[j], time: timeArr[j] });
+
+    //2) sort:
+    list.sort(function (a, b) {
+      return a.time > b.time ? -1 : a.time == b.time ? 0 : 1;
+    });
+
+    //3) separate them back out:
+    for (let k = 0; k < list.length; k++) {
+      keyArr[k] = list[k].key;
+      timeArr[k] = list[k].time;
+    }
+
+    setKeyArray(keyArr);
+    setTimeArray(timeArr);
+  }, [isOpen, keyTimeMap]);
 
   const theme = useTheme();
   return (
@@ -77,6 +115,7 @@ export const ResultsModal = ({
           borderRadius: "md",
           boxShadow: "lg",
           width: "797px",
+          gap: "22px",
           p: 4,
         }}
       >
@@ -92,8 +131,8 @@ export const ResultsModal = ({
           <Box
             sx={{
               bgcolor: (theme) => theme.palette.neutral[700],
-              borderRadius: "30px",
-              padding: "22px",
+              borderRadius: "20px",
+              padding: "14px",
               width: "100%",
               display: "flex",
               flexDirection: "column",
@@ -102,20 +141,13 @@ export const ResultsModal = ({
               position: "relative",
             }}
           >
-            <Box
-              display="flex"
-              flexDirection="row"
-              alignItems="flex-start"
-              mb={1}
-              gap="3px"
+            <WPMIcon />
+            <Typography
+              level="body-xs"
+              sx={{ fontSize: "18px", mt: 1.5, mb: 0.5 }}
             >
-              <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
-                WPM
-              </Typography>
-              <RadarIcon
-                sx={{ marginTop: "7px", width: "22px", height: "13px" }}
-              />
-            </Box>
+              WPM
+            </Typography>
             <Typography level="h2" sx={{ fontWeight: 700 }}>
               {Math.round(currentWPM * 10) / 10}
             </Typography>
@@ -136,8 +168,8 @@ export const ResultsModal = ({
           <Box
             sx={{
               bgcolor: (theme) => theme.palette.neutral[700],
-              borderRadius: "30px",
-              padding: "22px",
+              borderRadius: "20px",
+              padding: "14px",
               width: "100%",
               display: "flex",
               flexDirection: "column",
@@ -146,22 +178,12 @@ export const ResultsModal = ({
               position: "relative",
             }}
           >
-            <Box
-              display="flex"
-              flexDirection="row"
-              alignItems="start"
-              mb={1}
-              gap="3px"
-            >
-              <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
-                Accuracy
-              </Typography>
-              <BullseyeIcon
-                sx={{ marginTop: "-3px", width: "27px", height: "30px" }}
-              />
-            </Box>
+            <BullseyeIcon />
+            <Typography level="body-xs" sx={{ fontSize: "18px", my: 0.5 }}>
+              Accuracy
+            </Typography>
             <Typography level="h2" sx={{ fontWeight: 700 }}>
-              {accuracy}%
+              {Math.round(currentAccuracy * 10) / 10}%
             </Typography>
             <Typography
               level="body-xs"
@@ -180,8 +202,8 @@ export const ResultsModal = ({
           <Box
             sx={{
               bgcolor: (theme) => theme.palette.neutral[700],
-              borderRadius: "30px",
-              padding: "22px",
+              borderRadius: "20px",
+              padding: "14px",
               width: "100%",
               display: "flex",
               flexDirection: "column",
@@ -190,22 +212,15 @@ export const ResultsModal = ({
               position: "relative",
             }}
           >
-            <Box
-              display="flex"
-              flexDirection="row"
-              alignItems="center"
-              mb={1}
-              gap="4px"
+            <ScoreIcon />
+            <Typography
+              level="body-xs"
+              sx={{ fontSize: "18px", mt: 0, mb: 0.25 }}
             >
-              <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
-                Score
-              </Typography>
-              <FlagIcon
-                sx={{ marginBottom: "5px", width: "16px", height: "16px" }}
-              />
-            </Box>
+              Score
+            </Typography>
             <Typography level="h2" sx={{ fontWeight: 700 }}>
-              {score}
+              {Math.round(currentScore)}
             </Typography>
             <Typography
               level="body-xs"
@@ -224,8 +239,8 @@ export const ResultsModal = ({
           <Box
             sx={{
               bgcolor: (theme) => theme.palette.neutral[700],
-              borderRadius: "30px",
-              padding: "22px",
+              borderRadius: "20px",
+              padding: "14px",
               width: "100%",
               display: "flex",
               flexDirection: "column",
@@ -233,29 +248,45 @@ export const ResultsModal = ({
               justifyContent: "start",
             }}
           >
-            <Box
-              display="flex"
-              flexDirection="row"
-              alignItems="center"
-              mb={1}
-              gap="3px"
-            >
-              <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
-                Daily Time
-              </Typography>
-              <ClockIcon
-                sx={{ width: "18px", height: "18px", mb: 1, ml: "3px" }}
-              />
-            </Box>
             <ProgressCircleIcon
               progress={(timeSpent / 15) * 100}
               sx={{
-                width: "60px",
-                height: "60px",
+                width: "70px",
+                height: "70px",
               }}
             />
+            <Typography
+              level="body-xs"
+              sx={{ fontSize: "18px", mt: 0.5, mb: 0.3 }}
+            >
+              Daily Time
+            </Typography>
+            <Typography level="h2" sx={{ fontWeight: 700 }}>
+              {Math.round(currentScore)}m
+            </Typography>
           </Box>
         </Box>
+
+        {BarChartComponent ? (
+          <Box
+            sx={{
+              bgcolor: (theme) => theme.palette.neutral[700],
+              borderRadius: "20px",
+              padding: "10px",
+            }}
+          >
+            <BarChartComponent
+              title="Key Press Times"
+              colors={[theme.vars.palette.primary[800]]}
+              xAxis={[{ label: "Keys", data: keyArray }]}
+              yAxis={[{ label: "Average Time (ms)" }]}
+              series={[{ data: timeArray }]}
+              height={300}
+            />
+          </Box>
+        ) : (
+          <div />
+        )}
       </ModalDialog>
     </Modal>
   );

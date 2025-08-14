@@ -3,6 +3,7 @@
 
 import { Box, Card, CardContent, Container, Typography } from "@mui/joy";
 import { useState, useCallback, type JSX, useRef } from "react";
+import * as React from "react";
 import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
 import { Language } from "../types/words.type";
@@ -25,22 +26,24 @@ export const Component = function Test(): JSX.Element {
   const [timeLimit, setTimeLimit] = useState(10);
   const [currentWPM, setCurrentWPM] = useState(0);
   // const [averageWPM, setAverageWPM] = useState(0);
-  // const [currentAccuracy, setCurrentAccuracy] = useState(0);
+  const [currentAccuracy, setCurrentAccuracy] = useState(0);
   // const [averageAccuracy, setAverageAccuracy] = useState(0);
-  // const [currentScore, setCurrentScore] = useState(0);
+  const [currentScore, setCurrentScore] = useState(0);
   // const [averageScore, setAverageScore] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
   const [resetCounter, setResetCounter] = useState(0);
-  const [timeTestInfo, setTimeInfo] = useState<{
+  const [testInfo, setTimeInfo] = useState<{
     started: boolean;
-    start: number | null;
-    end: number | null;
     ended: boolean;
-  }>({ started: false, start: null, end: null, ended: false });
+  }>({ started: false, ended: false });
   const childInputRef = useRef<HTMLDivElement>(null);
+  const startTime = useRef<number | null>(null);
   // Function to focus the typing panel
   const focusChild = () => {
     childInputRef.current && childInputRef.current.focus();
   };
+  const keyTimeMap = useRef<Record<string, number[]>>({});
+
   const recordTypingStats = useCallback(
     (
       endTime: number,
@@ -50,28 +53,42 @@ export const Component = function Test(): JSX.Element {
     ) => {
       const wpm =
         ((((correctChars - mistakes) / (endTime - startTime)) * 1000) / 5) * 60;
+      console.log("correct chars:", correctChars);
+      console.log("mistakes:", mistakes);
+      console.log("start time:", startTime);
+      console.log("end time:", endTime);
+      console.log("time taken (ms):", endTime - startTime);
+      console.log("calculated wpm:", wpm);
       setCurrentWPM(wpm);
       const accuracy = ((correctChars - mistakes) / correctChars) * 100;
-      const score = wpm * Math.pow(accuracy / 100, 5);
-      console.log(score);
-      // setCurrentAccuracy(accuracy);
-      // setCurrentScore(score);
+      const score =
+        (Math.pow(wpm, 2) *
+          Math.pow(accuracy / 100, 5) *
+          (endTime - startTime)) /
+        10000;
+      setCurrentAccuracy(accuracy);
+      setCurrentScore(score);
+      setCurrentTime((endTime - startTime) / 1000);
     },
     [setCurrentWPM],
   );
   const onEnd = useCallback(() => {
+    setTimeInfo({
+      started: false,
+      ended: true,
+    });
     recordTypingStats(
       Date.now(),
       correctChars.current,
       mistakes.current,
-      timeTestInfo.start!,
+      startTime.current || 0,
     );
     setIsResultsModalOpen(true);
   }, [
     correctChars,
     mistakes,
     recordTypingStats,
-    timeTestInfo.start,
+    startTime,
     setIsResultsModalOpen,
   ]);
 
@@ -83,8 +100,7 @@ export const Component = function Test(): JSX.Element {
         </Typography>
         <CountdownTimer
           key={isTimedTest.toString() + timeLimit + resetCounter}
-          timeTestInfo={timeTestInfo}
-          setTimeInfo={setTimeInfo}
+          testInfo={testInfo}
           wantTimer={isTimedTest}
           targetDate={Date.now() + timeLimit * 1000}
           timeLimit={timeLimit}
@@ -152,9 +168,15 @@ export const Component = function Test(): JSX.Element {
               sentenceSize={sentenceSize}
               numbers={numbers}
               isTimedTest={isTimedTest}
-              timeTestInfo={timeTestInfo}
+              testInfo={testInfo}
+              startTime={startTime}
               setTimeInfo={setTimeInfo}
               setCurrentWPM={setCurrentWPM}
+              currentAccuracy={currentAccuracy}
+              currentScore={currentScore}
+              currentTime={currentTime}
+              keyTimeMap={keyTimeMap}
+              onEnd={onEnd}
               currentWPM={currentWPM}
               recordTest={true}
               childInputRef={childInputRef}

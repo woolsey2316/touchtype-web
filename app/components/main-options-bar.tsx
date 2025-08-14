@@ -12,8 +12,6 @@ type Props = {
   setTimeInfo: React.Dispatch<
     React.SetStateAction<{
       started: boolean;
-      start: number | null;
-      end: number | null;
       ended: boolean;
     }>
   >;

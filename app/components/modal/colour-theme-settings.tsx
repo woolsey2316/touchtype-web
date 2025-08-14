@@ -142,6 +142,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
             },
           },
         }}
+        disableScrollLock={true}
         open={this.props.isModalOpen}
         onClose={() => this.props.setIsResultsModalOpen(false)}
       >

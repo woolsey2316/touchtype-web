@@ -96,10 +96,10 @@ export const ANGULAR_WORDS = [
   `<div class="file-upload">↵→<input↵→→type="file"↵→→(change)="handleFileSelect($event)"↵→→accept=".jpg,.png,.pdf"↵→→multiple↵→→class="file-input"↵→/>↵→<label class="file-label">Choose Files or Drag & Drop</label>↵</div>`,
 
   // 33. Rating
-  `<div class="rating">↵→<button *ngFor="let star of [1,2,3,4,5]"↵→→→[class.filled]="rating >= star"↵→→→class="star"↵→→→(click)="setRating(star)">↵→→★↵→</button>↵</div>`,
+  `<div class="rating">↵→<button *ngFor="let star of [1,2,3,4,5]"↵→→→[class.filled]="rating >= star"↵→→→class="star"↵→→→(click)="setRating(star)">↵→→*↵→</button>↵</div>`,
 
   // 34. Tag
-  `<span class="tag tag-primary">↵→{{ tagText }}↵→<button class="tag-remove" (click)="handleRemove()">×</button>↵</span>`,
+  `<span class="tag tag-primary">↵→{{ tagText }}↵→<button class="tag-remove" (click)="handleRemove()">x</button>↵</span>`,
 
   // 35. Chip
   `<div class="chip">↵→<img *ngIf="avatar" [src]="avatar" alt="" class="chip-avatar" />↵→<span class="chip-text">{{ text }}</span>↵→<button *ngIf="removable" class="chip-remove" (click)="onRemove()">x</button>↵</div>`,

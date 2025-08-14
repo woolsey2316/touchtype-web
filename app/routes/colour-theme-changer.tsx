@@ -20,11 +20,11 @@ import { OpenModalButton } from "../components/open-modal-button";
 import { Cursor } from "../components/cursor";
 import { WordsToType } from "../components/words-to-type";
 import { ProgressCircleIcon } from "../icons/progress-circle";
-import { RadarIcon } from "../icons/radar";
-import { BullseyeIcon } from "../icons/bullseye";
-import { FlagIcon } from "../icons/flag";
-import { ClockIcon } from "../icons/clock";
+import WPMIcon from "../icons/wpm";
+import BullseyeIcon from "../icons/bullseye";
+import ScoreIcon from "../icons/score";
 import { addPlus } from "../utils/util";
+import { BarChart } from "@mui/x-charts";
 
 export const Component = function Settings(): JSX.Element {
   usePageEffect({ title: "Colour Theme Changer" });
@@ -37,44 +37,93 @@ export const Component = function Settings(): JSX.Element {
   const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
-  const [currentWPM] = useState(0);
+  const [currentWPM] = useState(55.1);
   const [isModalOpen, setIsResultsModalOpen] = useState(true);
   const { mode } = useColorScheme();
   const [words] = useState<string>("correct incorrect still to type");
-  const [colourOfChar] = useState<string[]>([
-    "s",
-    "s",
-    "s",
-    "s",
-    "s",
-    "s",
-    "s",
-    "s",
-    "f",
-    "f",
-    "f",
-    "f",
-    "f",
-    "f",
-    "f",
-    "f",
-    "f",
-    "f",
-  ]);
-  const wpm = 55.1;
-  const accuracy = 90;
-  const score = 2025;
+  const theme = useTheme();
+  const colourOfChar = [
+    `${theme.vars.palette.success.plainColor}`,
+    `${theme.vars.palette.success.plainColor}`,
+    `${theme.vars.palette.success.plainColor}`,
+    `${theme.vars.palette.success.plainColor}`,
+    `${theme.vars.palette.success.plainColor}`,
+    `${theme.vars.palette.success.plainColor}`,
+    `${theme.vars.palette.success.plainColor}`,
+    `${theme.vars.palette.success.plainColor}`,
+    `${theme.vars.palette.danger.plainColor}`,
+    `${theme.vars.palette.danger.plainColor}`,
+    `${theme.vars.palette.danger.plainColor}`,
+    `${theme.vars.palette.danger.plainColor}`,
+    `${theme.vars.palette.danger.plainColor}`,
+    `${theme.vars.palette.danger.plainColor}`,
+    `${theme.vars.palette.danger.plainColor}`,
+    `${theme.vars.palette.danger.plainColor}`,
+    `${theme.vars.palette.danger.plainColor}`,
+    `${theme.vars.palette.danger.plainColor}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+    `${theme.vars.palette.neutral[500]}`,
+  ];
+  const currentAccuracy = 90;
+  const currentScore = 2025;
   const timeSpent = 5.2;
   const wpmDelta = +2.7;
   const accDelta = +1.8;
   const scoreDelta = -1920;
+  const keyArray = [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+  ];
+  const timeArray = [
+    450, 430, 400, 350, 350, 300, 250, 250, 240, 235, 230, 220, 210, 200, 200,
+    200, 180, 175, 160, 150, 150, 150, 140, 138, 120, 120, 100, 100,
+  ];
 
   const childInputRef = useRef<HTMLDivElement>(null);
   // Function to focus the typing panel
   const focusChild = () => {
     childInputRef.current && childInputRef.current.focus();
   };
-  const theme = useTheme();
   const cursorIndices = [
     [0, 0],
     [0, 1],
@@ -100,6 +149,18 @@ export const Component = function Settings(): JSX.Element {
     [1, 13],
     [1, 14],
     [1, 15],
+    [1, 16],
+    [1, 17],
+    [1, 18],
+    [1, 19],
+    [1, 20],
+    [1, 21],
+    [1, 22],
+    [1, 23],
+    [1, 24],
+    [1, 25],
+    [1, 26],
+    [1, 27],
   ];
   return (
     <>
@@ -172,10 +233,11 @@ export const Component = function Settings(): JSX.Element {
                   position: "relative",
                   flexDirection: "row",
                   flexWrap: "wrap",
-                  gap: "14.41px",
+                  gap: "14px",
                   fontFamily: "Courier",
                   fontSize: 24,
                   outline: "none",
+                  width: "600px",
                 })}
                 ref={childInputRef}
                 tabIndex={0}
@@ -197,6 +259,8 @@ export const Component = function Settings(): JSX.Element {
         <Box
           sx={{
             display: "flex",
+            flexDirection: "column",
+            gap: "22px",
             justifyContent: "space-between",
             width: "796px",
             backgroundColor: (theme) => theme.palette.neutral[900],
@@ -209,15 +273,14 @@ export const Component = function Settings(): JSX.Element {
               display: "flex",
               gap: "22px",
               justifyContent: "space-between",
-              width: "100%",
             }}
           >
             {/* WPM */}
             <Box
               sx={{
                 bgcolor: (theme) => theme.palette.neutral[700],
-                borderRadius: "30px",
-                padding: "22px",
+                borderRadius: "20px",
+                padding: "14px",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
@@ -226,22 +289,15 @@ export const Component = function Settings(): JSX.Element {
                 position: "relative",
               }}
             >
-              <Box
-                display="flex"
-                flexDirection="row"
-                alignItems="flex-start"
-                mb={1}
-                gap="3px"
+              <WPMIcon />
+              <Typography
+                level="body-xs"
+                sx={{ fontSize: "18px", mt: 1.5, mb: 0.5 }}
               >
-                <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
-                  WPM
-                </Typography>
-                <RadarIcon
-                  sx={{ marginTop: "7px", width: "22px", height: "13px" }}
-                />
-              </Box>
+                WPM
+              </Typography>
               <Typography level="h2" sx={{ fontWeight: 700 }}>
-                {wpm}
+                {Math.round(currentWPM * 10) / 10}
               </Typography>
               <Typography
                 level="body-xs"
@@ -260,8 +316,8 @@ export const Component = function Settings(): JSX.Element {
             <Box
               sx={{
                 bgcolor: (theme) => theme.palette.neutral[700],
-                borderRadius: "30px",
-                padding: "22px",
+                borderRadius: "20px",
+                padding: "14px",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
@@ -270,22 +326,12 @@ export const Component = function Settings(): JSX.Element {
                 position: "relative",
               }}
             >
-              <Box
-                display="flex"
-                flexDirection="row"
-                alignItems="start"
-                mb={1}
-                gap="3px"
-              >
-                <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
-                  Accuracy
-                </Typography>
-                <BullseyeIcon
-                  sx={{ marginTop: "-3px", width: "27px", height: "30px" }}
-                />
-              </Box>
+              <BullseyeIcon />
+              <Typography level="body-xs" sx={{ fontSize: "18px", my: 0.5 }}>
+                Accuracy
+              </Typography>
               <Typography level="h2" sx={{ fontWeight: 700 }}>
-                {accuracy}%
+                {Math.round(currentAccuracy * 10) / 10}%
               </Typography>
               <Typography
                 level="body-xs"
@@ -304,8 +350,8 @@ export const Component = function Settings(): JSX.Element {
             <Box
               sx={{
                 bgcolor: (theme) => theme.palette.neutral[700],
-                borderRadius: "30px",
-                padding: "22px",
+                borderRadius: "20px",
+                padding: "14px",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
@@ -314,22 +360,15 @@ export const Component = function Settings(): JSX.Element {
                 position: "relative",
               }}
             >
-              <Box
-                display="flex"
-                flexDirection="row"
-                alignItems="center"
-                mb={1}
-                gap="4px"
+              <ScoreIcon />
+              <Typography
+                level="body-xs"
+                sx={{ fontSize: "18px", mt: 0, mb: 0.25 }}
               >
-                <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
-                  Score
-                </Typography>
-                <FlagIcon
-                  sx={{ marginBottom: "5px", width: "16px", height: "16px" }}
-                />
-              </Box>
+                Score
+              </Typography>
               <Typography level="h2" sx={{ fontWeight: 700 }}>
-                {score}
+                {Math.round(currentScore)}
               </Typography>
               <Typography
                 level="body-xs"
@@ -348,8 +387,8 @@ export const Component = function Settings(): JSX.Element {
             <Box
               sx={{
                 bgcolor: (theme) => theme.palette.neutral[700],
-                borderRadius: "30px",
-                padding: "22px",
+                borderRadius: "20px",
+                padding: "14px",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
@@ -357,34 +396,54 @@ export const Component = function Settings(): JSX.Element {
                 justifyContent: "start",
               }}
             >
-              <Box
-                display="flex"
-                flexDirection="row"
-                alignItems="center"
-                mb={1}
-                gap="3px"
-              >
-                <Typography level="body-xs" sx={{ fontSize: "18px", mb: 1 }}>
-                  Daily Time
-                </Typography>
-                <ClockIcon
-                  sx={{ width: "18px", height: "18px", mb: 1, ml: "3px" }}
-                />
-              </Box>
               <ProgressCircleIcon
                 progress={(timeSpent / 15) * 100}
                 sx={{
-                  width: "60px",
-                  height: "60px",
+                  width: "70px",
+                  height: "70px",
                 }}
               />
+              <Typography
+                level="body-xs"
+                sx={{ fontSize: "18px", mt: 0.5, mb: 0.3 }}
+              >
+                Daily Time
+              </Typography>
+              <Typography level="h2" sx={{ fontWeight: 700 }}>
+                {Math.round(currentScore)}m
+              </Typography>
             </Box>
+          </Box>
+          <Box
+            sx={{
+              bgcolor: (theme) => theme.palette.neutral[700],
+              borderRadius: "20px",
+              padding: "10px",
+            }}
+          >
+            <BarChart
+              title="Key Press Times"
+              colors={[theme.vars.palette.primary[800]]}
+              xAxis={[{ label: "Keys", data: keyArray }]}
+              yAxis={[{ label: "Average Time (ms)" }]}
+              series={[{ data: timeArray }]}
+              height={300}
+            ></BarChart>
           </Box>
         </Box>
       </Container>
-      <OpenModalButton
-        setIsResultsModalOpen={setIsResultsModalOpen}
-      ></OpenModalButton>
+      <Box
+        sx={{
+          position: "fixed",
+          right: 10,
+          bottom: 10,
+          zIndex: 1000,
+        }}
+      >
+        <OpenModalButton
+          setIsResultsModalOpen={setIsResultsModalOpen}
+        ></OpenModalButton>
+      </Box>
     </>
   );
 };

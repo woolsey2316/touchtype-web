@@ -16,11 +16,10 @@ vi.mock("../hooks/useContainerDimensions", () => ({
 describe("TypingPanel", () => {
   let correctChars: React.RefObject<number>,
     mistakes: React.RefObject<number>,
+    startTime: React.RefObject<number>,
     setTimeInfo: React.Dispatch<
       React.SetStateAction<{
         started: boolean;
-        start: number | null;
-        end: number | null;
         ended: boolean;
       }>
     >,
@@ -47,6 +46,7 @@ describe("TypingPanel", () => {
 
     correctChars = mockRefObject;
     mistakes = mockRefObject;
+    startTime = mockRefObject;
     setTimeInfo = vi.fn();
     setIsResultsModalOpen = vi.fn();
     setResetCounter = vi.fn();
@@ -63,12 +63,18 @@ describe("TypingPanel", () => {
           numbers={false}
           language={0}
           sentenceSize={3}
-          timeTestInfo={{
+          testInfo={{
             started: false,
-            start: null,
-            end: null,
             ended: false,
           }}
+          onEnd={() => {}}
+          currentAccuracy={0}
+          currentScore={0}
+          startTime={startTime}
+          currentTime={0}
+          keyTimeMap={
+            { current: {} } as React.RefObject<Record<string, number[]>>
+          }
           isTimedTest={false}
           setTimeInfo={setTimeInfo}
           childInputRef={childInputRef}
@@ -106,12 +112,18 @@ describe("TypingPanel", () => {
           numbers={false}
           language={0}
           sentenceSize={3}
-          timeTestInfo={{
+          testInfo={{
             started: false,
-            start: null,
-            end: null,
             ended: false,
           }}
+          onEnd={() => {}}
+          currentAccuracy={0}
+          currentScore={0}
+          startTime={startTime}
+          currentTime={0}
+          keyTimeMap={
+            { current: {} } as React.RefObject<Record<string, number[]>>
+          }
           isTimedTest={false}
           setTimeInfo={setTimeInfo}
           childInputRef={childInputRef}
@@ -153,12 +165,18 @@ describe("TypingPanel", () => {
           numbers={false}
           language={0}
           sentenceSize={3}
-          timeTestInfo={{
+          testInfo={{
             started: false,
-            start: null,
-            end: null,
             ended: false,
           }}
+          onEnd={() => {}}
+          currentAccuracy={0}
+          currentScore={0}
+          startTime={startTime}
+          currentTime={0}
+          keyTimeMap={
+            { current: {} } as React.RefObject<Record<string, number[]>>
+          }
           isTimedTest={false}
           setTimeInfo={setTimeInfo}
           childInputRef={childInputRef}

@@ -16,7 +16,7 @@ export const ProgressCircleIcon = ({
   const strokeDashoffset = circumference - (circumference * progress) / 100;
 
   return (
-    <SvgIcon {...props} viewBox="0 0 200 200">
+    <SvgIcon sx={{ marginTop: "-5px" }} {...props} viewBox="0 0 200 200">
       {/* Background circle */}
       <circle
         cx="100"
@@ -24,7 +24,7 @@ export const ProgressCircleIcon = ({
         r={radius}
         fill="none"
         stroke={theme.vars.palette.neutral[300]}
-        strokeWidth="14"
+        strokeWidth="19"
         opacity="0.3"
       />
 
@@ -35,7 +35,7 @@ export const ProgressCircleIcon = ({
         r={radius}
         fill="none"
         stroke={theme.vars.palette.primary[300]}
-        strokeWidth="14"
+        strokeWidth="19"
         strokeLinecap="round"
         strokeDasharray={circumference}
         strokeDashoffset={strokeDashoffset}

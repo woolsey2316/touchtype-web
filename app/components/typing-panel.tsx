@@ -1,6 +1,8 @@
+import * as React from "react";
 import { Box } from "@mui/joy";
 import {
   useState,
+  useRef,
   useCallback,
   useContext,
   useMemo,
@@ -23,12 +25,18 @@ export default function TypingPanel({
   numbers,
   language,
   sentenceSize,
-  timeTestInfo,
+  testInfo,
   isTimedTest,
   setTimeInfo,
+  onEnd,
+  startTime,
   childInputRef,
   currentWPM,
+  currentAccuracy,
+  currentScore,
+  currentTime,
   correctChars,
+  keyTimeMap,
   mistakes,
   setIsResultsModalOpen,
   isOpen,
@@ -41,22 +49,24 @@ export default function TypingPanel({
   sentenceSize: number;
   childInputRef: React.RefObject<HTMLDivElement | null>;
   isTimedTest: boolean;
-  timeTestInfo: {
+  testInfo: {
     started: boolean;
-    start: number | null;
-    end: number | null;
     ended: boolean;
   };
   setTimeInfo: React.Dispatch<
     React.SetStateAction<{
       started: boolean;
-      start: number | null;
-      end: number | null;
       ended: boolean;
     }>
   >;
+  onEnd: () => void;
+  startTime: React.RefObject<number | null>;
   setCurrentWPM: React.Dispatch<React.SetStateAction<number>>;
+  currentAccuracy: number;
+  currentScore: number;
   currentWPM: number;
+  currentTime: number;
+  keyTimeMap: React.RefObject<Record<string, number[]>>;
   recordTest: boolean;
   mistakes: React.RefObject<number>;
   correctChars: React.RefObject<number>;
@@ -68,7 +78,7 @@ export default function TypingPanel({
   useEffect(() => {
     childInputRef?.current ? childInputRef?.current.focus() : null;
   }, [childInputRef]);
-
+  const keyStartTime = useRef<number | null>(null);
   const [cursorIndex, setCursorIndex] = useState(0);
   const generatedWords = useMemo(
     () =>
@@ -163,6 +173,8 @@ export default function TypingPanel({
   ]);
 
   const finishTest = useCallback(() => {
+    console.log(keyTimeMap.current);
+    onEnd();
     setIsResultsModalOpen(true);
     childInputRef?.current?.scrollTo({ top: 0, left: 0 });
     setCursorIndex(0);
@@ -180,6 +192,8 @@ export default function TypingPanel({
       return words;
     });
   }, [
+    onEnd,
+    keyTimeMap,
     setIsResultsModalOpen,
     sentenceSize,
     childInputRef,
@@ -194,12 +208,10 @@ export default function TypingPanel({
       if (isTimedTest) {
         fetchNewWords();
       } else {
-        setTimeInfo((timeInfo) => ({
-          ...timeInfo,
-          end: Date.now(),
+        setTimeInfo({
           ended: true,
           started: false,
-        }));
+        });
         finishTest();
       }
     }
@@ -215,7 +227,15 @@ export default function TypingPanel({
 
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     // this stops the result modal from closing when the user presses a key
-    if (timeTestInfo.ended) return;
+    if (testInfo.ended) return;
+    // if the test has not started, start it
+    if (!testInfo.started) {
+      setTimeInfo((timeTestInfo) => ({
+        ...timeTestInfo,
+        started: true,
+      }));
+      startTime.current = Date.now();
+    }
     // prevent scrollling when space is pressed
     if (e.key === " ") {
       e.preventDefault();
@@ -253,6 +273,12 @@ export default function TypingPanel({
       setCharIndex((charIndex) => getNextCharIndex(charIndex, words));
       correctChars.current++;
     } else if (e.key === words[charIndex]) {
+      if (!keyTimeMap.current[e.key] && keyStartTime.current) {
+        keyTimeMap.current[e.key] = [Date.now() - keyStartTime.current];
+      } else if (keyStartTime.current) {
+        keyTimeMap.current[e.key].push(Date.now() - keyStartTime.current);
+      }
+
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
         newWordsResult[charIndex] = theme.vars.palette.success.plainColor;
@@ -310,14 +336,7 @@ export default function TypingPanel({
       });
       setCharIndex(getNextCharIndex(charIndex, words));
     }
-    if (!timeTestInfo.started) {
-      setTimeInfo({
-        started: true,
-        start: Date.now(),
-        end: null,
-        ended: false,
-      });
-    }
+    keyStartTime.current = Date.now();
   }
   return (
     <Box
@@ -363,6 +382,10 @@ export default function TypingPanel({
         newTestPage={newTestPage}
         setTimeInfo={setTimeInfo}
         currentWPM={currentWPM}
+        currentAccuracy={currentAccuracy}
+        currentScore={currentScore}
+        currentTime={currentTime}
+        keyTimeMap={keyTimeMap}
         mistakes={mistakes}
         correctChars={correctChars}
         childInputRef={childInputRef}
