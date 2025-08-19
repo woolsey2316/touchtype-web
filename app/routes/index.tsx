@@ -32,8 +32,6 @@ export const router = createBrowserRouter([
       { index: true, element: <Navigate to="/test" replace /> },
       { path: "test", lazy: () => import("./test") },
       { path: "dashboard", lazy: () => import("./dashboard") },
-      { path: "tasks", lazy: () => import("./tasks") },
-      { path: "messages", lazy: () => import("./messages") },
       {
         path: "change-colour-theme",
         lazy: () => import("./colour-theme-changer"),

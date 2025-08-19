@@ -63,6 +63,7 @@ const theme = extendTheme({
     JoyButton: {
       styleOverrides: {
         root: ({ ownerState, theme }) => ({
+          letterSpacing: "0.03em",
           ...(ownerState.color === "primary" && {
             color: theme.palette.primary.solidColor,
           }),

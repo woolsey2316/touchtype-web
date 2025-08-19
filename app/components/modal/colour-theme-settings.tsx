@@ -60,29 +60,31 @@ export class ColourThemeSettings extends React.Component<Props, State> {
   };
 
   saveColourTheme = () => {
-    this.props.mode === "dark"
-      ? this.context.setTheme(
-          extendTheme({
-            colorSchemes: {
-              dark: {
-                palette: {
-                  ...this.state.customTheme,
-                },
+    if (this.props.mode === "dark") {
+      this.context.setTheme(
+        extendTheme({
+          colorSchemes: {
+            dark: {
+              palette: {
+                ...this.state.customTheme,
               },
             },
-          }),
-        )
-      : this.context.setTheme(
-          extendTheme({
-            colorSchemes: {
-              light: {
-                palette: {
-                  ...this.state.customTheme,
-                },
+          },
+        }),
+      );
+    } else {
+      this.context.setTheme(
+        extendTheme({
+          colorSchemes: {
+            light: {
+              palette: {
+                ...this.state.customTheme,
               },
             },
-          }),
-        );
+          },
+        }),
+      );
+    }
   };
 
   updateNestedThemeValue = <T extends keyof typeof this.state.customTheme>(
@@ -106,7 +108,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
   ) as keyof (typeof this.state.customTheme)[];
 
   handleChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: string | null,
   ) => {
     this.setState(

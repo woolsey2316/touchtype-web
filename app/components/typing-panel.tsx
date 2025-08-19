@@ -76,7 +76,9 @@ export default function TypingPanel({
 }) {
   const { theme } = useContext(ThemeContext);
   useEffect(() => {
-    childInputRef?.current ? childInputRef?.current.focus() : null;
+    if (childInputRef?.current) {
+      childInputRef?.current.focus();
+    }
   }, [childInputRef]);
   const keyStartTime = useRef<number | null>(null);
   const [cursorIndex, setCursorIndex] = useState(0);
@@ -192,7 +194,6 @@ export default function TypingPanel({
     });
   }, [
     onEnd,
-    keyTimeMap,
     setIsResultsModalOpen,
     sentenceSize,
     childInputRef,
@@ -240,6 +241,9 @@ export default function TypingPanel({
       e.preventDefault();
     }
 
+    if (e.key === "Tab") {
+      e.preventDefault();
+    }
     if (
       e.key === "Shift" ||
       e.key === "F12" ||

@@ -1,13 +1,7 @@
 /* SPDX-FileCopyrightText: 2014-present Kriasoft */
 /* SPDX-License-Identifier: MIT */
 
-import {
-  AssignmentTurnedInRounded,
-  ChatRounded,
-  Dashboard,
-  Keyboard,
-  Settings,
-} from "@mui/icons-material";
+import { Dashboard, Keyboard, Settings } from "@mui/icons-material";
 import {
   List,
   ListItem,
@@ -41,16 +35,6 @@ export const Navigation = memo(function Navigation(
         path="/dashboard"
         label="Dashboard"
         icon={<Dashboard sx={{ color: "inherit" }} />}
-      />
-      <NavItem
-        path="/tasks"
-        label="Tasks"
-        icon={<AssignmentTurnedInRounded sx={{ color: "inherit" }} />}
-      />
-      <NavItem
-        path="/messages"
-        label="Messages"
-        icon={<ChatRounded sx={{ color: "inherit" }} />}
       />
       <NavItem
         path="/change-colour-theme"

@@ -42,10 +42,9 @@ const CountdownTimer = ({
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      wantTimer &&
-        testInfo.started &&
-        !testInfo.ended &&
+      if (wantTimer && testInfo.started && !testInfo.ended) {
         setTimeLeft(calculateTimeLeft());
+      }
     }, 1000);
 
     return () => clearTimeout(timer); // Cleanup

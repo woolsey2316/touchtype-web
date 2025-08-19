@@ -48,7 +48,7 @@ export const ProgressCircleIcon = ({
       {/* Progress text */}
       <text
         x="100"
-        y="110"
+        y="115"
         textAnchor="middle"
         fontFamily="system-ui, -apple-system, sans-serif"
         fontSize="40"

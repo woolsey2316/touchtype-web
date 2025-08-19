@@ -122,7 +122,9 @@ export const Component = function Settings(): JSX.Element {
   const childInputRef = useRef<HTMLDivElement>(null);
   // Function to focus the typing panel
   const focusChild = () => {
-    childInputRef.current && childInputRef.current.focus();
+    if (childInputRef.current) {
+      childInputRef.current.focus();
+    }
   };
   const cursorIndices = [
     [0, 0],
@@ -205,6 +207,7 @@ export const Component = function Settings(): JSX.Element {
               setSentenceSize={setSentenceSize}
               setTimeLimit={setTimeLimit}
               setTimeInfo={() => {}}
+              keyTimeMap={{ current: {} }}
               fixedSentenceSize={fixedSentenceSize}
               programmingLanguage={programmingLanguage}
               isTimedTest={isTimedTest}

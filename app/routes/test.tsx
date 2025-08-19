@@ -3,7 +3,6 @@
 
 import { Box, Card, CardContent, Container, Typography } from "@mui/joy";
 import { useState, useCallback, type JSX, useRef } from "react";
-import * as React from "react";
 import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
 import { Language } from "../types/words.type";
@@ -40,7 +39,9 @@ export const Component = function Test(): JSX.Element {
   const startTime = useRef<number | null>(null);
   // Function to focus the typing panel
   const focusChild = () => {
-    childInputRef.current && childInputRef.current.focus();
+    if (childInputRef.current) {
+      childInputRef.current.focus();
+    }
   };
   const keyTimeMap = useRef<Record<string, number[]>>({});
 
@@ -51,21 +52,19 @@ export const Component = function Test(): JSX.Element {
       mistakes: number,
       startTime: number,
     ) => {
-      const wpm =
-        ((((correctChars - mistakes) / (endTime - startTime)) * 1000) / 5) * 60;
-      console.log("correct chars:", correctChars);
-      console.log("mistakes:", mistakes);
-      console.log("start time:", startTime);
-      console.log("end time:", endTime);
-      console.log("time taken (ms):", endTime - startTime);
-      console.log("calculated wpm:", wpm);
+      const wpm = (((correctChars / (endTime - startTime)) * 1000) / 5) * 60;
       setCurrentWPM(wpm);
-      const accuracy = ((correctChars - mistakes) / correctChars) * 100;
-      const score =
+      const accuracy = Math.max(
+        ((correctChars - mistakes) / correctChars) * 100,
+        0,
+      );
+      const score = Math.max(
         (Math.pow(wpm, 2) *
           Math.pow(accuracy / 100, 5) *
           (endTime - startTime)) /
-        10000;
+          10000,
+        0,
+      );
       setCurrentAccuracy(accuracy);
       setCurrentScore(score);
       setCurrentTime((endTime - startTime) / 1000);
@@ -134,6 +133,7 @@ export const Component = function Test(): JSX.Element {
             setSentenceSize={setSentenceSize}
             setTimeLimit={setTimeLimit}
             setTimeInfo={setTimeInfo}
+            keyTimeMap={keyTimeMap}
             fixedSentenceSize={fixedSentenceSize}
             programmingLanguage={programmingLanguage}
             isTimedTest={isTimedTest}

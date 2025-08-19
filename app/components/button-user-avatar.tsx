@@ -41,13 +41,13 @@ export function UserAvatarButton(props: UserAvatarButtonProps): JSX.Element {
       <Menu size="sm">
         <MenuItem>
           <ListItemDecorator sx={{ ml: 0.5 }}>
-            <SettingsRounded />
+            <SettingsRounded sx={{ color: "inherit" }} />
           </ListItemDecorator>
           <ListItemContent sx={{ mr: 2 }}>Settings</ListItemContent>
         </MenuItem>
         <MenuItem onClick={() => signOut(getAuth())}>
           <ListItemDecorator sx={{ ml: 0.5 }}>
-            <LogoutRounded />
+            <LogoutRounded sx={{ color: "inherit" }} />
           </ListItemDecorator>
           <ListItemContent sx={{ mr: 2 }}>Logout</ListItemContent>
         </MenuItem>

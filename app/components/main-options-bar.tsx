@@ -15,6 +15,7 @@ type Props = {
       ended: boolean;
     }>
   >;
+  keyTimeMap: React.MutableRefObject<Record<string, number[]>>;
   punctuation: boolean;
   programmingLanguage: boolean;
   numbers: boolean;
@@ -34,6 +35,7 @@ export const MainOptionsBar = ({
   setSentenceSize,
   setTimeLimit,
   setTimeInfo,
+  keyTimeMap,
   sentenceSize,
   programmingLanguage,
   punctuation,
@@ -43,6 +45,9 @@ export const MainOptionsBar = ({
   isTimedTest,
   language,
 }: Props) => {
+  function resetKeyTimeMap() {
+    keyTimeMap.current = {};
+  }
   return (
     <Box>
       <Box
@@ -71,6 +76,7 @@ export const MainOptionsBar = ({
                 ...timeInfo,
                 started: false,
               }));
+              resetKeyTimeMap();
               setPunctuation((punctuation) => !punctuation);
             }
           }}
@@ -96,6 +102,7 @@ export const MainOptionsBar = ({
                 started: false,
               }));
 
+              resetKeyTimeMap();
               setNumbers((numbers) => !numbers);
             }
           }}
@@ -105,7 +112,7 @@ export const MainOptionsBar = ({
         <Box
           sx={(theme) => ({
             color: theme.palette.neutral[100],
-            padding: "5px",
+            padding: "7px",
           })}
         >
           |
@@ -123,11 +130,13 @@ export const MainOptionsBar = ({
               },
             })}
             onClick={() => {
-              setTimeInfo((timeInfo) => ({
-                ...timeInfo,
-                started: false,
-              }));
               if (!programmingLanguage) {
+                resetKeyTimeMap();
+                setTimeInfo((timeInfo) => ({
+                  ...timeInfo,
+                  started: false,
+                }));
+
                 setIsFixedSentenceSize(false);
                 setIsTimedTest(true);
               }
@@ -158,11 +167,14 @@ export const MainOptionsBar = ({
                   },
                 })}
                 onClick={() => {
-                  setTimeInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setTimeLimit(10);
+                  if (!programmingLanguage) {
+                    resetKeyTimeMap();
+                    setTimeInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setTimeLimit(10);
+                  }
                 }}
               >
                 10
@@ -187,11 +199,14 @@ export const MainOptionsBar = ({
                   },
                 })}
                 onClick={() => {
-                  setTimeInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setTimeLimit(30);
+                  if (!programmingLanguage) {
+                    resetKeyTimeMap();
+                    setTimeInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setTimeLimit(30);
+                  }
                 }}
               >
                 30
@@ -216,11 +231,14 @@ export const MainOptionsBar = ({
                   },
                 })}
                 onClick={() => {
-                  setTimeInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setTimeLimit(60);
+                  if (!programmingLanguage) {
+                    resetKeyTimeMap();
+                    setTimeInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setTimeLimit(60);
+                  }
                 }}
               >
                 60
@@ -241,11 +259,12 @@ export const MainOptionsBar = ({
               },
             })}
             onClick={() => {
-              setTimeInfo((timeInfo) => ({
-                ...timeInfo,
-                started: false,
-              }));
               if (!programmingLanguage) {
+                setTimeInfo((timeInfo) => ({
+                  ...timeInfo,
+                  started: false,
+                }));
+                resetKeyTimeMap();
                 setIsFixedSentenceSize(true);
                 setIsTimedTest(false);
               }
@@ -276,11 +295,14 @@ export const MainOptionsBar = ({
                   },
                 })}
                 onClick={() => {
-                  setTimeInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setSentenceSize(15);
+                  if (!programmingLanguage) {
+                    resetKeyTimeMap();
+                    setTimeInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setSentenceSize(15);
+                  }
                 }}
               >
                 15
@@ -305,11 +327,14 @@ export const MainOptionsBar = ({
                   },
                 })}
                 onClick={() => {
-                  setTimeInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setSentenceSize(25);
+                  if (!programmingLanguage) {
+                    resetKeyTimeMap();
+                    setTimeInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setSentenceSize(25);
+                  }
                 }}
               >
                 25
@@ -334,11 +359,14 @@ export const MainOptionsBar = ({
                   },
                 })}
                 onClick={() => {
-                  setTimeInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setSentenceSize(50);
+                  if (!programmingLanguage) {
+                    resetKeyTimeMap();
+                    setTimeInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setSentenceSize(50);
+                  }
                 }}
               >
                 50
@@ -349,7 +377,7 @@ export const MainOptionsBar = ({
         <Box
           sx={(theme) => ({
             color: theme.palette.neutral[100],
-            padding: "5px",
+            padding: "7px",
           })}
         >
           |
@@ -367,6 +395,7 @@ export const MainOptionsBar = ({
             },
           })}
           onClick={() => {
+            resetKeyTimeMap();
             setTimeInfo((timeInfo) => ({
               ...timeInfo,
               started: false,

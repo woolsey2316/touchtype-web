@@ -6,7 +6,12 @@ import { Modal, ModalClose, ModalDialog, Typography, Box } from "@mui/joy";
 import { useRef, useEffect, useState, RefAttributes } from "react";
 import { useTheme } from "@mui/joy/styles";
 import { addPlus } from "../../utils/util";
-import { BarChartProps } from "@mui/x-charts/BarChart";
+import { BarPlotProps } from "@mui/x-charts/BarChart";
+import { LinePlotProps } from "@mui/x-charts/LineChart";
+import { ChartContainerProps } from "@mui/x-charts/ChartContainer";
+import { ChartsYAxisProps, ChartsXAxisProps } from "@mui/x-charts";
+import { ChartsReferenceLineProps } from "@mui/x-charts/ChartsReferenceLine";
+import { ChartsTooltipProps } from "@mui/x-charts/ChartsTooltip";
 
 interface Props {
   setTimeInfo: React.Dispatch<
@@ -53,13 +58,53 @@ export const ResultsModal = ({
   const [timeArray, setTimeArray] = useState<number[]>([]);
   const [BarChartComponent, setBarChartComponent] =
     useState<null | React.ComponentType<
-      BarChartProps & RefAttributes<SVGSVGElement>
+      BarPlotProps & RefAttributes<SVGSVGElement>
     >>(null);
+  const [LineChartComponent, setLineChartComponent] =
+    useState<null | React.ComponentType<
+      LinePlotProps & RefAttributes<SVGSVGElement>
+    >>(null);
+  const [ChartComponent, setComponent] = useState<null | React.ComponentType<
+    ChartContainerProps & RefAttributes<SVGSVGElement>
+  >>(null);
+  const [ChartsYAxisComponent, setChartsYAxisComponent] =
+    useState<null | React.ComponentType<
+      ChartsYAxisProps & RefAttributes<SVGSVGElement>
+    >>(null);
+  const [ChartsXAxisComponent, setChartsXAxisComponent] =
+    useState<null | React.ComponentType<
+      ChartsXAxisProps & RefAttributes<SVGSVGElement>
+    >>(null);
+  const [ChartsReferenceLine, setChartsReferenceLine] =
+    useState<null | React.ComponentType<
+      ChartsReferenceLineProps & RefAttributes<SVGSVGElement>
+    >>(null);
+  const [ChartsTooltip, setChartsToolTip] = useState<null | React.ComponentType<
+    ChartsTooltipProps & RefAttributes<SVGSVGElement>
+  >>(null);
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "test") {
+      import("@mui/x-charts/ChartContainer").then((mui) => {
+        setComponent(() => mui.ChartContainer);
+      });
+      import("@mui/x-charts/BarChart").then((mui) => {
+        setBarChartComponent(() => mui.BarPlot);
+      });
+      import("@mui/x-charts/LineChart").then((mui) => {
+        setLineChartComponent(() => mui.LinePlot);
+      });
       import("@mui/x-charts").then((mui) => {
-        setBarChartComponent(mui.BarChart);
+        setChartsYAxisComponent(() => mui.ChartsYAxis);
+      });
+      import("@mui/x-charts").then((mui) => {
+        setChartsXAxisComponent(() => mui.ChartsXAxis);
+      });
+      import("@mui/x-charts").then((mui) => {
+        setChartsReferenceLine(() => mui.ChartsReferenceLine);
+      });
+      import("@mui/x-charts").then((mui) => {
+        setChartsToolTip(() => mui.ChartsTooltip);
       });
     }
   }, []);
@@ -91,14 +136,17 @@ export const ResultsModal = ({
     setKeyArray(keyArr);
     setTimeArray(timeArr);
   }, [isOpen, keyTimeMap]);
-
   const theme = useTheme();
+  const averageTime =
+    timeArray.reduce((acc, curr) => acc + curr, 0) / timeArray.length;
   return (
     <Modal
       ref={ref}
       open={isOpen}
       onClose={() => {
-        childInputRef?.current ? childInputRef?.current.focus() : null;
+        if (childInputRef?.current) {
+          childInputRef?.current.focus();
+        }
         newTestPage();
         keyTimeMap.current = {};
         setTimeInfo({
@@ -114,7 +162,7 @@ export const ResultsModal = ({
           bgcolor: (theme) => theme.palette.neutral[600],
           borderRadius: "md",
           boxShadow: "lg",
-          width: "797px",
+          width: "900px",
           gap: "22px",
           p: 4,
         }}
@@ -267,7 +315,13 @@ export const ResultsModal = ({
           </Box>
         </Box>
 
-        {BarChartComponent ? (
+        {ChartComponent &&
+        BarChartComponent &&
+        LineChartComponent &&
+        ChartsYAxisComponent &&
+        ChartsXAxisComponent &&
+        ChartsReferenceLine &&
+        ChartsTooltip ? (
           <Box
             sx={{
               bgcolor: (theme) => theme.palette.neutral[700],
@@ -275,17 +329,40 @@ export const ResultsModal = ({
               padding: "10px",
             }}
           >
-            <BarChartComponent
+            <ChartComponent
               title="Key Press Times"
-              colors={[theme.vars.palette.primary[800]]}
-              xAxis={[{ label: "Keys", data: keyArray }]}
+              colors={[
+                theme.vars.palette.primary[800],
+                theme.vars.palette.primary[300],
+              ]}
+              xAxis={[{ scaleType: "band", label: "Keys", data: keyArray }]}
               yAxis={[{ label: "Average Time (ms)" }]}
-              series={[{ data: timeArray }]}
               height={300}
-            />
+              series={[
+                {
+                  type: "bar",
+                  data: Array.isArray(timeArray) ? timeArray : [],
+                },
+              ]}
+            >
+              <BarChartComponent />
+              <LineChartComponent />
+              <ChartsReferenceLine
+                y={averageTime}
+                label={"Average: " + Math.round(averageTime)}
+                lineStyle={{
+                  stroke: theme.vars.palette.primary[300],
+                  strokeDasharray: "5 5",
+                }}
+                labelStyle={{ marginLeft: "100px" }}
+              />
+              <ChartsXAxisComponent />
+              <ChartsYAxisComponent />
+              <ChartsTooltip />
+            </ChartComponent>
           </Box>
         ) : (
-          <div />
+          <div>Loading Chart...</div>
         )}
       </ModalDialog>
     </Modal>

@@ -10,7 +10,6 @@ export const OpenModalButton = ({ setIsResultsModalOpen }: Props) => {
       sx={{
         "& .MuiButton-startDecorator": { marginRight: "0px" },
         position: "sticky",
-        marginLeft: "auto",
         bottom: 10,
         right: 10,
       }}
