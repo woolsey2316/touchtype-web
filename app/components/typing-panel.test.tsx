@@ -195,6 +195,7 @@ describe("TypingPanel", () => {
     const panel = screen.getByTestId("typing-panel");
     fireEvent.keyDown(panel, { key: "a" });
     fireEvent.keyDown(panel, { key: "Enter" });
+    fireEvent.keyDown(panel, { key: "Tab" });
 
     const chars = panel.querySelectorAll('[data-testid="words-to-type"] p');
 

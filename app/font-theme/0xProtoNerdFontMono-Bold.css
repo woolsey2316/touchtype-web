@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "0xProtoNerdFontMono-Bold";
+  src: url("/fonts/0xProtoNerdFontMono-Bold.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

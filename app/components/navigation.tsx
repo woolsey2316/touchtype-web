@@ -1,7 +1,7 @@
 /* SPDX-FileCopyrightText: 2014-present Kriasoft */
 /* SPDX-License-Identifier: MIT */
 
-import { Dashboard, Keyboard, Settings } from "@mui/icons-material";
+import { Dashboard, Keyboard, Settings, ColorLens } from "@mui/icons-material";
 import {
   List,
   ListItem,
@@ -39,6 +39,11 @@ export const Navigation = memo(function Navigation(
       <NavItem
         path="/change-colour-theme"
         label="Colour Theme"
+        icon={<ColorLens sx={{ color: "inherit" }} />}
+      />
+      <NavItem
+        path="/settings"
+        label="Settings"
         icon={<Settings sx={{ color: "inherit" }} />}
       />
     </List>

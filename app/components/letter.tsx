@@ -1,9 +1,10 @@
 import { Typography } from "@mui/joy";
 import { ReturnIcon } from "../icons/return";
-import { memo } from "react";
+import ShiftIcon from "../icons/shift";
+import { memo, useContext } from "react";
+import { UserPreferencesContext } from "../context/userPreferencesTheme";
 
 interface LetterProps {
-  width: number;
   children: string;
   colourOfChar: string;
   flexBasis?: string;
@@ -12,7 +13,6 @@ interface LetterProps {
   opaque: boolean;
 }
 export const Letter = memo(function Letter({
-  width,
   children: char,
   colourOfChar,
   flexBasis,
@@ -20,15 +20,41 @@ export const Letter = memo(function Letter({
   even = false,
   opaque = false,
 }: LetterProps) {
+  const { skipOverTabs, showSpaceChar } = useContext(UserPreferencesContext);
+  let symbol: string | React.ReactNode = char;
+  switch (char) {
+    case " ":
+      if (showSpaceChar) symbol = "␣";
+      break;
+    case "↵":
+      symbol = <ReturnIcon />;
+      break;
+    case "\t":
+    case "→":
+      symbol = (
+        <ShiftIcon
+          sx={{
+            visibilty: skipOverTabs ? "invisible" : "visible",
+            width: "20px",
+            height: "14px",
+            marginRight: "4px",
+          }}
+        />
+      );
+      break;
+    default:
+      break;
+  }
+
   return (
     <Typography
       level="body-lg"
+      className="letter"
       sx={{
         display: "inline-block",
         textAlign: "center",
         fontSize: 26,
         fontFamily: "inherit",
-        width: `${width}px`,
         paddingBottom: "14px",
         flexBasis: flexBasis,
         opacity: fadeOut ? 0 : opaque ? 0.4 : 1,
@@ -41,7 +67,7 @@ export const Letter = memo(function Letter({
       }}
       style={{ color: colourOfChar }}
     >
-      {char === "↵" ? <ReturnIcon /> : char}
+      {symbol}
     </Typography>
   );
 });

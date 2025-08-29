@@ -11,13 +11,11 @@ import {
 } from "react";
 import { useContainerDimensions } from "../hooks/useContainerDimensions";
 import { WordsGenerator } from "../utils/wordsGenerator";
-import { Cursor } from "./cursor";
 import { WordsToType } from "./words-to-type";
 import { ResultsModal } from "./modal/results-modal";
-import { validCursorIndices } from "../utils/util";
 import { getNextCharIndex, getPreviousCharIndex } from "../utils/word-position";
 import { ThemeContext } from "../context/ThemeContext/ThemeContext";
-import { CHAR_WIDTH, ROW_HEIGHT } from "../core/constants";
+import { Cursor } from "./cursor";
 
 export default function TypingPanel({
   programmingLanguage,
@@ -93,6 +91,7 @@ export default function TypingPanel({
       }),
     [sentenceSize, punctuation, numbers, language, programmingLanguage],
   );
+
   const [words, setWords] = useState(generatedWords);
   // ["grey", "grey", "grey", ...]
   const [colourOfChar, setColourOfChar] = useState(
@@ -100,11 +99,6 @@ export default function TypingPanel({
   );
   const [charIndex, setCharIndex] = useState(0);
   const { width } = useContainerDimensions(childInputRef!, words);
-
-  const cursorIndices = useMemo(
-    () => (width > 0 ? validCursorIndices(words, width) : []),
-    [words, width],
-  );
 
   const resetStatistics = useCallback(() => {
     mistakes.current = 0;
@@ -135,18 +129,34 @@ export default function TypingPanel({
     theme.vars.palette.neutral,
   ]);
 
-  function getCursorLeftPosition() {
-    if (cursorIndex >= cursorIndices.length) {
-      return "-7px";
+  function maybeScrollToNextLine() {
+    const letters = document?.getElementsByClassName("letter");
+    if (letters.length !== 0) {
+      if (
+        (letters[cursorIndex + 1] as HTMLElement).offsetTop >
+        (letters[cursorIndex] as HTMLElement).offsetTop
+      ) {
+        if (childInputRef?.current)
+          childInputRef.current.scrollTop = (
+            letters[cursorIndex + 1] as HTMLElement
+          ).offsetTop;
+      }
     }
-    return `${-7 + cursorIndices[cursorIndex][1] * CHAR_WIDTH}px`;
   }
 
-  function getCursorTopPosition() {
-    if (cursorIndex >= cursorIndices.length) {
-      return "-1px";
+  function maybeScrollToPreviousLine() {
+    const letters = document?.getElementsByClassName("letter");
+    if (letters.length !== 0) {
+      if (
+        (letters[cursorIndex - 1] as HTMLElement).offsetTop <
+        (letters[cursorIndex] as HTMLElement).offsetTop
+      ) {
+        if (childInputRef?.current)
+          childInputRef.current.scrollTop = (
+            letters[cursorIndex - 1] as HTMLElement
+          ).offsetTop;
+      }
     }
-    return `${-1 + cursorIndices[cursorIndex][0] * ROW_HEIGHT}px`;
   }
 
   const fetchNewWords = useCallback(() => {
@@ -204,7 +214,7 @@ export default function TypingPanel({
   ]);
 
   useEffect(() => {
-    if (cursorIndex === cursorIndices.length - 1) {
+    if (cursorIndex === words.length) {
       if (isTimedTest) {
         fetchNewWords();
       } else {
@@ -217,7 +227,7 @@ export default function TypingPanel({
     }
   }, [
     cursorIndex,
-    cursorIndices,
+    words,
     isTimedTest,
     fetchNewWords,
     setTimeInfo,
@@ -264,16 +274,30 @@ export default function TypingPanel({
       });
       // Correct key pressed
       setCursorIndex((cursorIndex) => {
-        const nextIndex = Math.min(cursorIndex + 1, cursorIndices.length - 1);
-        if (cursorIndices[nextIndex][0] > cursorIndices[cursorIndex][0]) {
-          if (childInputRef?.current)
-            childInputRef.current.scrollTop =
-              -1 + (cursorIndices[nextIndex][0] - 1) * ROW_HEIGHT;
-        }
+        const nextIndex = Math.min(cursorIndex + 1, words.length);
+        maybeScrollToNextLine();
         return nextIndex;
       });
 
-      setCharIndex((charIndex) => getNextCharIndex(charIndex, words));
+      setCharIndex((charIndex) => getNextCharIndex(charIndex, words, false));
+      correctChars.current++;
+    } else if (
+      e.key === "Tab" &&
+      (words[charIndex] === "\t" || words[charIndex] === "→")
+    ) {
+      setColourOfChar((wordsResult) => {
+        const newWordsResult = [...wordsResult];
+        newWordsResult[charIndex] = theme.vars.palette.success.plainColor;
+        return newWordsResult;
+      });
+      // Correct key pressed
+      setCursorIndex((cursorIndex) => {
+        const nextIndex = Math.min(cursorIndex + 1, words.length);
+        maybeScrollToNextLine();
+        return nextIndex;
+      });
+
+      setCharIndex((charIndex) => getNextCharIndex(charIndex, words, false));
       correctChars.current++;
     } else if (e.key === words[charIndex]) {
       if (!keyTimeMap.current[e.key] && keyStartTime.current) {
@@ -289,34 +313,25 @@ export default function TypingPanel({
       });
       // Correct key pressed
       setCursorIndex((cursorIndex) => {
-        const nextIndex = Math.min(cursorIndex + 1, cursorIndices.length - 1);
-        if (cursorIndices[nextIndex][0] > cursorIndices[cursorIndex][0]) {
-          if (childInputRef?.current)
-            childInputRef.current.scrollTop =
-              -1 + (cursorIndices[nextIndex][0] - 1) * ROW_HEIGHT;
-        }
+        const nextIndex = Math.min(cursorIndex + 1, words.length);
         return nextIndex;
       });
 
-      setCharIndex((charIndex) => getNextCharIndex(charIndex, words));
+      setCharIndex((charIndex) => getNextCharIndex(charIndex, words, false));
       correctChars.current++;
     } else if (e.key === "Backspace") {
       setCursorIndex((cursorIndex) => {
         setColourOfChar((wordsResult) => {
           const newWordsResult = [...wordsResult];
-          newWordsResult[getPreviousCharIndex(charIndex, words)] =
+          newWordsResult[getPreviousCharIndex(charIndex, words, false)] =
             theme.vars.palette.neutral[500];
           return newWordsResult;
         });
-        const nextIndex = Math.max(cursorIndex - 1, 0);
-        if (cursorIndices[nextIndex][0] < cursorIndices[cursorIndex][0]) {
-          if (childInputRef?.current)
-            childInputRef.current.scrollTop =
-              -1 + (cursorIndices[nextIndex][0] - 1) * ROW_HEIGHT;
-        }
-        return nextIndex;
+        const previousIndex = Math.max(cursorIndex - 1, 0);
+        maybeScrollToPreviousLine();
+        return previousIndex;
       });
-      setCharIndex(getPreviousCharIndex(charIndex, words));
+      setCharIndex(getPreviousCharIndex(charIndex, words, false));
     } else {
       mistakes.current++;
       setCursorIndex((cursorIndex) => {
@@ -329,15 +344,11 @@ export default function TypingPanel({
             return wordsResult;
           }
         });
-        const nextIndex = Math.min(cursorIndex + 1, cursorIndices.length - 1);
-        if (cursorIndices[nextIndex][0] > cursorIndices[cursorIndex][0]) {
-          if (childInputRef?.current)
-            childInputRef.current.scrollTop =
-              -1 + (cursorIndices[nextIndex][0] - 1) * ROW_HEIGHT;
-        }
+        const nextIndex = Math.min(cursorIndex + 1, words.length);
+        maybeScrollToNextLine();
         return nextIndex;
       });
-      setCharIndex(getNextCharIndex(charIndex, words));
+      setCharIndex(getNextCharIndex(charIndex, words, false));
     }
     keyStartTime.current = Date.now();
   }
@@ -367,17 +378,9 @@ export default function TypingPanel({
       tabIndex={0}
       onKeyDown={onKeyDown}
     >
+      <Cursor cursorIndex={cursorIndex} />
       {/* Check if width is greater than 0 to avoid rendering issues */}
-      {width > 0 && (
-        <>
-          <Cursor left={getCursorLeftPosition()} top={getCursorTopPosition()} />
-          <WordsToType
-            validCursorIndices={cursorIndices}
-            colourOfChar={colourOfChar}
-            words={words}
-          />
-        </>
-      )}
+      {width > 0 && <WordsToType colourOfChar={colourOfChar} words={words} />}
       <ResultsModal
         key={isOpen.toString() + currentWPM + mistakes + correctChars}
         isOpen={isOpen}

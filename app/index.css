@@ -1,3 +1,22 @@
+@import "./font-theme/0xProtoNerdFont-Bold.css";
+@import "./font-theme/0xProtoNerdFontMono-Bold.css";
+@import "./font-theme/0xProtoNerdFontMono-Regular.css";
+@import "./font-theme/0xProtoNerdFontPropo-Bold.css";
+@import "./font-theme/0xProtoNerdFontPropo-Regular.css";
+@import "./font-theme/0xProtoNerdFont-Regular.css";
+@import "./font-theme/AdwaitaMonoNerdFont-Bold.css";
+@import "./font-theme/AdwaitaMonoNerdFontMono-Bold.css";
+@import "./font-theme/AdwaitaMonoNerdFontMono-Regular.css";
+@import "./font-theme/AdwaitaMonoNerdFontPropo-Bold.css";
+@import "./font-theme/AdwaitaMonoNerdFontPropo-Regular.css";
+@import "./font-theme/AdwaitaMonoNerdFont-Regular.css";
+@import "./font-theme/AgaveNerdFont-Bold.css";
+@import "./font-theme/AgaveNerdFontMono-Bold.css";
+@import "./font-theme/AgaveNerdFontMono-Regular.css";
+@import "./font-theme/AgaveNerdFontPropo-Bold.css";
+@import "./font-theme/AgaveNerdFontPropo-Regular.css";
+@import "./font-theme/AgaveNerdFont-Regular.css";
+
 .MuiChartsTooltip-root {
   background-color: #000;
   border-radius: 4px;

@@ -1,69 +1,101 @@
+import { useContext } from "react";
 import { Box } from "@mui/joy";
 import { Letter } from "./letter";
-import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext/ThemeContext";
+import { UserPreferencesContext } from "../context/userPreferencesTheme";
 interface Props {
   words: string;
   colourOfChar: string[];
-  validCursorIndices: number[][];
 }
 
-export const WordsToType = ({
-  words,
-  colourOfChar,
-  validCursorIndices,
-}: Props) => {
+export const WordsToType = ({ words, colourOfChar }: Props) => {
   const { theme } = useContext(ThemeContext);
-  function isTab(char: string): boolean {
-    return char === "→";
-  }
+  const { fontFamily } = useContext(UserPreferencesContext);
 
-  function lastLetterOnRow(validCursorIndices: number[][], charIdx: number) {
-    if (charIdx + 1 >= validCursorIndices.length) return true;
-    return validCursorIndices[charIdx + 1][0] > validCursorIndices[charIdx][0];
-  }
-  const wordsToType = [];
+  let wordToType = [];
+  const wordsJSX = [];
   let charIdx = 0;
-  let skipTabs = 0;
-  const poppedIndices: number[] = [];
+  let wordIdx = 0;
+  let lineIdx = 0;
+  let globalCharIdx = 0;
 
-  while (charIdx < words.length) {
-    if (isTab(words[charIdx])) {
-      skipTabs++;
-    }
-
-    wordsToType.push(
-      <Letter
-        colourOfChar={isTab(words[charIdx]) ? "" : colourOfChar[charIdx]}
-        fadeOut={
-          colourOfChar[charIdx] === theme.vars.palette.success.plainColor
-        }
-        even={charIdx % 2 === 0}
-        opaque={words[charIdx] === "↵"}
-        width={isTab(words[charIdx]) ? 2 * 14 : 14}
-        key={`char-${charIdx}-${skipTabs}`}
-      >
-        {isTab(words[charIdx]) ? " " : words[charIdx]}
-      </Letter>,
-    );
-    if (lastLetterOnRow(validCursorIndices, charIdx - skipTabs)) {
-      if (words[charIdx] === " ") {
-        wordsToType.pop();
-      }
-      if (!poppedIndices.includes(charIdx - skipTabs)) {
-        poppedIndices.push(charIdx - skipTabs);
-        wordsToType.push(
-          <Box key={`newline-${charIdx}-${skipTabs}`} width="100%"></Box>,
+  const lines = words.split("↵");
+  while (lineIdx < lines.length) {
+    const wordArray = lines[lineIdx].split(" ");
+    while (wordIdx < wordArray.length) {
+      const word = wordArray[wordIdx];
+      while (charIdx < word.length) {
+        wordToType.push(
+          <Letter
+            colourOfChar={colourOfChar[globalCharIdx]}
+            fadeOut={
+              colourOfChar[globalCharIdx] ===
+              theme.vars.palette.success.plainColor
+            }
+            even={globalCharIdx % 2 === 0}
+            opaque={false}
+            key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
+          >
+            {words[globalCharIdx]}
+          </Letter>,
         );
+        charIdx++;
+        globalCharIdx++;
       }
+      if (wordIdx !== wordArray.length - 1) {
+        wordToType.push(
+          <Letter
+            colourOfChar={colourOfChar[globalCharIdx]}
+            fadeOut={
+              colourOfChar[globalCharIdx] ===
+              theme.vars.palette.success.plainColor
+            }
+            opaque={true}
+            even={globalCharIdx % 2 === 0}
+            key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
+          >
+            ␣
+          </Letter>,
+        );
+        globalCharIdx++;
+      }
+      // word by word container for wrapping text
+      wordsJSX.push(<Box>{wordToType}</Box>);
+      charIdx = 0;
+      wordToType = [];
+      wordIdx++;
     }
-    charIdx++;
+    wordsJSX.push(
+      <Box
+        sx={{
+          visibility: lineIdx === lines.length - 1 ? "hidden" : "visible",
+        }}
+      >
+        <Letter
+          colourOfChar={colourOfChar[globalCharIdx]}
+          fadeOut={
+            colourOfChar[globalCharIdx] ===
+            theme.vars.palette.success.plainColor
+          }
+          opaque={true}
+          even={globalCharIdx % 2 === 0}
+          key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
+        >
+          ↵
+        </Letter>
+      </Box>,
+    );
+    wordsJSX.push(<Box width="100%"></Box>);
+    wordIdx = 0;
+    lineIdx++;
+    globalCharIdx++;
   }
-
   return (
     <Box
+      id="words-to-type"
       display="flex"
       sx={{
+        fontFamily: fontFamily,
         animation: "fadeIn 0.5s forwards",
         "@keyframes fadeIn": {
           from: { opacity: 0 },
@@ -73,7 +105,7 @@ export const WordsToType = ({
       flexWrap="wrap"
       data-testid="words-to-type"
     >
-      {wordsToType}
+      {wordsJSX}
     </Box>
   );
 };

@@ -42,6 +42,7 @@ export const Component = function Settings(): JSX.Element {
   const { mode } = useColorScheme();
   const [words] = useState<string>("correct incorrect still to type");
   const theme = useTheme();
+  const [cursorIndex] = useState(18);
   const colourOfChar = [
     `${theme.vars.palette.success.plainColor}`,
     `${theme.vars.palette.success.plainColor}`,
@@ -126,44 +127,7 @@ export const Component = function Settings(): JSX.Element {
       childInputRef.current.focus();
     }
   };
-  const cursorIndices = [
-    [0, 0],
-    [0, 1],
-    [0, 2],
-    [0, 3],
-    [0, 4],
-    [0, 5],
-    [0, 6],
-    [0, 7],
-    [1, 0],
-    [1, 1],
-    [1, 2],
-    [1, 3],
-    [1, 4],
-    [1, 5],
-    [1, 6],
-    [1, 7],
-    [1, 8],
-    [1, 9],
-    [1, 10],
-    [1, 11],
-    [1, 12],
-    [1, 13],
-    [1, 14],
-    [1, 15],
-    [1, 16],
-    [1, 17],
-    [1, 18],
-    [1, 19],
-    [1, 20],
-    [1, 21],
-    [1, 22],
-    [1, 23],
-    [1, 24],
-    [1, 25],
-    [1, 26],
-    [1, 27],
-  ];
+
   return (
     <>
       <ColourThemeSettings
@@ -206,7 +170,7 @@ export const Component = function Settings(): JSX.Element {
               setIsTimedTest={setIsTimedTest}
               setSentenceSize={setSentenceSize}
               setTimeLimit={setTimeLimit}
-              setTimeInfo={() => {}}
+              setTimeInfo={() => { }}
               keyTimeMap={{ current: {} }}
               fixedSentenceSize={fixedSentenceSize}
               programmingLanguage={programmingLanguage}
@@ -245,12 +209,8 @@ export const Component = function Settings(): JSX.Element {
                 ref={childInputRef}
                 tabIndex={0}
               >
-                <Cursor left={"-10px"} top={"0px"} />
-                <WordsToType
-                  validCursorIndices={cursorIndices}
-                  colourOfChar={colourOfChar}
-                  words={words}
-                />
+                <Cursor cursorIndex={cursorIndex} />
+                <WordsToType colourOfChar={colourOfChar} words={words} />
               </Box>
             </CardContent>
           </Card>
