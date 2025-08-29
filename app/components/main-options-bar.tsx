@@ -15,7 +15,9 @@ type Props = {
       ended: boolean;
     }>
   >;
-  keyTimeMap: React.MutableRefObject<Record<string, number[]>>;
+  keyTimeMap: React.RefObject<Record<string, number[]>>;
+  correctChars: React.RefObject<number>;
+  mistakes: React.RefObject<number>;
   punctuation: boolean;
   programmingLanguage: boolean;
   numbers: boolean;
@@ -36,6 +38,8 @@ export const MainOptionsBar = ({
   setTimeLimit,
   setTimeInfo,
   keyTimeMap,
+  correctChars,
+  mistakes,
   sentenceSize,
   programmingLanguage,
   punctuation,
@@ -45,8 +49,10 @@ export const MainOptionsBar = ({
   isTimedTest,
   language,
 }: Props) => {
-  function resetKeyTimeMap() {
+  function resetTestStats() {
     keyTimeMap.current = {};
+    correctChars.current = 0;
+    mistakes.current = 0;
   }
   return (
     <Box>
@@ -76,7 +82,7 @@ export const MainOptionsBar = ({
                 ...timeInfo,
                 started: false,
               }));
-              resetKeyTimeMap();
+              resetTestStats();
               setPunctuation((punctuation) => !punctuation);
             }
           }}
@@ -102,7 +108,7 @@ export const MainOptionsBar = ({
                 started: false,
               }));
 
-              resetKeyTimeMap();
+              resetTestStats();
               setNumbers((numbers) => !numbers);
             }
           }}
@@ -131,7 +137,7 @@ export const MainOptionsBar = ({
             })}
             onClick={() => {
               if (!programmingLanguage) {
-                resetKeyTimeMap();
+                resetTestStats();
                 setTimeInfo((timeInfo) => ({
                   ...timeInfo,
                   started: false,
@@ -168,7 +174,7 @@ export const MainOptionsBar = ({
                 })}
                 onClick={() => {
                   if (!programmingLanguage) {
-                    resetKeyTimeMap();
+                    resetTestStats();
                     setTimeInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
@@ -200,7 +206,7 @@ export const MainOptionsBar = ({
                 })}
                 onClick={() => {
                   if (!programmingLanguage) {
-                    resetKeyTimeMap();
+                    resetTestStats();
                     setTimeInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
@@ -232,7 +238,7 @@ export const MainOptionsBar = ({
                 })}
                 onClick={() => {
                   if (!programmingLanguage) {
-                    resetKeyTimeMap();
+                    resetTestStats();
                     setTimeInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
@@ -264,7 +270,7 @@ export const MainOptionsBar = ({
                   ...timeInfo,
                   started: false,
                 }));
-                resetKeyTimeMap();
+                resetTestStats();
                 setIsFixedSentenceSize(true);
                 setIsTimedTest(false);
               }
@@ -296,7 +302,7 @@ export const MainOptionsBar = ({
                 })}
                 onClick={() => {
                   if (!programmingLanguage) {
-                    resetKeyTimeMap();
+                    resetTestStats();
                     setTimeInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
@@ -328,7 +334,7 @@ export const MainOptionsBar = ({
                 })}
                 onClick={() => {
                   if (!programmingLanguage) {
-                    resetKeyTimeMap();
+                    resetTestStats();
                     setTimeInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
@@ -360,7 +366,7 @@ export const MainOptionsBar = ({
                 })}
                 onClick={() => {
                   if (!programmingLanguage) {
-                    resetKeyTimeMap();
+                    resetTestStats();
                     setTimeInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
@@ -395,7 +401,7 @@ export const MainOptionsBar = ({
             },
           })}
           onClick={() => {
-            resetKeyTimeMap();
+            resetTestStats();
             setTimeInfo((timeInfo) => ({
               ...timeInfo,
               started: false,

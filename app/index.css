@@ -16,6 +16,12 @@
 @import "./font-theme/AgaveNerdFontPropo-Bold.css";
 @import "./font-theme/AgaveNerdFontPropo-Regular.css";
 @import "./font-theme/AgaveNerdFont-Regular.css";
+@import "./font-theme/AnonymiceProNerdFont-Bold.css";
+@import "./font-theme/AnonymiceProNerdFontMono-Bold.css";
+@import "./font-theme/AnonymiceProNerdFontMono-Regular.css";
+@import "./font-theme/AnonymiceProNerdFontPropo-Bold.css";
+@import "./font-theme/AnonymiceProNerdFontPropo-Regular.css";
+@import "./font-theme/AnonymiceProNerdFont-Regular.css";
 
 .MuiChartsTooltip-root {
   background-color: #000;

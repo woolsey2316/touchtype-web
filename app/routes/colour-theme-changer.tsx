@@ -170,8 +170,10 @@ export const Component = function Settings(): JSX.Element {
               setIsTimedTest={setIsTimedTest}
               setSentenceSize={setSentenceSize}
               setTimeLimit={setTimeLimit}
-              setTimeInfo={() => { }}
+              setTimeInfo={() => {}}
               keyTimeMap={{ current: {} }}
+              correctChars={{ current: 0 }}
+              mistakes={{ current: 0 }}
               fixedSentenceSize={fixedSentenceSize}
               programmingLanguage={programmingLanguage}
               isTimedTest={isTimedTest}
