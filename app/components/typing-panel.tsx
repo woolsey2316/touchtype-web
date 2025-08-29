@@ -146,6 +146,7 @@ export default function TypingPanel({
 
   function maybeScrollToPreviousLine() {
     const letters = document?.getElementsByClassName("letter");
+    if (letters[cursorIndex - 1] === undefined) return;
     if (letters.length !== 0) {
       if (
         (letters[cursorIndex - 1] as HTMLElement).offsetTop <
@@ -319,6 +320,48 @@ export default function TypingPanel({
 
       setCharIndex((charIndex) => getNextCharIndex(charIndex, words, false));
       correctChars.current++;
+    } else if (e.ctrlKey && e.key === "Backspace") {
+      let count = 0;
+      let currWord =
+        document?.getElementsByClassName("letter")[cursorIndex]?.parentNode
+          ?.children ?? [];
+      for (const letter of currWord) {
+        if (
+          (letter as HTMLElement).style.color !==
+          theme.vars.palette.neutral[500]
+        ) {
+          count++;
+        }
+      }
+      // if we are at the start of the word, delete previous word
+      if (count === 0 && cursorIndex > 0) {
+        currWord =
+          document?.getElementsByClassName("letter")[cursorIndex - 1]
+            ?.parentNode?.children ?? [];
+        for (const letter of currWord) {
+          if (
+            (letter as HTMLElement).style.color !==
+            theme.vars.palette.neutral[500]
+          ) {
+            count++;
+          }
+        }
+      }
+      setCursorIndex((cursorIndex) => {
+        setColourOfChar((wordsResult) => {
+          const newWordsResult = [...wordsResult];
+          console.log("count: ", count);
+          for (let i = 0; i < count; i++) {
+            newWordsResult[getPreviousCharIndex(charIndex, words, false) - i] =
+              theme.vars.palette.neutral[500];
+          }
+          return newWordsResult;
+        });
+        const previousIndex = Math.max(cursorIndex - count, 0);
+        maybeScrollToPreviousLine();
+        return previousIndex;
+      });
+      setCharIndex(getPreviousCharIndex(charIndex, words, false) - count + 1);
     } else if (e.key === "Backspace") {
       setCursorIndex((cursorIndex) => {
         setColourOfChar((wordsResult) => {

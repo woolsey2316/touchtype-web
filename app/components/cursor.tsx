@@ -9,7 +9,7 @@ export function Cursor({ cursorIndex }: CursorProps): JSX.Element {
   // cursor position logic
   function getCursorLeftPosition() {
     const letters = document?.getElementsByClassName("letter");
-    if (letters.length === 0) {
+    if (letters.length === 0 || letters[cursorIndex] === undefined) {
       return "-7px";
     }
     const cursorWidth = document?.getElementById("cursor")?.clientWidth ?? 14;
@@ -20,7 +20,7 @@ export function Cursor({ cursorIndex }: CursorProps): JSX.Element {
 
   function getCursorTopPosition() {
     const letters = document?.getElementsByClassName("letter");
-    if (letters.length === 0) {
+    if (letters.length === 0 || letters[cursorIndex] === undefined) {
       return "0px";
     }
     return (letters[cursorIndex] as HTMLElement).offsetTop + "px";
