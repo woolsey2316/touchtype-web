@@ -27,7 +27,7 @@ export function Logo(props: LogoProps): JSX.Element {
         color="primary"
         variant="soft"
       >
-        <LogoIcon />
+        <LogoIcon sx={{ width: "160px", height: "50px" }} />
       </IconButton>
     </Box>
   );

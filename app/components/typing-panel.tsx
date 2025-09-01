@@ -350,7 +350,6 @@ export default function TypingPanel({
       setCursorIndex((cursorIndex) => {
         setColourOfChar((wordsResult) => {
           const newWordsResult = [...wordsResult];
-          console.log("count: ", count);
           for (let i = 0; i < count; i++) {
             newWordsResult[getPreviousCharIndex(charIndex, words, false) - i] =
               theme.vars.palette.neutral[500];
