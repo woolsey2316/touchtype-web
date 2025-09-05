@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Box } from "@mui/joy";
 import { Letter } from "./letter";
 import { ThemeContext } from "../context/ThemeContext/ThemeContext";
-import { UserPreferencesContext } from "../context/userPreferencesTheme";
+import { UserPreferencesContext } from "../context/userPreferences";
 interface Props {
   words: string;
   colourOfChar: string[];
@@ -10,7 +10,7 @@ interface Props {
 
 export const WordsToType = ({ words, colourOfChar }: Props) => {
   const { theme } = useContext(ThemeContext);
-  const { fontFamily } = useContext(UserPreferencesContext);
+  const { fontFamily, spaceChar } = useContext(UserPreferencesContext);
 
   let wordToType = [];
   const wordsJSX = [];
@@ -51,10 +51,11 @@ export const WordsToType = ({ words, colourOfChar }: Props) => {
               theme.vars.palette.success.plainColor
             }
             opaque={true}
+            invisible={spaceChar === " "}
             even={globalCharIdx % 2 === 0}
             key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
           >
-            ␣
+            {spaceChar}
           </Letter>,
         );
         globalCharIdx++;
@@ -96,7 +97,7 @@ export const WordsToType = ({ words, colourOfChar }: Props) => {
       display="flex"
       sx={{
         fontFamily: fontFamily,
-        animation: "fadeIn 0.5s forwards",
+        animation: "fadeIn 0.2s forwards",
         "@keyframes fadeIn": {
           from: { opacity: 0 },
           to: { opacity: 1 },

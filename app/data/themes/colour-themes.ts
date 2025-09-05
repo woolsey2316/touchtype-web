@@ -52,6 +52,9 @@ export const LATTE_THEME = {
     plainActiveColor: "#232634",
     softBg: "#9ca0b0",
     softHoverBg: "#9ca0b0",
+    solidBg: "#354270",
+    solidHoverBg: "inherit",
+    solidActiveBg: "#f5a97f",
   },
 };
 
@@ -107,6 +110,9 @@ export const FRAPPE_THEME = {
     plainActiveColor: "#232634",
     softBg: "#414559",
     softHoverBg: "#414559",
+    solidBg: "#354270",
+    solidHoverBg: "inherit",
+    solidActiveBg: "#f5a97f",
   },
 };
 
@@ -162,6 +168,9 @@ export const MACCHIATO_THEME = {
     plainActiveColor: "#181926",
     softBg: "#363a4f",
     softHoverBg: "#363a4f",
+    solidBg: "#354270",
+    solidHoverBg: "inherit",
+    solidActiveBg: "#f5a97f",
   },
 };
 
@@ -217,6 +226,9 @@ export const MOCHA_THEME = {
     plainActiveColor: "#232634",
     softBg: "#414559",
     softHoverBg: "#414559",
+    solidBg: "#8087a2",
+    solidHoverBg: "inherit",
+    solidActiveBg: "#f5a97f",
   },
 };
 
@@ -272,6 +284,9 @@ export const CUSTOM_THEME_1 = {
     plainActiveColor: "#232634",
     softBg: "#414559",
     softHoverBg: "#414559",
+    solidBg: "#354270",
+    solidHoverBg: "#21316a",
+    solidActiveBg: "#f5a97f",
   },
 };
 export const CUSTOM_THEME_2 = {
@@ -326,6 +341,9 @@ export const CUSTOM_THEME_2 = {
     plainActiveColor: "#232634",
     softBg: "#414559",
     softHoverBg: "#414559",
+    solidBg: "#354270",
+    solidHoverBg: "#21316a",
+    solidActiveBg: "#f5a97f",
   },
 };
 
@@ -381,6 +399,9 @@ export const CUSTOM_THEME_3 = {
     plainActiveColor: "#232634",
     softBg: "#414559",
     softHoverBg: "#414559",
+    solidBg: "#354270",
+    solidHoverBg: "#21316a",
+    solidActiveBg: "#f5a97f",
   },
 };
 
@@ -436,6 +457,9 @@ export const CUSTOM_THEME_4 = {
     plainActiveColor: "#232634",
     softBg: "#414559",
     softHoverBg: "#414559",
+    solidBg: "#354270",
+    solidHoverBg: "#21316a",
+    solidActiveBg: "#f5a97f",
   },
 };
 

@@ -2,7 +2,7 @@ import { Typography } from "@mui/joy";
 import { ReturnIcon } from "../icons/return";
 import ShiftIcon from "../icons/shift";
 import { memo, useContext } from "react";
-import { UserPreferencesContext } from "../context/userPreferencesTheme";
+import { UserPreferencesContext } from "../context/userPreferences";
 
 interface LetterProps {
   children: string;
@@ -11,6 +11,7 @@ interface LetterProps {
   fadeOut?: boolean;
   even?: boolean;
   opaque: boolean;
+  invisible?: boolean;
 }
 export const Letter = memo(function Letter({
   children: char,
@@ -19,13 +20,11 @@ export const Letter = memo(function Letter({
   fadeOut = false,
   even = false,
   opaque = false,
+  invisible,
 }: LetterProps) {
-  const { skipOverTabs, showSpaceChar } = useContext(UserPreferencesContext);
+  const { skipOverTabs, zipperAnimation } = useContext(UserPreferencesContext);
   let symbol: string | React.ReactNode = char;
   switch (char) {
-    case " ":
-      if (showSpaceChar) symbol = "␣";
-      break;
     case "↵":
       symbol = <ReturnIcon />;
       break;
@@ -57,17 +56,19 @@ export const Letter = memo(function Letter({
         fontFamily: "inherit",
         paddingBottom: "14px",
         flexBasis: flexBasis,
-        opacity: fadeOut ? 0 : opaque ? 0.4 : 1,
-        transform: fadeOut
-          ? even
-            ? "translate(-30px,-15px)"
-            : "translate(-30px, 15px)"
-          : "none",
+        opacity:
+          (fadeOut && zipperAnimation) || invisible ? 0 : opaque ? 0.4 : 1,
+        transform:
+          zipperAnimation && fadeOut
+            ? even && zipperAnimation
+              ? "translate(-30px,-15px)"
+              : "translate(-30px, 15px)"
+            : "none",
         transition: "opacity 0.5s ease, transform 0.5s ease",
       }}
       style={{ color: colourOfChar }}
     >
-      {symbol}
+      {symbol === " " ? "_" : symbol}
     </Typography>
   );
 });

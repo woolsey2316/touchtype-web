@@ -1,8 +1,7 @@
 /* SPDX-FileCopyrightText: 2014-present Kriasoft */
 /* SPDX-License-Identifier: MIT */
 
-import { NotificationsRounded } from "@mui/icons-material";
-import { Box, Button, IconButton, type BoxProps } from "@mui/joy";
+import { Box, Button, type BoxProps } from "@mui/joy";
 import { Fragment, Suspense, type JSX } from "react";
 import { Link } from "react-router-dom";
 import { useCurrentUser } from "../core/auth";
@@ -41,10 +40,6 @@ function ActionButtons(): JSX.Element {
   return (
     <Fragment>
       <ColorSchemeButton variant="soft" size="sm" />
-
-      <IconButton variant="soft" size="sm">
-        <NotificationsRounded />
-      </IconButton>
 
       {user ? (
         <UserAvatarButton variant="soft" />

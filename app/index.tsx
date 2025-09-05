@@ -8,7 +8,7 @@ import { createRoot } from "react-dom/client";
 import { StoreProvider } from "./core/store";
 import { theme as defaultTheme } from "./core/theme";
 import { ThemeContext } from "./context/ThemeContext/ThemeContext";
-import { UserPreferencesContext } from "./context/userPreferencesTheme";
+import { UserPreferencesContext } from "./context/userPreferences";
 import { Router } from "./routes";
 
 const container = document.getElementById("root");
@@ -20,7 +20,10 @@ const Root = () => {
     "'0xProtoNerdFont-Bold', Courier, monospace",
   );
   const [skipOverTabs, setSkipOverTabs] = useState(false);
-  const [showSpaceChar, setShowSpaceChar] = useState(true);
+  const [spaceChar, setSpaceChar] = useState(" ");
+  const [cursorType, setCursorType] = useState("|");
+  const [zipperAnimation, setZipperAnimation] = useState(true);
+  const [smoothCursor, setSmoothCursor] = useState(true);
   return (
     <StrictMode>
       <CssVarsProvider theme={theme}>
@@ -30,8 +33,14 @@ const Root = () => {
             setTheme: setFontFamily,
             skipOverTabs,
             setSkipOverTabs,
-            showSpaceChar,
-            setShowSpaceChar,
+            spaceChar,
+            setSpaceChar,
+            cursorType,
+            setCursorType,
+            zipperAnimation,
+            setZipperAnimation,
+            smoothCursor,
+            setSmoothCursor,
           }}
         >
           <ThemeContext.Provider value={{ theme, setTheme }}>
