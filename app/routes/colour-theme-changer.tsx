@@ -24,7 +24,15 @@ import WPMIcon from "../icons/wpm";
 import BullseyeIcon from "../icons/bullseye";
 import ScoreIcon from "../icons/score";
 import { addPlus } from "../utils/util";
-import { BarChart } from "@mui/x-charts";
+import { ChartContainer } from "@mui/x-charts/ChartContainer";
+import { BarPlot } from "@mui/x-charts/BarChart";
+import { LinePlot } from "@mui/x-charts/LineChart";
+import {
+  ChartsXAxis,
+  ChartsYAxis,
+  ChartsTooltip,
+  ChartsReferenceLine,
+} from "@mui/x-charts";
 
 export const Component = function Settings(): JSX.Element {
   usePageEffect({ title: "Colour Theme Changer" });
@@ -386,14 +394,37 @@ export const Component = function Settings(): JSX.Element {
               padding: "10px",
             }}
           >
-            <BarChart
+            <ChartContainer
               title="Key Press Times"
-              colors={[theme.vars.palette.primary[800]]}
-              xAxis={[{ label: "Keys", data: keyArray }]}
+              colors={[
+                theme.vars.palette.primary[800],
+                theme.vars.palette.primary[300],
+              ]}
+              xAxis={[{ scaleType: "band", label: "Keys", data: keyArray }]}
               yAxis={[{ label: "Average Time (ms)" }]}
-              series={[{ data: timeArray }]}
               height={300}
-            ></BarChart>
+              series={[
+                {
+                  type: "bar",
+                  data: Array.isArray(timeArray) ? timeArray : [],
+                },
+              ]}
+            >
+              <BarPlot />
+              <LinePlot />
+              <ChartsReferenceLine
+                y={240}
+                label={"Average: " + Math.round(240)}
+                lineStyle={{
+                  stroke: theme.vars.palette.primary[300],
+                  strokeDasharray: "5 5",
+                }}
+                labelStyle={{ marginLeft: "100px" }}
+              />
+              <ChartsXAxis />
+              <ChartsYAxis />
+              <ChartsTooltip />
+            </ChartContainer>
           </Box>
         </Box>
       </Container>

@@ -58,13 +58,11 @@ export const Component = function Test(): JSX.Element {
         (correctChars / (correctChars + mistakes)) * 100,
         0,
       );
-      const score = Math.max(
-        (Math.pow(wpm, 2) *
-          Math.pow(accuracy / 100, 5) *
-          (endTime - startTime)) /
-          10000,
+      let score = Math.max(
+        (wpm * Math.pow(accuracy / 100, 5) * (endTime - startTime)) / 10000,
         0,
       );
+      score = Math.min(score, 9999);
       setCurrentAccuracy(accuracy);
       setCurrentScore(score);
       setCurrentTime((endTime - startTime) / 1000);

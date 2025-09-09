@@ -12,7 +12,7 @@ export default function CursorRectangleIcon(props: SvgIconProps) {
           x="44.426773"
           y="19.957157"
           style={{
-            fill: theme.vars.palette.text.primary,
+            fill: theme.vars.palette.primary.cursorColor,
             strokeWidth: 0.2,
           }}
         />

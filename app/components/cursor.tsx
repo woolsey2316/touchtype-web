@@ -1,6 +1,6 @@
 import { Box } from "@mui/joy";
 import type { JSX } from "react";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UserPreferencesContext } from "../context/userPreferences";
 import CursorRectangleIcon from "../icons/cursor-rectangle";
 import CursorStickIcon from "../icons/cursor-stick";
@@ -13,6 +13,29 @@ interface CursorProps {
 }
 
 export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
+  const [width, setWidth] = useState("16px");
+  const [height, setHeight] = useState("53px");
+  // on component mount, set width and height when letters have been added to DOM
+  useEffect(() => {
+    function getWidth() {
+      const letters = document?.getElementsByClassName("letter");
+      if (letters.length === 0 || letters[cursorIndex] === undefined) {
+        return "16px";
+      }
+      return (letters[cursorIndex] as HTMLElement).clientWidth + "px";
+    }
+
+    function getHeight() {
+      const letters = document?.getElementsByClassName("letter");
+      if (letters.length === 0 || letters[cursorIndex] === undefined) {
+        return "53px";
+      }
+      return (letters[cursorIndex] as HTMLElement).clientHeight + "px";
+    }
+    setWidth(getWidth());
+    setHeight(getHeight());
+  }, [cursorIndex]);
+
   const { cursorType, smoothCursor } = useContext(UserPreferencesContext);
   // cursor position logic
   function getCursorLeftPosition() {
@@ -31,22 +54,6 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
     return (letters[cursorIndex] as HTMLElement).offsetTop + "px";
   }
 
-  function getWidth() {
-    const letters = document?.getElementsByClassName("letter");
-    if (letters.length === 0 || letters[cursorIndex] === undefined) {
-      return "14px";
-    }
-    return (letters[cursorIndex] as HTMLElement).clientWidth + "px";
-  }
-
-  function getHeight() {
-    const letters = document?.getElementsByClassName("letter");
-    if (letters.length === 0 || letters[cursorIndex] === undefined) {
-      return "39px";
-    }
-    return (letters[cursorIndex] as HTMLElement).clientHeight + "px";
-  }
-
   let cursorChar: React.ReactNode;
   switch (cursorType) {
     case "▯":
@@ -58,7 +65,7 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
       );
       break;
     case "│":
-      cursorChar = <CursorStickIcon sx={{ width: "2px", marginTop: "7px" }} />;
+      cursorChar = <CursorStickIcon sx={{ width: "3px", marginTop: "7px" }} />;
       break;
     case "▊":
       cursorChar = (
@@ -68,7 +75,11 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
       );
       break;
     default:
-      cursorChar = <CursorStickIcon sx={{ width: "2px", marginTop: "7px" }} />;
+      cursorChar = (
+        <CursorStickIcon
+          sx={{ marginLeft: "-1px", width: "3px", marginTop: "7px" }}
+        />
+      );
       break;
   }
   return (
@@ -89,8 +100,8 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
         position: "absolute",
         left: getCursorLeftPosition(),
         top: getCursorTopPosition(),
-        width: getWidth(),
-        height: getHeight(),
+        width: width,
+        height: height,
       }}
     >
       {cursorChar}

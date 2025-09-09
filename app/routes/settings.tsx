@@ -43,8 +43,8 @@ export const Component = function Settings(): JSX.Element {
   const [fontFamily, setFontFamily] = useState<string>(
     () => window.localStorage.getItem("fontFamily") || "0xProtoNerdFont-Bold",
   );
-  const [zipperEnabled, setZipperEnabled] = useState<boolean>(
-    () => window.localStorage.getItem("zipperEnabled") === "true",
+  const [zipperEnabled, setZipperEnabled] = useState<boolean>(() =>
+    window.localStorage.getItem("zipperEnabled") === "false" ? false : true,
   );
   const [spaceChar, changeSpaceChar] = useState<string>(
     () => window.localStorage.getItem("spaceChar") ?? "·",
@@ -79,7 +79,7 @@ export const Component = function Settings(): JSX.Element {
   ) => {
     changeSmoothCursor(event.target.checked);
     setSmoothCursor(event.target.checked);
-    window.localStorage.setItem("smoothCursor", String(smoothCursor));
+    window.localStorage.setItem("smoothCursor", String(event.target.checked));
   };
 
   return (

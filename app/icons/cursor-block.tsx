@@ -13,7 +13,7 @@ export default function CursorBlockIcon(props: SvgIconProps) {
           y="0"
           style={{
             fill: "none",
-            stroke: theme.vars.palette.text.primary,
+            stroke: theme.vars.palette.primary.cursorColor,
             strokeWidth: 0.2,
             strokeOpacity: 1,
           }}

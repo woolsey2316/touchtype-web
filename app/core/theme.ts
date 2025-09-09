@@ -16,6 +16,7 @@ declare module "@mui/joy/styles" {
       plainColor: string;
       plainActiveColor: string;
       solidColor: string;
+      cursorColor: string;
     };
   }
 }

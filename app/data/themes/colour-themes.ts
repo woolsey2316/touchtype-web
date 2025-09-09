@@ -32,6 +32,7 @@ export const LATTE_THEME = {
     softHoverBg: "transparent",
     plainActiveColor: "#232634",
     solidColor: "#ffffff",
+    cursorColor: "#fab387",
   },
   neutral: {
     50: "#eff1f5",
@@ -53,7 +54,7 @@ export const LATTE_THEME = {
     softBg: "#9ca0b0",
     softHoverBg: "#9ca0b0",
     solidBg: "#354270",
-    solidHoverBg: "inherit",
+    solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
 };
@@ -91,6 +92,7 @@ export const FRAPPE_THEME = {
     softHoverBg: "transparent",
     plainActiveColor: "#232634",
     solidColor: "#ffffff",
+    cursorColor: "#fab387",
   },
   neutral: {
     50: "#dce0e8",
@@ -111,7 +113,7 @@ export const FRAPPE_THEME = {
     softBg: "#414559",
     softHoverBg: "#414559",
     solidBg: "#354270",
-    solidHoverBg: "inherit",
+    solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
 };
@@ -149,6 +151,7 @@ export const MACCHIATO_THEME = {
     softHoverBg: "transparent",
     plainActiveColor: "#181926",
     solidColor: "#ffffff",
+    cursorColor: "#fab387",
   },
   neutral: {
     50: "#dce0e8",
@@ -169,7 +172,7 @@ export const MACCHIATO_THEME = {
     softBg: "#363a4f",
     softHoverBg: "#363a4f",
     solidBg: "#354270",
-    solidHoverBg: "inherit",
+    solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
 };
@@ -207,6 +210,7 @@ export const MOCHA_THEME = {
     softHoverBg: "transparent",
     plainActiveColor: "#11111b",
     solidColor: "#ffffff",
+    cursorColor: "#fab387",
   },
   neutral: {
     50: "#dce0e8",
@@ -227,7 +231,7 @@ export const MOCHA_THEME = {
     softBg: "#414559",
     softHoverBg: "#414559",
     solidBg: "#8087a2",
-    solidHoverBg: "inherit",
+    solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
 };
@@ -265,6 +269,7 @@ export const CUSTOM_THEME_1 = {
     softHoverBg: "transparent",
     plainActiveColor: "#11111b",
     solidColor: "#ffffff",
+    cursorColor: "#fab387",
   },
   neutral: {
     50: "#dce0e8",
@@ -285,7 +290,7 @@ export const CUSTOM_THEME_1 = {
     softBg: "#414559",
     softHoverBg: "#414559",
     solidBg: "#354270",
-    solidHoverBg: "#21316a",
+    solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
 };
@@ -322,6 +327,7 @@ export const CUSTOM_THEME_2 = {
     softHoverBg: "transparent",
     plainActiveColor: "#11111b",
     solidColor: "#ffffff",
+    cursorColor: "#fab387",
   },
   neutral: {
     50: "#dce0e8",
@@ -342,7 +348,7 @@ export const CUSTOM_THEME_2 = {
     softBg: "#414559",
     softHoverBg: "#414559",
     solidBg: "#354270",
-    solidHoverBg: "#21316a",
+    solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
 };
@@ -380,6 +386,7 @@ export const CUSTOM_THEME_3 = {
     softHoverBg: "transparent",
     plainActiveColor: "#11111b",
     solidColor: "#ffffff",
+    cursorColor: "#fab387",
   },
   neutral: {
     50: "#dce0e8",
@@ -400,7 +407,7 @@ export const CUSTOM_THEME_3 = {
     softBg: "#414559",
     softHoverBg: "#414559",
     solidBg: "#354270",
-    solidHoverBg: "#21316a",
+    solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
 };
@@ -438,6 +445,7 @@ export const CUSTOM_THEME_4 = {
     softHoverBg: "transparent",
     plainActiveColor: "#11111b",
     solidColor: "#ffffff",
+    cursorColor: "#fab387",
   },
   neutral: {
     50: "#dce0e8",
@@ -458,7 +466,7 @@ export const CUSTOM_THEME_4 = {
     softBg: "#414559",
     softHoverBg: "#414559",
     solidBg: "#354270",
-    solidHoverBg: "#21316a",
+    solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
 };

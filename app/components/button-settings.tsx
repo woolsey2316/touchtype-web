@@ -19,6 +19,9 @@ export const SettingsButton = ({
       color="neutral"
       sx={{
         ...(value === selectedValue && {
+          "&:hover": {
+            bgcolor: theme.vars.palette.neutral.solidActiveBg,
+          },
           bgcolor: theme.vars.palette.neutral.solidActiveBg,
         }),
       }}

@@ -12,7 +12,7 @@ export default function CursorUnderlineIcon(props: SvgIconProps) {
           x="35.263157"
           y="22.105265"
           style={{
-            fill: theme.vars.palette.text.primary,
+            fill: theme.vars.palette.primary.cursorColor,
             strokeWidth: 0.1,
           }}
         />

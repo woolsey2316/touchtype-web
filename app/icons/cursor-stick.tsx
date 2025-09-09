@@ -14,8 +14,8 @@ export default function CursorStickIcon(props: SvgIconProps) {
           transform="rotate(-90.461187)"
           ry="0.26408714"
           style={{
-            fill: theme.vars.palette.text.primary,
-            stroke: theme.vars.palette.text.primary,
+            fill: theme.vars.palette.primary.cursorColor,
+            stroke: theme.vars.palette.primary.cursorColor,
             strokeWidth: 0.9,
             strokeLinecap: "round",
             strokeLinejoin: "round",

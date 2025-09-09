@@ -53,7 +53,6 @@ export const ResultsModal = ({
   const timeSpent = 5.2 + currentTime / 60;
   const wpmDelta = 2.7;
   const accDelta = 1.8;
-  const scoreDelta = -1920;
   const [keyArray, setKeyArray] = useState<string[]>([]);
   const [timeArray, setTimeArray] = useState<number[]>([]);
   const [BarChartComponent, setBarChartComponent] =
@@ -270,18 +269,6 @@ export const ResultsModal = ({
             <Typography level="h2" sx={{ fontWeight: 700 }}>
               {Math.round(currentScore)}
             </Typography>
-            <Typography
-              level="body-xs"
-              sx={{
-                fontSize: "14px",
-                color:
-                  scoreDelta >= 0
-                    ? theme.vars.palette.success.plainColor
-                    : theme.vars.palette.danger.plainColor,
-              }}
-            >
-              {addPlus(scoreDelta)}
-            </Typography>
           </Box>
           {/* Time Spent */}
           <Box
@@ -310,7 +297,7 @@ export const ResultsModal = ({
               Daily Time
             </Typography>
             <Typography level="h2" sx={{ fontWeight: 700 }}>
-              {Math.round(currentScore)}m
+              {Math.round(timeSpent)}m
             </Typography>
           </Box>
         </Box>
