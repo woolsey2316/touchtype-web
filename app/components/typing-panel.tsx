@@ -330,6 +330,14 @@ export default function TypingPanel({
           (letter as HTMLElement).style.color !==
           theme.vars.palette.neutral[500]
         ) {
+          if (
+            (letter as HTMLElement).style.color ===
+            theme.vars.palette.danger.plainColor
+          ) {
+            mistakes.current = Math.max(mistakes.current - 1, 0);
+          } else {
+            correctChars.current = Math.max(correctChars.current - 1, 0);
+          }
           count++;
         }
       }
@@ -343,6 +351,14 @@ export default function TypingPanel({
             (letter as HTMLElement).style.color !==
             theme.vars.palette.neutral[500]
           ) {
+            if (
+              (letter as HTMLElement).style.color ===
+              theme.vars.palette.danger.plainColor
+            ) {
+              mistakes.current = Math.max(mistakes.current - 1, 0);
+            } else {
+              correctChars.current = Math.max(correctChars.current - 1, 0);
+            }
             count++;
           }
         }
@@ -363,6 +379,13 @@ export default function TypingPanel({
       setCharIndex(getPreviousCharIndex(charIndex, words, false) - count + 1);
     } else if (e.key === "Backspace") {
       setCursorIndex((cursorIndex) => {
+        if (
+          colourOfChar[cursorIndex - 1] === theme.vars.palette.danger.plainColor
+        ) {
+          mistakes.current = Math.max(mistakes.current - 1, 0);
+        } else {
+          correctChars.current = Math.max(correctChars.current - 1, 0);
+        }
         setColourOfChar((wordsResult) => {
           const newWordsResult = [...wordsResult];
           newWordsResult[getPreviousCharIndex(charIndex, words, false)] =
@@ -408,7 +431,7 @@ export default function TypingPanel({
         minWidth: "100%",
         maxHeight: "350px",
         overflowY: "auto",
-        overflowX: "hidden",
+        overflowX: "visible",
         msOverflowStyle: "none" /* IE and Edge */,
         scrollbarWidth: "none" /* Firefox */,
         "::WebkitScrollbar": {
