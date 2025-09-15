@@ -429,9 +429,9 @@ export default function TypingPanel({
         fontSize: 24,
         outline: "none",
         minWidth: "100%",
-        maxHeight: "350px",
-        overflowY: "auto",
+        maxHeight: "300px",
         overflowX: "visible",
+        overflowY: "auto",
         msOverflowStyle: "none" /* IE and Edge */,
         scrollbarWidth: "none" /* Firefox */,
         "::WebkitScrollbar": {

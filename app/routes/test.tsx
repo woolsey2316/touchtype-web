@@ -149,6 +149,7 @@ export const Component = function Test(): JSX.Element {
               display: "flex",
               alignItems: "center",
               paddingTop: "2em",
+              overflowX: "visible",
             }}
             onClick={focusChild}
           >

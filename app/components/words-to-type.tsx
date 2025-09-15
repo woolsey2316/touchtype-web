@@ -102,6 +102,7 @@ export const WordsToType = ({ words, colourOfChar }: Props) => {
           from: { opacity: 0 },
           to: { opacity: 1 },
         },
+        padding: "1px",
       }}
       flexWrap="wrap"
       data-testid="words-to-type"

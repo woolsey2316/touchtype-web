@@ -65,7 +65,7 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
       );
       break;
     case "│":
-      cursorChar = <CursorStickIcon sx={{ width: "3px", marginTop: "7px" }} />;
+      cursorChar = <CursorStickIcon sx={{ width: "2px", marginTop: "7px" }} />;
       break;
     case "▊":
       cursorChar = (
@@ -77,7 +77,7 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
     default:
       cursorChar = (
         <CursorStickIcon
-          sx={{ marginLeft: "-1px", width: "3px", marginTop: "7px" }}
+          sx={{ marginLeft: "-1px", width: "2px", marginTop: "7px" }}
         />
       );
       break;
