@@ -51,9 +51,9 @@ const ModeMenuItem = memo(function ModeMenuItem({
       <ListItemDecorator sx={{ ml: 0.5 }}>
         {mode === "light" ||
         (mode !== "dark" && scheme.systemMode === "light") ? (
-          <LightModeRounded />
+          <LightModeRounded sx={{ color: "inherit" }} />
         ) : (
-          <DarkModeRounded />
+          <DarkModeRounded sx={{ color: "inherit" }} />
         )}
       </ListItemDecorator>
       <ListItemContent sx={{ pr: 2 }}>

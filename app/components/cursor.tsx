@@ -41,7 +41,7 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
   function getCursorLeftPosition() {
     const letters = document?.getElementsByClassName("letter");
     if (letters.length === 0 || letters[cursorIndex] === undefined) {
-      return "0px";
+      return "1px";
     }
     return (letters[cursorIndex] as HTMLElement).offsetLeft + "px";
   }

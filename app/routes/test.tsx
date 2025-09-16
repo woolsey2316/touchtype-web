@@ -9,6 +9,7 @@ import { Language } from "../types/words.type";
 import { MainOptionsBar } from "../components/main-options-bar";
 import { CurrentWPM } from "../components/current-wpm";
 import CountdownTimer from "../components/countdown-timer";
+import { calcWPM, calcAccuracy, calcScore } from "../utils/test-stats";
 
 export const Component = function Test(): JSX.Element {
   usePageEffect({ title: "Typing Test" });
@@ -52,17 +53,10 @@ export const Component = function Test(): JSX.Element {
       mistakes: number,
       startTime: number,
     ) => {
-      const wpm = (((correctChars / (endTime - startTime)) * 1000) / 5) * 60;
+      const wpm = calcWPM(correctChars, endTime - startTime);
       setCurrentWPM(wpm);
-      const accuracy = Math.max(
-        (correctChars / (correctChars + mistakes)) * 100,
-        0,
-      );
-      let score = Math.max(
-        (wpm * Math.pow(accuracy / 100, 5) * (endTime - startTime)) / 10000,
-        0,
-      );
-      score = Math.min(score, 9999);
+      const accuracy = calcAccuracy(correctChars, mistakes);
+      const score = calcScore(wpm, accuracy, endTime - startTime);
       setCurrentAccuracy(accuracy);
       setCurrentScore(score);
       setCurrentTime((endTime - startTime) / 1000);
