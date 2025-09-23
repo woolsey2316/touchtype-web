@@ -170,4 +170,4 @@ UserSchema.pre("save", function (next) {
   }
 });
 
-mongoose.model("User", UserSchema);
+export default mongoose.model("User", UserSchema);

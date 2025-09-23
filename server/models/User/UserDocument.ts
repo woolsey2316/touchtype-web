@@ -1,6 +1,6 @@
-import mongoose, { Document } from "mongoose";
+import { Document } from "mongoose";
 import User from "../../../app/types/User.d";
-export default interface UserDocument extends User, Document {
+export default interface UserDocument extends User, Document<string> {
   name: string;
   email: string;
   username: string;
@@ -10,8 +10,3 @@ export default interface UserDocument extends User, Document {
   authToken: string;
   password: string;
 }
-
-export type ComparePasswordFunction = (
-  candidatePassword: string,
-  cb: (err: mongoose.Error, isMatch: boolean) => void,
-) => void;

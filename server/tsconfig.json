@@ -6,9 +6,10 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noEmit": false,
+    "rootDir": "../",
     "outDir": "../.cache/ts-server",
     "types": ["node", "vite/client"]
   },
-  "include": ["**/*.ts", "**/*.json"],
+  "include": ["**/*.ts", "**/*.json", "../app/shared/**/*.ts"],
   "exclude": ["**/dist/**/*", "**/node_modules/**/*"]
 }
