@@ -11,7 +11,7 @@ import { workspaces } from "./package.json";
  */
 export default defineWorkspace(
   workspaces
-    .filter((name) => !["scripts", "db", "server"].includes(name))
+    .filter((name) => !["scripts", "server"].includes(name))
     .map((name) => ({
       extends: `./${name}/vite.config.ts`,
       test: {
