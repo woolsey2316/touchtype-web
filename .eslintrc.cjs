@@ -68,7 +68,7 @@ module.exports = {
       typescript: {
         project: [
           "app/tsconfig.json",
-          "edge/tsconfig.json",
+          "server/tsconfig.json",
           "scripts/tsconfig.json",
         ],
       },

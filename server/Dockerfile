@@ -1,34 +1,24 @@
-# SPDX-FileCopyrightText: 2014-present Kriasoft
-# SPDX-License-Identifier: MIT
+# Common build stage
+FROM node:14.14.0-alpine3.12 as common-build-stage
 
-# Docker image for a Cloud Run service.
-#
-# https://cloud.google.com/run/docs/container-contract
-# https://cloud.google.com/run/docs/quickstarts/build-and-deploy/nodejs
-# https://github.com/GoogleCloudPlatform/cloud-run-microservice-template-nodejs/blob/main/Dockerfile
+COPY . ./app
 
-# Use the official lightweight Node.js image.
-# https://hub.docker.com/_/node
-FROM node:20.11.0-slim
+WORKDIR /app
 
-# Upgrade OS packages.
-RUN apt-get update && apt-get upgrade -y
+RUN npm install
 
-# Set environment variables.
-ENV NODE_ENV=production
+EXPOSE 3000
 
-# Create and change to the app directory.
-WORKDIR /usr/src/app
+# Development build stage
+FROM common-build-stage as development-build-stage
 
-# Copy application dependency manifests to the container image.
-# Copying this separately prevents re-running npm install on every code change.
-COPY dist/package.json dist/yarn.lock ./
+ENV NODE_ENV development
 
-# Install dependencies.
-RUN corepack enable && yarn config set nodeLinker node-modules && yarn install --immutable
+CMD ["npm", "run", "dev"]
 
-# Copy compiled code to the container image.
-COPY ./dist .
+# Production build stage
+FROM common-build-stage as production-build-stage
 
-# Run the web service on container startup.
-CMD [ "node", "index.js" ]
+ENV NODE_ENV production
+
+CMD ["npm", "run", "start"]
