@@ -10269,6 +10269,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"express-validator@npm:^7.2.1":
+  version: 7.2.1
+  resolution: "express-validator@npm:7.2.1"
+  dependencies:
+    lodash: "npm:^4.17.21"
+    validator: "npm:~13.12.0"
+  checksum: 10/977a920b4baec9d552a3dfe822d10860ee987a0654d766a86663fa4ab0d4c18b0ae7dadbed4fe6dd293fc24388bff675092116cedf5ee9e3af5b3ccfa94ebfc9
+  languageName: node
+  linkType: hard
+
 "express@npm:^5.1.0":
   version: 5.1.0
   resolution: "express@npm:5.1.0"
@@ -17686,6 +17696,7 @@ __metadata:
     eslint-config-prettier: "npm:^8.5.0"
     eslint-plugin-prettier: "npm:^4.2.1"
     express: "npm:^5.1.0"
+    express-validator: "npm:^7.2.1"
     helmet: "npm:^5.1.1"
     hpp: "npm:^0.2.3"
     husky: "npm:^8.0.1"
@@ -18021,6 +18032,13 @@ __metadata:
   version: 13.15.15
   resolution: "validator@npm:13.15.15"
   checksum: 10/a43d9271c879468b1ad6dd5d2597b71719a185d2c7ceb3d68f3c9c8c17c25af0d90a53edfa7efaa6ac0d4425ba0345684b9c7d8111bde0d06d915a634a287018
+  languageName: node
+  linkType: hard
+
+"validator@npm:~13.12.0":
+  version: 13.12.0
+  resolution: "validator@npm:13.12.0"
+  checksum: 10/db6eb0725e2b67d60d30073ae8573982713b5903195d031dc3c7db7e82df8b74e8c13baef8e2106d146d979599fd61a06cde1fec5c148e4abd53d52817ff0fd9
   languageName: node
   linkType: hard
 
