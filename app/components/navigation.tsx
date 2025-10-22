@@ -66,6 +66,7 @@ function NavItem(props: NavItemProps): JSX.Element {
             props.path === location.pathname
               ? theme.vars.palette.primary.plainActiveColor
               : "",
+          fontWeight: 500,
         }}
         to={props.path}
         aria-current="page"

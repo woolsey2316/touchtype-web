@@ -15,6 +15,8 @@ interface CursorProps {
 export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
   const [width, setWidth] = useState("16px");
   const [height, setHeight] = useState("53px");
+  const [left, setLeft] = useState("1px");
+  const [top, setTop] = useState("0px");
   // on component mount, set width and height when letters have been added to DOM
   useEffect(() => {
     function getWidth() {
@@ -32,27 +34,29 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
       }
       return (letters[cursorIndex] as HTMLElement).clientHeight + "px";
     }
+    // cursor position logic
+    function getCursorLeftPosition() {
+      const letters = document?.getElementsByClassName("letter");
+      if (letters.length === 0 || letters[cursorIndex] === undefined) {
+        return "1px";
+      }
+      return (letters[cursorIndex] as HTMLElement).offsetLeft + "px";
+    }
+
+    function getCursorTopPosition() {
+      const letters = document?.getElementsByClassName("letter");
+      if (letters.length === 0 || letters[cursorIndex] === undefined) {
+        return "0px";
+      }
+      return (letters[cursorIndex] as HTMLElement).offsetTop + "px";
+    }
     setWidth(getWidth());
     setHeight(getHeight());
+    setLeft(getCursorLeftPosition());
+    setTop(getCursorTopPosition());
   }, [cursorIndex]);
 
   const { cursorType, smoothCursor } = useContext(UserPreferencesContext);
-  // cursor position logic
-  function getCursorLeftPosition() {
-    const letters = document?.getElementsByClassName("letter");
-    if (letters.length === 0 || letters[cursorIndex] === undefined) {
-      return "1px";
-    }
-    return (letters[cursorIndex] as HTMLElement).offsetLeft + "px";
-  }
-
-  function getCursorTopPosition() {
-    const letters = document?.getElementsByClassName("letter");
-    if (letters.length === 0 || letters[cursorIndex] === undefined) {
-      return "0px";
-    }
-    return (letters[cursorIndex] as HTMLElement).offsetTop + "px";
-  }
 
   let cursorChar: React.ReactNode;
   switch (cursorType) {
@@ -99,8 +103,8 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
       })}
       style={{
         position: "absolute",
-        left: getCursorLeftPosition(),
-        top: getCursorTopPosition(),
+        left: left,
+        top: top,
         width: width,
         height: height,
       }}
