@@ -8,7 +8,7 @@ export default function CursorStickIcon(props: SvgIconProps) {
       <g transform="translate(-38.10114,-19.268293)">
         <rect
           width="8"
-          height="0.5"
+          height="0.8"
           x="-25.853518"
           y="37.992271"
           transform="rotate(-90)"
