@@ -33,7 +33,7 @@ export const WordsToType = ({ words, colourOfChar }: Props) => {
               theme.vars.palette.success.plainColor
             }
             even={globalCharIdx % 2 === 0}
-            opaque={false}
+            opaque={words[globalCharIdx] === "→" ? true : false}
             key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
           >
             {words[globalCharIdx]}
@@ -54,6 +54,7 @@ export const WordsToType = ({ words, colourOfChar }: Props) => {
             invisible={spaceChar === " "}
             even={globalCharIdx % 2 === 0}
             key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
+            preferedColour={theme.vars.palette.neutral[300]}
           >
             {spaceChar}
           </Letter>,

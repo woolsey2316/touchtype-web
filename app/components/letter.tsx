@@ -12,6 +12,7 @@ interface LetterProps {
   even?: boolean;
   opaque: boolean;
   invisible?: boolean;
+  preferedColour?: string;
 }
 export const Letter = memo(function Letter({
   children: char,
@@ -21,6 +22,7 @@ export const Letter = memo(function Letter({
   even = false,
   opaque = false,
   invisible,
+  preferedColour,
 }: LetterProps) {
   const { skipOverTabs, zipperAnimation } = useContext(UserPreferencesContext);
   let symbol: string | React.ReactNode = char;
@@ -57,7 +59,7 @@ export const Letter = memo(function Letter({
         paddingBottom: "14px",
         flexBasis: flexBasis,
         opacity:
-          (fadeOut && zipperAnimation) || invisible ? 0 : opaque ? 0.4 : 1,
+          (fadeOut && zipperAnimation) || invisible ? 0 : opaque ? 0.3 : 1,
         transform:
           zipperAnimation && fadeOut
             ? even && zipperAnimation
@@ -66,7 +68,7 @@ export const Letter = memo(function Letter({
             : "none",
         transition: "opacity 0.5s ease, transform 0.5s ease",
       }}
-      style={{ color: colourOfChar }}
+      style={{ color: preferedColour ? preferedColour : colourOfChar }}
     >
       {symbol === " " ? "_" : symbol}
     </Typography>

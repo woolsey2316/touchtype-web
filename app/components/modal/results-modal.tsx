@@ -317,18 +317,22 @@ export const ResultsModal = ({
             }}
           >
             <ChartComponent
-              title="Key Press Times"
+              title=""
               colors={[
                 theme.vars.palette.primary[800],
                 theme.vars.palette.primary[300],
               ]}
-              xAxis={[{ scaleType: "band", label: "Keys", data: keyArray }]}
+              xAxis={[
+                { scaleType: "band", label: "Keyboard Char", data: keyArray },
+              ]}
               yAxis={[{ label: "Average Time (ms)" }]}
               height={300}
               series={[
                 {
                   type: "bar",
                   data: Array.isArray(timeArray) ? timeArray : [],
+                  valueFormatter: (value: number | null) =>
+                    Math.round(value ?? 0) + "ms",
                 },
               ]}
             >
@@ -336,7 +340,7 @@ export const ResultsModal = ({
               <LineChartComponent />
               <ChartsReferenceLine
                 y={averageTime}
-                label={"Average: " + Math.round(averageTime)}
+                label={"Avg: " + Math.round(averageTime) + "ms"}
                 lineStyle={{
                   stroke: theme.vars.palette.primary[300],
                   strokeDasharray: "5 5",
