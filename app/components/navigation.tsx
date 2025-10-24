@@ -13,6 +13,7 @@ import {
 import { memo, type JSX, type ReactNode } from "react";
 import { Link, useMatch, useLocation } from "react-router-dom";
 import { useTheme } from "@mui/joy/styles";
+import TrophyIcon from "../icons/trophy";
 
 export const Navigation = memo(function Navigation(
   props: NavigationProps,
@@ -32,8 +33,8 @@ export const Navigation = memo(function Navigation(
         icon={<Keyboard sx={{ color: "inherit" }} />}
       />
       <NavItem
-        path="/dashboard"
-        label="Dashboard"
+        path="/profile"
+        label="Profile"
         icon={<Dashboard sx={{ color: "inherit" }} />}
       />
       <NavItem
@@ -46,11 +47,16 @@ export const Navigation = memo(function Navigation(
         label="Settings"
         icon={<Settings sx={{ color: "inherit" }} />}
       />
+      <NavItem
+        path="/leaderboards"
+        label="leaderboards"
+        icon={<TrophyIcon sx={{ color: "inherit" }} />}
+      />
     </List>
   );
 });
 
-function NavItem(props: NavItemProps): JSX.Element {
+export function NavItem(props: NavItemProps): JSX.Element {
   const theme = useTheme();
   const location = useLocation();
   return (
