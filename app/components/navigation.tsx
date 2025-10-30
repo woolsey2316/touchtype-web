@@ -33,8 +33,8 @@ export const Navigation = memo(function Navigation(
         icon={<Keyboard sx={{ color: "inherit" }} />}
       />
       <NavItem
-        path="/profile"
-        label="Profile"
+        path="/dashboard"
+        label="Dashboard"
         icon={<Dashboard sx={{ color: "inherit" }} />}
       />
       <NavItem

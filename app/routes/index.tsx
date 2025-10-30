@@ -31,12 +31,13 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/test" replace /> },
       { path: "test", lazy: () => import("./test") },
-      { path: "profile", lazy: () => import("./profile") },
+      { path: "dashboard", lazy: () => import("./dashboard") },
       {
         path: "change-colour-theme",
         lazy: () => import("./colour-theme-changer"),
       },
       { path: "settings", lazy: () => import("./settings") },
+      { path: "leaderboards", lazy: () => import("./leaderboards") },
     ],
   },
 ]);
