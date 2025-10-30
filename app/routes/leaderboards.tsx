@@ -6,9 +6,15 @@ import { type JSX, useState, useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext/ThemeContext";
 import { usePageEffect } from "../core/page";
 import Trophy2 from "../icons/trophy2";
+import { Zap } from "lucide-react";
+import { LeaderboardFilters } from "../components/leaderboards-filter";
+import { type Category, type Timeframe } from "../types/types";
+
 export const Component = function Leaderboards(): JSX.Element {
   const { theme } = useContext(ThemeContext);
   usePageEffect({ title: "Leaderboards" });
+  const [category, setCategory] = useState<Category>("english");
+  const [timeframe, setTimeFrame] = useState<Timeframe>("daily");
   const [entries] = useState([
     {
       id: 1,
@@ -139,12 +145,14 @@ export const Component = function Leaderboards(): JSX.Element {
                 bgcolor: theme.vars.palette.primary[300],
                 mb: 2,
               }}
-            ></Box>
+            >
+              <Zap size={36} color={theme.vars.palette.background.body} />
+            </Box>
             <Typography
               level="h1"
               sx={{ color: theme.vars.palette.neutral[50], mb: 1 }}
             >
-              Touch Typing Leaderboard
+              Typing Leaderboard
             </Typography>
             <Typography
               level="body-md"
@@ -153,7 +161,14 @@ export const Component = function Leaderboards(): JSX.Element {
               Top performers ranked by words per minute
             </Typography>
           </Box>
-
+          <LeaderboardFilters
+            timeframe={timeframe}
+            category={category}
+            onChange={({ timeframe, category }) => {
+              setTimeFrame(timeframe);
+              setCategory(category);
+            }}
+          />
           {/* Leaderboard */}
           <Sheet
             variant="outlined"
@@ -171,6 +186,7 @@ export const Component = function Leaderboards(): JSX.Element {
                   color: theme.vars.palette.neutral[500],
                   fontWeight: 600,
                   padding: "12px 24px",
+                  borderBottomWidth: "1px",
                   borderBottom: `1px solid ${theme.vars.palette.background.level3}`,
                 },
                 "& tbody td": {
@@ -187,23 +203,25 @@ export const Component = function Leaderboards(): JSX.Element {
             >
               <thead>
                 <tr>
-                  <th style={{ width: "100px" }}>Rank</th>
-                  <th>Name</th>
-                  <th style={{ width: "120px" }}>
+                  <th style={{ width: "100px", borderBottomWidth: "1px" }}>
+                    Rank
+                  </th>
+                  <th style={{ borderBottomWidth: "1px" }}>Name</th>
+                  <th style={{ width: "120px", borderBottomWidth: "1px" }}>
                     <Box
                       sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                     >
                       WPM
                     </Box>
                   </th>
-                  <th style={{ width: "120px" }}>
+                  <th style={{ width: "120px", borderBottomWidth: "1px" }}>
                     <Box
                       sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                     >
                       Accuracy
                     </Box>
                   </th>
-                  <th style={{ width: "180px" }}>
+                  <th style={{ width: "180px", borderBottomWidth: "1px" }}>
                     <Box
                       sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                     >
