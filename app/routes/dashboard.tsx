@@ -98,7 +98,7 @@ const LowercaseIcon: JSX.Element = (
     borderRadius="10px"
   >
     <Box color="#facc15" fontSize={28}>
-      t
+      a
     </Box>
   </Box>
 );

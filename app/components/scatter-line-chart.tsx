@@ -15,14 +15,16 @@ import { ChartsGrid } from "@mui/x-charts/ChartsGrid";
 import { ChartsTooltip } from "@mui/x-charts/ChartsTooltip";
 export default function ScatterLineChart({
   data,
+  lineColor,
 }: {
   data?: { x: number; y: number; id: number }[];
+  lineColor?: string;
 }) {
   const series = data ?? [];
   let sum = 0;
   const compressedData = series.reduce((acc, curr, currId) => {
     if (currId % 20 === 0 && currId !== 0) {
-      acc.push(sum / 20);
+      acc.push(Math.round((sum / 20) * 10) / 10);
       sum = 0;
     } else {
       sum += curr.y;
@@ -40,14 +42,14 @@ export default function ScatterLineChart({
       <ChartContainer
         sx={{
           [`& .${lineElementClasses.root}`]: {
-            stroke: "#bb81f6",
             strokeWidth: 2,
           },
           [`& .${markElementClasses.root}`]: {
-            stroke: "#bb81f6",
             r: 0, // Modify the circle radius
-            fill: "#bb81f6",
             strokeWidth: 2,
+          },
+          "& .MuiChartsTooltipMark": {
+            fill: "#bb81f6",
           },
         }}
         xAxis={[
@@ -59,6 +61,8 @@ export default function ScatterLineChart({
             id: "axis2",
             data: compressedData.map((_, index) => index),
             valueFormatter: (value: number) => `${"Test #" + value}`,
+            stroke: lineColor || "#bb81f6",
+            fill: lineColor || "#bb81f6",
           },
         ]}
         yAxis={[{ id: "axis1" }, { id: "axis2", position: "right" }]}
@@ -70,6 +74,7 @@ export default function ScatterLineChart({
             data: compressedData,
             xAxisId: "axis2",
             label: "WPM",
+            color: lineColor || "#bb81f6",
           },
         ]}
         height={175}
@@ -77,7 +82,7 @@ export default function ScatterLineChart({
         <ChartsGrid vertical horizontal />
         <g clipPath={`url(#${clipPathId})`}>
           <ScatterPlot />
-          <LinePlot stroke="#bb81f6" />
+          <LinePlot />
         </g>
         <ChartsYAxis />
         <MarkPlot />
