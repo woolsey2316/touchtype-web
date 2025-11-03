@@ -92,7 +92,7 @@ export const Component = function Leaderboards(): JSX.Element {
     if (rank === 1) return "#c9a34f";
     if (rank === 2) return "#a6adc8";
     if (rank === 3) return "#fab387";
-    return theme.vars.palette.neutral[600];
+    return "transparent";
   };
 
   const formatDate = (dateStr: string) => {
@@ -246,7 +246,7 @@ export const Component = function Leaderboards(): JSX.Element {
                             alignItems: "center",
                             justifyContent: "center",
                             fontWeight: "bold",
-                            color: theme.vars.palette.background.body,
+                            color: theme.vars.palette.neutral[300],
                           }}
                         >
                           {rank <= 3 ? (
