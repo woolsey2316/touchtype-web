@@ -1874,7 +1874,6 @@ export const ENGLISH_WORDS: string[] = [
   "painting",
   "pair",
   "pale",
-  "Palestinian",
   "palm",
   "pan",
   "panel",

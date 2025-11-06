@@ -56,7 +56,7 @@ export const Component = function Test(): JSX.Element {
       const wpm = calcWPM(correctChars, endTime - startTime);
       setCurrentWPM(wpm);
       const accuracy = calcAccuracy(correctChars, mistakes);
-      const score = calcScore(wpm, accuracy, endTime - startTime);
+      const score = calcScore(accuracy, endTime - startTime);
       setCurrentAccuracy(accuracy);
       setCurrentScore(score);
       setCurrentTime((endTime - startTime) / 1000);

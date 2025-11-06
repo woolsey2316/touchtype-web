@@ -1,9 +1,12 @@
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 import { Box, Typography } from "@mui/joy";
 import CustomScatterChart from "./scatter-line-chart";
+import { ThemeContext } from "../context/ThemeContext/ThemeContext";
+
 export default function LineChartWithKPI({
   icon,
   datakey,
+  color,
   seriesData,
 }: {
   icon: ReactNode;
@@ -16,20 +19,20 @@ export default function LineChartWithKPI({
   const roundedAverage = Number.isInteger(average)
     ? average
     : average.toFixed(2);
-
+  const { theme } = useContext(ThemeContext);
   return (
     <Box
       sx={{
-        maxWidth: 800,
+        maxWidth: 900,
         p: "36px",
-        border: "1px solid #1e2836",
+        border: `1px solid ${theme.vars.palette.grey[500]}`,
         borderRadius: 9,
       }}
     >
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { sm: "1fr", md: "80px 1fr" },
+          gridTemplateColumns: { sm: "1fr", md: "110px 1fr" },
           gap: 2,
         }}
       >
@@ -41,13 +44,13 @@ export default function LineChartWithKPI({
           >
             {roundedAverage}
           </Typography>
-          <Typography level="body-sm" sx={{ mb: 1 }}>
+          <Typography level="body-md" sx={{ mb: 1, fontWeight: 600 }}>
             {datakey}
           </Typography>
         </Box>
 
         <Box>
-          <CustomScatterChart data={seriesData} />
+          <CustomScatterChart data={seriesData} color={color} />
         </Box>
       </Box>
     </Box>

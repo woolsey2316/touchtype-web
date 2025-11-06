@@ -13,13 +13,20 @@ import { ChartsClipPath } from "@mui/x-charts/ChartsClipPath";
 import { ChartsYAxis } from "@mui/x-charts/ChartsYAxis";
 import { ChartsGrid } from "@mui/x-charts/ChartsGrid";
 import { ChartsTooltip } from "@mui/x-charts/ChartsTooltip";
+import { ThemeContext } from "../context/ThemeContext/ThemeContext";
+import { useContext } from "react";
+
 export default function ScatterLineChart({
   data,
+  color,
   lineColor,
 }: {
   data?: { x: number; y: number; id: number }[];
+  color: string;
   lineColor?: string;
 }) {
+  const { theme } = useContext(ThemeContext);
+
   const series = data ?? [];
   let sum = 0;
   const compressedData = series.reduce((acc, curr, currId) => {
@@ -38,18 +45,15 @@ export default function ScatterLineChart({
   const clipPathId = `${id}-clip-path`;
 
   return (
-    <Box sx={{ width: "100%", maxWidth: 800 }}>
+    <Box sx={{ width: "100%", maxWidth: 900 }}>
       <ChartContainer
         sx={{
           [`& .${lineElementClasses.root}`]: {
-            strokeWidth: 2,
+            strokeWidth: 3,
           },
           [`& .${markElementClasses.root}`]: {
             r: 0, // Modify the circle radius
             strokeWidth: 2,
-          },
-          "& .MuiChartsTooltipMark": {
-            fill: "#bb81f6",
           },
         }}
         xAxis={[
@@ -60,24 +64,28 @@ export default function ScatterLineChart({
           {
             id: "axis2",
             data: compressedData.map((_, index) => index),
-            valueFormatter: (value: number) => `${"Test #" + value}`,
+            valueFormatter: (value: number) => `${"Test Group #" + value}`,
             stroke: lineColor || "#bb81f6",
             fill: lineColor || "#bb81f6",
           },
         ]}
-        yAxis={[{ id: "axis1" }, { id: "axis2", position: "right" }]}
+        yAxis={[{ id: "axis1" }]}
         series={[
-          { type: "scatter", data, markerSize: 4 },
+          {
+            type: "scatter",
+            data,
+            markerSize: 2,
+            color: theme.vars.palette.grey[500],
+          },
           {
             type: "line",
             curve: "bumpX",
             data: compressedData,
             xAxisId: "axis2",
-            label: "WPM",
-            color: lineColor || "#bb81f6",
+            color: color || "#bb81f6",
           },
         ]}
-        height={175}
+        height={162}
       >
         <ChartsGrid vertical horizontal />
         <g clipPath={`url(#${clipPathId})`}>

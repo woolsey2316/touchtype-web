@@ -44,3 +44,13 @@ export function hexToRgb(hex: string) {
 export function addPlus(value: number): string {
   return value >= 0 ? `+${value}` : `${value}`;
 }
+
+export function hoursAndMinutes(totalSeconds: number): string {
+  const minutes = Math.floor(totalSeconds / 60) % 60;
+  const hours = Math.floor(totalSeconds / 3600) % 24;
+  const days = Math.floor(totalSeconds / 86400);
+  if (days > 0) {
+    return `${days}d ${hours}h ${minutes}m`;
+  }
+  return `${hours}h ${minutes}m`;
+}

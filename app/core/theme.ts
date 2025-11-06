@@ -18,6 +18,40 @@ declare module "@mui/joy/styles" {
       solidColor: string;
       cursorColor: string;
     };
+    secondary: PaletteColor & {
+      50: string;
+      100: string;
+      200: string;
+      300: string;
+      400: string;
+      500: string;
+      600: string;
+      700: string;
+      800: string;
+      900: string;
+    };
+    grey: PaletteColor & {
+      50: string;
+      100: string;
+      200: string;
+      300: string;
+      400: string;
+      500: string;
+      600: string;
+      700: string;
+      800: string;
+      900: string;
+      mainChannel: string;
+      plainActiveBg: string;
+      plainHoverBg: string;
+      plainHoverColor: string;
+      plainActiveColor: string;
+      softBg: string;
+      softHoverBg: string;
+      solidBg: string;
+      solidHoverBg: string;
+      solidActiveBg: string;
+    };
   }
 }
 

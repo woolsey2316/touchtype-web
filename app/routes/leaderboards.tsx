@@ -207,21 +207,21 @@ export const Component = function Leaderboards(): JSX.Element {
                     Rank
                   </th>
                   <th style={{ borderBottomWidth: "1px" }}>Name</th>
-                  <th style={{ width: "120px", borderBottomWidth: "1px" }}>
+                  <th style={{ width: "140px", borderBottomWidth: "1px" }}>
                     <Box
                       sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                     >
                       WPM
                     </Box>
                   </th>
-                  <th style={{ width: "120px", borderBottomWidth: "1px" }}>
+                  <th style={{ width: "140px", borderBottomWidth: "1px" }}>
                     <Box
                       sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                     >
                       Accuracy
                     </Box>
                   </th>
-                  <th style={{ width: "180px", borderBottomWidth: "1px" }}>
+                  <th style={{ width: "190px", borderBottomWidth: "1px" }}>
                     <Box
                       sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                     >

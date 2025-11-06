@@ -14,6 +14,7 @@ export function Logo(props: LogoProps): JSX.Element {
         py: 2,
         px: 2,
         display: "flex",
+        position: "fixed",
         alignItems: "center",
         gap: 1,
         ...sx,
@@ -27,7 +28,7 @@ export function Logo(props: LogoProps): JSX.Element {
         color="primary"
         variant="soft"
       >
-        <LogoIcon sx={{ width: "160px", height: "50px" }} />
+        <LogoIcon sx={{ width: "200px", height: "55px" }} />
       </IconButton>
     </Box>
   );
