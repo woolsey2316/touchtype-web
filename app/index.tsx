@@ -17,13 +17,22 @@ const root = createRoot(container!);
 const Root = () => {
   const [theme, setTheme] = useState(defaultTheme);
   const [fontFamily, setFontFamily] = useState(
-    "'0xProtoNerdFont-Bold', Courier, monospace",
+    window.localStorage.getItem("fontFamily") ||
+      "'0xProtoNerdFont-Bold', Courier, monospace",
   );
   const [skipOverTabs, setSkipOverTabs] = useState(false);
-  const [spaceChar, setSpaceChar] = useState(" ");
-  const [cursorType, setCursorType] = useState("|");
-  const [zipperAnimation, setZipperAnimation] = useState(true);
-  const [smoothCursor, setSmoothCursor] = useState(true);
+  const [spaceChar, setSpaceChar] = useState(
+    window.localStorage.getItem("spaceChar") ?? " ",
+  );
+  const [cursorType, setCursorType] = useState(
+    window.localStorage.getItem("cursorChar") ?? "|",
+  );
+  const [zipperAnimation, setZipperAnimation] = useState(
+    window.localStorage.getItem("zipperEnabled") === "false" ? false : true,
+  );
+  const [smoothCursor, setSmoothCursor] = useState(
+    window.localStorage.getItem("smoothCursor") === "false" ? false : true,
+  );
   return (
     <StrictMode>
       <CssVarsProvider theme={theme}>

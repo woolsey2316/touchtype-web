@@ -21,7 +21,7 @@ export const UserPreferencesContext = createContext({
     console.log(_cursorType);
     return;
   },
-  zipperAnimation: true,
+  zipperAnimation: false,
   setZipperAnimation: (_zipperAnimation: boolean) => {
     console.log(_zipperAnimation);
     return;
