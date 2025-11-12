@@ -1,18 +1,29 @@
-import { IsEmail, IsString } from "class-validator";
+import { IsOptional, IsMongoId, IsString, IsNumber } from "class-validator";
 
 export class CreateTestResultDto {
-  @IsEmail()
-  public email: string;
+  @IsMongoId()
+  public userId: string;
 
-  @IsString()
+  @IsNumber()
   public wpm: string;
 
-  @IsString()
-  public score: string;
+  @IsNumber()
+  public time: number;
 
-  @IsString()
-  public accuracy: string;
+  @IsNumber()
+  public score: number;
+
+  @IsNumber()
+  public accuracy: number;
 
   @IsString()
   public testType: string;
+
+  @IsOptional()
+  @IsNumber()
+  public lowercaseWPM?: number;
+
+  @IsOptional()
+  @IsNumber()
+  public symbolWPM?: number;
 }

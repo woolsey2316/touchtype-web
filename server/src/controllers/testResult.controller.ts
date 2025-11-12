@@ -12,10 +12,12 @@ class TestResultsController {
     next: NextFunction,
   ) => {
     try {
-      const findAllTestResults: TestResult[] =
-        await this.testResultService.findAllTestResults();
+      const dashboardData =
+        await this.testResultService.findAllUsersDashboardData(
+          req.body.userId as string,
+        );
 
-      res.status(200).json({ data: findAllTestResults, message: "findAll" });
+      res.status(200).json({ data: dashboardData, message: "findAll" });
     } catch (error) {
       next(error);
     }

@@ -7,9 +7,40 @@ import { isEmpty } from "@utils/util";
 class TestResultService {
   public testResults = testResultModel;
 
-  public async findAllTestResults(): Promise<TestResult[]> {
-    const testResults: TestResult[] = await this.testResults.find();
-    return testResults;
+  public async findAllUsersDashboardData(userId: string): Promise<{
+    overall: number[];
+    lowercase: number[];
+    symbol: number[];
+    accuracy: number;
+    score: number;
+    totalTime: number;
+  }> {
+    const testResults: TestResult[] = await this.testResults
+      .find({ userId })
+      .sort({ createdAt: 1 });
+
+    const wpm = testResults.map((tr) => tr.wpm);
+    const lowercaseWpm = testResults
+      .map((tr) => tr.lowercaseWpm)
+      .filter((v) => v !== undefined && v !== null);
+    const symbolWpm = testResults
+      .map((tr) => tr.symbolWpm)
+      .filter((v) => v !== undefined && v !== null);
+
+    const accuracy =
+      testResults.reduce((acc, tr) => tr.accuracy + acc, 0) /
+      testResults.length;
+    const score = testResults.reduce((acc, tr) => tr.score + acc, 0);
+    const totalTime = testResults.reduce((acc, tr) => acc + tr.time, 0);
+
+    return {
+      overall: wpm,
+      lowercase: lowercaseWpm,
+      symbol: symbolWpm,
+      accuracy,
+      score,
+      totalTime,
+    };
   }
 
   public async findTestResultByEmail(email: string): Promise<TestResult[]> {

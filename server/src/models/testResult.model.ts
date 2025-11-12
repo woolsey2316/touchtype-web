@@ -3,11 +3,14 @@ import { TestResult } from "@interfaces/testResult.interface";
 
 export const testResultSchema: Schema = new mongoose.Schema<TestResult>(
   {
-    email: String,
+    userId: String,
     testType: String,
     wpm: Number,
     accuracy: Number,
     score: Number,
+    time: Number,
+    lowercaseWpm: Number,
+    symbolWpm: Number,
   },
   { timestamps: true },
 );

@@ -75,7 +75,7 @@ export default function ScatterLineChart({
             type: "scatter",
             data,
             markerSize: 2,
-            color: theme.vars.palette.grey[500],
+            color: theme.vars.palette.grey[400],
           },
           {
             type: "line",
