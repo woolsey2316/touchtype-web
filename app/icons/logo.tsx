@@ -5,7 +5,7 @@ export function KeyflowIcon(props: SvgIconProps) {
   const theme = useTheme();
   const green = theme.vars.palette.success.plainColor;
   const red = theme.vars.palette.danger.plainColor;
-  const gray = theme.vars.palette.neutral[300];
+  const gray = theme.vars.palette.neutral[200];
 
   return (
     <SvgIcon viewBox="0 0 46.836033 14.444209" {...props}>

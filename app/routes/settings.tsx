@@ -121,33 +121,34 @@ export const Component = function Settings(): JSX.Element {
           }}
         >
           <span style={{ fontWeight: "bold" }}>Font Family</span>
-          <Select
-            onChange={(
-              _event:
-                | React.MouseEvent<Element, MouseEvent>
-                | React.KeyboardEvent
-                | React.FocusEvent<Element, Element>
-                | null,
-              value,
-            ) => {
-              setFontFamily(value ?? "0xProtoNerdFont-Bold");
-            }}
-            defaultValue={"0xProtoNerdFont-Bold"}
-            placeholder="Select a font"
-            renderValue={(selected) => {
-              return <Box>{selected?.label ?? "Select a language"}</Box>;
-            }}
-            value={fontFamily}
-            sx={{
-              marginLeft: "10px",
-              minWidth: "150px",
-              border: "none",
-              borderRadius: "50px",
-            }}
-          >
-            <Option value={"0xProtoNerdFont-Bold"}>0xProtoNerdFont-Bold</Option>
-          </Select>
         </Typography>
+        <Select
+          onChange={(
+            _event:
+              | React.MouseEvent<Element, MouseEvent>
+              | React.KeyboardEvent
+              | React.FocusEvent<Element, Element>
+              | null,
+            value,
+          ) => {
+            setFontFamily(value ?? "0xProtoNerdFont-Bold");
+          }}
+          defaultValue={"0xProtoNerdFont-Bold"}
+          placeholder="Select a font"
+          renderValue={(selected) => {
+            return <Box>{selected?.label ?? "Select a language"}</Box>;
+          }}
+          value={fontFamily}
+          sx={{
+            marginLeft: "10px",
+            marginTop: "10px",
+            width: "300px",
+            border: "none",
+            borderRadius: "50px",
+          }}
+        >
+          <Option value={"0xProtoNerdFont-Bold"}>0xProtoNerdFont-Bold</Option>
+        </Select>
         <Divider
           sx={{ backgroundColor: theme.vars.palette.grey[700], my: 2 }}
         />
@@ -165,12 +166,12 @@ export const Component = function Settings(): JSX.Element {
           <span>
             When successfully typing a character it fades out with an animation
           </span>
-          <Switch
-            sx={{ alignSelf: "start", ml: 2 }}
-            checked={zipperEnabled}
-            onChange={handleToggle}
-          />
         </Typography>
+        <Switch
+          sx={{ alignSelf: "start", mt: 2, ml: 2 }}
+          checked={zipperEnabled}
+          onChange={handleToggle}
+        />
         <Divider
           sx={{ backgroundColor: theme.vars.palette.grey[700], my: 2 }}
         />
@@ -185,12 +186,13 @@ export const Component = function Settings(): JSX.Element {
         >
           <span style={{ fontWeight: "bold" }}>Cursor Animation</span>
           <span>Cursor smoothly slides to the right between characters</span>
-          <Switch
-            sx={{ alignSelf: "flex-start", ml: 2 }}
-            checked={smoothCursor}
-            onChange={setSmoothCursorPreference}
-          />
         </Typography>
+        <Switch
+          sx={{ alignSelf: "flex-start", ml: 2, mt: 2 }}
+          checked={smoothCursor}
+          onChange={setSmoothCursorPreference}
+        />
+
         <Divider
           sx={{ backgroundColor: theme.vars.palette.grey[700], my: 2 }}
         />

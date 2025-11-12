@@ -133,7 +133,7 @@ export const Component = function Leaderboards(): JSX.Element {
       >
         <Box sx={{ maxWidth: 1000, mx: "auto" }}>
           {/* Header */}
-          <Box sx={{ textAlign: "center", mb: 6 }}>
+          <Box sx={{ textAlign: "left", mb: 6 }}>
             <Box
               sx={{
                 display: "inline-flex",
