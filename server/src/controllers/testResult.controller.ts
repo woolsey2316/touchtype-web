@@ -6,7 +6,7 @@ import testResultService from "@services/testResult.service";
 class TestResultsController {
   public testResultService = new testResultService();
 
-  public getTestResults = async (
+  public getUserDashboardData = async (
     req: Request,
     res: Response,
     next: NextFunction,

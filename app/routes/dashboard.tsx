@@ -20,53 +20,30 @@ import {
   ChartsReferenceLine,
 } from "@mui/x-charts";
 import BellCurveChart from "../components/bell-curve-chart";
+import useSWR from "swr";
+const baseURL = import.meta.env.VITE_API_BASE_URL || "";
 
 export const Component = function Dashboard(): JSX.Element {
   usePageEffect({ title: "Dashboard" });
+  const token = localStorage.getItem("authToken");
   const { theme } = useContext(ThemeContext);
-  const seriesData = Array.from({ length: 1000 }, (_, index) => ({
-    y: Math.random() * 40 + 30,
-    x: index,
-    id: index,
-  }));
-  const seriesData2 = Array.from({ length: 1000 }, (_, index) => ({
-    y: Math.random() * 10 + 10,
-    x: index,
-    id: index,
-  }));
-  const timeArray = [
-    450, 430, 400, 350, 350, 300, 250, 250, 240, 235, 230, 220, 210, 200, 200,
-    200, 180, 175, 160, 150, 150, 150, 140, 138, 120, 120,
-  ];
-  const keyArray = [
-    "a",
-    "s",
-    "d",
-    "f",
-    "j",
-    "k",
-    "l",
-    "g",
-    "h",
-    "e",
-    "i",
-    "n",
-    "o",
-    "t",
-    "r",
-    "u",
-    "m",
-    "w",
-    "c",
-    "v",
-    "p",
-    "x",
-    "b",
-    "y",
-    "q",
-  ];
+  const fetcher = (path: string) =>
+    fetch(`${baseURL}${path}`, {
+      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${token}`, // Assuming Bearer token authentication
+        "Content-Type": "application/json", // Example of another header
+      },
+    }).then((res) => res.json());
+  const { data } = useSWR(`/api/test-result`, fetcher);
+  const { data: letterSpeedData } = useSWR(`/api/letter-speed`, fetcher);
+  console.log(letterSpeedData);
   const averageTime =
-    timeArray.reduce((acc, curr) => acc + curr, 0) / timeArray.length || 0;
+    letterSpeedData.lowercaseArray.reduce((a: number, b: number) => a + b, 0) /
+    letterSpeedData.lowercaseArray.length;
+  const averageSymbolTime =
+    letterSpeedData.symbolArray.reduce((a: number, b: number) => a + b, 0) /
+    letterSpeedData.symbolArray.length;
   const ZapIcon: JSX.Element = (
     <Box
       display="flex"
@@ -222,21 +199,21 @@ export const Component = function Dashboard(): JSX.Element {
       >
         <LineChartWithKPI
           icon={ZapIcon}
-          seriesData={seriesData}
+          seriesData={data.overallWpm}
           datakey="WPM Overall"
           id={0}
           color="#60a5fa"
         />
         <LineChartWithKPI
           icon={HashIcon}
-          seriesData={seriesData2}
+          seriesData={data.symbolWPm}
           color="#bb81f6"
           id={1}
           datakey="WPM Symbols & Numbers"
         />
         <LineChartWithKPI
           icon={LowercaseIcon}
-          seriesData={seriesData}
+          seriesData={data.lowercaseWpm}
           id={2}
           color="#facc15"
           datakey="WPM lowercase"
@@ -277,14 +254,20 @@ export const Component = function Dashboard(): JSX.Element {
             title="lowercase letters"
             colors={[theme.vars.palette.secondary[50]]}
             xAxis={[
-              { scaleType: "band", label: "Keyboard Char", data: keyArray },
+              {
+                scaleType: "band",
+                label: "Keyboard Char",
+                data: letterSpeedData.keyArray,
+              },
             ]}
             yAxis={[{ label: "Average WPM" }]}
             height={300}
             series={[
               {
                 type: "bar",
-                data: Array.isArray(timeArray) ? timeArray : [],
+                data: Array.isArray(letterSpeedData.timeArray)
+                  ? letterSpeedData.timeArray
+                  : [],
                 valueFormatter: (value: number | null) =>
                   Math.round(value ?? 0) + "ms",
               },
@@ -319,14 +302,18 @@ export const Component = function Dashboard(): JSX.Element {
             title="Symbols & Numbers"
             colors={[theme.vars.palette.secondary[50]]}
             xAxis={[
-              { scaleType: "band", label: "Keyboard Char", data: keyArray },
+              {
+                scaleType: "band",
+                label: "Keyboard Char",
+                data: letterSpeedData.symbolKeyArray,
+              },
             ]}
             yAxis={[{ label: "Average WPM" }]}
             height={300}
             series={[
               {
                 type: "bar",
-                data: Array.isArray(timeArray) ? timeArray : [],
+                data: Array.isArray(letterSpeedData) ? letterSpeedData : [],
                 valueFormatter: (value: number | null) =>
                   Math.round(value ?? 0) + "ms",
               },
@@ -335,8 +322,8 @@ export const Component = function Dashboard(): JSX.Element {
             <BarPlot />
             <LinePlot />
             <ChartsReferenceLine
-              y={averageTime}
-              label={"Avg: " + Math.round(averageTime) + "wpm"}
+              y={averageSymbolTime}
+              label={"Avg: " + Math.round(averageSymbolTime) + "wpm"}
               lineStyle={{
                 stroke: theme.vars.palette.secondary[100],
                 strokeDasharray: "5 5",

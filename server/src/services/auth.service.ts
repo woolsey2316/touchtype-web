@@ -1,5 +1,5 @@
 import { hash, compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { SECRET_KEY } from "@config";
 import { CreateUserDto } from "@dtos/users.dto";
 import { HttpException } from "@exceptions/HttpException";
@@ -78,7 +78,7 @@ class AuthService {
 
     return {
       expiresIn,
-      token: sign(dataStoredInToken, secretKey, { expiresIn }),
+      token: jwt.sign(dataStoredInToken, secretKey, { expiresIn }),
     };
   }
 

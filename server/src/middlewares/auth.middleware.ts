@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express";
-import { verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { SECRET_KEY } from "@config";
 import { HttpException } from "@exceptions/HttpException";
 import { DataStoredInToken, RequestWithUser } from "@interfaces/auth.interface";
@@ -19,10 +19,10 @@ const authMiddleware = async (
 
     if (Authorization) {
       const secretKey: string = SECRET_KEY;
-      const verificationResponse = (await verify(
+      const verificationResponse = jwt.verify(
         Authorization,
         secretKey,
-      )) as DataStoredInToken;
+      ) as DataStoredInToken;
       const userId = verificationResponse._id;
       const findUser = await userModel.findById(userId);
 

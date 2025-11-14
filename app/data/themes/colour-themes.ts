@@ -315,7 +315,7 @@ export const MOCHA_THEME = {
     cursorColor: "#fab387",
   },
   secondary: {
-    50: "#7ebd50",
+    50: "#66b12f",
     100: "#8a7269",
     200: "#60a5fa",
     300: "#bb81f6",
