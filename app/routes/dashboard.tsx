@@ -5,8 +5,12 @@ import { Box, Container, Typography } from "@mui/joy";
 import { type JSX, useContext } from "react";
 import { usePageEffect } from "../core/page";
 import LineChartWithKPI from "../components/linechart-with-kpi";
-import { Hash, Zap, Clock, Target } from "lucide-react";
-import TrophyIcon2 from "../icons/trophy2";
+import { ClockIcon } from "../icons/clock-icon";
+import { TrophyIcon } from "../icons/trophy-icon";
+import { TargetIcon } from "../icons/target-icon";
+import { ZapIcon } from "../icons/zap-icon";
+import { HashIcon } from "../icons/hash-icon";
+import { LowercaseIcon } from "../icons/lowercase-icon";
 import { Kpi } from "../components/kpi";
 import { hoursAndMinutes } from "../utils/util";
 import { ThemeContext } from "../context/ThemeContext/ThemeContext";
@@ -19,7 +23,7 @@ import {
   ChartsTooltip,
   ChartsReferenceLine,
 } from "@mui/x-charts";
-import BellCurveChart from "../components/bell-curve-chart";
+import WpmBellCurveChart from "../components/bell-curve-chart";
 import useSWR from "swr";
 const baseURL = import.meta.env.VITE_API_BASE_URL || "";
 
@@ -39,150 +43,17 @@ export const Component = function Dashboard(): JSX.Element {
   const { data: letterSpeedData } = useSWR(`/api/letter-speed`, fetcher);
   console.log(letterSpeedData);
   const averageTime =
-    letterSpeedData.lowercaseArray.reduce((a: number, b: number) => a + b, 0) /
-    letterSpeedData.lowercaseArray.length;
+    letterSpeedData && letterSpeedData.lowercaseArray
+      ? letterSpeedData.lowercaseArray.reduce(
+          (a: number, b: number) => a + b,
+          0,
+        ) / letterSpeedData.lowercaseArray.length
+      : NaN;
   const averageSymbolTime =
-    letterSpeedData.symbolArray.reduce((a: number, b: number) => a + b, 0) /
-    letterSpeedData.symbolArray.length;
-  const ZapIcon: JSX.Element = (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      width={48}
-      height={48}
-      sx={{
-        "&::before": {
-          content: '""', // Required for ::before to render
-          height: "48px",
-          width: "48px",
-          position: "absolute",
-          backgroundColor: theme.vars.palette.secondary[200],
-          opacity: 0.2,
-          borderRadius: "10px",
-        },
-      }}
-    >
-      <Zap size={24} color={theme.vars.palette.secondary[200]} />
-    </Box>
-  );
-
-  const HashIcon: JSX.Element = (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      width={48}
-      height={48}
-      sx={{
-        "&::before": {
-          content: '""', // Required for ::before to render
-          height: "48px",
-          width: "48px",
-          position: "absolute",
-          backgroundColor: theme.vars.palette.secondary[300],
-          opacity: 0.2,
-          borderRadius: "10px",
-        },
-      }}
-    >
-      <Hash size={24} color={theme.vars.palette.secondary[300]} />
-    </Box>
-  );
-
-  const LowercaseIcon: JSX.Element = (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      width={48}
-      height={48}
-      sx={{
-        "&::before": {
-          content: '""', // Required for ::before to render
-          height: "48px",
-          width: "48px",
-          position: "absolute",
-          backgroundColor: theme.vars.palette.secondary[400],
-          opacity: 0.2,
-          borderRadius: "10px",
-        },
-      }}
-    >
-      <Box color={theme.vars.palette.secondary[400]} fontSize={28}>
-        a
-      </Box>
-    </Box>
-  );
-
-  const ClockIcon: JSX.Element = (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      width={60}
-      height={60}
-      sx={{
-        "&::before": {
-          content: '""', // Required for ::before to render
-          height: "48px",
-          width: "48px",
-          position: "absolute",
-          backgroundColor: theme.vars.palette.secondary[500],
-          opacity: 0.2,
-          borderRadius: "10px",
-        },
-      }}
-    >
-      <Clock size={30} color={theme.vars.palette.secondary[500]} />
-    </Box>
-  );
-
-  const TargetIcon: JSX.Element = (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      width={60}
-      height={60}
-      sx={{
-        "&::before": {
-          content: '""', // Required for ::before to render
-          height: "48px",
-          width: "48px",
-          position: "absolute",
-          backgroundColor: theme.vars.palette.secondary[600],
-          opacity: 0.2,
-          borderRadius: "10px",
-        },
-      }}
-    >
-      <Target size={30} color={theme.vars.palette.secondary[600]} />
-    </Box>
-  );
-
-  const TrophyIcon: JSX.Element = (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      width={60}
-      height={60}
-      sx={{
-        "&::before": {
-          content: '""', // Required for ::before to render
-          height: "48px",
-          width: "48px",
-          position: "absolute",
-          backgroundColor: theme.vars.palette.secondary[700],
-          opacity: 0.2,
-          borderRadius: "10px",
-        },
-      }}
-    >
-      <TrophyIcon2 size={26} color={theme.vars.palette.secondary[700]} />
-    </Box>
-  );
+    letterSpeedData && letterSpeedData.symbolArray
+      ? letterSpeedData.symbolArray.reduce((a: number, b: number) => a + b, 0) /
+        letterSpeedData.symbolArray.length
+      : NaN;
 
   return (
     <Container sx={{ py: 2 }}>
@@ -198,22 +69,22 @@ export const Component = function Dashboard(): JSX.Element {
         }}
       >
         <LineChartWithKPI
-          icon={ZapIcon}
-          seriesData={data.overallWpm}
+          icon={<ZapIcon />}
+          seriesData={data?.overallWpm}
           datakey="WPM Overall"
           id={0}
           color="#60a5fa"
         />
         <LineChartWithKPI
-          icon={HashIcon}
-          seriesData={data.symbolWPm}
+          icon={<HashIcon />}
+          seriesData={data?.symbolWpm}
           color="#bb81f6"
           id={1}
           datakey="WPM Symbols & Numbers"
         />
         <LineChartWithKPI
-          icon={LowercaseIcon}
-          seriesData={data.lowercaseWpm}
+          icon={<LowercaseIcon />}
+          seriesData={data?.lowercaseWpm}
           id={2}
           color="#facc15"
           datakey="WPM lowercase"
@@ -226,18 +97,18 @@ export const Component = function Dashboard(): JSX.Element {
           sx={{ width: "900px", padding: "0px", borderRadius: 8 }}
         >
           <Kpi
-            icon={ClockIcon}
-            value={hoursAndMinutes(117839)}
+            icon={<ClockIcon />}
+            value={hoursAndMinutes(data?.totalTime ?? 0)}
             datakey="Time Spent"
           />
           <Kpi
-            icon={TargetIcon}
-            value={(Math.round(0.975642 * 1000) / 10).toString() + "%"}
+            icon={<TargetIcon />}
+            value={(Math.round(data?.accuracy * 1000) / 10).toString() + "%"}
             datakey="Accuracy"
           />
           <Kpi
-            icon={TrophyIcon}
-            value={Math.round(800798.87658).toLocaleString()}
+            icon={<TrophyIcon />}
+            value={Math.round(data?.score).toLocaleString()}
             datakey="Total Score"
           />
         </Box>
@@ -257,7 +128,36 @@ export const Component = function Dashboard(): JSX.Element {
               {
                 scaleType: "band",
                 label: "Keyboard Char",
-                data: letterSpeedData.keyArray,
+                data: letterSpeedData?.lowercase?.keyArray
+                  ? letterSpeedData.lowercase?.keyArray
+                  : [
+                      "a",
+                      "b",
+                      "c",
+                      "d",
+                      "e",
+                      "f",
+                      "g",
+                      "h",
+                      "i",
+                      "j",
+                      "k",
+                      "l",
+                      "m",
+                      "n",
+                      "o",
+                      "p",
+                      "q",
+                      "r",
+                      "s",
+                      "t",
+                      "u",
+                      "v",
+                      "w",
+                      "x",
+                      "y",
+                      "z",
+                    ],
               },
             ]}
             yAxis={[{ label: "Average WPM" }]}
@@ -265,8 +165,8 @@ export const Component = function Dashboard(): JSX.Element {
             series={[
               {
                 type: "bar",
-                data: Array.isArray(letterSpeedData.timeArray)
-                  ? letterSpeedData.timeArray
+                data: Array.isArray(letterSpeedData?.lowercase.timeArray)
+                  ? letterSpeedData.lowercase.timeArray
                   : [],
                 valueFormatter: (value: number | null) =>
                   Math.round(value ?? 0) + "ms",
@@ -305,7 +205,50 @@ export const Component = function Dashboard(): JSX.Element {
               {
                 scaleType: "band",
                 label: "Keyboard Char",
-                data: letterSpeedData.symbolKeyArray,
+                data: letterSpeedData?.symbol?.KeyArray
+                  ? letterSpeedData.symbol.keyArray
+                  : [
+                      "!",
+                      "@",
+                      "#",
+                      "$",
+                      "%",
+                      "^",
+                      "&",
+                      "*",
+                      "(",
+                      ")",
+                      "-",
+                      "=",
+                      "_",
+                      "+",
+                      "[",
+                      "]",
+                      "{",
+                      "}",
+                      ";",
+                      ":",
+                      "'",
+                      '"',
+                      ",",
+                      ".",
+                      "<",
+                      ">",
+                      "/",
+                      "?",
+                      "`",
+                      "~",
+                      "0",
+                      "1",
+                      "2",
+                      "3",
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                      "8",
+                      "9",
+                    ],
               },
             ]}
             yAxis={[{ label: "Average WPM" }]}
@@ -313,7 +256,9 @@ export const Component = function Dashboard(): JSX.Element {
             series={[
               {
                 type: "bar",
-                data: Array.isArray(letterSpeedData) ? letterSpeedData : [],
+                data: Array.isArray(letterSpeedData?.symbols?.timeArray)
+                  ? letterSpeedData.sybols.timeArray
+                  : [],
                 valueFormatter: (value: number | null) =>
                   Math.round(value ?? 0) + "ms",
               },
@@ -344,7 +289,7 @@ export const Component = function Dashboard(): JSX.Element {
             maxWidth: "900px",
           }}
         >
-          <BellCurveChart />
+          <WpmBellCurveChart />
         </Box>
       </Box>
     </Container>

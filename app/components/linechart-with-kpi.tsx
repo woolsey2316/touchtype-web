@@ -15,7 +15,9 @@ export default function LineChartWithKPI({
   color: string;
   id: number;
 }) {
-  const average = seriesData.reduce((a, b) => a + b.y, 0) / seriesData.length;
+  const average = seriesData
+    ? seriesData.reduce((a, b) => a + b.y, 0) / seriesData.length
+    : NaN;
   const roundedAverage = Number.isInteger(average)
     ? average
     : average.toFixed(2);
@@ -42,7 +44,7 @@ export default function LineChartWithKPI({
             sx={{ margin: "16px 0px 8px 0px", color: "text.secondary" }}
             level="h2"
           >
-            {roundedAverage}
+            {isNaN(Number(roundedAverage)) ? "-" : roundedAverage}
           </Typography>
           <Typography level="body-md" sx={{ mb: 1, fontWeight: 600 }}>
             {datakey}

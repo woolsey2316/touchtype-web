@@ -29,7 +29,7 @@ export const Kpi = ({
         sx={{ margin: "16px 0px 8px 0px", color: "text.secondary" }}
         level="h2"
       >
-        {value}
+        {isNaN(Number(value)) ? "-" : value}
       </Typography>
       <Typography level="body-sm" sx={{ mb: 1 }}>
         {datakey}
