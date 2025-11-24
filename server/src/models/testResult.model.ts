@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { TestResult } from "@interfaces/testResult.interface";
+import { TestResult } from "@interfaces/testResult.interface.js";
 
 export const testResultSchema: Schema = new mongoose.Schema<TestResult>(
   {

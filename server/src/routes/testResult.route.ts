@@ -1,8 +1,8 @@
 import { Router } from "express";
-import TestResultController from "@controllers/testResult.controller";
-import { CreateTestResultDto } from "@dtos/testResult.dto";
-import { Routes } from "@interfaces/routes.interface";
-import validationMiddleware from "@middlewares/validation.middleware";
+import TestResultController from "@controllers/testResult.controller.js";
+import { CreateTestResultDto } from "@dtos/testResult.dto.js";
+import { Routes } from "@interfaces/routes.interface.js";
+import validationMiddleware from "@middlewares/validation.middleware.js";
 
 class TestResultRoute implements Routes {
   public path = "/test-results";

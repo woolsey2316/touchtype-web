@@ -69,7 +69,17 @@ export function useSignIn(
     if (!p) throw new Error(`Not supported: ${signInMethod}`);
 
     setInFlight(true);
-    p.then(() => navigate("/")).finally(() => setInFlight(false));
+    p.then((value) => {
+      value.user.getIdToken().then((token) => {
+        const [, payloadEncoded] = token.split(".");
+        const payload = JSON.parse(atob(payloadEncoded));
+
+        if (payload.email) {
+          localStorage.setItem("user_id", payload.user_id);
+        }
+      });
+      navigate("/");
+    }).finally(() => setInFlight(false));
   }, [signInMethod, navigate]);
 
   return [signIn, inFlight] as const;

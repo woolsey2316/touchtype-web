@@ -24,36 +24,17 @@ import {
   ChartsReferenceLine,
 } from "@mui/x-charts";
 import WpmBellCurveChart from "../components/bell-curve-chart";
-import useSWR from "swr";
-const baseURL = import.meta.env.VITE_API_BASE_URL || "";
+import { useDashboardData } from "../hooks/useDashboardData";
 
 export const Component = function Dashboard(): JSX.Element {
   usePageEffect({ title: "Dashboard" });
-  const token = localStorage.getItem("authToken");
   const { theme } = useContext(ThemeContext);
-  const fetcher = (path: string) =>
-    fetch(`${baseURL}${path}`, {
-      credentials: "include",
-      headers: {
-        Authorization: `Bearer ${token}`, // Assuming Bearer token authentication
-        "Content-Type": "application/json", // Example of another header
-      },
-    }).then((res) => res.json());
-  const { data } = useSWR(`/api/test-result`, fetcher);
-  const { data: letterSpeedData } = useSWR(`/api/letter-speed`, fetcher);
-  console.log(letterSpeedData);
-  const averageTime =
-    letterSpeedData && letterSpeedData.lowercaseArray
-      ? letterSpeedData.lowercaseArray.reduce(
-          (a: number, b: number) => a + b,
-          0,
-        ) / letterSpeedData.lowercaseArray.length
-      : NaN;
-  const averageSymbolTime =
-    letterSpeedData && letterSpeedData.symbolArray
-      ? letterSpeedData.symbolArray.reduce((a: number, b: number) => a + b, 0) /
-        letterSpeedData.symbolArray.length
-      : NaN;
+  const {
+    testResultData,
+    letterSpeedData,
+    averageLowercaseTime,
+    averageSymbolTime,
+  } = useDashboardData();
 
   return (
     <Container sx={{ py: 2 }}>
@@ -70,21 +51,21 @@ export const Component = function Dashboard(): JSX.Element {
       >
         <LineChartWithKPI
           icon={<ZapIcon />}
-          seriesData={data?.overallWpm}
+          seriesData={testResultData?.overallWpm}
           datakey="WPM Overall"
           id={0}
           color="#60a5fa"
         />
         <LineChartWithKPI
           icon={<HashIcon />}
-          seriesData={data?.symbolWpm}
+          seriesData={testResultData?.symbolWpm}
           color="#bb81f6"
           id={1}
           datakey="WPM Symbols & Numbers"
         />
         <LineChartWithKPI
           icon={<LowercaseIcon />}
-          seriesData={data?.lowercaseWpm}
+          seriesData={testResultData?.lowercaseWpm}
           id={2}
           color="#facc15"
           datakey="WPM lowercase"
@@ -98,17 +79,20 @@ export const Component = function Dashboard(): JSX.Element {
         >
           <Kpi
             icon={<ClockIcon />}
-            value={hoursAndMinutes(data?.totalTime ?? 0)}
+            value={hoursAndMinutes(testResultData?.totalTime ?? 0)}
             datakey="Time Spent"
           />
           <Kpi
             icon={<TargetIcon />}
-            value={(Math.round(data?.accuracy * 1000) / 10).toString() + "%"}
+            value={
+              (Math.round(testResultData?.accuracy * 1000) / 10).toString() +
+              "%"
+            }
             datakey="Accuracy"
           />
           <Kpi
             icon={<TrophyIcon />}
-            value={Math.round(data?.score).toLocaleString()}
+            value={Math.round(testResultData?.score).toLocaleString()}
             datakey="Total Score"
           />
         </Box>
@@ -176,8 +160,8 @@ export const Component = function Dashboard(): JSX.Element {
             <BarPlot />
             <LinePlot />
             <ChartsReferenceLine
-              y={averageTime}
-              label={"Avg: " + Math.round(averageTime) + "wpm"}
+              y={averageLowercaseTime}
+              label={"Avg: " + Math.round(averageLowercaseTime) + "wpm"}
               lineStyle={{
                 stroke: theme.vars.palette.secondary[100],
                 strokeDasharray: "5 5",

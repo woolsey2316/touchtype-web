@@ -1,9 +1,9 @@
 import { Router } from "express";
-import AuthController from "@controllers/auth.controller";
-import { CreateUserDto } from "@dtos/users.dto";
-import { Routes } from "@interfaces/routes.interface";
-import authMiddleware from "@middlewares/auth.middleware";
-import validationMiddleware from "@middlewares/validation.middleware";
+import AuthController from "@controllers/auth.controller.js";
+import { CreateUserDto } from "@dtos/users.dto.js";
+import { Routes } from "@interfaces/routes.interface.js";
+import authMiddleware from "@middlewares/auth.middleware.js";
+import validationMiddleware from "@middlewares/validation.middleware.js";
 
 class AuthRoute implements Routes {
   public path = "/";

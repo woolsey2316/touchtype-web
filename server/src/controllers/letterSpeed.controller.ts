@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { CreateLetterSpeedDto } from "@dtos/letterSpeed.dto";
-import { LetterSpeed } from "@interfaces/letterSpeed.interface";
-import letterSpeedService from "@services/letterSpeed.service";
+import { CreateLetterSpeedDto } from "@dtos/letterSpeed.dto.js";
+import { LetterSpeed } from "@interfaces/letterSpeed.interface.js";
+import letterSpeedService from "@services/letterSpeed.service.js";
 
 class LetterSpeedController {
   public letterSpeedService = new letterSpeedService();
 
-  public getAllLetterSpeed = async (
+  public getLetterSpeedByCharacter = async (
     req: Request,
     res: Response,
     next: NextFunction,
@@ -23,7 +23,7 @@ class LetterSpeedController {
     }
   };
 
-  public createLetterSpeed = async (
+  public updateLetterSpeedData = async (
     req: Request,
     res: Response,
     next: NextFunction,

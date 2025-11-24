@@ -1,12 +1,12 @@
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
-import { SECRET_KEY } from "@config";
-import { CreateUserDto } from "@dtos/users.dto";
-import { HttpException } from "@exceptions/HttpException";
-import { DataStoredInToken, TokenData } from "@interfaces/auth.interface";
-import { User } from "@interfaces/users.interface";
-import userModel from "@models/users.model";
-import { isEmpty } from "@utils/util";
+import { SECRET_KEY } from "@config/config.js";
+import { CreateUserDto } from "@dtos/users.dto.js";
+import { HttpException } from "@exceptions/HttpException.js";
+import { DataStoredInToken, TokenData } from "@interfaces/auth.interface.js";
+import { User } from "@interfaces/users.interface.js";
+import userModel from "@models/users.model.js";
+import { isEmpty } from "@utils/util.js";
 
 class AuthService {
   public users = userModel;

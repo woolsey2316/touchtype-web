@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { CreateTestResultDto } from "@dtos/testResult.dto";
-import { TestResult } from "@interfaces/testResult.interface";
-import testResultService from "@services/testResult.service";
+import { CreateTestResultDto } from "@dtos/testResult.dto.js";
+import { TestResult } from "@interfaces/testResult.interface.js";
+import testResultService from "@services/testResult.service.js";
 
 class TestResultsController {
   public testResultService = new testResultService();

@@ -1,9 +1,11 @@
-import App from "@/app.ts";
-import AuthRoute from "@routes/auth.route.ts";
-import IndexRoute from "@routes/index.route.ts";
-import UsersRoute from "@routes/users.route.ts";
-import TestResultRoute from "@routes/testResult.route.ts";
-import validateEnv from "@utils/validateEnv.ts";
+import "reflect-metadata";
+import App from "@/app.js";
+import AuthRoute from "@routes/auth.route.js";
+import IndexRoute from "@routes/index.route.js";
+import LetterSpeedRoute from "@routes/letterSpeed.route.js";
+import TestResultRoute from "@routes/testResult.route.js";
+import UsersRoute from "@routes/users.route.js";
+import validateEnv from "@utils/validateEnv.js";
 
 validateEnv();
 
@@ -12,6 +14,7 @@ const app = new App([
   new UsersRoute(),
   new AuthRoute(),
   new TestResultRoute(),
+  new LetterSpeedRoute(),
 ]);
 
 app.listen();

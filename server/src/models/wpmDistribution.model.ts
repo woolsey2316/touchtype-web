@@ -1,5 +1,5 @@
 import { model, Schema, Document } from "mongoose";
-import { WpmDistribution } from "@interfaces/wpmDistribution.interface";
+import { WpmDistribution } from "@interfaces/wpmDistribution.interface.js";
 
 const wpmDistributionSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },

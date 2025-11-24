@@ -1,8 +1,8 @@
-import { CreateTestResultDto } from "@dtos/testResult.dto";
-import { HttpException } from "@exceptions/HttpException";
-import { TestResult } from "@interfaces/testResult.interface";
-import testResultModel from "@models/testResult.model";
-import { isEmpty } from "@utils/util";
+import { CreateTestResultDto } from "@dtos/testResult.dto.js";
+import { HttpException } from "@exceptions/HttpException.js";
+import { TestResult } from "@interfaces/testResult.interface.js";
+import testResultModel from "@models/testResult.model.js";
+import { isEmpty } from "@utils/util.js";
 
 class TestResultService {
   public testResults = testResultModel;

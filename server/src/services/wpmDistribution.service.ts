@@ -1,4 +1,4 @@
-import wpmDistributionModel from "../models/wpmDistribution.model";
+import wpmDistributionModel from "../models/wpmDistribution.model.js";
 
 export class WpmDistributionService {
   public async getFrequenciesByUserId(

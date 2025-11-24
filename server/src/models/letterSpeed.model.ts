@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { LetterSpeed } from "@interfaces/letterSpeed.interface";
+import { LetterSpeed } from "@interfaces/letterSpeed.interface.js";
 
 export interface LetterSpeedDocument extends LetterSpeed, mongoose.Document {}
 

@@ -1,6 +1,6 @@
-import letterSpeedModel from "@models/letterSpeed.model";
+import letterSpeedModel from "@models/letterSpeed.model.js";
 import { Types } from "mongoose";
-import { LetterSummary } from "../types/types";
+import { LetterSummary } from "../types/types.js";
 
 class LetterSpeedService {
   public letterSpeeds = letterSpeedModel;
