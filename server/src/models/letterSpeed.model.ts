@@ -20,40 +20,29 @@ export const letterSpeedSchema: Schema =
       userId: {
         type: String,
         ref: "User",
-        default: null,
         index: true,
       },
       letter: {
         type: String,
         required: true,
-        lowercase: true,
-        match: /^[a-z]$/i,
       },
       samples: {
         type: Number,
         required: true,
-        default: 0,
         min: 0,
       },
       totalTimeMs: {
         type: Number,
         required: true,
-        default: 0,
         min: 0,
       },
       avgTimeMs: {
         type: Number,
-        default: null,
         min: 0,
       },
       emaMs: {
         type: Number,
-        default: null,
         min: 0,
-      },
-      lastSeen: {
-        type: Date,
-        default: Date.now,
       },
     },
     { timestamps: true },

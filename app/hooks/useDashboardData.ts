@@ -1,4 +1,31 @@
 import useSWR from "swr";
+interface TestResultData {
+  data: {
+    accuracy: number;
+    score: number;
+    totalTime: number;
+    overall: { x: number; y: number; id: number }[];
+    lowercase: { x: number; y: number; id: number }[];
+    symbol: { x: number; y: number; id: number }[];
+  };
+}
+
+interface LetterSpeedData {
+  data: {
+    lowercase: {
+      letter: string;
+      samples: number;
+      totalTime: number;
+      avgTimeMs: number;
+    }[];
+    symbols: {
+      letter: string;
+      samples: number;
+      totalTime: number;
+      avgTimeMs: number;
+    }[];
+  };
+}
 export const useDashboardData = () => {
   const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
 
@@ -13,32 +40,34 @@ export const useDashboardData = () => {
       },
     }).then((res) => res.json());
 
-  const { data: testResultData } = useSWR(
-    `/api/test-result/${userId}`,
+  const { data: testResultData } = useSWR<TestResultData>(
+    `/api/test-results/${userId}`,
     fetcher,
   );
-  const { data: letterSpeedData } = useSWR(
+  const { data: letterSpeedData } = useSWR<LetterSpeedData>(
     `/api/letter-speed/${userId}`,
     fetcher,
   );
 
   const averageLowercaseTime =
-    letterSpeedData && letterSpeedData.lowercaseArray
-      ? letterSpeedData.lowercaseArray.reduce(
-          (a: number, b: number) => a + b,
+    letterSpeedData && letterSpeedData.data.lowercase
+      ? letterSpeedData.data.lowercase.reduce(
+          (a: number, b) => a + b.avgTimeMs,
           0,
-        ) / letterSpeedData.lowercaseArray.length
+        ) / letterSpeedData.data.lowercase.length
       : NaN;
 
   const averageSymbolTime =
-    letterSpeedData && letterSpeedData.symbolArray
-      ? letterSpeedData.symbolArray.reduce((a: number, b: number) => a + b, 0) /
-        letterSpeedData.symbolArray.length
+    letterSpeedData && letterSpeedData.data.symbols
+      ? letterSpeedData.data.symbols.reduce(
+          (a: number, b) => a + b.avgTimeMs,
+          0,
+        ) / letterSpeedData.data.symbols.length
       : NaN;
 
   return {
-    testResultData,
-    letterSpeedData,
+    testResultData: testResultData?.data,
+    letterSpeedData: letterSpeedData?.data,
     averageLowercaseTime,
     averageSymbolTime,
   };

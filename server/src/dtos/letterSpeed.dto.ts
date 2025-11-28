@@ -1,8 +1,6 @@
 import { Type } from "class-transformer";
 import {
   IsString,
-  IsOptional,
-  IsMongoId,
   IsNumber,
   ValidateNested,
   ArrayNotEmpty,
@@ -18,9 +16,8 @@ export class LetterSummary {
 }
 
 export class CreateLetterSpeedDto {
-  @IsOptional()
-  @IsMongoId()
-  public userId?: string | null;
+  @IsString()
+  public userId: string;
 
   @IsArray()
   @ArrayNotEmpty()

@@ -15,7 +15,7 @@ class TestResultRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(
-      `${this.path}/:id`,
+      `${this.path}/:userId`,
       this.testResultController.getUserDashboardData,
     );
     this.router.post(

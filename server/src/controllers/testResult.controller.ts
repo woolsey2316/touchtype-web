@@ -14,7 +14,7 @@ class TestResultsController {
     try {
       const dashboardData =
         await this.testResultService.findAllUsersDashboardData(
-          req.body.userId as string,
+          req.params.userId as string,
         );
 
       res.status(200).json({ data: dashboardData, message: "findAll" });

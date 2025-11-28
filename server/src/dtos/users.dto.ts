@@ -1,10 +1,10 @@
-import { IsMongoId, IsEmail, IsString } from "class-validator";
+import { IsEmail, IsString } from "class-validator";
 
 export class CreateUserDto {
   @IsEmail()
   public email: string;
 
-  @IsMongoId()
+  @IsString()
   public userId: string;
 
   @IsString()

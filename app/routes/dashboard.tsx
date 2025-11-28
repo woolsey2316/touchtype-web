@@ -35,7 +35,18 @@ export const Component = function Dashboard(): JSX.Element {
     averageLowercaseTime,
     averageSymbolTime,
   } = useDashboardData();
-
+  const lowercaseLetterAverageTime = letterSpeedData?.lowercase.map(
+    (elem) => elem.avgTimeMs,
+  );
+  const lowercaseLetterSpeedKeys = letterSpeedData?.lowercase.map(
+    (elem) => elem.letter,
+  );
+  const symbolLetterSpeedData = letterSpeedData?.symbols.map(
+    (elem) => elem.avgTimeMs,
+  );
+  const symbolLetterSpeedKeys = letterSpeedData?.symbols.map(
+    (elem) => elem.letter,
+  );
   return (
     <Container sx={{ py: 2 }}>
       <Typography sx={{ mb: 2 }} level="h2">
@@ -51,21 +62,21 @@ export const Component = function Dashboard(): JSX.Element {
       >
         <LineChartWithKPI
           icon={<ZapIcon />}
-          seriesData={testResultData?.overallWpm}
+          seriesData={testResultData?.overall ?? []}
           datakey="WPM Overall"
           id={0}
           color="#60a5fa"
         />
         <LineChartWithKPI
           icon={<HashIcon />}
-          seriesData={testResultData?.symbolWpm}
+          seriesData={testResultData?.symbol ?? []}
           color="#bb81f6"
           id={1}
           datakey="WPM Symbols & Numbers"
         />
         <LineChartWithKPI
           icon={<LowercaseIcon />}
-          seriesData={testResultData?.lowercaseWpm}
+          seriesData={testResultData?.lowercase ?? []}
           id={2}
           color="#facc15"
           datakey="WPM lowercase"
@@ -85,14 +96,20 @@ export const Component = function Dashboard(): JSX.Element {
           <Kpi
             icon={<TargetIcon />}
             value={
-              (Math.round(testResultData?.accuracy * 1000) / 10).toString() +
-              "%"
+              testResultData?.accuracy === undefined
+                ? "-"
+                : (Math.round(testResultData?.accuracy * 10) / 10).toString() +
+                  "%"
             }
             datakey="Accuracy"
           />
           <Kpi
             icon={<TrophyIcon />}
-            value={Math.round(testResultData?.score).toLocaleString()}
+            value={
+              testResultData?.accuracy === undefined
+                ? "-"
+                : Math.round(testResultData?.score).toLocaleString()
+            }
             datakey="Total Score"
           />
         </Box>
@@ -112,8 +129,8 @@ export const Component = function Dashboard(): JSX.Element {
               {
                 scaleType: "band",
                 label: "Keyboard Char",
-                data: letterSpeedData?.lowercase?.keyArray
-                  ? letterSpeedData.lowercase?.keyArray
+                data: lowercaseLetterSpeedKeys
+                  ? lowercaseLetterSpeedKeys
                   : [
                       "a",
                       "b",
@@ -149,8 +166,8 @@ export const Component = function Dashboard(): JSX.Element {
             series={[
               {
                 type: "bar",
-                data: Array.isArray(letterSpeedData?.lowercase.timeArray)
-                  ? letterSpeedData.lowercase.timeArray
+                data: Array.isArray(lowercaseLetterAverageTime)
+                  ? lowercaseLetterAverageTime
                   : [],
                 valueFormatter: (value: number | null) =>
                   Math.round(value ?? 0) + "ms",
@@ -189,8 +206,8 @@ export const Component = function Dashboard(): JSX.Element {
               {
                 scaleType: "band",
                 label: "Keyboard Char",
-                data: letterSpeedData?.symbol?.KeyArray
-                  ? letterSpeedData.symbol.keyArray
+                data: symbolLetterSpeedKeys
+                  ? symbolLetterSpeedKeys
                   : [
                       "!",
                       "@",
@@ -240,8 +257,8 @@ export const Component = function Dashboard(): JSX.Element {
             series={[
               {
                 type: "bar",
-                data: Array.isArray(letterSpeedData?.symbols?.timeArray)
-                  ? letterSpeedData.sybols.timeArray
+                data: Array.isArray(symbolLetterSpeedData)
+                  ? symbolLetterSpeedData
                   : [],
                 valueFormatter: (value: number | null) =>
                   Math.round(value ?? 0) + "ms",

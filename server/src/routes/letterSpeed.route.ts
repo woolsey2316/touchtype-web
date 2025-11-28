@@ -15,11 +15,11 @@ class LetterSpeedRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(
-      `${this.path}/:id`,
+      `${this.path}/:userId`,
       this.letterSpeedController.getLetterSpeedByCharacter,
     );
     this.router.put(
-      `${this.path}/:id`,
+      `${this.path}`,
       validationMiddleware(CreateLetterSpeedDto, "body"),
       this.letterSpeedController.updateLetterSpeedData,
     );

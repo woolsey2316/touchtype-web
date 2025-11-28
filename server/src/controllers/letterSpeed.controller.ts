@@ -12,10 +12,12 @@ class LetterSpeedController {
     next: NextFunction,
   ) => {
     try {
-      const findAllLetterSpeed: LetterSpeed[] =
-        await this.letterSpeedService.getLetterAverages(
-          req.query.userId as string,
-        );
+      const findAllLetterSpeed: {
+        lowercase: LetterSpeed[];
+        symbols: LetterSpeed[];
+      } = await this.letterSpeedService.getLetterAverages(
+        req.params.userId as string,
+      );
 
       res.status(200).json({ data: findAllLetterSpeed, message: "findAll" });
     } catch (error) {
@@ -30,7 +32,7 @@ class LetterSpeedController {
   ) => {
     try {
       const letterSpeedData: CreateLetterSpeedDto = req.body;
-      const userId = req.query.userId as string;
+      const userId = req.body.userId as string;
       const createUserData = await this.letterSpeedService.upsertLetterSpeeds(
         userId,
         letterSpeedData.summaries,

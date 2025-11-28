@@ -1,11 +1,11 @@
-import { IsOptional, IsMongoId, IsString, IsNumber } from "class-validator";
+import { IsOptional, IsString, IsNumber } from "class-validator";
 
 export class CreateTestResultDto {
-  @IsMongoId()
+  @IsString()
   public userId: string;
 
   @IsNumber()
-  public wpm: string;
+  public wpm: number;
 
   @IsNumber()
   public time: number;
@@ -21,9 +21,9 @@ export class CreateTestResultDto {
 
   @IsOptional()
   @IsNumber()
-  public lowercaseWPM?: number;
+  public lowercaseWpm?: number;
 
   @IsOptional()
   @IsNumber()
-  public symbolWPM?: number;
+  public symbolWpm?: number;
 }

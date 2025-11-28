@@ -1,5 +1,4 @@
 import letterSpeedModel from "@models/letterSpeed.model.js";
-import { Types } from "mongoose";
 import { LetterSummary } from "../types/types.js";
 
 class LetterSpeedService {
@@ -33,11 +32,16 @@ class LetterSpeedService {
       { $sort: { letter: 1 as 1 | -1 } },
     ];
 
-    return letterSpeedModel.aggregate(pipeline).exec();
+    const results = await letterSpeedModel.aggregate(pipeline).exec();
+
+    const lowercase = results.filter((r) => /^[a-z]$/.test(r.letter));
+    const symbols = results.filter((r) => !/^[a-zA-Z]$/.test(r.letter));
+
+    return { lowercase, symbols };
   }
 
   public async upsertLetterSpeeds(
-    userId: string | null,
+    userId: string,
     summaries: LetterSummary[],
     opts?: { emaAlpha?: number },
   ): Promise<{
@@ -61,7 +65,7 @@ class LetterSpeedService {
 
     for (const raw of summaries) {
       if (!raw || typeof raw.letter !== "string") continue;
-      const letter = raw.letter.trim().toLowerCase();
+      const letter = raw.letter;
 
       const incomingAvg = Number(raw.avgTimeMs);
       if (!isFinite(incomingAvg) || incomingAvg < 0) {
@@ -72,41 +76,43 @@ class LetterSpeedService {
       const incomingTotalTime = incomingAvg;
 
       const filter = {
-        userId: userId ? new Types.ObjectId(userId) : null,
+        userId,
         letter,
       };
 
       // Aggregation-pipeline update. We reference the existing fields ($samples, $totalTimeMs, $emaMs)
       // and add incoming constants directly in the pipeline ops.
       const updatePipeline = [
-        // Ensure fields exist (if document missing, upsert will create later using $setFields below)
         {
           $set: {
-            samples: { $ifNull: ["$samples", 0] },
-            totalTimeMs: { $ifNull: ["$totalTimeMs", 0] },
-            emaMs: { $ifNull: ["$emaMs", null] },
+            docExists: { $ne: ["$userId", null] },
           },
         },
-        // Add incoming batch
         {
           $set: {
-            samples: { $add: ["$samples", incomingSamples] },
-            totalTimeMs: { $add: ["$totalTimeMs", incomingTotalTime] },
-          },
-        },
-        // Recompute avgTimeMs and update emaMs and lastSeen
-        {
-          $set: {
-            avgTimeMs: {
-              $cond: [
-                { $gt: ["$samples", 0] },
-                { $divide: ["$totalTimeMs", "$samples"] },
-                null,
+            userId: {
+              $cond: ["$docExists", "$userId", userId],
+            },
+            letter: {
+              $cond: ["$docExists", "$letter", letter],
+            },
+            samples: {
+              $add: [
+                {
+                  $ifNull: [{ $cond: ["$docExists", "$samples", 0] }, 0],
+                },
+                incomingSamples,
+              ],
+            },
+            totalTimeMs: {
+              $add: [
+                { $ifNull: [{ $cond: ["$docExists", "$totalTimeMs", 0] }, 0] },
+                incomingTotalTime,
               ],
             },
             emaMs: {
               $cond: [
-                { $ifNull: ["$emaMs", false] },
+                { $and: ["$docExists", "$emaMs"] },
                 {
                   $add: [
                     { $multiply: [alpha, incomingAvg] },
@@ -116,15 +122,41 @@ class LetterSpeedService {
                 incomingAvg,
               ],
             },
-            lastSeen: "$$NOW",
-          },
-        },
-        // On upsert (new doc), set userId, letter and createdAt via $setOnInsert
-        {
-          $setOnInsert: {
-            userId: filter.userId,
-            letter,
-            createdAt: "$$NOW",
+            avgTimeMs: {
+              $cond: [
+                {
+                  $gt: [
+                    {
+                      $add: [
+                        { $cond: ["$docExists", "$samples", 0] },
+                        incomingSamples,
+                      ],
+                    },
+                    0,
+                  ],
+                },
+                {
+                  $divide: [
+                    {
+                      $add: [
+                        { $cond: ["$docExists", "$totalTimeMs", 0] },
+                        incomingTotalTime,
+                      ],
+                    },
+                    {
+                      $add: [
+                        { $cond: ["$docExists", "$samples", 0] },
+                        incomingSamples,
+                      ],
+                    },
+                  ],
+                },
+                incomingAvg,
+              ],
+            },
+            createdAt: {
+              $cond: ["$docExists", "$createdAt", "$$NOW"],
+            },
           },
         },
       ];
@@ -151,7 +183,6 @@ class LetterSpeedService {
     const result = await letterSpeedModel.bulkWrite(operations, {
       ordered: false,
     });
-
     // Normalize a friendly result summary
     const summary = {
       ok: result.ok === 1,

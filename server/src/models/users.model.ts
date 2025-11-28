@@ -3,7 +3,7 @@ import { User } from "@interfaces/users.interface.js";
 
 const userSchema: Schema = new Schema({
   userId: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
     unique: true,
   },

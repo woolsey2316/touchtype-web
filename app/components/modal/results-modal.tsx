@@ -12,7 +12,7 @@ import { ChartContainerProps } from "@mui/x-charts/ChartContainer";
 import { ChartsYAxisProps, ChartsXAxisProps } from "@mui/x-charts";
 import { ChartsReferenceLineProps } from "@mui/x-charts/ChartsReferenceLine";
 import { ChartsTooltipProps } from "@mui/x-charts/ChartsTooltip";
-
+import { useKeyTimeArrays } from "../../hooks/useKeyTimeArrays";
 interface Props {
   setTimeInfo: React.Dispatch<
     React.SetStateAction<{
@@ -53,8 +53,6 @@ export const ResultsModal = ({
   const timeSpent = 5.2 + currentTime / 60;
   const wpmDelta = 2.7;
   const accDelta = 1.8;
-  const [keyArray, setKeyArray] = useState<string[]>([]);
-  const [timeArray, setTimeArray] = useState<number[]>([]);
   const [BarChartComponent, setBarChartComponent] =
     useState<null | React.ComponentType<
       BarPlotProps & RefAttributes<SVGSVGElement>
@@ -108,33 +106,7 @@ export const ResultsModal = ({
     }
   }, []);
 
-  useEffect(() => {
-    const keyArr = keyTimeMap?.current ? Object.keys(keyTimeMap.current) : [];
-    const timeArr = keyTimeMap?.current
-      ? Object.values(keyTimeMap.current).reduce((acc, curr) => {
-          const totalTime = curr.reduce((sum, time) => sum + time, 0);
-          acc.push(totalTime / curr.length);
-          return acc;
-        }, [])
-      : [];
-    const list = [];
-    for (let j = 0; j < keyArr.length; j++)
-      list.push({ key: keyArr[j], time: timeArr[j] });
-
-    //2) sort:
-    list.sort(function (a, b) {
-      return a.time > b.time ? -1 : a.time == b.time ? 0 : 1;
-    });
-
-    //3) separate them back out:
-    for (let k = 0; k < list.length; k++) {
-      keyArr[k] = list[k].key;
-      timeArr[k] = list[k].time;
-    }
-
-    setKeyArray(keyArr);
-    setTimeArray(timeArr);
-  }, [isOpen, keyTimeMap]);
+  const { timeArray, keyArray } = useKeyTimeArrays(keyTimeMap);
   const theme = useTheme();
   const averageTime =
     timeArray.reduce((acc, curr) => acc + curr, 0) / timeArray.length;

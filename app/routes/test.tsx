@@ -1,22 +1,17 @@
-/* SPDX-FileCopyrightText: 2014-present Kriasoft */
-/* SPDX-License-Identifier: MIT */
-
 import { Box, Card, CardContent, Container, Typography } from "@mui/joy";
-import { useState, useCallback, type JSX, useRef } from "react";
+import { useState, type JSX, useRef } from "react";
 import TypingPanel from "../components/typing-panel";
 import { usePageEffect } from "../core/page";
 import { Language } from "../types/words.type";
 import { MainOptionsBar } from "../components/main-options-bar";
 import { CurrentWPM } from "../components/current-wpm";
 import CountdownTimer from "../components/countdown-timer";
-import { calcWPM, calcAccuracy, calcScore } from "../utils/test-stats";
+import { useTestResults } from "../hooks/useTestResults";
 
 export const Component = function Test(): JSX.Element {
   usePageEffect({ title: "Typing Test" });
-  const mistakes = useRef(0);
-  const correctChars = useRef(0);
+
   const [punctuation, setPunctuation] = useState(false);
-  const [isOpen, setIsResultsModalOpen] = useState(false);
   const [numbers, setNumbers] = useState(false);
   const [programmingLanguage, setProgrammingLanguage] = useState(false);
   const [language, setLanguage] = useState<Language>(Language.ENGLISH);
@@ -24,64 +19,33 @@ export const Component = function Test(): JSX.Element {
   const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
-  const [currentWPM, setCurrentWPM] = useState(0);
-  // const [averageWPM, setAverageWPM] = useState(0);
-  const [currentAccuracy, setCurrentAccuracy] = useState(0);
-  // const [averageAccuracy, setAverageAccuracy] = useState(0);
-  const [currentScore, setCurrentScore] = useState(0);
-  // const [averageScore, setAverageScore] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
   const [resetCounter, setResetCounter] = useState(0);
   const [testInfo, setTimeInfo] = useState<{
     started: boolean;
     ended: boolean;
   }>({ started: false, ended: false });
   const childInputRef = useRef<HTMLDivElement>(null);
-  const startTime = useRef<number | null>(null);
+  const keyTimeMap = useRef<Record<string, number[]>>({});
+
+  const {
+    mistakes,
+    correctChars,
+    startTime,
+    currentWPM,
+    currentAccuracy,
+    currentScore,
+    currentTime,
+    isOpen,
+    setIsResultsModalOpen,
+    onEnd,
+  } = useTestResults(keyTimeMap);
+
   // Function to focus the typing panel
   const focusChild = () => {
     if (childInputRef.current) {
       childInputRef.current.focus();
     }
   };
-  const keyTimeMap = useRef<Record<string, number[]>>({});
-
-  const recordTypingStats = useCallback(
-    (
-      endTime: number,
-      correctChars: number,
-      mistakes: number,
-      startTime: number,
-    ) => {
-      const wpm = calcWPM(correctChars, endTime - startTime);
-      setCurrentWPM(wpm);
-      const accuracy = calcAccuracy(correctChars, mistakes);
-      const score = calcScore(accuracy, endTime - startTime);
-      setCurrentAccuracy(accuracy);
-      setCurrentScore(score);
-      setCurrentTime((endTime - startTime) / 1000);
-    },
-    [setCurrentWPM],
-  );
-  const onEnd = useCallback(() => {
-    setTimeInfo({
-      started: false,
-      ended: true,
-    });
-    recordTypingStats(
-      Date.now(),
-      correctChars.current,
-      mistakes.current,
-      startTime.current || 0,
-    );
-    setIsResultsModalOpen(true);
-  }, [
-    correctChars,
-    mistakes,
-    recordTypingStats,
-    startTime,
-    setIsResultsModalOpen,
-  ]);
 
   return (
     <Container sx={{ py: 2 }}>
@@ -166,7 +130,7 @@ export const Component = function Test(): JSX.Element {
               testInfo={testInfo}
               startTime={startTime}
               setTimeInfo={setTimeInfo}
-              setCurrentWPM={setCurrentWPM}
+              setCurrentWPM={() => {}} // handled in hook
               currentAccuracy={currentAccuracy}
               currentScore={currentScore}
               currentTime={currentTime}

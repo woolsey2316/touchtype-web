@@ -8,9 +8,9 @@ class TestResultService {
   public testResults = testResultModel;
 
   public async findAllUsersDashboardData(userId: string): Promise<{
-    overall: number[];
-    lowercase: number[];
-    symbol: number[];
+    overall: { x: number; y: number }[];
+    lowercase: { x: number; y: number }[];
+    symbol: { x: number; y: number }[];
     accuracy: number;
     score: number;
     totalTime: number;
@@ -19,14 +19,19 @@ class TestResultService {
       .find({ userId })
       .sort({ createdAt: 1 });
 
-    const wpm = testResults.map((tr) => tr.wpm);
+    const wpm = testResults.map((tr, index) => ({
+      x: index,
+      y: tr.wpm,
+      id: index,
+    }));
     const lowercaseWpm = testResults
       .map((tr) => tr.lowercaseWpm)
-      .filter((v) => v !== undefined && v !== null);
+      .filter((v) => v !== undefined && v !== null)
+      .map((tr, index) => ({ x: index, y: tr, id: index }));
     const symbolWpm = testResults
       .map((tr) => tr.symbolWpm)
-      .filter((v) => v !== undefined && v !== null);
-
+      .filter((v) => v !== undefined && v !== null)
+      .map((tr, index) => ({ x: index, y: tr, id: index }));
     const accuracy =
       testResults.reduce((acc, tr) => tr.accuracy + acc, 0) /
       testResults.length;
@@ -60,7 +65,6 @@ class TestResultService {
   ): Promise<TestResult> {
     if (isEmpty(testResultData))
       throw new HttpException(400, "TestResultData is empty");
-
     const createUserData: TestResult = await this.testResults.create({
       ...testResultData,
     });
