@@ -28,19 +28,15 @@ export default function ScatterLineChart({
   const { theme } = useContext(ThemeContext);
 
   const series = data ?? [];
-  let sum = 0;
-  const compressedData = series.reduce((acc, curr, currId) => {
-    if (currId % 20 === 0 && currId !== 0) {
-      acc.push(Math.round((sum / 20) * 10) / 10);
-      sum = 0;
-    } else {
-      sum += curr.y;
-    }
-    return acc;
-  }, [] as number[]);
-  compressedData.push(sum / (series.length % 20 || 20));
+  const binSize = Math.ceil((data?.length || 20) / 20);
+  const compressedData: number[] = [];
+  for (let i = 0; i < series.length; i += binSize) {
+    const steps = series
+      .slice(i, i + binSize)
+      .reduce((acc, item) => acc + item.y, 0);
+    compressedData.push(steps / binSize);
+  }
 
-  compressedData.push(sum / (series.length % 20 || 20));
   const id = useId();
   const clipPathId = `${id}-clip-path`;
 

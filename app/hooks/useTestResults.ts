@@ -6,14 +6,18 @@ import { Language } from "../types/words.type";
 import { flattenToArrayOfAverageValues } from "../utils/data-processing";
 
 export function useTestResults(
-  keyTimeMap: React.MutableRefObject<Record<string, number[]> | undefined>,
+  keyTimeMap: React.RefObject<Record<string, number[]> | undefined>,
 ) {
   const mistakes = useRef(0);
   const correctChars = useRef(0);
   const startTime = useRef<number | null>(null);
 
   const [currentWPM, setCurrentWPM] = useState(0);
+  const [previousWPM, setPreviousWPM] = useState<number | undefined>(undefined);
   const [currentAccuracy, setCurrentAccuracy] = useState(0);
+  const [previousAccuracy, setPreviousAccuracy] = useState<number | undefined>(
+    undefined,
+  );
   const [currentScore, setCurrentScore] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [isOpen, setIsResultsModalOpen] = useState(false);
@@ -32,6 +36,8 @@ export function useTestResults(
       setCurrentWPM(wpm);
       const accuracy = calcAccuracy(correctCharsVal, mistakesVal);
       const score = calcScore(accuracy, endTime - startTimeVal);
+      setPreviousWPM(currentWPM);
+      setPreviousAccuracy(currentAccuracy);
       setCurrentAccuracy(accuracy);
       setCurrentScore(score);
       setCurrentTime((endTime - startTimeVal) / 1000);
@@ -72,8 +78,6 @@ export function useTestResults(
         lowercaseChars.totalTime,
       );
       const symbolWPM = calcWPM(symbolChars.keys, symbolChars.totalTime);
-      console.log("Lowercase WPM:", lowercaseWPM);
-      console.log("Symbol WPM:", symbolWPM);
 
       const userId = localStorage.getItem("user_id");
       if (!userId) return;
@@ -113,6 +117,8 @@ export function useTestResults(
     mistakes,
     correctChars,
     startTime,
+    previousWPM,
+    previousAccuracy,
     currentWPM,
     currentAccuracy,
     currentScore,

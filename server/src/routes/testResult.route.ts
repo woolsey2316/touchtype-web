@@ -18,6 +18,10 @@ class TestResultRoute implements Routes {
       `${this.path}/:userId`,
       this.testResultController.getUserDashboardData,
     );
+    this.router.get(
+      `${this.path}/daily-time/:email`,
+      this.testResultController.getTimeSpentToday,
+    );
     this.router.post(
       `${this.path}`,
       validationMiddleware(CreateTestResultDto, "body"),

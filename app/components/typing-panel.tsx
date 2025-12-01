@@ -29,6 +29,8 @@ export default function TypingPanel({
   onEnd,
   startTime,
   childInputRef,
+  previousWPM,
+  previousAccuracy,
   currentWPM,
   currentAccuracy,
   currentScore,
@@ -60,6 +62,8 @@ export default function TypingPanel({
   onEnd: () => void;
   startTime: React.RefObject<number | null>;
   setCurrentWPM: React.Dispatch<React.SetStateAction<number>>;
+  previousWPM: number | undefined;
+  previousAccuracy: number | undefined;
   currentAccuracy: number;
   currentScore: number;
   currentWPM: number;
@@ -452,6 +456,8 @@ export default function TypingPanel({
         setIsResultsModalOpen={setIsResultsModalOpen}
         newTestPage={newTestPage}
         setTimeInfo={setTimeInfo}
+        previousWPM={previousWPM}
+        previousAccuracy={previousAccuracy}
         currentWPM={currentWPM}
         currentAccuracy={currentAccuracy}
         currentScore={currentScore}

@@ -60,6 +60,31 @@ class TestResultService {
     return findTestResult;
   }
 
+  public async getTotalTimeSpentToday(userId: string): Promise<number> {
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const results = await this.testResults.aggregate([
+      {
+        $match: {
+          userId: userId,
+          createdAt: { $gte: startOfDay, $lte: endOfDay },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalTime: { $sum: "$time" },
+        },
+      },
+    ]);
+
+    return results[0]?.totalTime || 0;
+  }
+
   public async createTestResult(
     testResultData: CreateTestResultDto,
   ): Promise<TestResult> {

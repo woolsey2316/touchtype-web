@@ -39,6 +39,22 @@ class TestResultsController {
     }
   };
 
+  public getTimeSpentToday = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const email: string = req.params.email;
+      const findTimeSpent: number =
+        await this.testResultService.getTotalTimeSpentToday(email);
+
+      res.status(200).json({ data: findTimeSpent, message: "findOne" });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public createTestResult = async (
     req: Request,
     res: Response,

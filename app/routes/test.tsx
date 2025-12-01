@@ -31,6 +31,8 @@ export const Component = function Test(): JSX.Element {
     mistakes,
     correctChars,
     startTime,
+    previousWPM,
+    previousAccuracy,
     currentWPM,
     currentAccuracy,
     currentScore,
@@ -131,6 +133,8 @@ export const Component = function Test(): JSX.Element {
               startTime={startTime}
               setTimeInfo={setTimeInfo}
               setCurrentWPM={() => {}} // handled in hook
+              previousWPM={previousWPM}
+              previousAccuracy={previousAccuracy}
               currentAccuracy={currentAccuracy}
               currentScore={currentScore}
               currentTime={currentTime}

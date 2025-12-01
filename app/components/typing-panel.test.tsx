@@ -52,6 +52,26 @@ describe("TypingPanel", () => {
     setResetCounter = vi.fn();
     setCurrentWPM = vi.fn();
     childInputRef = React.createRef();
+
+    const localStorageMock = (function () {
+      let store: Record<string, string> = {};
+      return {
+        getItem: (key: string) => store[key] || null,
+        setItem: (key: string, value: string) => {
+          store[key] = value.toString();
+        },
+        removeItem: (key: string) => {
+          delete store[key];
+        },
+        clear: () => {
+          store = {};
+        },
+      };
+    })();
+    Object.defineProperty(window, "localStorage", {
+      value: localStorageMock,
+      writable: true,
+    });
   });
 
   it("correct char = green, failed char = red", async () => {
@@ -78,6 +98,8 @@ describe("TypingPanel", () => {
           isTimedTest={false}
           setTimeInfo={setTimeInfo}
           childInputRef={childInputRef}
+          previousWPM={undefined}
+          previousAccuracy={undefined}
           currentWPM={0}
           setCurrentWPM={setCurrentWPM}
           recordTest={false}
@@ -117,6 +139,8 @@ describe("TypingPanel", () => {
             ended: false,
           }}
           onEnd={() => {}}
+          previousWPM={undefined}
+          previousAccuracy={undefined}
           currentAccuracy={0}
           currentScore={0}
           startTime={startTime}
@@ -170,6 +194,8 @@ describe("TypingPanel", () => {
             ended: false,
           }}
           onEnd={() => {}}
+          previousWPM={undefined}
+          previousAccuracy={undefined}
           currentAccuracy={0}
           currentScore={0}
           startTime={startTime}

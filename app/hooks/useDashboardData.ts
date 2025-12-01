@@ -17,12 +17,14 @@ interface LetterSpeedData {
       samples: number;
       totalTime: number;
       avgTimeMs: number;
+      avgWpm: number;
     }[];
     symbols: {
       letter: string;
       samples: number;
       totalTime: number;
       avgTimeMs: number;
+      avgWpm: number;
     }[];
   };
 }
@@ -52,17 +54,15 @@ export const useDashboardData = () => {
   const averageLowercaseTime =
     letterSpeedData && letterSpeedData.data.lowercase
       ? letterSpeedData.data.lowercase.reduce(
-          (a: number, b) => a + b.avgTimeMs,
+          (a: number, b) => a + b.avgWpm,
           0,
         ) / letterSpeedData.data.lowercase.length
       : NaN;
 
   const averageSymbolTime =
     letterSpeedData && letterSpeedData.data.symbols
-      ? letterSpeedData.data.symbols.reduce(
-          (a: number, b) => a + b.avgTimeMs,
-          0,
-        ) / letterSpeedData.data.symbols.length
+      ? letterSpeedData.data.symbols.reduce((a: number, b) => a + b.avgWpm, 0) /
+        letterSpeedData.data.symbols.length
       : NaN;
 
   return {

@@ -27,6 +27,18 @@ class LetterSpeedService {
               null,
             ],
           },
+          avgWpm: {
+            $cond: [
+              { $gt: ["$samples", 0] },
+              {
+                $divide: [
+                  { $multiply: [60 * 1000, 0.2] },
+                  { $divide: ["$totalTime", "$samples"] },
+                ],
+              },
+              null,
+            ],
+          },
         },
       },
       { $sort: { letter: 1 as 1 | -1 } },

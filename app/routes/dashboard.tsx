@@ -36,13 +36,13 @@ export const Component = function Dashboard(): JSX.Element {
     averageSymbolTime,
   } = useDashboardData();
   const lowercaseLetterAverageTime = letterSpeedData?.lowercase.map(
-    (elem) => elem.avgTimeMs,
+    (elem) => elem.avgWpm,
   );
   const lowercaseLetterSpeedKeys = letterSpeedData?.lowercase.map(
     (elem) => elem.letter,
   );
   const symbolLetterSpeedData = letterSpeedData?.symbols.map(
-    (elem) => elem.avgTimeMs,
+    (elem) => elem.avgWpm,
   );
   const symbolLetterSpeedKeys = letterSpeedData?.symbols.map(
     (elem) => elem.letter,
@@ -170,7 +170,7 @@ export const Component = function Dashboard(): JSX.Element {
                   ? lowercaseLetterAverageTime
                   : [],
                 valueFormatter: (value: number | null) =>
-                  Math.round(value ?? 0) + "ms",
+                  Math.round(value ?? 0) + " wpm",
               },
             ]}
           >
@@ -261,7 +261,7 @@ export const Component = function Dashboard(): JSX.Element {
                   ? symbolLetterSpeedData
                   : [],
                 valueFormatter: (value: number | null) =>
-                  Math.round(value ?? 0) + "ms",
+                  Math.round(value ?? 0) + " wpm",
               },
             ]}
           >

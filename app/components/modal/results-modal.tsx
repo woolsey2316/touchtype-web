@@ -13,6 +13,7 @@ import { ChartsYAxisProps, ChartsXAxisProps } from "@mui/x-charts";
 import { ChartsReferenceLineProps } from "@mui/x-charts/ChartsReferenceLine";
 import { ChartsTooltipProps } from "@mui/x-charts/ChartsTooltip";
 import { useKeyTimeArrays } from "../../hooks/useKeyTimeArrays";
+import { useResultModalData } from "../../hooks/useResultModalData";
 interface Props {
   setTimeInfo: React.Dispatch<
     React.SetStateAction<{
@@ -20,6 +21,8 @@ interface Props {
       ended: boolean;
     }>
   >;
+  previousWPM: number | undefined;
+  previousAccuracy: number | undefined;
   currentWPM: number;
   currentAccuracy: number;
   currentScore: number;
@@ -35,6 +38,8 @@ interface Props {
 }
 
 export const ResultsModal = ({
+  previousWPM,
+  previousAccuracy,
   currentWPM,
   currentAccuracy,
   currentScore,
@@ -48,11 +53,17 @@ export const ResultsModal = ({
   setResetCounter,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
-
+  const { resultModalData } = useResultModalData();
   // Example values for demonstration; replace with your actual logic
-  const timeSpent = 5.2 + currentTime / 60;
-  const wpmDelta = 2.7;
-  const accDelta = 1.8;
+  const timeSpent = resultModalData?.data
+    ? resultModalData?.data / 60 + currentTime / 60
+    : currentTime / 60;
+  const wpmDelta = previousWPM
+    ? Math.round((currentWPM - previousWPM) * 10) / 10
+    : "";
+  const accDelta = previousAccuracy
+    ? Math.round((currentAccuracy - previousAccuracy) * 10) / 10
+    : "";
   const [BarChartComponent, setBarChartComponent] =
     useState<null | React.ComponentType<
       BarPlotProps & RefAttributes<SVGSVGElement>
@@ -175,12 +186,12 @@ export const ResultsModal = ({
               sx={{
                 fontSize: "14px",
                 color:
-                  wpmDelta >= 0
+                  wpmDelta !== "" && wpmDelta >= 0
                     ? theme.vars.palette.success.plainColor
                     : theme.vars.palette.danger.plainColor,
               }}
             >
-              {addPlus(wpmDelta)}
+              {wpmDelta !== "" && addPlus(wpmDelta)}
             </Typography>
           </Box>
           {/* Accuracy */}
@@ -209,12 +220,12 @@ export const ResultsModal = ({
               sx={{
                 fontSize: "14px",
                 color:
-                  accDelta >= 0
+                  accDelta !== "" && accDelta >= 0
                     ? theme.vars.palette.success.plainColor
                     : theme.vars.palette.danger.plainColor,
               }}
             >
-              {addPlus(accDelta)}%
+              {accDelta !== "" && addPlus(accDelta)}%
             </Typography>
           </Box>
           {/* Score */}
@@ -256,7 +267,7 @@ export const ResultsModal = ({
             }}
           >
             <ProgressCircleIcon
-              progress={(timeSpent / 15) * 100}
+              progress={Math.min(timeSpent / 15, 1) * 100}
               sx={{
                 width: "70px",
                 height: "70px",
