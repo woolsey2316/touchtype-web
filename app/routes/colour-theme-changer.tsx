@@ -23,7 +23,7 @@ import { ProgressCircleIcon } from "../icons/progress-circle";
 import WPMIcon from "../icons/wpm";
 import BullseyeIcon from "../icons/bullseye";
 import ScoreIcon from "../icons/score";
-import { addPlus } from "../utils/util";
+import { addPlusIfPositive } from "../utils/display";
 import { ChartContainer } from "@mui/x-charts/ChartContainer";
 import { BarPlot } from "@mui/x-charts/BarChart";
 import { LinePlot } from "@mui/x-charts/LineChart";
@@ -282,7 +282,7 @@ export const Component = function Settings(): JSX.Element {
                       : theme.vars.palette.danger.plainColor,
                 }}
               >
-                {addPlus(wpmDelta)}
+                {addPlusIfPositive(wpmDelta)}
               </Typography>
             </Box>
             {/* Accuracy */}
@@ -316,7 +316,7 @@ export const Component = function Settings(): JSX.Element {
                       : theme.vars.palette.danger.plainColor,
                 }}
               >
-                {addPlus(accDelta)}%
+                {addPlusIfPositive(accDelta)}%
               </Typography>
             </Box>
             {/* Score */}
@@ -353,7 +353,7 @@ export const Component = function Settings(): JSX.Element {
                       : theme.vars.palette.danger.plainColor,
                 }}
               >
-                {addPlus(scoreDelta)}
+                {addPlusIfPositive(scoreDelta)}
               </Typography>
             </Box>
             {/* Time Spent */}

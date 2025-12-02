@@ -2,10 +2,10 @@ import BullseyeIcon from "../../icons/bullseye";
 import { ProgressCircleIcon } from "../../icons/progress-circle";
 import ScoreIcon from "../../icons/score";
 import WPMIcon from "../../icons/wpm";
-import { Modal, ModalClose, ModalDialog, Typography, Box } from "@mui/joy";
+import { Modal, ModalClose, ModalDialog, Box } from "@mui/joy";
 import { useRef, useEffect, useState, RefAttributes } from "react";
 import { useTheme } from "@mui/joy/styles";
-import { addPlus } from "../../utils/util";
+import { displayPercentage, addPlusIfPositive } from "../../utils/display";
 import { BarPlotProps } from "@mui/x-charts/BarChart";
 import { LinePlotProps } from "@mui/x-charts/LineChart";
 import { ChartContainerProps } from "@mui/x-charts/ChartContainer";
@@ -14,6 +14,8 @@ import { ChartsReferenceLineProps } from "@mui/x-charts/ChartsReferenceLine";
 import { ChartsTooltipProps } from "@mui/x-charts/ChartsTooltip";
 import { useKeyTimeArrays } from "../../hooks/useKeyTimeArrays";
 import { useResultModalData } from "../../hooks/useResultModalData";
+import { StatCard } from "../stat-card";
+
 interface Props {
   setTimeInfo: React.Dispatch<
     React.SetStateAction<{
@@ -54,7 +56,7 @@ export const ResultsModal = ({
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const { resultModalData } = useResultModalData();
-  // Example values for demonstration; replace with your actual logic
+
   const timeSpent = resultModalData?.data
     ? resultModalData?.data / 60 + currentTime / 60
     : currentTime / 60;
@@ -64,6 +66,7 @@ export const ResultsModal = ({
   const accDelta = previousAccuracy
     ? Math.round((currentAccuracy - previousAccuracy) * 10) / 10
     : "";
+
   const [BarChartComponent, setBarChartComponent] =
     useState<null | React.ComponentType<
       BarPlotProps & RefAttributes<SVGSVGElement>
@@ -93,52 +96,49 @@ export const ResultsModal = ({
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "test") {
-      import("@mui/x-charts/ChartContainer").then((mui) => {
-        setComponent(() => mui.ChartContainer);
-      });
-      import("@mui/x-charts/BarChart").then((mui) => {
-        setBarChartComponent(() => mui.BarPlot);
-      });
-      import("@mui/x-charts/LineChart").then((mui) => {
-        setLineChartComponent(() => mui.LinePlot);
-      });
-      import("@mui/x-charts").then((mui) => {
-        setChartsYAxisComponent(() => mui.ChartsYAxis);
-      });
-      import("@mui/x-charts").then((mui) => {
-        setChartsXAxisComponent(() => mui.ChartsXAxis);
-      });
-      import("@mui/x-charts").then((mui) => {
-        setChartsReferenceLine(() => mui.ChartsReferenceLine);
-      });
-      import("@mui/x-charts").then((mui) => {
-        setChartsToolTip(() => mui.ChartsTooltip);
+      Promise.all([
+        import("@mui/x-charts/ChartContainer"),
+        import("@mui/x-charts/BarChart"),
+        import("@mui/x-charts/LineChart"),
+        import("@mui/x-charts"),
+      ]).then(([chartContainer, barChart, lineChart, charts]) => {
+        setComponent(() => chartContainer.ChartContainer);
+        setBarChartComponent(() => barChart.BarPlot);
+        setLineChartComponent(() => lineChart.LinePlot);
+        setChartsYAxisComponent(() => charts.ChartsYAxis);
+        setChartsXAxisComponent(() => charts.ChartsXAxis);
+        setChartsReferenceLine(() => charts.ChartsReferenceLine);
+        setChartsToolTip(() => charts.ChartsTooltip);
       });
     }
   }, []);
+
+  const closeModal = () => {
+    if (childInputRef?.current) {
+      childInputRef?.current.focus();
+    }
+    newTestPage();
+    keyTimeMap.current = {};
+    setTimeInfo({
+      started: false,
+      ended: false,
+    });
+    setIsResultsModalOpen(false);
+    setResetCounter((counter) => counter + 1);
+  };
+
+  const pickColor = (value: number | "") => {
+    return value !== "" && value >= 0
+      ? theme.vars.palette.success.plainColor
+      : theme.vars.palette.danger.plainColor;
+  };
 
   const { timeArray, keyArray } = useKeyTimeArrays(keyTimeMap);
   const theme = useTheme();
   const averageTime =
     timeArray.reduce((acc, curr) => acc + curr, 0) / timeArray.length;
   return (
-    <Modal
-      ref={ref}
-      open={isOpen}
-      onClose={() => {
-        if (childInputRef?.current) {
-          childInputRef?.current.focus();
-        }
-        newTestPage();
-        keyTimeMap.current = {};
-        setTimeInfo({
-          started: false,
-          ended: false,
-        });
-        setIsResultsModalOpen(false);
-        setResetCounter((counter) => counter + 1);
-      }}
-    >
+    <Modal ref={ref} open={isOpen} onClose={closeModal}>
       <ModalDialog
         sx={{
           bgcolor: (theme) => theme.palette.neutral[600],
@@ -157,132 +157,38 @@ export const ResultsModal = ({
             justifyContent: "space-between",
           }}
         >
-          {/* WPM */}
-          <Box
-            sx={{
-              bgcolor: (theme) => theme.palette.neutral[700],
-              borderRadius: "20px",
-              padding: "14px",
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "start",
-              position: "relative",
-            }}
-          >
-            <WPMIcon />
-            <Typography
-              level="body-xs"
-              sx={{ fontSize: "18px", mt: 1.5, mb: 0.5 }}
-            >
-              WPM
-            </Typography>
-            <Typography level="h2" sx={{ fontWeight: 700 }}>
-              {Math.round(currentWPM * 10) / 10}
-            </Typography>
-            <Typography
-              level="body-xs"
-              sx={{
-                fontSize: "14px",
-                color:
-                  wpmDelta !== "" && wpmDelta >= 0
-                    ? theme.vars.palette.success.plainColor
-                    : theme.vars.palette.danger.plainColor,
-              }}
-            >
-              {wpmDelta !== "" && addPlus(wpmDelta)}
-            </Typography>
-          </Box>
-          {/* Accuracy */}
-          <Box
-            sx={{
-              bgcolor: (theme) => theme.palette.neutral[700],
-              borderRadius: "20px",
-              padding: "14px",
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "start",
-              position: "relative",
-            }}
-          >
-            <BullseyeIcon />
-            <Typography level="body-xs" sx={{ fontSize: "18px", my: 0.5 }}>
-              Accuracy
-            </Typography>
-            <Typography level="h2" sx={{ fontWeight: 700 }}>
-              {Math.round(currentAccuracy * 10) / 10}%
-            </Typography>
-            <Typography
-              level="body-xs"
-              sx={{
-                fontSize: "14px",
-                color:
-                  accDelta !== "" && accDelta >= 0
-                    ? theme.vars.palette.success.plainColor
-                    : theme.vars.palette.danger.plainColor,
-              }}
-            >
-              {accDelta !== "" && addPlus(accDelta)}%
-            </Typography>
-          </Box>
-          {/* Score */}
-          <Box
-            sx={{
-              bgcolor: (theme) => theme.palette.neutral[700],
-              borderRadius: "20px",
-              padding: "14px",
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "start",
-              position: "relative",
-            }}
-          >
-            <ScoreIcon />
-            <Typography
-              level="body-xs"
-              sx={{ fontSize: "18px", mt: 0, mb: 0.25 }}
-            >
-              Score
-            </Typography>
-            <Typography level="h2" sx={{ fontWeight: 700 }}>
-              {Math.round(currentScore)}
-            </Typography>
-          </Box>
-          {/* Time Spent */}
-          <Box
-            sx={{
-              bgcolor: (theme) => theme.palette.neutral[700],
-              borderRadius: "20px",
-              padding: "14px",
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "start",
-            }}
-          >
-            <ProgressCircleIcon
-              progress={Math.min(timeSpent / 15, 1) * 100}
-              sx={{
-                width: "70px",
-                height: "70px",
-              }}
-            />
-            <Typography
-              level="body-xs"
-              sx={{ fontSize: "18px", mt: 0.5, mb: 0.3 }}
-            >
-              Daily Time
-            </Typography>
-            <Typography level="h2" sx={{ fontWeight: 700 }}>
-              {Math.round(timeSpent)}m
-            </Typography>
-          </Box>
+          <StatCard
+            icon={<WPMIcon />}
+            label="WPM"
+            value={Math.round(currentWPM * 10) / 10}
+            delta={addPlusIfPositive(wpmDelta)}
+            color={pickColor(wpmDelta)}
+          />
+          <StatCard
+            icon={<BullseyeIcon />}
+            label="Accuracy"
+            value={`${Math.round(currentAccuracy * 10) / 10}%`}
+            delta={displayPercentage(accDelta)}
+            color={pickColor(accDelta)}
+          />
+          <StatCard
+            icon={<ScoreIcon />}
+            label="Score"
+            value={Math.round(currentScore)}
+          />
+          <StatCard
+            icon={
+              <ProgressCircleIcon
+                progress={Math.min(timeSpent / 15, 1) * 100}
+                sx={{
+                  width: "70px",
+                  height: "70px",
+                }}
+              />
+            }
+            label="Daily Time"
+            value={`${Math.round(timeSpent)}m`}
+          />
         </Box>
 
         {ChartComponent &&

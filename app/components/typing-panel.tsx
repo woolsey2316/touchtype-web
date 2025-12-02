@@ -16,7 +16,10 @@ import { ResultsModal } from "./modal/results-modal";
 import { getNextCharIndex, getPreviousCharIndex } from "../utils/word-position";
 import { ThemeContext } from "../context/ThemeContext/ThemeContext";
 import { Cursor } from "./cursor";
-
+import {
+  maybeScrollToNextLine,
+  maybeScrollToPreviousLine,
+} from "../utils/typing-panel";
 export default function TypingPanel({
   programmingLanguage,
   punctuation,
@@ -109,9 +112,7 @@ export default function TypingPanel({
     correctChars.current = 0;
   }, [mistakes, correctChars]);
 
-  const newTestPage = useCallback(() => {
-    setCursorIndex(0);
-    resetStatistics();
+  const newCollectionOfWords = useCallback(() => {
     setWords(() => {
       const words = WordsGenerator({
         count: sentenceSize,
@@ -125,44 +126,18 @@ export default function TypingPanel({
       return words;
     });
   }, [
-    language,
-    punctuation,
-    numbers,
-    resetStatistics,
     sentenceSize,
+    punctuation,
     theme.vars.palette.neutral,
+    numbers,
+    language,
   ]);
 
-  function maybeScrollToNextLine() {
-    const letters = document?.getElementsByClassName("letter");
-    if (letters.length !== 0) {
-      if (
-        (letters[cursorIndex + 1] as HTMLElement).offsetTop >
-        (letters[cursorIndex] as HTMLElement).offsetTop
-      ) {
-        if (childInputRef?.current)
-          childInputRef.current.scrollTop = (
-            letters[cursorIndex + 1] as HTMLElement
-          ).offsetTop;
-      }
-    }
-  }
-
-  function maybeScrollToPreviousLine() {
-    const letters = document?.getElementsByClassName("letter");
-    if (letters[cursorIndex - 1] === undefined) return;
-    if (letters.length !== 0) {
-      if (
-        (letters[cursorIndex - 1] as HTMLElement).offsetTop <
-        (letters[cursorIndex] as HTMLElement).offsetTop
-      ) {
-        if (childInputRef?.current)
-          childInputRef.current.scrollTop = (
-            letters[cursorIndex - 1] as HTMLElement
-          ).offsetTop;
-      }
-    }
-  }
+  const newTestPage = useCallback(() => {
+    setCursorIndex(0);
+    resetStatistics();
+    newCollectionOfWords();
+  }, [resetStatistics, newCollectionOfWords]);
 
   const fetchNewWords = useCallback(() => {
     childInputRef?.current?.scrollTo({ top: 0, left: 0 });
@@ -240,6 +215,86 @@ export default function TypingPanel({
     theme.vars.palette.neutral,
   ]);
 
+  function updateColourOfChar(index: number, color: string) {
+    setColourOfChar((wordsResult) => {
+      if (cursorIndex < words.length) {
+        const newWordsResult = [...wordsResult];
+        newWordsResult[index] = color;
+        return newWordsResult;
+      } else {
+        return wordsResult;
+      }
+    });
+  }
+
+  function addCharacterPressTiming(
+    e: KeyboardEvent<HTMLDivElement>,
+    keyStartTime: React.RefObject<number | null>,
+    keyTimeMap: React.RefObject<Record<string, number[]>>,
+  ) {
+    if (!keyTimeMap.current[e.key] && keyStartTime.current) {
+      keyTimeMap.current[e.key] = [Date.now() - keyStartTime.current];
+    } else if (keyStartTime.current) {
+      keyTimeMap.current[e.key].push(Date.now() - keyStartTime.current);
+    }
+  }
+
+  function deductCharacterRecord(cursorIndex: number) {
+    if (
+      colourOfChar[cursorIndex - 1] === theme.vars.palette.danger.plainColor
+    ) {
+      mistakes.current = Math.max(mistakes.current - 1, 0);
+    } else {
+      correctChars.current = Math.max(correctChars.current - 1, 0);
+    }
+  }
+
+  function deductWordRecord(
+    currWord: HTMLCollection,
+    mistakes: React.RefObject<number>,
+    correctChars: React.RefObject<number>,
+  ) {
+    let count = 0;
+    for (const letter of currWord) {
+      if (
+        (letter as HTMLElement).style.color !== theme.vars.palette.neutral[500]
+      ) {
+        if (
+          (letter as HTMLElement).style.color ===
+          theme.vars.palette.danger.plainColor
+        ) {
+          mistakes.current = Math.max(mistakes.current - 1, 0);
+        } else {
+          correctChars.current = Math.max(correctChars.current - 1, 0);
+        }
+        count++;
+      }
+    }
+    // if we are at the start of the word, delete previous word
+    if (count === 0 && cursorIndex > 0) {
+      currWord =
+        document?.getElementsByClassName("letter")[cursorIndex - 1]?.parentNode
+          ?.children ?? ([] as unknown as HTMLCollection);
+      for (const letter of currWord) {
+        if (
+          (letter as HTMLElement).style.color !==
+          theme.vars.palette.neutral[500]
+        ) {
+          if (
+            (letter as HTMLElement).style.color ===
+            theme.vars.palette.danger.plainColor
+          ) {
+            mistakes.current = Math.max(mistakes.current - 1, 0);
+          } else {
+            correctChars.current = Math.max(correctChars.current - 1, 0);
+          }
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     // this stops the result modal from closing when the user presses a key
     if (testInfo.ended) return;
@@ -280,11 +335,13 @@ export default function TypingPanel({
       // Correct key pressed
       setCursorIndex((cursorIndex) => {
         const nextIndex = Math.min(cursorIndex + 1, words.length);
-        maybeScrollToNextLine();
+        maybeScrollToNextLine(cursorIndex, childInputRef);
         return nextIndex;
       });
 
-      setCharIndex((charIndex) => getNextCharIndex(charIndex, words, false));
+      setCharIndex((charIndex) =>
+        getNextCharIndex({ charIndex, words, skipOverTabs: false }),
+      );
       correctChars.current++;
     } else if (
       e.key === "Tab" &&
@@ -298,18 +355,16 @@ export default function TypingPanel({
       // Correct key pressed
       setCursorIndex((cursorIndex) => {
         const nextIndex = Math.min(cursorIndex + 1, words.length);
-        maybeScrollToNextLine();
+        maybeScrollToNextLine(cursorIndex, childInputRef);
         return nextIndex;
       });
 
-      setCharIndex((charIndex) => getNextCharIndex(charIndex, words, false));
+      setCharIndex((charIndex) =>
+        getNextCharIndex({ charIndex, words, skipOverTabs: false }),
+      );
       correctChars.current++;
     } else if (e.key === words[charIndex]) {
-      if (!keyTimeMap.current[e.key] && keyStartTime.current) {
-        keyTimeMap.current[e.key] = [Date.now() - keyStartTime.current];
-      } else if (keyStartTime.current) {
-        keyTimeMap.current[e.key].push(Date.now() - keyStartTime.current);
-      }
+      addCharacterPressTiming(e, keyStartTime, keyTimeMap);
 
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
@@ -322,102 +377,62 @@ export default function TypingPanel({
         return nextIndex;
       });
 
-      setCharIndex((charIndex) => getNextCharIndex(charIndex, words, false));
+      setCharIndex((charIndex) =>
+        getNextCharIndex({ charIndex, words, skipOverTabs: false }),
+      );
       correctChars.current++;
     } else if (e.ctrlKey && e.key === "Backspace") {
-      let count = 0;
-      let currWord =
+      const currWord =
         document?.getElementsByClassName("letter")[cursorIndex]?.parentNode
-          ?.children ?? [];
-      for (const letter of currWord) {
-        if (
-          (letter as HTMLElement).style.color !==
-          theme.vars.palette.neutral[500]
-        ) {
-          if (
-            (letter as HTMLElement).style.color ===
-            theme.vars.palette.danger.plainColor
-          ) {
-            mistakes.current = Math.max(mistakes.current - 1, 0);
-          } else {
-            correctChars.current = Math.max(correctChars.current - 1, 0);
-          }
-          count++;
-        }
-      }
-      // if we are at the start of the word, delete previous word
-      if (count === 0 && cursorIndex > 0) {
-        currWord =
-          document?.getElementsByClassName("letter")[cursorIndex - 1]
-            ?.parentNode?.children ?? [];
-        for (const letter of currWord) {
-          if (
-            (letter as HTMLElement).style.color !==
-            theme.vars.palette.neutral[500]
-          ) {
-            if (
-              (letter as HTMLElement).style.color ===
-              theme.vars.palette.danger.plainColor
-            ) {
-              mistakes.current = Math.max(mistakes.current - 1, 0);
-            } else {
-              correctChars.current = Math.max(correctChars.current - 1, 0);
-            }
-            count++;
-          }
-        }
-      }
+          ?.children ?? ([] as unknown as HTMLCollection);
+      const countDeleted = deductWordRecord(currWord, mistakes, correctChars);
+
       setCursorIndex((cursorIndex) => {
-        setColourOfChar((wordsResult) => {
-          const newWordsResult = [...wordsResult];
-          for (let i = 0; i < count; i++) {
-            newWordsResult[getPreviousCharIndex(charIndex, words, false) - i] =
-              theme.vars.palette.neutral[500];
-          }
-          return newWordsResult;
-        });
-        const previousIndex = Math.max(cursorIndex - count, 0);
-        maybeScrollToPreviousLine();
+        for (let i = 0; i < countDeleted; i++) {
+          updateColourOfChar(
+            getPreviousCharIndex({ charIndex, words, skipOverTabs: false }) - i,
+            theme.vars.palette.neutral[500],
+          );
+        }
+
+        const previousIndex = Math.max(cursorIndex - countDeleted, 0);
+        maybeScrollToPreviousLine(cursorIndex, childInputRef);
         return previousIndex;
       });
-      setCharIndex(getPreviousCharIndex(charIndex, words, false) - count + 1);
+      setCharIndex(
+        getPreviousCharIndex({ charIndex, words, skipOverTabs: false }) -
+          countDeleted +
+          1,
+      );
+      console.log(countDeleted);
+      console.log(
+        getPreviousCharIndex({ charIndex, words, skipOverTabs: false }) -
+          countDeleted +
+          1,
+      );
     } else if (e.key === "Backspace") {
       setCursorIndex((cursorIndex) => {
-        if (
-          colourOfChar[cursorIndex - 1] === theme.vars.palette.danger.plainColor
-        ) {
-          mistakes.current = Math.max(mistakes.current - 1, 0);
-        } else {
-          correctChars.current = Math.max(correctChars.current - 1, 0);
-        }
-        setColourOfChar((wordsResult) => {
-          const newWordsResult = [...wordsResult];
-          newWordsResult[getPreviousCharIndex(charIndex, words, false)] =
-            theme.vars.palette.neutral[500];
-          return newWordsResult;
-        });
+        deductCharacterRecord(cursorIndex);
+        updateColourOfChar(
+          getPreviousCharIndex({ charIndex, words, skipOverTabs: false }),
+          theme.vars.palette.neutral[500],
+        );
         const previousIndex = Math.max(cursorIndex - 1, 0);
-        maybeScrollToPreviousLine();
+        maybeScrollToPreviousLine(cursorIndex, childInputRef);
         return previousIndex;
       });
-      setCharIndex(getPreviousCharIndex(charIndex, words, false));
+      setCharIndex(
+        getPreviousCharIndex({ charIndex, words, skipOverTabs: false }),
+      );
     } else {
       mistakes.current++;
       setCursorIndex((cursorIndex) => {
-        setColourOfChar((wordsResult) => {
-          if (cursorIndex < words.length) {
-            const newWordsResult = [...wordsResult];
-            newWordsResult[charIndex] = theme.vars.palette.danger.plainColor;
-            return newWordsResult;
-          } else {
-            return wordsResult;
-          }
-        });
+        updateColourOfChar(charIndex, theme.vars.palette.danger.plainColor);
         const nextIndex = Math.min(cursorIndex + 1, words.length);
-        maybeScrollToNextLine();
+        maybeScrollToNextLine(cursorIndex, childInputRef);
         return nextIndex;
       });
-      setCharIndex(getNextCharIndex(charIndex, words, false));
+      setCharIndex(getNextCharIndex({ charIndex, words, skipOverTabs: false }));
     }
     keyStartTime.current = Date.now();
   }

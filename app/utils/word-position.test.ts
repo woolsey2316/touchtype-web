@@ -1,33 +1,36 @@
-import {
-  getNextWordLength,
-  getNextCharIndex,
-  getPreviousCharIndex,
-} from "./word-position";
+import { getNextCharIndex, getPreviousCharIndex } from "./word-position";
 import { expect, describe, it } from "vitest";
-
-describe("getNextWordLength", () => {
-  it("returns length of next word times 14", () => {
-    expect(getNextWordLength(0, "hello world")).toBe(5 * 14);
-    expect(getNextWordLength(6, "hello world")).toBe(5 * 14);
-    expect(getNextWordLength(0, "a b c")).toBe(1 * 14);
-    expect(getNextWordLength(2, "a b c")).toBe(1 * 14);
-  });
-});
 
 describe("getNextCharIndex", () => {
   it("skips tabs after current index", () => {
-    expect(getNextCharIndex(0, "a→→b", true)).toBe(3);
-    expect(getNextCharIndex(1, "a→b", true)).toBe(2);
-    expect(getNextCharIndex(0, "abc", true)).toBe(1);
-    expect(getNextCharIndex(1, "abc", true)).toBe(2);
+    expect(
+      getNextCharIndex({ charIndex: 0, words: "a→→b", skipOverTabs: true }),
+    ).toBe(3);
+    expect(
+      getNextCharIndex({ charIndex: 1, words: "a→b", skipOverTabs: true }),
+    ).toBe(2);
+    expect(
+      getNextCharIndex({ charIndex: 0, words: "abc", skipOverTabs: true }),
+    ).toBe(1);
+    expect(
+      getNextCharIndex({ charIndex: 1, words: "abc", skipOverTabs: true }),
+    ).toBe(2);
   });
 });
 
 describe("getPreviousCharIndex", () => {
   it("skips tabs before current index", () => {
-    expect(getPreviousCharIndex(3, "a→→b", true)).toBe(0);
-    expect(getPreviousCharIndex(2, "a→b", true)).toBe(0);
-    expect(getPreviousCharIndex(2, "abc", true)).toBe(1);
-    expect(getPreviousCharIndex(1, "abc", true)).toBe(0);
+    expect(
+      getPreviousCharIndex({ charIndex: 3, words: "a→→b", skipOverTabs: true }),
+    ).toBe(0);
+    expect(
+      getPreviousCharIndex({ charIndex: 2, words: "a→b", skipOverTabs: true }),
+    ).toBe(0);
+    expect(
+      getPreviousCharIndex({ charIndex: 2, words: "abc", skipOverTabs: true }),
+    ).toBe(1);
+    expect(
+      getPreviousCharIndex({ charIndex: 1, words: "abc", skipOverTabs: true }),
+    ).toBe(0);
   });
 });

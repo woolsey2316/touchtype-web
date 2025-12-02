@@ -41,10 +41,6 @@ export function hexToRgb(hex: string) {
     : null;
 }
 
-export function addPlus(value: number): string {
-  return value >= 0 ? `+${value}` : `${value}`;
-}
-
 export function hoursAndMinutes(totalSeconds: number): string {
   const minutes = Math.floor(totalSeconds / 60) % 60;
   const hours = Math.floor(totalSeconds / 3600) % 24;

@@ -1,12 +1,12 @@
-export const getNextWordLength = (charIndex: number, words: string): number => {
-  return words.substring(charIndex).split(" ", 2)[0].length * 14;
-};
-
-export function getNextCharIndex(
-  charIndex: number,
-  words: string,
-  skipOverTabs: boolean,
-): number {
+export function getNextCharIndex({
+  charIndex,
+  words,
+  skipOverTabs,
+}: {
+  charIndex: number;
+  words: string;
+  skipOverTabs: boolean;
+}): number {
   if (charIndex >= words.length) return words.length - 1; // Prevent going out of bounds
   charIndex++;
   if (!skipOverTabs) return charIndex;
@@ -22,11 +22,15 @@ export function getNextCharIndex(
   return charIndex + skipTabs;
 }
 
-export function getPreviousCharIndex(
-  charIndex: number,
-  words: string,
-  skipOverTabs: boolean,
-): number {
+export function getPreviousCharIndex({
+  charIndex,
+  words,
+  skipOverTabs,
+}: {
+  charIndex: number;
+  words: string;
+  skipOverTabs: boolean;
+}): number {
   if (charIndex <= 0) return 0; // Prevent going out of bounds
   charIndex--;
   if (!skipOverTabs) return charIndex;
