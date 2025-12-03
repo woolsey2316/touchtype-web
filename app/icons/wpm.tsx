@@ -3,11 +3,7 @@ import SvgIcon, { SvgIconProps } from "@mui/joy/SvgIcon";
 
 export default function WPMIcon(props: SvgIconProps) {
   return (
-    <SvgIcon
-      {...props}
-      viewBox="0 0 9.8712807 5.0515165"
-      sx={{ width: "60px", height: "38px", marginTop: "16px" }}
-    >
+    <SvgIcon {...props} viewBox="0 0 9.8712807 5.0515165">
       <g transform="translate(-34.23529,-145.82935)">
         <g>
           <g>

@@ -233,9 +233,9 @@ export default function TypingPanel({
     keyTimeMap: React.RefObject<Record<string, number[]>>,
   ) {
     if (!keyTimeMap.current[e.key] && keyStartTime.current) {
-      keyTimeMap.current[e.key] = [Date.now() - keyStartTime.current];
+      keyTimeMap.current[e.key] = [performance.now() - keyStartTime.current];
     } else if (keyStartTime.current) {
-      keyTimeMap.current[e.key].push(Date.now() - keyStartTime.current);
+      keyTimeMap.current[e.key].push(performance.now() - keyStartTime.current);
     }
   }
 
@@ -304,7 +304,7 @@ export default function TypingPanel({
         ...timeTestInfo,
         started: true,
       }));
-      startTime.current = Date.now();
+      startTime.current = performance.now();
     }
     // prevent scrollling when space is pressed
     if (e.key === " ") {
@@ -434,7 +434,7 @@ export default function TypingPanel({
       });
       setCharIndex(getNextCharIndex({ charIndex, words, skipOverTabs: false }));
     }
-    keyStartTime.current = Date.now();
+    keyStartTime.current = performance.now();
   }
   return (
     <Box

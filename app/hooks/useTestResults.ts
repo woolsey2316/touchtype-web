@@ -105,10 +105,10 @@ export function useTestResults(
 
   const onEnd = useCallback(() => {
     recordTestResultStats(
-      Date.now(),
+      performance.now(),
       correctChars.current,
       mistakes.current,
-      startTime.current || 0,
+      startTime.current || Date.now(),
     );
     setIsResultsModalOpen(true);
   }, [recordTestResultStats]);

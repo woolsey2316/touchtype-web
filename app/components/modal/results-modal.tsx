@@ -127,7 +127,7 @@ export const ResultsModal = ({
     setResetCounter((counter) => counter + 1);
   };
 
-  const pickColor = (value: number | "") => {
+  const determineColor = (value: number | "") => {
     return value !== "" && value >= 0
       ? theme.vars.palette.success.plainColor
       : theme.vars.palette.danger.plainColor;
@@ -158,18 +158,27 @@ export const ResultsModal = ({
           }}
         >
           <StatCard
-            icon={<WPMIcon />}
+            icon={
+              <WPMIcon
+                sx={{
+                  width: "60px",
+                  height: "38px",
+                  marginTop: "16px",
+                  marginBottom: "8px",
+                }}
+              />
+            }
             label="WPM"
             value={Math.round(currentWPM * 10) / 10}
             delta={addPlusIfPositive(wpmDelta)}
-            color={pickColor(wpmDelta)}
+            color={determineColor(wpmDelta)}
           />
           <StatCard
             icon={<BullseyeIcon />}
             label="Accuracy"
             value={`${Math.round(currentAccuracy * 10) / 10}%`}
             delta={displayPercentage(accDelta)}
-            color={pickColor(accDelta)}
+            color={determineColor(accDelta)}
           />
           <StatCard
             icon={<ScoreIcon />}
