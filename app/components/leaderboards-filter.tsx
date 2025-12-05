@@ -13,18 +13,6 @@ export interface LeaderboardFiltersProps {
   onChange: (next: { timeframe: Timeframe; category: Category }) => void;
 }
 
-/**
- * LeaderboardFilters (MUI Joy)
- *
- * - Re-implemented using MUI Joy components and sx styling.
- * - Keeps the same semantics (radio-like segmented controls) and re-uses the
- *   existing UI palette while using tiny custom overrides to match the lavender
- *   selected accent used in your app (#CFC7FF / #D8D6FF).
- * - Accessible: ToggleButtonGroup + ToggleButton provide keyboard support and ARIA semantics.
- *
- * Usage:
- * <LeaderboardFilters timeframe="daily" category="english" onChange={...} />
- */
 export const LeaderboardFilters: React.FC<LeaderboardFiltersProps> = ({
   timeframe,
   category,
@@ -69,6 +57,7 @@ export const LeaderboardFilters: React.FC<LeaderboardFiltersProps> = ({
           justifyContent: "space-between",
           bgcolor: "transparent",
           p: { xs: 2, md: 2.25 },
+          border: "none",
           borderRadius: 2,
         }}
       >

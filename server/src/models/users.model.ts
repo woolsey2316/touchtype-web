@@ -2,14 +2,25 @@ import { model, Schema, Document } from "mongoose";
 import { User } from "@interfaces/users.interface.js";
 
 const userSchema: Schema = new Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   userId: {
     type: String,
     required: true,
     unique: true,
   },
-  password: {
-    type: String,
-    required: true,
+  allTimeBestTestId: {
+    type: Schema.Types.ObjectId,
+    ref: "TestResult",
+    default: null,
+  },
+  dailyBestTestId: {
+    type: Schema.Types.ObjectId,
+    ref: "TestResult",
+    default: null,
   },
 });
 

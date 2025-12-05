@@ -26,7 +26,6 @@ class UsersRoute implements Routes {
       validationMiddleware(CreateUserDto, "body", true),
       this.usersController.updateUser,
     );
-    this.router.delete(`${this.path}/:id`, this.usersController.deleteUser);
   }
 }
 

@@ -8,5 +8,8 @@ export class CreateUserDto {
   public userId: string;
 
   @IsString()
-  public password: string;
+  public allTimeBestTestId: string;
+
+  @IsString()
+  public dailyBestTestId: string;
 }

@@ -28,6 +28,8 @@ interface Props {
 interface State {
   open: boolean;
   background: string;
+  themeLoaded: boolean;
+  saveSlotSelected: boolean;
   customTheme: typeof customDarkTheme;
   revertCustomTheme: typeof customDarkTheme;
 }
@@ -36,6 +38,8 @@ export class ColourThemeSettings extends React.Component<Props, State> {
   declare context: React.ContextType<typeof ThemeContext>;
   override state = {
     open: true,
+    themeLoaded: false,
+    saveSlotSelected: false,
     background: "#fff",
     revertCustomTheme: structuredClone(
       getCustomTheme({
@@ -107,6 +111,10 @@ export class ColourThemeSettings extends React.Component<Props, State> {
     this.state.customTheme,
   ) as keyof (typeof this.state.customTheme)[];
 
+  handleSlotThemeChange = () => {
+    this.setState({ saveSlotSelected: true });
+  };
+
   handleChange = (
     _event: React.SyntheticEvent | null,
     newValue: string | null,
@@ -120,6 +128,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
         }),
       },
       () => {
+        this.setState({ themeLoaded: true });
         this.saveColourTheme();
         this.setState({ revertCustomTheme: { ...this.state.customTheme } });
       },
@@ -170,7 +179,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                   <Stack
                     sx={{
                       overflowY: "scroll",
-                      maxHeight: "80vh",
+                      height: "80vh",
                       display: "grid",
                       gridTemplateColumns: "auto auto",
                       width: "550px",
@@ -180,7 +189,9 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                   >
                     {/* load theme from select menu  */}
                     <Box sx={{ marginTop: "16px !important" }}>
-                      <Typography>Load theme</Typography>
+                      <Typography sx={{ marginBottom: "4px" }}>
+                        Load theme
+                      </Typography>
                       <Select
                         placeholder="Select a theme..."
                         onChange={this.handleChange}
@@ -210,9 +221,12 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                     </Box>
                     {/* save theme into custom slot */}
                     <Box>
-                      <Typography>Save theme</Typography>
+                      <Typography sx={{ marginBottom: "4px" }}>
+                        Save theme
+                      </Typography>
                       <Select
                         placeholder="Select a theme..."
+                        onChange={this.handleSlotThemeChange}
                         sx={{ width: 240 }}
                       >
                         <Option
@@ -269,7 +283,9 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                         </Option>
                       </Select>
                     </Box>
-                    {Array.isArray(this.keys) ? (
+                    {this.state.themeLoaded &&
+                    this.state.saveSlotSelected &&
+                    Array.isArray(this.keys) ? (
                       this.keys.map((key) => (
                         <Box
                           sx={{

@@ -10,9 +10,10 @@ import CursorUnderlineIcon from "../icons/cursor-underline";
 interface CursorProps {
   cursorIndex: number;
   sx?: Record<string, unknown>;
+  letters: HTMLCollectionOf<Element>;
 }
 
-export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
+export function Cursor({ cursorIndex, sx, letters }: CursorProps): JSX.Element {
   const [width, setWidth] = useState("16px");
   const [height, setHeight] = useState("53px");
   const [left, setLeft] = useState("1px");
@@ -20,7 +21,6 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
   // on component mount, set width and height when letters have been added to DOM
   useEffect(() => {
     function getWidth() {
-      const letters = document?.getElementsByClassName("letter");
       if (letters.length === 0 || letters[cursorIndex] === undefined) {
         return "16px";
       }
@@ -28,7 +28,6 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
     }
 
     function getHeight() {
-      const letters = document?.getElementsByClassName("letter");
       if (letters.length === 0 || letters[cursorIndex] === undefined) {
         return "53px";
       }
@@ -36,7 +35,6 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
     }
     // cursor position logic
     function getCursorLeftPosition() {
-      const letters = document?.getElementsByClassName("letter");
       if (letters.length === 0 || letters[cursorIndex] === undefined) {
         return "1px";
       }
@@ -44,7 +42,6 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
     }
 
     function getCursorTopPosition() {
-      const letters = document?.getElementsByClassName("letter");
       if (letters.length === 0 || letters[cursorIndex] === undefined) {
         return "0px";
       }
@@ -54,7 +51,7 @@ export function Cursor({ cursorIndex, sx }: CursorProps): JSX.Element {
     setHeight(getHeight());
     setLeft(getCursorLeftPosition());
     setTop(getCursorTopPosition());
-  }, [cursorIndex]);
+  }, [cursorIndex, letters]);
 
   const { cursorType, smoothCursor } = useContext(UserPreferencesContext);
 

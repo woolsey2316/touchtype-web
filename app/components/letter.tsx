@@ -13,6 +13,7 @@ interface LetterProps {
   opaque: boolean;
   invisible?: boolean;
   preferedColour?: string;
+  additionalClasses?: string;
 }
 export const Letter = memo(function Letter({
   children: char,
@@ -23,6 +24,7 @@ export const Letter = memo(function Letter({
   opaque = false,
   invisible,
   preferedColour,
+  additionalClasses,
 }: LetterProps) {
   const { skipOverTabs, zipperAnimation } = useContext(UserPreferencesContext);
   let symbol: string | React.ReactNode = char;
@@ -50,7 +52,7 @@ export const Letter = memo(function Letter({
   return (
     <Typography
       level="body-lg"
-      className="letter"
+      className={`letter ${additionalClasses ? additionalClasses : ""}`}
       sx={{
         display: "inline-block",
         textAlign: "center",

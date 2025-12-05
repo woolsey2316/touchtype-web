@@ -8,8 +8,12 @@ import {
   Container,
   Typography,
   useColorScheme,
+  Select,
+  Option,
+  Switch,
 } from "@mui/joy";
-import { useState, useRef, type JSX } from "react";
+import { SettingsButton } from "../components/button-settings";
+import { useState, useRef, useEffect, type JSX } from "react";
 import { usePageEffect } from "../core/page";
 import { useTheme } from "@mui/joy/styles";
 import { Language, ProgrammingLanguage } from "../types/words.type";
@@ -33,6 +37,7 @@ import {
   ChartsTooltip,
   ChartsReferenceLine,
 } from "@mui/x-charts";
+import Divider from "@mui/joy/Divider";
 
 export const Component = function Settings(): JSX.Element {
   usePageEffect({ title: "Colour Theme Changer" });
@@ -135,6 +140,49 @@ export const Component = function Settings(): JSX.Element {
       childInputRef.current.focus();
     }
   };
+  // handlers and state for settings page
+  const [fontFamily, setFontFamily] = useState<string>(
+    () => window.localStorage.getItem("fontFamily") || "0xProtoNerdFont-Bold",
+  );
+  const [zipperEnabled] = useState<boolean>(() =>
+    window.localStorage.getItem("zipperEnabled") === "false" ? false : true,
+  );
+  const [spaceChar] = useState<string>(
+    () => window.localStorage.getItem("spaceChar") ?? " ",
+  );
+  const [cursorChar] = useState<string>(
+    () => window.localStorage.getItem("cursorChar") ?? "|",
+  );
+  const [smoothCursor] = useState<boolean>(() =>
+    window.localStorage.getItem("smoothCursor") === "false" ? false : true,
+  );
+  // display preview text state
+  const [sampleWords] = useState<string>("sample text for preview purposes");
+  const [coloursOfChar, setColourOfChar] = useState(
+    Array(words.length).fill(""),
+  );
+  const [cursorsIndex, setCursorsIndex] = useState<number>(0);
+
+  useEffect(() => {
+    const myFunction = () => {
+      setCursorsIndex((prevIndex) => (prevIndex + 1) % sampleWords.length);
+      setColourOfChar((prevColours: string[]) => {
+        let newColours = [...prevColours];
+        const nextIndex = cursorsIndex;
+        if (cursorsIndex === 0) {
+          newColours = Array(sampleWords.length).fill("");
+        }
+        newColours[nextIndex] = theme.vars.palette.success.plainColor;
+        return newColours;
+      });
+    };
+
+    // Set up the interval
+    const intervalId = setInterval(myFunction, 800);
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [sampleWords, setCursorsIndex, cursorsIndex, theme, setColourOfChar]);
 
   return (
     <>
@@ -219,7 +267,10 @@ export const Component = function Settings(): JSX.Element {
                 ref={childInputRef}
                 tabIndex={0}
               >
-                <Cursor cursorIndex={cursorIndex} />
+                <Cursor
+                  letters={document.getElementsByClassName("letter")}
+                  cursorIndex={cursorIndex}
+                />
                 <WordsToType colourOfChar={colourOfChar} words={words} />
               </Box>
             </CardContent>
@@ -262,7 +313,14 @@ export const Component = function Settings(): JSX.Element {
                 position: "relative",
               }}
             >
-              <WPMIcon />
+              <WPMIcon
+                sx={{
+                  width: "60px",
+                  height: "38px",
+                  marginTop: "16px",
+                  marginBottom: "2px",
+                }}
+              />
               <Typography
                 level="body-xs"
                 sx={{ fontSize: "18px", mt: 1.5, mb: 0.5 }}
@@ -383,7 +441,7 @@ export const Component = function Settings(): JSX.Element {
                 Daily Time
               </Typography>
               <Typography level="h2" sx={{ fontWeight: 700 }}>
-                {Math.round(currentScore)}m
+                {Math.round(timeSpent)}m
               </Typography>
             </Box>
           </Box>
@@ -440,6 +498,216 @@ export const Component = function Settings(): JSX.Element {
           setIsResultsModalOpen={setIsResultsModalOpen}
         ></OpenModalButton>
       </Box>
+      <Container sx={{ py: 2 }}>
+        <Typography sx={{ mb: 2, letterSpacing: "0.01em" }} level="h2">
+          Typing Settings
+        </Typography>
+        <Typography sx={{ mb: 2 }} level="body-md">
+          Adjust the typing behaviour and visual cues. Settings are saved
+          locally
+        </Typography>
+        <Box
+          sx={{
+            mb: 2,
+            bgcolor: theme.vars.palette.grey[600],
+            color: theme.vars.palette.text.secondary,
+            borderRadius: "8px",
+            p: 2,
+          }}
+        >
+          <Typography component="h3">Preview</Typography>
+          <Box
+            p={4}
+            sx={{
+              fontFamily: "Courier",
+              fontSize: "24px",
+              position: "relative",
+            }}
+          >
+            <Cursor
+              letters={document.getElementsByClassName("secondWordBox")}
+              cursorIndex={cursorsIndex}
+              sx={{ height: "53px" }}
+            />
+            <WordsToType
+              additionalClasses="secondWordBox"
+              colourOfChar={coloursOfChar}
+              words={sampleWords}
+            />
+          </Box>
+          <Divider
+            sx={{ backgroundColor: theme.vars.palette.grey[700], my: 2 }}
+          />
+          <Typography
+            component="label"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: 1,
+            }}
+          >
+            <span style={{ fontWeight: "bold" }}>Font Family</span>
+          </Typography>
+          <Select
+            onChange={(
+              _event:
+                | React.MouseEvent<Element, MouseEvent>
+                | React.KeyboardEvent
+                | React.FocusEvent<Element, Element>
+                | null,
+              value,
+            ) => {
+              setFontFamily(value ?? "0xProtoNerdFont-Bold");
+            }}
+            defaultValue={"0xProtoNerdFont-Bold"}
+            placeholder="Select a font"
+            renderValue={(selected) => {
+              return <Box>{selected?.label ?? "Select a language"}</Box>;
+            }}
+            value={fontFamily}
+            sx={{
+              marginLeft: "10px",
+              marginTop: "10px",
+              width: "300px",
+              border: "none",
+              borderRadius: "50px",
+            }}
+          >
+            <Option value={"0xProtoNerdFont-Bold"}>0xProtoNerdFont-Bold</Option>
+          </Select>
+          <Divider
+            sx={{ backgroundColor: theme.vars.palette.grey[700], my: 2 }}
+          />
+          <Typography
+            component="label"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+              gap: 1,
+            }}
+          >
+            <span style={{ fontWeight: "bold" }}>Zipper Animation</span>
+            <span>
+              When successfully typing a character it fades out with an
+              animation
+            </span>
+          </Typography>
+          <Switch
+            sx={{ alignSelf: "start", mt: 2, ml: 2 }}
+            checked={zipperEnabled}
+          />
+          <Divider
+            sx={{ backgroundColor: theme.vars.palette.grey[700], my: 2 }}
+          />
+          <Typography
+            component="label"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: 1,
+            }}
+          >
+            <span style={{ fontWeight: "bold" }}>Cursor Animation</span>
+            <span>Cursor smoothly slides to the right between characters</span>
+          </Typography>
+          <Switch
+            sx={{ alignSelf: "flex-start", ml: 2, mt: 2 }}
+            checked={smoothCursor}
+          />
+
+          <Divider
+            sx={{ backgroundColor: theme.vars.palette.grey[700], my: 2 }}
+          />
+          <Box>
+            <Typography
+              component="label"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: 1,
+              }}
+            >
+              <span style={{ fontWeight: "bold" }}>Space Character</span>
+              <span>displays a visible character for space</span>
+            </Typography>
+            <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
+              <SettingsButton
+                selectedValue={spaceChar}
+                handleClick={() => {}}
+                value="·"
+              >
+                ·
+              </SettingsButton>
+              <SettingsButton
+                handleClick={() => {}}
+                selectedValue={spaceChar}
+                value="␣"
+              >
+                ␣
+              </SettingsButton>
+              <SettingsButton
+                handleClick={() => {}}
+                selectedValue={spaceChar}
+                value=" "
+              >
+                empty
+              </SettingsButton>
+            </Box>
+          </Box>
+          <Divider
+            sx={{ backgroundColor: theme.vars.palette.grey[700], my: 2 }}
+          />
+          <Box>
+            <Typography
+              component="label"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: 1,
+              }}
+            >
+              <span style={{ fontWeight: "bold" }}>Cursor Character</span>
+              <span>Change the cursor style</span>
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "row", gap: 2, mt: 2 }}>
+              <SettingsButton
+                selectedValue={cursorChar}
+                handleClick={() => {}}
+                value="|"
+              >
+                |
+              </SettingsButton>
+              <SettingsButton
+                handleClick={() => {}}
+                selectedValue={cursorChar}
+                value="_"
+              >
+                _
+              </SettingsButton>
+              <SettingsButton
+                handleClick={() => {}}
+                selectedValue={cursorChar}
+                value="▊"
+              >
+                ▊
+              </SettingsButton>
+              <SettingsButton
+                handleClick={() => {}}
+                selectedValue={cursorChar}
+                value="▯"
+              >
+                ▯
+              </SettingsButton>
+            </Box>
+          </Box>
+        </Box>
+      </Container>
     </>
   );
 };

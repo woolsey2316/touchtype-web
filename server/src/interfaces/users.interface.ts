@@ -1,6 +1,6 @@
 export interface User {
-  _id: string;
+  userId: string;
   email: string;
-  password: string;
-  totalScore: number;
+  allTimeBestTestId: string;
+  dailyBestTestId: string;
 }

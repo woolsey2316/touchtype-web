@@ -6,9 +6,14 @@ import { UserPreferencesContext } from "../context/userPreferences";
 interface Props {
   words: string;
   colourOfChar: string[];
+  additionalClasses?: string;
 }
 
-export const WordsToType = ({ words, colourOfChar }: Props) => {
+export const WordsToType = ({
+  words,
+  colourOfChar,
+  additionalClasses,
+}: Props) => {
   const { theme } = useContext(ThemeContext);
   const { fontFamily, spaceChar } = useContext(UserPreferencesContext);
 
@@ -35,6 +40,7 @@ export const WordsToType = ({ words, colourOfChar }: Props) => {
             even={globalCharIdx % 2 === 0}
             opaque={words[globalCharIdx] === "→" ? true : false}
             key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
+            additionalClasses={additionalClasses}
           >
             {words[globalCharIdx]}
           </Letter>,
@@ -55,6 +61,7 @@ export const WordsToType = ({ words, colourOfChar }: Props) => {
             even={globalCharIdx % 2 === 0}
             key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
             preferedColour={theme.vars.palette.neutral[300]}
+            additionalClasses={additionalClasses}
           >
             {spaceChar}
           </Letter>,
@@ -82,6 +89,7 @@ export const WordsToType = ({ words, colourOfChar }: Props) => {
           opaque={true}
           even={globalCharIdx % 2 === 0}
           key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
+          additionalClasses={additionalClasses}
         >
           ↵
         </Letter>

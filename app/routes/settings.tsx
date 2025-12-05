@@ -105,7 +105,11 @@ export const Component = function Settings(): JSX.Element {
           p={4}
           sx={{ fontFamily: "Courier", fontSize: "24px", position: "relative" }}
         >
-          <Cursor cursorIndex={cursorIndex} sx={{ height: "53px" }} />
+          <Cursor
+            letters={document.getElementsByClassName("letter")}
+            cursorIndex={cursorIndex}
+            sx={{ height: "53px" }}
+          />
           <WordsToType colourOfChar={colourOfChar} words={words} />
         </Box>
         <Divider

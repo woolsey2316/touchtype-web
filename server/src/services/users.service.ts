@@ -1,4 +1,3 @@
-import { hash } from "bcrypt";
 import { CreateUserDto } from "@dtos/users.dto.js";
 import { HttpException } from "@exceptions/HttpException.js";
 import { User } from "@interfaces/users.interface.js";
@@ -32,10 +31,8 @@ class UserService {
         `This email ${userData.email} already exists`,
       );
 
-    const hashedPassword = await hash(userData.password, 10);
     const createUserData: User = await this.users.create({
       ...userData,
-      password: hashedPassword,
     });
 
     return createUserData;
@@ -51,16 +48,11 @@ class UserService {
       const findUser: User = await this.users.findOne({
         email: userData.email,
       });
-      if (findUser && findUser._id != userId)
+      if (findUser && findUser.userId != userId)
         throw new HttpException(
           409,
           `This email ${userData.email} already exists`,
         );
-    }
-
-    if (userData.password) {
-      const hashedPassword = await hash(userData.password, 10);
-      userData = { ...userData, password: hashedPassword };
     }
 
     const updateUserById: User = await this.users.findByIdAndUpdate(userId, {

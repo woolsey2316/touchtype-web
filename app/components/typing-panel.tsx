@@ -462,7 +462,10 @@ export default function TypingPanel({
       tabIndex={0}
       onKeyDown={onKeyDown}
     >
-      <Cursor cursorIndex={cursorIndex} />
+      <Cursor
+        letters={document.getElementsByClassName("letter")}
+        cursorIndex={cursorIndex}
+      />
       {/* Check if width is greater than 0 to avoid rendering issues */}
       {width > 0 && <WordsToType colourOfChar={colourOfChar} words={words} />}
       <ResultsModal
