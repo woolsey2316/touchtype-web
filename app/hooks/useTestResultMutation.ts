@@ -21,7 +21,10 @@ export const useTestResultMutation = () => {
       body: JSON.stringify(arg),
     });
   }
-
-  const { trigger, isMutating } = useSWRMutation("/api/test-results", postData);
+  const userId = localStorage.getItem("user_id") || "";
+  const { trigger, isMutating } = useSWRMutation(
+    userId ? "/api/test-results" : null,
+    postData,
+  );
   return { trigger, isMutating };
 };

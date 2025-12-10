@@ -3,7 +3,7 @@ import swr from "swr";
 interface ResultModalData {
   data: number;
 }
-export const useResultModalData = () => {
+export const useResultModalData = (isOpen: boolean) => {
   const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
 
   const token = localStorage.getItem("authToken") || "";
@@ -18,7 +18,7 @@ export const useResultModalData = () => {
     }).then((res) => res.json());
 
   const { data: resultModalData } = swr<ResultModalData>(
-    `/api/test-results/daily-time/${userId}`,
+    userId && isOpen ? `/api/test-results/daily-time/${userId}` : null,
     fetcher,
   );
 

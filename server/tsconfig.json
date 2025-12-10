@@ -10,7 +10,6 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "nodenext",
     "module": "nodenext",
-    "allowImportingTsExtensions": true,
     "pretty": true,
     "sourceMap": true,
     "declaration": true,

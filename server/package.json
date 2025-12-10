@@ -41,8 +41,12 @@
     "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
     "@swc/cli": "^0.7.9",
     "@swc/core": "^1.15.3",
+    "@types/babel__core": "^7",
+    "@types/babel__preset-env": "^7",
     "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.8.1",
     "@types/cookie-parser": "^1.4.3",
@@ -59,24 +63,26 @@
     "@types/swagger-ui-express": "^4.1.3",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
+    "babel-jest": "^30.2.0",
+    "babel-plugin-module-resolver": "^5.0.2",
     "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.1",
-    "jest": "^28.1.1",
+    "jest": "28.1.3",
     "lint-staged": "^13.0.3",
     "node-config": "^0.0.2",
     "node-gyp": "^9.1.0",
     "nodemon": "^2.0.19",
     "pm2": "^5.2.0",
     "prettier": "^2.7.1",
-    "supertest": "^6.2.4",
+    "supertest": "^7.1.4",
     "ts-jest": "^28.0.7",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.7.0",
     "tsconfig-paths": "^4.0.0",
-    "typescript": "^5.9.3"
+    "typescript": "4.9"
   },
   "husky": {
     "hooks": {

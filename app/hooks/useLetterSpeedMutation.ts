@@ -22,6 +22,10 @@ export const useLetterSpeedMutation = () => {
     });
   }
 
-  const { trigger, isMutating } = useSWRMutation("/api/letter-speed", postData);
+  const userId = localStorage.getItem("user_id") || "";
+  const { trigger, isMutating } = useSWRMutation(
+    userId ? "/api/letter-speed" : null,
+    postData,
+  );
   return { trigger, isMutating };
 };

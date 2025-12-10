@@ -55,7 +55,7 @@ export const ResultsModal = ({
   setResetCounter,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
-  const { resultModalData } = useResultModalData();
+  const { resultModalData } = useResultModalData(isOpen);
 
   const timeSpent = resultModalData?.data
     ? resultModalData?.data / 60 + currentTime / 60
@@ -243,7 +243,6 @@ export const ResultsModal = ({
                   stroke: theme.vars.palette.primary[300],
                   strokeDasharray: "5 5",
                 }}
-                labelStyle={{ marginLeft: "100px" }}
               />
               <ChartsXAxisComponent />
               <ChartsYAxisComponent />

@@ -183,7 +183,11 @@ export const Component = function Dashboard(): JSX.Element {
                 stroke: theme.vars.palette.secondary[100],
                 strokeDasharray: "5 5",
               }}
-              labelStyle={{ marginLeft: "100px" }}
+              labelStyle={{
+                backgroundColor: theme.vars.palette.background.level2,
+                borderRadius: "25px",
+                color: theme.vars.palette.text.primary,
+              }}
             />
             <ChartsYAxis />
             <ChartsXAxis />
@@ -274,7 +278,11 @@ export const Component = function Dashboard(): JSX.Element {
                 stroke: theme.vars.palette.secondary[100],
                 strokeDasharray: "5 5",
               }}
-              labelStyle={{ marginLeft: "100px" }}
+              labelStyle={{
+                backgroundColor: theme.vars.palette.background.level2,
+                borderRadius: "25px",
+                color: "red",
+              }}
             />
             <ChartsYAxis />
             <ChartsXAxis />

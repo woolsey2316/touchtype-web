@@ -43,11 +43,11 @@ export const useDashboardData = () => {
     }).then((res) => res.json());
 
   const { data: testResultData } = useSWR<TestResultData>(
-    `/api/test-results/${userId}`,
+    userId ? `/api/test-results/${userId}` : null,
     fetcher,
   );
   const { data: letterSpeedData } = useSWR<LetterSpeedData>(
-    `/api/letter-speed/${userId}`,
+    userId ? `/api/letter-speed/${userId}` : null,
     fetcher,
   );
 
