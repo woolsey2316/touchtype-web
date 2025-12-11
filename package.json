@@ -13,6 +13,7 @@
     "postinstall": "husky install && node ./scripts/post-install.js",
     "start": "yarn workspace app start",
     "dev-server": "yarn workspace server dev",
+    "test-server": "yarn workspace server test",
     "lint": "eslint --cache --report-unused-disable-directives .",
     "test": "vitest",
     "build": "yarn workspaces foreach -tiA run build"

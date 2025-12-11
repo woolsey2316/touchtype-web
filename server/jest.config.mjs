@@ -1,12 +1,12 @@
-import { pathsToModuleNameMapper } from "ts-jest";
-import tsConfig from "./tsconfig.json" with { type: "json" };
-
 export default {
   preset: "ts-jest/presets/default-esm", // Or default if not fully ESM
   testEnvironment: "node",
   roots: ["<rootDir>/src"],
   transform: {
-    "^.+\\.(tsx|ts)?$": ["ts-jest", { useESM: true }],
+    "^.+\\.(tsx|ts)?$": [
+      "ts-jest",
+      { tsconfig: "./tsconfig.test.json", useESM: true },
+    ],
   },
   globals: {
     "ts-jest": {

@@ -13,7 +13,7 @@ class UserPreferencesService {
     if (isEmpty(userId)) throw new HttpException(400, "UserId is empty");
 
     const findUserPreferences: UserPreferences =
-      await this.userPreferences.findOne({ _id: userId });
+      await this.userPreferences.findOne({ userId });
     if (!findUserPreferences)
       throw new HttpException(409, "User doesn't exist");
 
@@ -52,6 +52,7 @@ class UserPreferencesService {
     if (userPreferencesData.email) {
       const findUserPreferences: UserPreferences =
         await this.userPreferences.findOne({
+          userId: userId,
           email: userPreferencesData.email,
         });
       if (findUserPreferences && findUserPreferences.userId != userId)

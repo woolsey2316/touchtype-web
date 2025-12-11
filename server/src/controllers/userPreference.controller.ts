@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { CreateUserPreferencesDto } from "@dtos/userPreference.dto.js";
 import { UserPreferences } from "@interfaces/userPreference.interface.js";
-import userPreferenceService from "@services/userPreference.service.js";
+import UserPreferencesService from "@services/userPreference.service.js";
 
 class UserPreferencesController {
-  public userPreferenceService = new userPreferenceService();
+  public userPreferencesService = new UserPreferencesService();
 
   public getUserPreferencesById = async (
     req: Request,
@@ -14,7 +14,7 @@ class UserPreferencesController {
     try {
       const userId: string = req.params.id;
       const findOneUserPreferenceData: UserPreferences =
-        await this.userPreferenceService.findUserPreferencesById(userId);
+        await this.userPreferencesService.findUserPreferencesById(userId);
 
       res
         .status(200)
@@ -32,7 +32,7 @@ class UserPreferencesController {
     try {
       const userPreferencesData: CreateUserPreferencesDto = req.body;
       const createUserPreferenceData: UserPreferences =
-        await this.userPreferenceService.createUserPreferences(
+        await this.userPreferencesService.createUserPreferences(
           userPreferencesData,
         );
 
@@ -53,7 +53,7 @@ class UserPreferencesController {
       const userId: string = req.params.id;
       const userData: CreateUserPreferencesDto = req.body;
       const updateUserData: UserPreferences =
-        await this.userPreferenceService.updateUserPreferences(
+        await this.userPreferencesService.updateUserPreferences(
           userId,
           userData,
         );
@@ -72,7 +72,7 @@ class UserPreferencesController {
     try {
       const userId: string = req.params.id;
       const deleteUserData: UserPreferences =
-        await this.userPreferenceService.deleteUserPreferences(userId);
+        await this.userPreferencesService.deleteUserPreferences(userId);
 
       res.status(200).json({ data: deleteUserData, message: "deleted" });
     } catch (error) {
