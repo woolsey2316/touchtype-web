@@ -24,26 +24,37 @@ class App {
   public app: Application;
   public env: string;
   public port: string | number;
+  private server?: import("http").Server;
 
   constructor(routes: Routes[]) {
     this.app = express();
     this.env = NODE_ENV || "development";
     this.port = PORT || 3001;
 
-    this.connectToDatabase();
+    if (this.env !== "test") {
+      this.connectToDatabase();
+      this.initializeSwagger();
+    }
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
-    this.initializeSwagger();
     this.initializeErrorHandling();
   }
 
   public listen() {
-    this.app.listen(this.port, () => {
+    this.server = this.app.listen(this.port, () => {
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
       logger.info(`=================================`);
     });
+  }
+
+  public async close(): Promise<void> {
+    if (this.server) {
+      await new Promise<void>((resolve, reject) => {
+        this.server.close((err) => (err ? reject(err) : resolve()));
+      });
+    }
   }
 
   public async closeDatabaseConnection(): Promise<void> {

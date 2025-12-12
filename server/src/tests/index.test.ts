@@ -17,7 +17,7 @@ describe("Testing Index", () => {
 
   describe("[GET] /", () => {
     it("response statusCode 200", async () => {
-      const response = await request(app.getServer()).get("/");
+      const response = await request(app.getServer()).get("/api/");
       expect(response.status).toBe(200);
     });
   });

@@ -4,13 +4,16 @@ import App from "@/app.js";
 import { CreateUserPreferencesDto } from "@dtos/userPreference.dto.js";
 import UserPreferencesRoute from "@routes/userPreference.route.js";
 
-beforeAll(async () => {
-  jest.setTimeout(10000);
-});
-afterAll(async () => {
-  await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
+let app: App;
+
+beforeAll(() => {
+  (mongoose as any).connect = jest.fn(); // Mock globally
+  app = new App([new UserPreferencesRoute()]);
 });
 
+afterAll(async () => {
+  await app.closeDatabaseConnection();
+});
 describe("Testing UserPreferences", () => {
   describe("[GET] /user-preferences/:id", () => {
     it("response findOne userPreference", async () => {
@@ -32,8 +35,6 @@ describe("Testing UserPreferences", () => {
         smoothCursor: true,
       });
 
-      (mongoose as any).connect = jest.fn();
-      const app = new App([userPreferencesRoute]);
       return request(app.getServer())
         .get(`/api${userPreferencesRoute.path}/${userPreferenceId}`)
         .expect(200);
@@ -64,8 +65,6 @@ describe("Testing UserPreferences", () => {
         email: userPreferenceData.email,
       });
 
-      (mongoose as any).connect = jest.fn();
-      const app = new App([userPreferencesRoute]);
       return request(app.getServer())
         .post(`/api${userPreferencesRoute.path}`)
         .send(userPreferenceData)
@@ -104,8 +103,6 @@ describe("Testing UserPreferences", () => {
         email: userPreferenceData.email,
       });
 
-      (mongoose as any).connect = jest.fn();
-      const app = new App([userPreferencesRoute]);
       return request(app.getServer())
         .put(`/api${userPreferencesRoute.path}/${userPreferenceId}`)
         .send(userPreferenceData);
@@ -126,8 +123,6 @@ describe("Testing UserPreferences", () => {
         email: "test@email.com",
       });
 
-      (mongoose as any).connect = jest.fn();
-      const app = new App([userPreferencesRoute]);
       return request(app.getServer())
         .delete(`/api${userPreferencesRoute.path}/${userPreferenceId}`)
         .expect(200);
