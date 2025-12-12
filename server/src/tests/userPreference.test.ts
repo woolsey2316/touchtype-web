@@ -1,28 +1,36 @@
-import mongoose from "mongoose";
+jest.mock("mongoose", () => {
+  const actual = jest.requireActual("mongoose");
+  return {
+    ...actual, // keep Schema, model, Types, etc.
+    connect: jest.fn(), // mock connect
+    disconnect: jest.fn(), // mock disconnect
+  };
+});
+
 import request from "supertest";
 import App from "@/app.js";
 import { CreateUserPreferencesDto } from "@dtos/userPreference.dto.js";
 import UserPreferencesRoute from "@routes/userPreference.route.js";
 
 let app: App;
+let route: UserPreferencesRoute;
 
 beforeAll(() => {
-  (mongoose as any).connect = jest.fn(); // Mock globally
-  app = new App([new UserPreferencesRoute()]);
+  route = new UserPreferencesRoute();
+  app = new App([route]);
 });
 
 afterAll(async () => {
   await app.closeDatabaseConnection();
 });
+
 describe("Testing UserPreferences", () => {
   describe("[GET] /user-preferences/:id", () => {
     it("response findOne userPreference", async () => {
       const userPreferenceId = "qpwoeiruty";
 
-      const userPreferencesRoute = new UserPreferencesRoute();
       const userPreferences =
-        userPreferencesRoute.userPreferencesController.userPreferencesService
-          .userPreferences;
+        route.userPreferencesController.userPreferencesService.userPreferences;
 
       userPreferences.findOne = jest.fn().mockReturnValue({
         userId: "qpwoeiruty",
@@ -36,7 +44,7 @@ describe("Testing UserPreferences", () => {
       });
 
       return request(app.getServer())
-        .get(`/api${userPreferencesRoute.path}/${userPreferenceId}`)
+        .get(`/api${route.path}/${userPreferenceId}`)
         .expect(200);
     });
   });
@@ -54,10 +62,8 @@ describe("Testing UserPreferences", () => {
         smoothCursor: true,
       };
 
-      const userPreferencesRoute = new UserPreferencesRoute();
       const userPreferences =
-        userPreferencesRoute.userPreferencesController.userPreferencesService
-          .userPreferences;
+        route.userPreferencesController.userPreferencesService.userPreferences;
 
       userPreferences.findOne = jest.fn().mockReturnValue(null);
       userPreferences.create = jest.fn().mockReturnValue({
@@ -66,7 +72,7 @@ describe("Testing UserPreferences", () => {
       });
 
       return request(app.getServer())
-        .post(`/api${userPreferencesRoute.path}`)
+        .post(`/api${route.path}`)
         .send(userPreferenceData)
         .expect(201);
     });
@@ -86,10 +92,8 @@ describe("Testing UserPreferences", () => {
         smoothCursor: true,
       };
 
-      const userPreferencesRoute = new UserPreferencesRoute();
       const userPreferences =
-        userPreferencesRoute.userPreferencesController.userPreferencesService
-          .userPreferences;
+        route.userPreferencesController.userPreferencesService.userPreferences;
 
       if (userPreferenceData.email) {
         userPreferences.findOne = jest.fn().mockReturnValue({
@@ -104,7 +108,7 @@ describe("Testing UserPreferences", () => {
       });
 
       return request(app.getServer())
-        .put(`/api${userPreferencesRoute.path}/${userPreferenceId}`)
+        .put(`/api${route.path}/${userPreferenceId}`)
         .send(userPreferenceData);
     });
   });
@@ -113,10 +117,8 @@ describe("Testing UserPreferences", () => {
     it("response Delete userPreference", async () => {
       const userPreferenceId = "60706478aad6c9ad19a31c84";
 
-      const userPreferencesRoute = new UserPreferencesRoute();
       const userPreferences =
-        userPreferencesRoute.userPreferencesController.userPreferencesService
-          .userPreferences;
+        route.userPreferencesController.userPreferencesService.userPreferences;
 
       userPreferences.findByIdAndDelete = jest.fn().mockReturnValue({
         _id: "60706478aad6c9ad19a31c84",
@@ -124,7 +126,7 @@ describe("Testing UserPreferences", () => {
       });
 
       return request(app.getServer())
-        .delete(`/api${userPreferencesRoute.path}/${userPreferenceId}`)
+        .delete(`/api${route.path}/${userPreferenceId}`)
         .expect(200);
     });
   });
