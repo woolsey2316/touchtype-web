@@ -10,78 +10,85 @@ import { Zap } from "lucide-react";
 import { LeaderboardFilters } from "../components/leaderboards-filter";
 import { type Category, type Timeframe } from "../types/types";
 
+interface LeaderboardEntry {
+  userId: number;
+  username: string;
+  wpm: number;
+  accuracy: number;
+  date: string;
+}
 export const Component = function Leaderboards(): JSX.Element {
   const { theme } = useContext(ThemeContext);
   usePageEffect({ title: "Leaderboards" });
   const [category, setCategory] = useState<Category>("english");
   const [timeframe, setTimeFrame] = useState<Timeframe>("daily");
-  const [entries] = useState([
+  const [leaderboardEntries] = useState<LeaderboardEntry[]>([
     {
-      id: 1,
-      name: "Sarah Chen",
+      userId: 1,
+      username: "Sarah Chen",
       wpm: 127,
       accuracy: 98.5,
       date: "2025-10-28T14:32:00",
     },
     {
-      id: 2,
-      name: "Alex Rodriguez",
+      userId: 2,
+      username: "Alex Rodriguez",
       wpm: 119,
       accuracy: 97.2,
       date: "2025-10-27T09:15:00",
     },
     {
-      id: 3,
-      name: "Emma Thompson",
+      userId: 3,
+      username: "Emma Thompson",
       wpm: 115,
       accuracy: 99.1,
       date: "2025-10-28T16:45:00",
     },
     {
-      id: 4,
-      name: "Marcus Johnson",
+      userId: 4,
+      username: "Marcus Johnson",
       wpm: 108,
       accuracy: 96.8,
       date: "2025-10-26T11:20:00",
     },
     {
-      id: 5,
-      name: "Priya Patel",
+      userId: 5,
+      username: "Priya Patel",
       wpm: 102,
       accuracy: 98.3,
       date: "2025-10-27T13:50:00",
     },
     {
-      id: 6,
-      name: "Jake Miller",
+      userId: 6,
+      username: "Jake Miller",
       wpm: 98,
       accuracy: 95.7,
       date: "2025-10-28T08:30:00",
     },
     {
-      id: 7,
-      name: "Sofia Martinez",
+      userId: 7,
+      username: "Sofia Martinez",
       wpm: 94,
       accuracy: 97.9,
       date: "2025-10-25T15:10:00",
     },
     {
-      id: 8,
-      name: "David Kim",
+      userId: 8,
+      username: "DavuserId Kim",
       wpm: 89,
       accuracy: 94.2,
       date: "2025-10-26T17:25:00",
     },
     {
-      id: 9,
-      name: "Olivia Brown",
+      userId: 9,
+      username: "Olivia Brown",
       wpm: 85,
       accuracy: 96.5,
       date: "2025-10-27T10:40:00",
     },
     {
-      id: 10,
-      name: "Ryan Taylor",
+      userId: 10,
+      username: "Ryan Taylor",
       wpm: 81,
       accuracy: 93.8,
       date: "2025-10-28T12:05:00",
@@ -231,10 +238,10 @@ export const Component = function Leaderboards(): JSX.Element {
                 </tr>
               </thead>
               <tbody>
-                {entries.map((entry, index) => {
+                {leaderboardEntries.map((entry, index) => {
                   const rank = index + 1;
                   return (
-                    <tr key={entry.id}>
+                    <tr key={entry.userId}>
                       <td>
                         <Box
                           sx={{
@@ -266,7 +273,7 @@ export const Component = function Leaderboards(): JSX.Element {
                             fontWeight: 500,
                           }}
                         >
-                          {entry.name}
+                          {entry.username}
                         </Typography>
                       </td>
                       <td>

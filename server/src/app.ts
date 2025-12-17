@@ -15,7 +15,7 @@ import {
   ORIGIN,
   CREDENTIALS,
 } from "@config/config.js";
-import { dbConnection } from "@databases/databases.js";
+import { dbConnection, connectRedis } from "@databases/databases.js";
 import { Routes } from "@interfaces/routes.interface.js";
 import errorMiddleware from "@middlewares/error.middleware.js";
 import { logger, stream } from "@utils/logger.js";
@@ -74,10 +74,17 @@ class App {
     if (this.env !== "production") {
       set("debug", true);
     }
+    // MongoDB Connection
     try {
       await connect(dbConnection.url);
     } catch (error) {
       console.error("Error connecting to MongoDB:", error);
+    }
+    // Redis Conection
+    try {
+      await connectRedis();
+    } catch (error) {
+      console.error("Error connecting to Redis:", error);
     }
   }
 

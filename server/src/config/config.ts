@@ -12,4 +12,8 @@ export const {
   LOG_FORMAT,
   LOG_DIR,
   ORIGIN,
+  REDIS_USERNAME,
+  REDIS_PASSWORD,
+  REDIS_HOST,
+  REDIS_PORT,
 } = process.env;
