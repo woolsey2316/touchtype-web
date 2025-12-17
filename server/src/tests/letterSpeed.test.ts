@@ -2,8 +2,8 @@ jest.mock("@services/letterSpeed.service.js", () => {
   return {
     __esModule: true,
     default: jest.fn().mockImplementation(() => ({
-      getLetterAverages: jest.fn((_) => ({ lowercase: [], symbols: [] })),
-      upsertLetterSpeeds: jest.fn((_, _) => ({ updated: true })),
+      getLetterAverages: jest.fn(() => ({ lowercase: [], symbols: [] })),
+      upsertLetterSpeeds: jest.fn(() => ({ updated: true })),
     })),
   };
 });
