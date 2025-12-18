@@ -17,7 +17,7 @@ describe("TypingPanel", () => {
   let correctChars: React.RefObject<number>,
     mistakes: React.RefObject<number>,
     startTime: React.RefObject<number>,
-    setTimeInfo: React.Dispatch<
+    setTestInfo: React.Dispatch<
       React.SetStateAction<{
         started: boolean;
         ended: boolean;
@@ -47,7 +47,7 @@ describe("TypingPanel", () => {
     correctChars = mockRefObject;
     mistakes = mockRefObject;
     startTime = mockRefObject;
-    setTimeInfo = vi.fn();
+    setTestInfo = vi.fn();
     setIsResultsModalOpen = vi.fn();
     setResetCounter = vi.fn();
     setCurrentWPM = vi.fn();
@@ -96,7 +96,7 @@ describe("TypingPanel", () => {
             { current: {} } as React.RefObject<Record<string, number[]>>
           }
           isTimedTest={false}
-          setTimeInfo={setTimeInfo}
+          setTestInfo={setTestInfo}
           childInputRef={childInputRef}
           previousWPM={undefined}
           previousAccuracy={undefined}
@@ -149,7 +149,7 @@ describe("TypingPanel", () => {
             { current: {} } as React.RefObject<Record<string, number[]>>
           }
           isTimedTest={false}
-          setTimeInfo={setTimeInfo}
+          setTestInfo={setTestInfo}
           childInputRef={childInputRef}
           currentWPM={0}
           setCurrentWPM={setCurrentWPM}
@@ -204,7 +204,7 @@ describe("TypingPanel", () => {
             { current: {} } as React.RefObject<Record<string, number[]>>
           }
           isTimedTest={false}
-          setTimeInfo={setTimeInfo}
+          setTestInfo={setTestInfo}
           childInputRef={childInputRef}
           currentWPM={0}
           setCurrentWPM={setCurrentWPM}

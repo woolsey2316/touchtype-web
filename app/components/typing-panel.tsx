@@ -28,7 +28,7 @@ export default function TypingPanel({
   sentenceSize,
   testInfo,
   isTimedTest,
-  setTimeInfo,
+  setTestInfo,
   onEnd,
   startTime,
   childInputRef,
@@ -56,7 +56,7 @@ export default function TypingPanel({
     started: boolean;
     ended: boolean;
   };
-  setTimeInfo: React.Dispatch<
+  setTestInfo: React.Dispatch<
     React.SetStateAction<{
       started: boolean;
       ended: boolean;
@@ -198,7 +198,7 @@ export default function TypingPanel({
       if (isTimedTest) {
         fetchNewWords();
       } else {
-        setTimeInfo({
+        setTestInfo({
           ended: true,
           started: false,
         });
@@ -210,7 +210,7 @@ export default function TypingPanel({
     words,
     isTimedTest,
     fetchNewWords,
-    setTimeInfo,
+    setTestInfo,
     finishTest,
     theme.vars.palette.neutral,
   ]);
@@ -300,7 +300,7 @@ export default function TypingPanel({
     if (testInfo.ended) return;
     // if the test has not started, start it
     if (!testInfo.started) {
-      setTimeInfo((timeTestInfo) => ({
+      setTestInfo((timeTestInfo) => ({
         ...timeTestInfo,
         started: true,
       }));
@@ -473,7 +473,7 @@ export default function TypingPanel({
         isOpen={isOpen}
         setIsResultsModalOpen={setIsResultsModalOpen}
         newTestPage={newTestPage}
-        setTimeInfo={setTimeInfo}
+        setTestInfo={setTestInfo}
         previousWPM={previousWPM}
         previousAccuracy={previousAccuracy}
         currentWPM={currentWPM}

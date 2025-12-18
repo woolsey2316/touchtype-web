@@ -9,7 +9,7 @@ type Props = {
   setIsTimedTest: React.Dispatch<React.SetStateAction<boolean>>;
   setSentenceSize: React.Dispatch<React.SetStateAction<number>>;
   setTimeLimit: React.Dispatch<React.SetStateAction<number>>;
-  setTimeInfo: React.Dispatch<
+  setTestInfo: React.Dispatch<
     React.SetStateAction<{
       started: boolean;
       ended: boolean;
@@ -36,7 +36,7 @@ export const MainOptionsBar = ({
   setIsTimedTest,
   setSentenceSize,
   setTimeLimit,
-  setTimeInfo,
+  setTestInfo,
   keyTimeMap,
   correctChars,
   mistakes,
@@ -78,7 +78,7 @@ export const MainOptionsBar = ({
           })}
           onClick={() => {
             if (!programmingLanguage) {
-              setTimeInfo((timeInfo) => ({
+              setTestInfo((timeInfo) => ({
                 ...timeInfo,
                 started: false,
               }));
@@ -103,7 +103,7 @@ export const MainOptionsBar = ({
           })}
           onClick={() => {
             if (!programmingLanguage) {
-              setTimeInfo((timeInfo) => ({
+              setTestInfo((timeInfo) => ({
                 ...timeInfo,
                 started: false,
               }));
@@ -138,7 +138,7 @@ export const MainOptionsBar = ({
             onClick={() => {
               if (!programmingLanguage) {
                 resetTestStats();
-                setTimeInfo((timeInfo) => ({
+                setTestInfo((timeInfo) => ({
                   ...timeInfo,
                   started: false,
                 }));
@@ -175,7 +175,7 @@ export const MainOptionsBar = ({
                 onClick={() => {
                   if (!programmingLanguage) {
                     resetTestStats();
-                    setTimeInfo((timeInfo) => ({
+                    setTestInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
                     }));
@@ -207,7 +207,7 @@ export const MainOptionsBar = ({
                 onClick={() => {
                   if (!programmingLanguage) {
                     resetTestStats();
-                    setTimeInfo((timeInfo) => ({
+                    setTestInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
                     }));
@@ -239,7 +239,7 @@ export const MainOptionsBar = ({
                 onClick={() => {
                   if (!programmingLanguage) {
                     resetTestStats();
-                    setTimeInfo((timeInfo) => ({
+                    setTestInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
                     }));
@@ -266,7 +266,7 @@ export const MainOptionsBar = ({
             })}
             onClick={() => {
               if (!programmingLanguage) {
-                setTimeInfo((timeInfo) => ({
+                setTestInfo((timeInfo) => ({
                   ...timeInfo,
                   started: false,
                 }));
@@ -303,7 +303,7 @@ export const MainOptionsBar = ({
                 onClick={() => {
                   if (!programmingLanguage) {
                     resetTestStats();
-                    setTimeInfo((timeInfo) => ({
+                    setTestInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
                     }));
@@ -335,7 +335,7 @@ export const MainOptionsBar = ({
                 onClick={() => {
                   if (!programmingLanguage) {
                     resetTestStats();
-                    setTimeInfo((timeInfo) => ({
+                    setTestInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
                     }));
@@ -367,7 +367,7 @@ export const MainOptionsBar = ({
                 onClick={() => {
                   if (!programmingLanguage) {
                     resetTestStats();
-                    setTimeInfo((timeInfo) => ({
+                    setTestInfo((timeInfo) => ({
                       ...timeInfo,
                       started: false,
                     }));
@@ -402,7 +402,7 @@ export const MainOptionsBar = ({
           })}
           onClick={() => {
             resetTestStats();
-            setTimeInfo((timeInfo) => ({
+            setTestInfo((timeInfo) => ({
               ...timeInfo,
               started: false,
             }));

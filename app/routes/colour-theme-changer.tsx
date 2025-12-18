@@ -226,7 +226,7 @@ export const Component = function Settings(): JSX.Element {
               setIsTimedTest={setIsTimedTest}
               setSentenceSize={setSentenceSize}
               setTimeLimit={setTimeLimit}
-              setTimeInfo={() => {}}
+              setTestInfo={() => {}}
               keyTimeMap={{ current: {} }}
               correctChars={{ current: 0 }}
               mistakes={{ current: 0 }}

@@ -20,7 +20,7 @@ export const Component = function Test(): JSX.Element {
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
   const [resetCounter, setResetCounter] = useState(0);
-  const [testInfo, setTimeInfo] = useState<{
+  const [testInfo, setTestInfo] = useState<{
     started: boolean;
     ended: boolean;
   }>({ started: false, ended: false });
@@ -58,6 +58,7 @@ export const Component = function Test(): JSX.Element {
         <CountdownTimer
           key={isTimedTest.toString() + timeLimit + resetCounter}
           testInfo={testInfo}
+          setTestInfo={setTestInfo}
           wantTimer={isTimedTest}
           targetDate={Date.now() + timeLimit * 1000}
           timeLimit={timeLimit}
@@ -90,7 +91,7 @@ export const Component = function Test(): JSX.Element {
             setIsTimedTest={setIsTimedTest}
             setSentenceSize={setSentenceSize}
             setTimeLimit={setTimeLimit}
-            setTimeInfo={setTimeInfo}
+            setTestInfo={setTestInfo}
             keyTimeMap={keyTimeMap}
             correctChars={correctChars}
             mistakes={mistakes}
@@ -131,7 +132,7 @@ export const Component = function Test(): JSX.Element {
               isTimedTest={isTimedTest}
               testInfo={testInfo}
               startTime={startTime}
-              setTimeInfo={setTimeInfo}
+              setTestInfo={setTestInfo}
               setCurrentWPM={() => {}} // handled in hook
               previousWPM={previousWPM}
               previousAccuracy={previousAccuracy}

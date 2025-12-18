@@ -17,7 +17,7 @@ import { useResultModalData } from "../../hooks/useResultModalData";
 import { StatCard } from "../stat-card";
 
 interface Props {
-  setTimeInfo: React.Dispatch<
+  setTestInfo: React.Dispatch<
     React.SetStateAction<{
       started: boolean;
       ended: boolean;
@@ -47,7 +47,7 @@ export const ResultsModal = ({
   currentScore,
   currentTime,
   keyTimeMap,
-  setTimeInfo,
+  setTestInfo,
   isOpen,
   newTestPage,
   setIsResultsModalOpen,
@@ -94,6 +94,7 @@ export const ResultsModal = ({
     ChartsTooltipProps & RefAttributes<SVGSVGElement>
   >>(null);
 
+  // to get around MUI X Charts SSR issues
   useEffect(() => {
     if (process.env.NODE_ENV !== "test") {
       Promise.all([
@@ -119,7 +120,7 @@ export const ResultsModal = ({
     }
     newTestPage();
     keyTimeMap.current = {};
-    setTimeInfo({
+    setTestInfo({
       started: false,
       ended: false,
     });
