@@ -239,7 +239,7 @@ export default function TypingPanel({
     }
   }
 
-  function deductCharacterRecord(cursorIndex: number) {
+  function removeCharacterFromState(cursorIndex: number) {
     if (
       colourOfChar[cursorIndex - 1] === theme.vars.palette.danger.plainColor
     ) {
@@ -249,16 +249,18 @@ export default function TypingPanel({
     }
   }
 
-  function deductWordRecord(
-    currWord: HTMLCollection,
-    mistakes: React.RefObject<number>,
-    correctChars: React.RefObject<number>,
-  ) {
-    let count = 0;
+  function alreadyTyped(letter: Element) {
+    return (
+      (letter as HTMLElement).style.color !== theme.vars.palette.neutral[500]
+    );
+  }
+
+  function removeWordFromState(currWord: HTMLCollection) {
+    let letterCount = 0;
+
     for (const letter of currWord) {
-      if (
-        (letter as HTMLElement).style.color !== theme.vars.palette.neutral[500]
-      ) {
+      if (alreadyTyped(letter)) {
+        letterCount++;
         if (
           (letter as HTMLElement).style.color ===
           theme.vars.palette.danger.plainColor
@@ -267,32 +269,23 @@ export default function TypingPanel({
         } else {
           correctChars.current = Math.max(correctChars.current - 1, 0);
         }
-        count++;
       }
     }
-    // if we are at the start of the word, delete previous word
-    if (count === 0 && cursorIndex > 0) {
-      currWord =
-        document?.getElementsByClassName("letter")[cursorIndex - 1]?.parentNode
-          ?.children ?? ([] as unknown as HTMLCollection);
-      for (const letter of currWord) {
-        if (
-          (letter as HTMLElement).style.color !==
-          theme.vars.palette.neutral[500]
-        ) {
-          if (
-            (letter as HTMLElement).style.color ===
-            theme.vars.palette.danger.plainColor
-          ) {
-            mistakes.current = Math.max(mistakes.current - 1, 0);
-          } else {
-            correctChars.current = Math.max(correctChars.current - 1, 0);
-          }
-          count++;
-        }
+    // if we are at the start of the word, delete space bar before the word
+    if (letterCount === 0 && cursorIndex > 1) {
+      const spaceChar =
+        document?.getElementsByClassName("letter")[cursorIndex - 1];
+      letterCount++;
+      if (
+        (spaceChar as HTMLElement).style.color ===
+        theme.vars.palette.danger.plainColor
+      ) {
+        mistakes.current = Math.max(mistakes.current - 1, 0);
+      } else {
+        correctChars.current = Math.max(correctChars.current - 1, 0);
       }
     }
-    return count;
+    return letterCount;
   }
 
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
@@ -385,7 +378,7 @@ export default function TypingPanel({
       const currWord =
         document?.getElementsByClassName("letter")[cursorIndex]?.parentNode
           ?.children ?? ([] as unknown as HTMLCollection);
-      const countDeleted = deductWordRecord(currWord, mistakes, correctChars);
+      const countDeleted = removeWordFromState(currWord);
 
       setCursorIndex((cursorIndex) => {
         for (let i = 0; i < countDeleted; i++) {
@@ -399,20 +392,13 @@ export default function TypingPanel({
         maybeScrollToPreviousLine(cursorIndex, childInputRef);
         return previousIndex;
       });
-      setCharIndex(
-        getPreviousCharIndex({ charIndex, words, skipOverTabs: false }) -
-          countDeleted +
-          1,
-      );
-      console.log(countDeleted);
-      console.log(
-        getPreviousCharIndex({ charIndex, words, skipOverTabs: false }) -
-          countDeleted +
-          1,
-      );
+      setCharIndex((charIndex) => charIndex - countDeleted);
+      console.log("curr word length", currWord.length);
+      console.log("count deleted", countDeleted);
+      console.log("new char index", charIndex - countDeleted);
     } else if (e.key === "Backspace") {
       setCursorIndex((cursorIndex) => {
-        deductCharacterRecord(cursorIndex);
+        removeCharacterFromState(cursorIndex);
         updateColourOfChar(
           getPreviousCharIndex({ charIndex, words, skipOverTabs: false }),
           theme.vars.palette.neutral[500],

@@ -60,7 +60,7 @@ export const WordsToType = ({
             invisible={spaceChar === " "}
             even={globalCharIdx % 2 === 0}
             key={`char-${lineIdx}-${wordIdx}-${charIdx}`}
-            preferedColour={theme.vars.palette.neutral[300]}
+            preferedColour={theme.vars.palette.neutral[500]}
             additionalClasses={additionalClasses}
           >
             {spaceChar}
