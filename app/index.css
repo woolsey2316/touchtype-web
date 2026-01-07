@@ -22,6 +22,7 @@
 @import "./font-theme/AnonymiceProNerdFontPropo-Bold.css";
 @import "./font-theme/AnonymiceProNerdFontPropo-Regular.css";
 @import "./font-theme/AnonymiceProNerdFont-Regular.css";
+@import "./font-theme/PlusJakartaSans.css";
 
 .MuiChartsTooltip-root {
   background-color: #000;

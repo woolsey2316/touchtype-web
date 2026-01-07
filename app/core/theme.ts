@@ -102,7 +102,15 @@ const theme = extendTheme({
           ...(ownerState.color === "primary" && {
             color: theme.palette.primary.solidColor,
           }),
+          minHeight: "22px",
         }),
+      },
+    },
+    JoyTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: "'JaPlusSans', sans-serif",
+        },
       },
     },
   },

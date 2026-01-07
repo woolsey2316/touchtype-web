@@ -1,15 +1,18 @@
 export const LATTE_THEME = {
+  text: {
+    icon: "#65758b",
+  },
   danger: {
-    plainColor: "#DD614A",
+    plainColor: "#f5950a",
   },
   success: {
-    plainColor: "#388659",
+    plainColor: "#10b77f",
   },
   background: {
-    body: "#e6e9ef",
-    level1: "#fff",
+    body: "#f9fbfa",
+    level1: "#f9fbfa",
     level2: "#dce0e8",
-    level3: "#eff1f5",
+    level3: "#f3f5f7",
     popup: "#dce0e8",
   },
   primary: {
@@ -23,8 +26,8 @@ export const LATTE_THEME = {
     700: "#df8e1d",
     800: "#179299",
     900: "#7287fd",
-    plainColor: "#DD614A",
-    mainChannel: "221 97 74",
+    plainColor: "#10b77f",
+    mainChannel: "16 183 127",
     plainHoverColor: "#df8e1d",
     plainHoverBg: "transparent",
     plainActiveBg: "transparent",
@@ -32,7 +35,7 @@ export const LATTE_THEME = {
     softHoverBg: "transparent",
     plainActiveColor: "#232634",
     solidColor: "#ffffff",
-    cursorColor: "#fab387",
+    cursorColor: "#10b77f",
   },
   secondary: {
     50: "#f4dbd6",
@@ -51,11 +54,11 @@ export const LATTE_THEME = {
     100: "#5c5f77",
     200: "#6c6f85",
     300: "#7c7f93",
-    400: "#bcc0cc",
-    500: "#5c5f77",
+    400: "#e1e7ef",
+    500: "#bdc6ce",
     600: "#9ca0b0",
     700: "#8c8fa1",
-    800: "#232634",
+    800: "#65758b",
     900: "#6c6f85",
     plainColor: "#232634",
     mainChannel: "229 200 144",
@@ -64,16 +67,18 @@ export const LATTE_THEME = {
     plainHoverColor: "#232634",
     plainActiveColor: "#232634",
     outlinedBorder: "#7d7da1",
-    softBg: "#9ca0b0",
-    softHoverBg: "#9ca0b0",
+    outlinedHoverBg: "#dce0e8",
+    softBg: "#f9fbfa",
+    softHoverBg: "#f9fbfa",
+    softActiveBg: "transparent",
     solidBg: "#354270",
     solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
   grey: {
-    50: "#dce0e8",
+    50: "#ffffff",
     100: "#e6e9ef",
-    200: "#eff1f5",
+    200: "#e1e7ef",
     300: "#ccd0da",
     400: "#bcc0cc",
     500: "#acb0be",
@@ -95,6 +100,9 @@ export const LATTE_THEME = {
 };
 
 export const FRAPPE_THEME = {
+  text: {
+    icon: "#c6d0f5",
+  },
   danger: {
     plainColor: "#d20f39",
   },
@@ -105,7 +113,7 @@ export const FRAPPE_THEME = {
     body: "#232634",
     level1: "#292c3c",
     level2: "#303446",
-    level3: "#414559",
+    level3: "#1e1e2e",
     popup: "#232634",
   },
   primary: {
@@ -146,7 +154,7 @@ export const FRAPPE_THEME = {
     100: "#e6e9ef",
     200: "#eff1f5",
     300: "#ccd0da",
-    400: "#bcc0cc",
+    400: "#555555",
     500: "#acb0be",
     600: "#45475a",
     700: "#181825",
@@ -158,16 +166,18 @@ export const FRAPPE_THEME = {
     plainHoverColor: "#232634",
     plainActiveColor: "#232634",
     outlinedBorder: "#7d7da1",
-    softBg: "#414559",
+    outlinedHoverBg: "#7c7f93",
+    softBg: "#363647",
     softHoverBg: "#414559",
+    softActiveBg: "transparent",
     solidBg: "#354270",
     solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
   grey: {
-    50: "#dce0e8",
+    50: "#1e1e2e",
     100: "#e6e9ef",
-    200: "#eff1f5",
+    200: "#181825",
     300: "#ccd0da",
     400: "#bcc0cc",
     500: "#6c6d6e",
@@ -189,6 +199,9 @@ export const FRAPPE_THEME = {
 };
 
 export const MACCHIATO_THEME = {
+  text: {
+    icon: "#c6d0f5",
+  },
   danger: {
     plainColor: "#ed8796",
   },
@@ -199,7 +212,7 @@ export const MACCHIATO_THEME = {
     body: "#181926",
     level1: "#1e2030",
     level2: "#24273a",
-    level3: "#363a4f",
+    level3: "#1e1e2e",
     popup: "#181926",
   },
   primary: {
@@ -240,7 +253,7 @@ export const MACCHIATO_THEME = {
     100: "#e6e9ef",
     200: "#eff1f5",
     300: "#ccd0da",
-    400: "#bcc0cc",
+    400: "#4e5354",
     500: "#acb0be",
     600: "#45475a",
     700: "#181825",
@@ -251,17 +264,19 @@ export const MACCHIATO_THEME = {
     plainHoverBg: "#91d7e3",
     plainHoverColor: "#181926",
     plainActiveColor: "#181926",
-    outlinedBorder: "#7d7da1",
+    outlinedBorder: "#4e5354",
+    outlinedHoverBg: "#7c7f93",
     softBg: "#363a4f",
     softHoverBg: "#363a4f",
+    softActiveBg: "transparent",
     solidBg: "#354270",
     solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
   grey: {
-    50: "#dce0e8",
+    50: "#1e1e2e",
     100: "#e6e9ef",
-    200: "#eff1f5",
+    200: "#181825",
     300: "#ccd0da",
     400: "#bcc0cc",
     500: "#767982",
@@ -283,6 +298,9 @@ export const MACCHIATO_THEME = {
 };
 
 export const MOCHA_THEME = {
+  text: {
+    icon: "#c6d0f5",
+  },
   danger: {
     plainColor: "#f38ba8",
   },
@@ -293,7 +311,7 @@ export const MOCHA_THEME = {
     body: "#181825",
     level1: "#1e1e2e",
     level2: "#313244",
-    level3: "#45475a",
+    level3: "#1e1e2e",
     popup: "#181825",
   },
   primary: {
@@ -334,7 +352,7 @@ export const MOCHA_THEME = {
     100: "#e6e9ef",
     200: "#eff1f5",
     300: "#ccd0da",
-    400: "#bcc0cc",
+    400: "#4e5354",
     500: "#acb0be",
     600: "#45475a",
     700: "#181825",
@@ -345,17 +363,19 @@ export const MOCHA_THEME = {
     plainHoverBg: "#99d1db",
     plainHoverColor: "#232634",
     plainActiveColor: "#232634",
-    outlinedBorder: "#7d7da1",
-    softBg: "#414559",
+    outlinedBorder: "#4e5354",
+    outlinedHoverBg: "#7c7f93",
+    softBg: "#363647",
     softHoverBg: "#414559",
+    softActiveBg: "transparent",
     solidBg: "#8087a2",
     solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
   },
   grey: {
-    50: "#dce0e8",
+    50: "#1e1e2e",
     100: "#e6e9ef",
-    200: "#eff1f5",
+    200: "#181825",
     300: "#ccd0da",
     400: "#8b8d92",
     500: "#272c3a",
@@ -377,6 +397,9 @@ export const MOCHA_THEME = {
 };
 
 export const CUSTOM_THEME_1 = {
+  text: {
+    icon: "#c6d0f5",
+  },
   danger: {
     plainColor: "#f38ba8",
   },
@@ -440,8 +463,10 @@ export const CUSTOM_THEME_1 = {
     plainHoverColor: "#232634",
     plainActiveColor: "#232634",
     outlinedBorder: "#7d7da1",
+    outlinedHoverBg: "#7c7f93",
     softBg: "#414559",
     softHoverBg: "#414559",
+    softActiveBg: "transparent",
     solidBg: "#354270",
     solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
@@ -470,6 +495,9 @@ export const CUSTOM_THEME_1 = {
   },
 };
 export const CUSTOM_THEME_2 = {
+  text: {
+    icon: "#c6d0f5",
+  },
   danger: {
     plainColor: "#f38ba8",
   },
@@ -533,8 +561,10 @@ export const CUSTOM_THEME_2 = {
     plainHoverColor: "#232634",
     plainActiveColor: "#232634",
     outlinedBorder: "#7d7da1",
+    outlinedHoverBg: "#7c7f93",
     softBg: "#414559",
     softHoverBg: "#414559",
+    softActiveBg: "transparent",
     solidBg: "#354270",
     solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
@@ -564,6 +594,9 @@ export const CUSTOM_THEME_2 = {
 };
 
 export const CUSTOM_THEME_3 = {
+  text: {
+    icon: "#c6d0f5",
+  },
   danger: {
     plainColor: "#f38ba8",
   },
@@ -627,8 +660,10 @@ export const CUSTOM_THEME_3 = {
     plainHoverColor: "#232634",
     plainActiveColor: "#232634",
     outlinedBorder: "#7d7da1",
+    outlinedHoverBg: "#7c7f93",
     softBg: "#414559",
     softHoverBg: "#414559",
+    softActiveBg: "transparent",
     solidBg: "#354270",
     solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",
@@ -658,6 +693,9 @@ export const CUSTOM_THEME_3 = {
 };
 
 export const CUSTOM_THEME_4 = {
+  text: {
+    icon: "#c6d0f5",
+  },
   danger: {
     plainColor: "#f38ba8",
   },
@@ -721,8 +759,10 @@ export const CUSTOM_THEME_4 = {
     plainHoverColor: "#232634",
     plainActiveColor: "#232634",
     outlinedBorder: "#7d7da1",
+    outlinedHoverBg: "#7c7f93",
     softBg: "#414559",
     softHoverBg: "#414559",
+    softActiveBg: "transparent",
     solidBg: "#354270",
     solidHoverBg: "#8087a2",
     solidActiveBg: "#f5a97f",

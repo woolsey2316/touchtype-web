@@ -196,7 +196,11 @@ export const Component = function Settings(): JSX.Element {
           <Typography sx={{ mb: 2 }} level="h2">
             Display Only
           </Typography>
-          <Typography sx={{ mb: 2 }} level="h2" color="primary">
+          <Typography
+            sx={{ mb: 2, fontSize: "36px" }}
+            level="h2"
+            color="primary"
+          >
             10 s
           </Typography>
           <CurrentWPM currentWPM={currentWPM}></CurrentWPM>
@@ -277,7 +281,7 @@ export const Component = function Settings(): JSX.Element {
           </Card>
         </Box>
         {/* Results Modal UI */}
-        <Typography level="h2" sx={{ mb: 2, mt: 4 }}>
+        <Typography sx={{ mb: 2 }} level="h2">
           Results Modal
         </Typography>
         <Box
@@ -499,7 +503,7 @@ export const Component = function Settings(): JSX.Element {
         ></OpenModalButton>
       </Box>
       <Container sx={{ py: 2 }}>
-        <Typography sx={{ mb: 2, letterSpacing: "0.01em" }} level="h2">
+        <Typography sx={{ mb: 2 }} level="h2">
           Typing Settings
         </Typography>
         <Typography sx={{ mb: 2 }} level="body-md">

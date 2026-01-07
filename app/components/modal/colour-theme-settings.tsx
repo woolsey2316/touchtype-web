@@ -162,7 +162,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
             right: 0,
             left: "auto",
             transform: "translate(0%, -50%)",
-            maxHeight: "95%",
+            maxHeight: "calc(100% - 16px)",
           }}
         >
           <ModalClose />
@@ -178,8 +178,8 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                   <DialogTitle>Create colour pallette</DialogTitle>
                   <Stack
                     sx={{
-                      overflowY: "scroll",
-                      height: "80vh",
+                      overflowY: "auto",
+                      height: "calc(100vh - 188px)",
                       display: "grid",
                       gridTemplateColumns: "auto auto",
                       width: "550px",

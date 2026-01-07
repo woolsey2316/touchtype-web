@@ -16,6 +16,8 @@ export function Sidebar(props: SidebarProps): JSX.Element {
         pt: "85px",
         px: 2,
         backgroundColor: (theme) => theme.vars.palette.background.level1,
+        borderRight: "1px solid",
+        borderColor: (theme) => theme.vars.palette.grey[200],
         overflow: "auto",
         height: "100vh",
         position: "fixed",

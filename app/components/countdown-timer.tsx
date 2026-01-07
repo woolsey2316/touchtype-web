@@ -68,7 +68,12 @@ const CountdownTimer = ({
       return;
     }
     timerComponents.push(
-      <Typography key={interval} sx={{ mb: 2 }} level="h2" color="primary">
+      <Typography
+        key={interval}
+        sx={{ fontSize: "36px" }}
+        level="h2"
+        color="primary"
+      >
         {timeLeft[interval]} {interval}{" "}
       </Typography>,
     );
