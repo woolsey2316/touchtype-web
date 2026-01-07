@@ -52,7 +52,7 @@ export const LATTE_THEME = {
   neutral: {
     50: "#eff1f5",
     100: "#5c5f77",
-    200: "#6c6f85",
+    200: "#65758b",
     300: "#7c7f93",
     400: "#e1e7ef",
     500: "#bdc6ce",

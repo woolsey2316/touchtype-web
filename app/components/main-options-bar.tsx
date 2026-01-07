@@ -85,6 +85,7 @@ export const MainOptionsBar = ({
 
                 setIsFixedSentenceSize(false);
                 setIsTimedTest(true);
+                setSentenceSize(25);
               }
             }}
             name="timed test"
