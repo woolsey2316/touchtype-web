@@ -8,6 +8,11 @@ export enum Language {
   JAVASCRIPT,
   ANGULAR,
   JAVA = 8,
+  RUBY,
+  PYTHON,
+  GO,
+  RUST,
+  SWIFT,
 }
 
 export const ProgrammingLanguage = [
@@ -19,5 +24,10 @@ export const ProgrammingLanguage = [
   "JavaScript",
   "Angular",
   "Java",
+  "Ruby",
+  "Python",
+  "Go",
+  "Rust",
+  "Swift",
 ];
 export type EndCursorX = number[];

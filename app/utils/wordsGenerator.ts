@@ -9,6 +9,11 @@ import { TYPESCRIPT_WORDS } from "../data/typescript-words";
 import { C_WORDS } from "../data/c-words";
 import { CPLUSPLUS_WORDS } from "../data/cplusplus-words";
 import { JAVA_WORDS } from "../data/java-words";
+import { PYTHON_WORDS } from "../data/python-words";
+import { RUBY_WORDS } from "../data/ruby-words";
+import { GO_WORDS } from "../data/go-words";
+import { RUST_WORDS } from "../data/rust-words";
+import { SWIFT_WORDS } from "../data/swift-words";
 import { Language } from "../types/words.type";
 
 export const WordsGenerator = ({
@@ -61,6 +66,26 @@ export const WordsGenerator = ({
     }
     case Language.JAVA: {
       words = JAVA_WORDS;
+      break;
+    }
+    case Language.PYTHON: {
+      words = PYTHON_WORDS;
+      break;
+    }
+    case Language.RUBY: {
+      words = RUBY_WORDS;
+      break;
+    }
+    case Language.GO: {
+      words = GO_WORDS;
+      break;
+    }
+    case Language.RUST: {
+      words = RUST_WORDS;
+      break;
+    }
+    case Language.SWIFT: {
+      words = SWIFT_WORDS;
       break;
     }
   }

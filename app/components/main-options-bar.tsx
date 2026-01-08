@@ -162,6 +162,11 @@ export const MainOptionsBar = ({
               <Option value={Language.TYPESCRIPT}>TypeScript</Option>
               <Option value={Language.JAVA}>Java</Option>
               <Option value={Language.C}>C</Option>
+              <Option value={Language.PYTHON}>Python</Option>
+              <Option value={Language.RUBY}>Ruby</Option>
+              <Option value={Language.GO}>Go</Option>
+              <Option value={Language.RUST}>Rust</Option>
+              <Option value={Language.SWIFT}>Swift</Option>
             </Select>
           )}
         </Box>
