@@ -3,11 +3,7 @@ import SvgIcon, { SvgIconProps } from "@mui/joy/SvgIcon";
 
 export default function ScoreIcon(props: SvgIconProps) {
   return (
-    <SvgIcon
-      {...props}
-      viewBox="0 0 11.8553 8.053401"
-      sx={{ width: "78px", height: "66px" }}
-    >
+    <SvgIcon {...props} viewBox="0 0 11.8553 8.053401">
       <g transform="translate(-122.12175,-142.9703)">
         <g transform="translate(0.26458333,-0.39687499)">
           <circle

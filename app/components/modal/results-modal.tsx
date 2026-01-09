@@ -1,8 +1,8 @@
 import BullseyeIcon from "../../icons/bullseye";
 import { ProgressCircleIcon } from "../../icons/progress-circle";
 import ScoreIcon from "../../icons/score";
-import WPMIcon from "../../icons/wpm";
-import { Modal, ModalClose, ModalDialog, Box } from "@mui/joy";
+import { ZapIcon } from "../../icons/zap-icon";
+import { Modal, ModalClose, ModalDialog, Box, Typography } from "@mui/joy";
 import { useRef, useEffect, useState, RefAttributes } from "react";
 import { useTheme } from "@mui/joy/styles";
 import { displayPercentage, addPlusIfPositive } from "../../utils/display";
@@ -128,12 +128,6 @@ export const ResultsModal = ({
     setResetCounter((counter) => counter + 1);
   };
 
-  const determineColor = (value: number | "") => {
-    return value !== "" && value >= 0
-      ? theme.vars.palette.success.plainColor
-      : theme.vars.palette.danger.plainColor;
-  };
-
   const { timeArray, keyArray } = useKeyTimeArrays(keyTimeMap);
   const theme = useTheme();
   const averageTime =
@@ -147,6 +141,7 @@ export const ResultsModal = ({
           boxShadow: "lg",
           width: "900px",
           gap: "22px",
+          overflow: "auto",
           p: 4,
         }}
       >
@@ -159,30 +154,21 @@ export const ResultsModal = ({
           }}
         >
           <StatCard
-            icon={
-              <WPMIcon
-                sx={{
-                  width: "60px",
-                  height: "38px",
-                  marginTop: "16px",
-                  marginBottom: "8px",
-                }}
-              />
-            }
+            icon={<ZapIcon />}
             label="WPM"
             value={Math.round(currentWPM * 10) / 10}
             delta={addPlusIfPositive(wpmDelta)}
-            color={determineColor(wpmDelta)}
+            deltaValue={wpmDelta}
           />
           <StatCard
-            icon={<BullseyeIcon />}
+            icon={<BullseyeIcon sx={{ width: "50px", height: "48px" }} />}
             label="Accuracy"
             value={`${Math.round(currentAccuracy * 10) / 10}%`}
             delta={displayPercentage(accDelta)}
-            color={determineColor(accDelta)}
+            deltaValue={accDelta}
           />
           <StatCard
-            icon={<ScoreIcon />}
+            icon={<ScoreIcon sx={{ width: "58px", height: "44px" }} />}
             label="Score"
             value={Math.round(currentScore)}
           />
@@ -215,6 +201,51 @@ export const ResultsModal = ({
               padding: "10px",
             }}
           >
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Box>
+                <Typography
+                  sx={{
+                    p: 2,
+                    pb: 0,
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Key Latency
+                </Typography>
+                <Typography
+                  sx={{
+                    p: 2,
+                    pt: 0,
+                    fontSize: "14px",
+                    color: theme.vars.palette.text.secondary,
+                  }}
+                >
+                  Average (ms) for each individual character.
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box
+                  sx={{
+                    borderRadius: "9999px",
+                    height: "10px",
+                    width: "10px",
+                    bgcolor: theme.vars.palette.primary[300],
+                  }}
+                ></Box>
+                <Typography
+                  sx={{
+                    p: 2,
+                  }}
+                >
+                  {"Avg: " + Math.round(averageTime) + "ms"}
+                </Typography>
+              </Box>
+            </Box>
             <ChartComponent
               title=""
               colors={[
@@ -224,7 +255,6 @@ export const ResultsModal = ({
               xAxis={[
                 { scaleType: "band", label: "Keyboard Char", data: keyArray },
               ]}
-              yAxis={[{ label: "Average Time (ms)" }]}
               height={300}
               series={[
                 {
@@ -239,10 +269,10 @@ export const ResultsModal = ({
               <LineChartComponent />
               <ChartsReferenceLine
                 y={averageTime}
-                label={"Avg: " + Math.round(averageTime) + "ms"}
                 lineStyle={{
                   stroke: theme.vars.palette.primary[300],
-                  strokeDasharray: "5 5",
+                  strokeWidth: 2,
+                  strokeDasharray: "12 9",
                 }}
               />
               <ChartsXAxisComponent />

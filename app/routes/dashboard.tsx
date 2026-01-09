@@ -61,6 +61,13 @@ export const Component = function Dashboard(): JSX.Element {
         }}
       >
         <LineChartWithKPI
+          icon={<LowercaseIcon />}
+          seriesData={testResultData?.lowercase ?? []}
+          id={2}
+          color="#facc15"
+          datakey="WPM lowercase"
+        />
+        <LineChartWithKPI
           icon={<ZapIcon />}
           seriesData={testResultData?.overall ?? []}
           datakey="WPM Overall"
@@ -73,13 +80,6 @@ export const Component = function Dashboard(): JSX.Element {
           color="#bb81f6"
           id={1}
           datakey="WPM Symbols & Numbers"
-        />
-        <LineChartWithKPI
-          icon={<LowercaseIcon />}
-          seriesData={testResultData?.lowercase ?? []}
-          id={2}
-          color="#facc15"
-          datakey="WPM lowercase"
         />
         <Box
           display="flex"
@@ -122,13 +122,58 @@ export const Component = function Dashboard(): JSX.Element {
             maxWidth: "900px",
           }}
         >
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+          >
+            <Box>
+              <Typography
+                sx={{
+                  p: 2,
+                  pb: 0,
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                }}
+              >
+                WPM (Lowercase)
+              </Typography>
+              <Typography
+                sx={{
+                  p: 2,
+                  pt: 0,
+                  fontSize: "14px",
+                  color: theme.vars.palette.text.secondary,
+                }}
+              >
+                Average WPM for each individual character.
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  borderRadius: "9999px",
+                  height: "10px",
+                  width: "10px",
+                  bgcolor: theme.vars.palette.secondary[100],
+                }}
+              ></Box>
+              <Typography
+                sx={{
+                  p: 2,
+                }}
+              >
+                {"Avg WPM: " + Math.round(averageLowercaseTime) + "ms"}
+              </Typography>
+            </Box>
+          </Box>
           <ChartContainer
             title="lowercase letters"
             colors={[theme.vars.palette.secondary[50]]}
             xAxis={[
               {
                 scaleType: "band",
-                label: "Keyboard Char",
+                label: "Lowercase characters",
                 data: lowercaseLetterSpeedKeys
                   ? lowercaseLetterSpeedKeys
                   : [
@@ -161,7 +206,6 @@ export const Component = function Dashboard(): JSX.Element {
                     ],
               },
             ]}
-            yAxis={[{ label: "Average WPM" }]}
             height={300}
             series={[
               {
@@ -178,10 +222,10 @@ export const Component = function Dashboard(): JSX.Element {
             <LinePlot />
             <ChartsReferenceLine
               y={averageLowercaseTime}
-              label={"Avg: " + Math.round(averageLowercaseTime) + "wpm"}
               lineStyle={{
                 stroke: theme.vars.palette.secondary[100],
-                strokeDasharray: "5 5",
+                strokeWidth: 2,
+                strokeDasharray: "9 9",
               }}
               labelStyle={{
                 backgroundColor: theme.vars.palette.background.level2,
@@ -203,13 +247,58 @@ export const Component = function Dashboard(): JSX.Element {
             maxWidth: "900px",
           }}
         >
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+          >
+            <Box>
+              <Typography
+                sx={{
+                  p: 2,
+                  pb: 0,
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                }}
+              >
+                WPM (Symbols & Numbers)
+              </Typography>
+              <Typography
+                sx={{
+                  p: 2,
+                  pt: 0,
+                  fontSize: "14px",
+                  color: theme.vars.palette.text.secondary,
+                }}
+              >
+                Average WPM for each individual character.
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  borderRadius: "9999px",
+                  height: "10px",
+                  width: "10px",
+                  bgcolor: theme.vars.palette.secondary[100],
+                }}
+              ></Box>
+              <Typography
+                sx={{
+                  p: 2,
+                }}
+              >
+                {"Avg WPM: " + Math.round(averageSymbolTime) + "ms"}
+              </Typography>
+            </Box>
+          </Box>
           <ChartContainer
             title="Symbols & Numbers"
             colors={[theme.vars.palette.secondary[50]]}
             xAxis={[
               {
                 scaleType: "band",
-                label: "Keyboard Char",
+                label: "Symbol characters",
                 data: symbolLetterSpeedKeys
                   ? symbolLetterSpeedKeys
                   : [
@@ -256,7 +345,6 @@ export const Component = function Dashboard(): JSX.Element {
                     ],
               },
             ]}
-            yAxis={[{ label: "Average WPM" }]}
             height={300}
             series={[
               {
@@ -273,10 +361,10 @@ export const Component = function Dashboard(): JSX.Element {
             <LinePlot />
             <ChartsReferenceLine
               y={averageSymbolTime}
-              label={"Avg: " + Math.round(averageSymbolTime) + "wpm"}
               lineStyle={{
                 stroke: theme.vars.palette.secondary[100],
-                strokeDasharray: "5 5",
+                strokeWidth: 2,
+                strokeDasharray: "9 9",
               }}
               labelStyle={{
                 backgroundColor: theme.vars.palette.background.level2,

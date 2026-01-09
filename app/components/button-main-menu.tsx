@@ -11,9 +11,9 @@ export const ButtonMainMenu = ({ isActive, handleClick, name }: Props) => {
     <Button
       variant="plain"
       sx={(theme) => ({
-        padding: "13px 10px",
+        padding: "13px 16px",
         borderRadius: "50px",
-        minheight: "22px",
+        minHeight: "22px",
         height: "22px",
         boxShadow: isActive
           ? "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)"

@@ -85,10 +85,10 @@ export const Component = function Settings(): JSX.Element {
 
   return (
     <Container sx={{ py: 2 }}>
-      <Typography sx={{ mb: 2, letterSpacing: "0.01em" }} level="h2">
-        Typing Settings
+      <Typography sx={{ mb: 1, letterSpacing: "0.01em" }} level="h2">
+        Settings
       </Typography>
-      <Typography sx={{ mb: 2 }} level="body-md">
+      <Typography sx={{ mb: 4 }} level="body-md">
         Adjust the typing behaviour and visual cues. Settings are saved locally
       </Typography>
       <Box
@@ -97,10 +97,19 @@ export const Component = function Settings(): JSX.Element {
           bgcolor: theme.vars.palette.grey[600],
           color: theme.vars.palette.text.secondary,
           borderRadius: "8px",
+          boxShadow:
+            "1px 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
           p: 2,
         }}
       >
-        <Typography component="h3">Preview</Typography>
+        <Typography
+          component="h3"
+          sx={{
+            color: theme.vars.palette.grey[800],
+          }}
+        >
+          Preview
+        </Typography>
         <Box
           p={4}
           sx={{ fontFamily: "Courier", fontSize: "24px", position: "relative" }}
@@ -122,6 +131,7 @@ export const Component = function Settings(): JSX.Element {
             flexDirection: "column",
             alignItems: "flex-start",
             gap: 1,
+            color: theme.vars.palette.grey[800],
           }}
         >
           <span style={{ fontWeight: "bold" }}>Font Family</span>
@@ -164,6 +174,7 @@ export const Component = function Settings(): JSX.Element {
             justifyContent: "flex-start",
             alignItems: "flex-start",
             gap: 1,
+            color: theme.vars.palette.grey[800],
           }}
         >
           <span style={{ fontWeight: "bold" }}>Zipper Animation</span>
@@ -186,6 +197,7 @@ export const Component = function Settings(): JSX.Element {
             flexDirection: "column",
             alignItems: "flex-start",
             gap: 1,
+            color: theme.vars.palette.grey[800],
           }}
         >
           <span style={{ fontWeight: "bold" }}>Cursor Animation</span>
@@ -208,6 +220,7 @@ export const Component = function Settings(): JSX.Element {
               flexDirection: "column",
               alignItems: "flex-start",
               gap: 1,
+              color: theme.vars.palette.grey[800],
             }}
           >
             <span style={{ fontWeight: "bold" }}>Space Character</span>
@@ -248,6 +261,7 @@ export const Component = function Settings(): JSX.Element {
               flexDirection: "column",
               alignItems: "flex-start",
               gap: 1,
+              color: theme.vars.palette.grey[800],
             }}
           >
             <span style={{ fontWeight: "bold" }}>Cursor Character</span>

@@ -1,6 +1,9 @@
 export const LATTE_THEME = {
   text: {
     icon: "#65758b",
+    primary: "#344256",
+    secondary: "#65758b",
+    tertiary: "#7c7f93",
   },
   danger: {
     plainColor: "#f5950a",
@@ -21,7 +24,7 @@ export const LATTE_THEME = {
     200: "#8839ef",
     300: "#ea76cb",
     400: "#d20f39",
-    500: "#e64553",
+    500: "#10b77f",
     600: "#fe640b",
     700: "#df8e1d",
     800: "#179299",
@@ -71,9 +74,10 @@ export const LATTE_THEME = {
     softBg: "#f9fbfa",
     softHoverBg: "#f9fbfa",
     softActiveBg: "transparent",
-    solidBg: "#354270",
+    solidColor: "#344256",
+    solidBg: "#f3f7f5",
     solidHoverBg: "#8087a2",
-    solidActiveBg: "#f5a97f",
+    solidActiveBg: "#10b77f",
   },
   grey: {
     50: "#ffffff",
@@ -82,9 +86,9 @@ export const LATTE_THEME = {
     300: "#ccd0da",
     400: "#bcc0cc",
     500: "#acb0be",
-    600: "#45475a",
-    700: "#181825",
-    800: "#7c7f93",
+    600: "#ffffff",
+    700: "#e1e7ef",
+    800: "#344256",
     900: "#6c6f85",
     mainChannel: "229 200 144",
     plainActiveBg: "#ca9ee6",
@@ -102,6 +106,7 @@ export const LATTE_THEME = {
 export const FRAPPE_THEME = {
   text: {
     icon: "#c6d0f5",
+    tertiary: "#cad3f5",
   },
   danger: {
     plainColor: "#d20f39",
@@ -201,6 +206,7 @@ export const FRAPPE_THEME = {
 export const MACCHIATO_THEME = {
   text: {
     icon: "#c6d0f5",
+    tertiary: "#cad3f5",
   },
   danger: {
     plainColor: "#ed8796",
@@ -300,6 +306,7 @@ export const MACCHIATO_THEME = {
 export const MOCHA_THEME = {
   text: {
     icon: "#c6d0f5",
+    tertiary: "#cad3f5",
   },
   danger: {
     plainColor: "#f38ba8",
@@ -381,7 +388,7 @@ export const MOCHA_THEME = {
     500: "#272c3a",
     600: "#32323c",
     700: "#616174",
-    800: "#32323c",
+    800: "#e2e3ef",
     900: "#6c6f85",
     mainChannel: "229 200 144",
     plainActiveBg: "#ca9ee6",
@@ -399,6 +406,7 @@ export const MOCHA_THEME = {
 export const CUSTOM_THEME_1 = {
   text: {
     icon: "#c6d0f5",
+    tertiary: "#cad3f5",
   },
   danger: {
     plainColor: "#f38ba8",
@@ -497,6 +505,7 @@ export const CUSTOM_THEME_1 = {
 export const CUSTOM_THEME_2 = {
   text: {
     icon: "#c6d0f5",
+    tertiary: "#cad3f5",
   },
   danger: {
     plainColor: "#f38ba8",
@@ -596,6 +605,7 @@ export const CUSTOM_THEME_2 = {
 export const CUSTOM_THEME_3 = {
   text: {
     icon: "#c6d0f5",
+    tertiary: "#cad3f5",
   },
   danger: {
     plainColor: "#f38ba8",
@@ -695,6 +705,7 @@ export const CUSTOM_THEME_3 = {
 export const CUSTOM_THEME_4 = {
   text: {
     icon: "#c6d0f5",
+    tertiary: "#cad3f5",
   },
   danger: {
     plainColor: "#f38ba8",

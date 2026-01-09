@@ -3,11 +3,7 @@ import SvgIcon, { SvgIconProps } from "@mui/joy/SvgIcon";
 
 export default function BullseyeIcon(props: SvgIconProps) {
   return (
-    <SvgIcon
-      {...props}
-      viewBox="0 0 8.7284317 10.041619"
-      sx={{ width: "65px", height: "61px" }}
-    >
+    <SvgIcon {...props} viewBox="0 0 8.7284317 10.041619">
       <g transform="translate(-79.272166,-141.15638)">
         <g>
           <g transform="matrix(2.4798203,0,0,2.4798203,-138.06721,-44.131671)">
