@@ -1,7 +1,8 @@
 import * as React from "react";
 import Button from "@mui/joy/Button";
 import FormLabel from "@mui/joy/FormLabel";
-import Input from "@mui/joy/Input";
+import { HexColorPicker } from "react-colorful";
+import { ColorInputBox } from "../colorInputBox";
 import Modal from "@mui/joy/Modal";
 import ModalDialog from "@mui/joy/ModalDialog";
 import DialogTitle from "@mui/joy/DialogTitle";
@@ -17,7 +18,7 @@ import { CardOverflow } from "@mui/joy";
 import { extendTheme } from "@mui/joy/styles";
 import { getCustomTheme, customDarkTheme } from "../../core/theme";
 import { ThemeContext } from "../../context/ThemeContext/ThemeContext";
-import { getAllKeys, deepGet, hexToRgb, rgb_to_hex } from "../../utils/util";
+import { getAllKeys, hexToRgb, getHexColor } from "../../utils/util";
 import { THEME_COLLECTION } from "../../data/themes/colour-themes";
 
 interface Props {
@@ -30,6 +31,7 @@ interface State {
   background: string;
   themeLoaded: boolean;
   saveSlotSelected: boolean;
+  selectedColorPicker: string;
   customTheme: typeof customDarkTheme;
   revertCustomTheme: typeof customDarkTheme;
 }
@@ -40,6 +42,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
     open: true,
     themeLoaded: false,
     saveSlotSelected: false,
+    selectedColorPicker: "",
     background: "#fff",
     revertCustomTheme: structuredClone(
       getCustomTheme({
@@ -164,6 +167,7 @@ export class ColourThemeSettings extends React.Component<Props, State> {
             transform: "translate(0%, -50%)",
             maxHeight: "calc(100% - 16px)",
           }}
+          onClick={() => this.setState({ selectedColorPicker: "" })}
         >
           <ModalClose />
           <Card variant="plain">
@@ -291,54 +295,50 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                           sx={{
                             width: "250px",
                             marginTop: "16px !important",
+                            position: "relative",
                           }}
                           display="flex"
                           justifyContent="space-between"
                           key={key}
                         >
                           <FormLabel>{key}</FormLabel>
-                          <Input
-                            type="color"
-                            value={
-                              key.includes("mainChannel")
-                                ? rgb_to_hex(
-                                    deepGet(
-                                      this.state.customTheme,
-                                      key
-                                        .replace(/\[([^[\]]*)\]/g, ".$1.")
-                                        .split(".")
-                                        .filter((t: unknown) => t !== ""),
-                                    )
-                                      .split(" ")
-                                      .map(Number),
-                                  )
-                                : deepGet(
-                                    this.state.customTheme,
-                                    key
-                                      .replace(/\[([^[\]]*)\]/g, ".$1.")
-                                      .split(".")
-                                      .filter((t: unknown) => t !== ""),
-                                  )
-                            }
-                            onChange={(e) => {
-                              if (key.includes("mainChannel")) {
-                                const rgb = hexToRgb(e.target.value.slice(1));
-                                if (rgb) {
-                                  const { r, g, b } = rgb;
-                                  this.updateNestedThemeValue(
-                                    key.split("."),
-                                    `${r} ${g} ${b}`,
-                                  );
-                                }
+                          <ColorInputBox
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (key !== this.state.selectedColorPicker) {
+                                this.setState({ selectedColorPicker: key });
                               } else {
-                                this.updateNestedThemeValue(
-                                  key.split("."),
-                                  e.target.value,
-                                );
+                                this.setState({ selectedColorPicker: "" });
                               }
                             }}
-                            style={{ verticalAlign: "middle" }}
+                            color={getHexColor(this.state.customTheme, key)}
                           />
+                          {this.state.selectedColorPicker === key && (
+                            <HexColorPicker
+                              color={getHexColor(this.state.customTheme, key)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
+                              onChange={(e) => {
+                                if (key.includes("mainChannel")) {
+                                  const rgb = hexToRgb(e.slice(1));
+                                  if (rgb) {
+                                    const { r, g, b } = rgb;
+                                    this.updateNestedThemeValue(
+                                      key.split("."),
+                                      `${r} ${g} ${b}`,
+                                    );
+                                  }
+                                } else {
+                                  this.updateNestedThemeValue(
+                                    key.split("."),
+                                    e,
+                                  );
+                                }
+                              }}
+                              style={{ position: "absolute", zIndex: 1 }}
+                            />
+                          )}
                         </Box>
                       ))
                     ) : (

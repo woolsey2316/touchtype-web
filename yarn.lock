@@ -8476,6 +8476,7 @@ __metadata:
     lucide-react: "npm:^0.548.0"
     notistack: "npm:^3.0.1"
     react: "npm:^19.0.0"
+    react-colorful: "npm:^5.6.1"
     react-dom: "npm:^19.0.0"
     react-router-dom: "npm:^6.22.0"
     swr: "npm:^2.3.6"
@@ -17010,6 +17011,16 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: 10/7d3e01a735e91896795422af20187afae79df9301d0658ac017cfff75d905af27dac25f5009c68c29b3e0d8ce03d220360ba0fe8ee0379cbb8a3535e73de934b
+  languageName: node
+  linkType: hard
+
+"react-colorful@npm:^5.6.1":
+  version: 5.6.1
+  resolution: "react-colorful@npm:5.6.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10/3e02ba013454818d0c323949bd961fb2c19ac18130dfc67a4032aa5b03787c5ffe7ff159c4b97dc3475072d576828ca0c4b8e8ce85b55eaf484180596cdf0403
   languageName: node
   linkType: hard
 

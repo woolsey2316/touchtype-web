@@ -50,3 +50,25 @@ export function hoursAndMinutes(totalSeconds: number): string {
   }
   return `${hours}h ${minutes}m`;
 }
+// This code converts a string path (possibly using bracket notation) into an array of property keys, suitable for deep object access.
+// **Example:**
+// colors[main][shade] → ["colors", "main", "shade"]
+export function parseKey(key: string): string[] {
+  return (
+    key
+      // colors[main][shade]"` → `"colors.main.shade.
+      .replace(/\[([^[\]]*)\]/g, ".$1.")
+      // "colors.main.shade."` → `["colors", "main", "shade", ""]
+      .split(".")
+      .filter((t: unknown) => t !== "")
+  );
+}
+
+export const getHexColor = function (
+  customTheme: Record<string, string | Record<string, string>>,
+  key: string,
+) {
+  return key.includes("mainChannel")
+    ? rgb_to_hex(deepGet(customTheme, parseKey(key)).split(" ").map(Number))
+    : deepGet(customTheme, parseKey(key));
+};
