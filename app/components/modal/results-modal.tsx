@@ -1,7 +1,7 @@
 import BullseyeIcon from "../../icons/bullseye";
 import { ProgressCircleIcon } from "../../icons/progress-circle";
 import ScoreIcon from "../../icons/score";
-import { ZapIcon } from "../../icons/zap-icon";
+import WPMIcon from "../../icons/wpm";
 import { Modal, ModalClose, ModalDialog, Box, Typography } from "@mui/joy";
 import { useRef, useEffect, useState, RefAttributes } from "react";
 import { useTheme } from "@mui/joy/styles";
@@ -136,7 +136,8 @@ export const ResultsModal = ({
     <Modal ref={ref} open={isOpen} onClose={closeModal}>
       <ModalDialog
         sx={{
-          bgcolor: (theme) => theme.palette.neutral[600],
+          bgcolor: (theme) => theme.palette.background.level3,
+          border: "none",
           borderRadius: "md",
           boxShadow: "lg",
           width: "900px",
@@ -154,14 +155,14 @@ export const ResultsModal = ({
           }}
         >
           <StatCard
-            icon={<ZapIcon />}
+            icon={<WPMIcon sx={{ width: "52px", height: "52px" }} />}
             label="WPM"
             value={Math.round(currentWPM * 10) / 10}
             delta={addPlusIfPositive(wpmDelta)}
             deltaValue={wpmDelta}
           />
           <StatCard
-            icon={<BullseyeIcon sx={{ width: "50px", height: "48px" }} />}
+            icon={<BullseyeIcon sx={{ width: "45px", height: "45px" }} />}
             label="Accuracy"
             value={`${Math.round(currentAccuracy * 10) / 10}%`}
             delta={displayPercentage(accDelta)}
@@ -239,7 +240,8 @@ export const ResultsModal = ({
                 ></Box>
                 <Typography
                   sx={{
-                    p: 2,
+                    py: 2,
+                    px: 1,
                   }}
                 >
                   {"Avg: " + Math.round(averageTime) + "ms"}
