@@ -7,7 +7,7 @@ export const calcAccuracy = (correctChars: number, mistakes: number) => {
 };
 
 export const calcScore = (accuracy: number, duration: number) => {
-  let score = Math.max((Math.pow(accuracy / 100, 2) * duration) / 20, 0);
+  let score = Math.max((Math.pow((accuracy - 5) / 100, 2) * duration) / 20, 0);
   score = Math.min(score, 9999);
   return score;
 };

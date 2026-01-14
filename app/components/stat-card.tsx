@@ -61,13 +61,13 @@ export const StatCard = ({
           </Typography>
           {!(delta == undefined || delta == "") && (
             <Box
-              sx={{ display: "flex", alignItems: "center", mt: 0.5, gap: 0.5 }}
+              sx={{ display: "flex", alignItems: "center", mt: 1, gap: 0.5 }}
             >
               {Number(deltaValue) >= 0 ? (
                 <TrendingUp
                   sx={{
-                    width: "16px",
-                    height: "16px",
+                    width: "18px",
+                    height: "18px",
                     fill: "none",
                     stroke: determineColor(deltaValue ?? 0),
                   }}
@@ -75,8 +75,8 @@ export const StatCard = ({
               ) : (
                 <TrendingDown
                   sx={{
-                    width: "16px",
-                    height: "16px",
+                    width: "18px",
+                    height: "18px",
                     fill: "none",
                     stroke: determineColor(deltaValue ?? 0),
                   }}
@@ -85,7 +85,7 @@ export const StatCard = ({
               <Typography
                 level="body-xs"
                 sx={{
-                  fontSize: "14px",
+                  fontSize: "16px",
                   color: determineColor(deltaValue ?? 0),
                 }}
               >

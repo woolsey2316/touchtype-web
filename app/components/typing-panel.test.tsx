@@ -98,6 +98,7 @@ describe("TypingPanel", () => {
           isTimedTest={false}
           setTestInfo={setTestInfo}
           childInputRef={childInputRef}
+          previousScore={undefined}
           previousWPM={undefined}
           previousAccuracy={undefined}
           currentWPM={0}
@@ -139,6 +140,7 @@ describe("TypingPanel", () => {
             ended: false,
           }}
           onEnd={() => {}}
+          previousScore={undefined}
           previousWPM={undefined}
           previousAccuracy={undefined}
           currentAccuracy={0}
@@ -194,6 +196,7 @@ describe("TypingPanel", () => {
             ended: false,
           }}
           onEnd={() => {}}
+          previousScore={undefined}
           previousWPM={undefined}
           previousAccuracy={undefined}
           currentAccuracy={0}

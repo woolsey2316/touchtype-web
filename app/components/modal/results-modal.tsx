@@ -23,6 +23,7 @@ interface Props {
       ended: boolean;
     }>
   >;
+  previousScore: number | undefined;
   previousWPM: number | undefined;
   previousAccuracy: number | undefined;
   currentWPM: number;
@@ -42,6 +43,7 @@ interface Props {
 export const ResultsModal = ({
   previousWPM,
   previousAccuracy,
+  previousScore,
   currentWPM,
   currentAccuracy,
   currentScore,
@@ -66,7 +68,9 @@ export const ResultsModal = ({
   const accDelta = previousAccuracy
     ? Math.round((currentAccuracy - previousAccuracy) * 10) / 10
     : "";
-
+  const scoreDelta = previousScore
+    ? Math.round(currentScore - previousScore)
+    : "";
   const [BarChartComponent, setBarChartComponent] =
     useState<null | React.ComponentType<
       BarPlotProps & RefAttributes<SVGSVGElement>
@@ -172,6 +176,8 @@ export const ResultsModal = ({
             icon={<ScoreIcon sx={{ width: "58px", height: "44px" }} />}
             label="Score"
             value={Math.round(currentScore)}
+            delta={addPlusIfPositive(scoreDelta)}
+            deltaValue={scoreDelta}
           />
           <StatCard
             icon={

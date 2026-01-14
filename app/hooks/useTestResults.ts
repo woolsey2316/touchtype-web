@@ -30,6 +30,9 @@ export function useTestResults(
     undefined,
   );
   const [currentScore, setCurrentScore] = useState(0);
+  const [previousScore, setPreviousScore] = useState<number | undefined>(
+    undefined,
+  );
   const [currentTime, setCurrentTime] = useState(0);
   const [isOpen, setIsResultsModalOpen] = useState(false);
 
@@ -84,7 +87,7 @@ export function useTestResults(
 
     setPreviousWPM(currentWPM);
     setPreviousAccuracy(currentAccuracy);
-
+    setPreviousScore(currentScore);
     const userId = localStorage.getItem("user_id");
     if (!userId) return;
 
@@ -107,6 +110,7 @@ export function useTestResults(
     recordTestResultStats,
     currentWPM,
     currentAccuracy,
+    currentScore,
     keyTimeMap,
     uploadTestResults,
     uploadLetterSpeedData,
@@ -116,6 +120,7 @@ export function useTestResults(
     mistakes,
     correctChars,
     startTime,
+    previousScore,
     previousWPM,
     previousAccuracy,
     currentWPM,

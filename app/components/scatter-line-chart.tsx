@@ -30,7 +30,7 @@ export default function ScatterLineChart({
   const series = data ?? [];
   const binSize = Math.ceil((data?.length || 20) / 20);
   const compressedData: number[] = [];
-  for (let i = 0; i < series.length; i += binSize) {
+  for (let i = 0; i + binSize <= series.length; i += binSize) {
     const steps = series
       .slice(i, i + binSize)
       .reduce((acc, item) => acc + item.y, 0);
@@ -70,7 +70,7 @@ export default function ScatterLineChart({
           {
             type: "scatter",
             data,
-            markerSize: 2,
+            markerSize: 3,
             color: theme.vars.palette.grey[400],
           },
           {

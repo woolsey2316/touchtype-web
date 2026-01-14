@@ -160,10 +160,11 @@ export const Component = function Dashboard(): JSX.Element {
               ></Box>
               <Typography
                 sx={{
-                  p: 2,
+                  py: 2,
+                  px: 1,
                 }}
               >
-                {"Avg WPM: " + Math.round(averageLowercaseTime) + "ms"}
+                {"Average WPM: " + Math.round(averageLowercaseTime)}
               </Typography>
             </Box>
           </Box>
@@ -285,10 +286,11 @@ export const Component = function Dashboard(): JSX.Element {
               ></Box>
               <Typography
                 sx={{
-                  p: 2,
+                  py: 2,
+                  px: 1,
                 }}
               >
-                {"Avg WPM: " + Math.round(averageSymbolTime) + "ms"}
+                {"Average WPM: " + Math.round(averageSymbolTime)}
               </Typography>
             </Box>
           </Box>

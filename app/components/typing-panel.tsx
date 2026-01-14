@@ -32,6 +32,7 @@ export default function TypingPanel({
   onEnd,
   startTime,
   childInputRef,
+  previousScore,
   previousWPM,
   previousAccuracy,
   currentWPM,
@@ -65,6 +66,7 @@ export default function TypingPanel({
   onEnd: () => void;
   startTime: React.RefObject<number | null>;
   setCurrentWPM: React.Dispatch<React.SetStateAction<number>>;
+  previousScore: number | undefined;
   previousWPM: number | undefined;
   previousAccuracy: number | undefined;
   currentAccuracy: number;
@@ -393,9 +395,6 @@ export default function TypingPanel({
         return previousIndex;
       });
       setCharIndex((charIndex) => charIndex - countDeleted);
-      console.log("curr word length", currWord.length);
-      console.log("count deleted", countDeleted);
-      console.log("new char index", charIndex - countDeleted);
     } else if (e.key === "Backspace") {
       setCursorIndex((cursorIndex) => {
         removeCharacterFromState(cursorIndex);
@@ -460,6 +459,7 @@ export default function TypingPanel({
         setIsResultsModalOpen={setIsResultsModalOpen}
         newTestPage={newTestPage}
         setTestInfo={setTestInfo}
+        previousScore={previousScore}
         previousWPM={previousWPM}
         previousAccuracy={previousAccuracy}
         currentWPM={currentWPM}
