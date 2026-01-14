@@ -1,5 +1,10 @@
 import { useState, useCallback, useRef } from "react";
-import { calcWPM, calcAccuracy, calcScore } from "../utils/test-stats";
+import {
+  calcWPM,
+  calcAccuracy,
+  calcScore,
+  testInvalid,
+} from "../utils/test-stats";
 import { useTestResultMutation } from "../hooks/useTestResultMutation";
 import { useLetterSpeedMutation } from "../hooks/useLetterSpeedMutation";
 import { Language } from "../types/words.type";
@@ -93,6 +98,11 @@ export function useTestResults(
 
     const { wpm, accuracy, score, lowercaseWPM, symbolWPM } =
       recordTestResultStats(endTime);
+
+    setIsResultsModalOpen(true);
+
+    if (testInvalid(wpm, accuracy)) return;
+
     uploadTestResults({
       userId: userId,
       wpm: wpm,
@@ -105,7 +115,6 @@ export function useTestResults(
     });
     const avgTimelist = processLetterSpeedData(keyTimeMap);
     uploadLetterSpeedData({ userId, summaries: avgTimelist });
-    setIsResultsModalOpen(true);
   }, [
     recordTestResultStats,
     currentWPM,

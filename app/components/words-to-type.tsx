@@ -15,7 +15,7 @@ export const WordsToType = ({
   additionalClasses,
 }: Props) => {
   const { theme } = useContext(ThemeContext);
-  const { fontFamily, spaceChar } = useContext(UserPreferencesContext);
+  const { font, spaceChar } = useContext(UserPreferencesContext);
 
   let wordToType = [];
   const wordsJSX = [];
@@ -105,7 +105,8 @@ export const WordsToType = ({
       id="words-to-type"
       display="flex"
       sx={{
-        fontFamily: fontFamily,
+        fontFamily: font.family,
+        fontWeight: font.weight,
         animation: "fadeIn 0.2s forwards",
         "@keyframes fadeIn": {
           from: { opacity: 0 },

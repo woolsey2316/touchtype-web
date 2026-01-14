@@ -1,8 +1,11 @@
 import { createContext } from "react";
 
 export const UserPreferencesContext = createContext({
-  fontFamily: "'AdwaitaMonoNerdFontMono-Regular', Courier, monospace",
-  setTheme: (_theme: string) => {
+  font: {
+    family: "'AdwaitaMonoNerdFontMono-Regular', Courier, monospace",
+    weight: "400",
+  },
+  setFont: (_theme: { family: string; weight: string }) => {
     console.log(_theme);
     return;
   },

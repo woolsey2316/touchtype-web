@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "RobotoMonoNerdFont-Medium";
+  src: url("/fonts/RobotoMonoNerdFont-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}

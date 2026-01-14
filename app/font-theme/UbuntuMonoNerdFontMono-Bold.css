@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "UbuntuMonoNerdFontMono-Bold";
+  src: url("/fonts/UbuntuMonoNerdFontMono-Bold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

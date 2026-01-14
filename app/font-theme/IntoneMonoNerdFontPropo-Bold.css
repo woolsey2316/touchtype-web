@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "IntoneMonoNerdFontPropo-Bold";
+  src: url("/fonts/IntoneMonoNerdFontPropo-Bold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

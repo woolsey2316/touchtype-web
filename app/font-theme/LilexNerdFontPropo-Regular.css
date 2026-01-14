@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "LilexNerdFontPropo-Regular";
+  src: url("/fonts/LilexNerdFontPropo-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "JetBrainsMonoNerdFontMono-Medium";
+  src: url("/fonts/JetBrainsMonoNerdFontMono-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}

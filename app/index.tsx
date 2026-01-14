@@ -16,10 +16,12 @@ const root = createRoot(container!);
 
 const Root = () => {
   const [theme, setTheme] = useState(defaultTheme);
-  const [fontFamily, setFontFamily] = useState(
-    window.localStorage.getItem("fontFamily") ||
+  const [font, setFont] = useState({
+    family:
+      window.localStorage.getItem("fontFamily") ||
       "'0xProtoNerdFont-Bold', Courier, monospace",
-  );
+    weight: "400",
+  });
   const [skipOverTabs, setSkipOverTabs] = useState(false);
   const [spaceChar, setSpaceChar] = useState(
     window.localStorage.getItem("spaceChar") ?? " ",
@@ -38,8 +40,8 @@ const Root = () => {
       <CssVarsProvider theme={theme}>
         <UserPreferencesContext.Provider
           value={{
-            fontFamily,
-            setTheme: setFontFamily,
+            font,
+            setFont,
             skipOverTabs,
             setSkipOverTabs,
             spaceChar,

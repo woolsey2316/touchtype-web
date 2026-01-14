@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "ArimoNerdFont-Bold";
+  src: url("/fonts/ArimoNerdFont-Bold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

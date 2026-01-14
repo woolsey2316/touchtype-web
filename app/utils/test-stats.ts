@@ -11,3 +11,7 @@ export const calcScore = (accuracy: number, duration: number) => {
   score = Math.min(score, 9999);
   return score;
 };
+
+export const testInvalid = (wpm: number, accuracy: number) => {
+  return wpm < 2 || accuracy < 80;
+};

@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "BlexMonoNerdFont-Medium";
+  src: url("/fonts/BlexMonoNerdFont-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}

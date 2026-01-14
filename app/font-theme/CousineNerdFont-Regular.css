@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "CousineNerdFont-Regular";
+  src: url("/fonts/CousineNerdFont-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
