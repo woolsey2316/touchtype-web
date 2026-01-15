@@ -153,7 +153,7 @@ export const Component = function Settings(): JSX.Element {
                 value = value ?? "0xProtoNerdFont-Bold.400";
                 const [family, weight] = value.split(".");
                 setFont({
-                  family: family ?? "0xProtoNerdFont-Bold",
+                  family: '"' + family + '"',
                   weight: weight ?? "400",
                 });
               }}
@@ -415,14 +415,14 @@ export const Component = function Settings(): JSX.Element {
           </Box>
           <Box
             sx={{
-              m: 2,
+              mt: 3,
+              mx: 2,
               fontFamily: font.family,
               fontWeight: font.weight,
               fontSize: "36px",
-              verticalAlign: "center",
             }}
           >
-            Font family Preview
+            Text to type preview
           </Box>
         </Box>
         <Divider

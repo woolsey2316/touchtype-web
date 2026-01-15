@@ -1,7 +1,7 @@
 import * as React from "react";
 import Button from "@mui/joy/Button";
 import FormLabel from "@mui/joy/FormLabel";
-import { HexColorPicker } from "react-colorful";
+import { HexColorPicker, HexColorInput } from "react-colorful";
 import { ColorInputBox } from "../colorInputBox";
 import Modal from "@mui/joy/Modal";
 import ModalDialog from "@mui/joy/ModalDialog";
@@ -314,30 +314,61 @@ export class ColourThemeSettings extends React.Component<Props, State> {
                             color={getHexColor(this.state.customTheme, key)}
                           />
                           {this.state.selectedColorPicker === key && (
-                            <HexColorPicker
-                              color={getHexColor(this.state.customTheme, key)}
+                            <Box
+                              className="my-custom-picker"
+                              style={{ position: "absolute", zIndex: 1 }}
                               onClick={(e) => {
                                 e.stopPropagation();
                               }}
-                              onChange={(e) => {
-                                if (key.includes("mainChannel")) {
-                                  const rgb = hexToRgb(e.slice(1));
-                                  if (rgb) {
-                                    const { r, g, b } = rgb;
+                            >
+                              <HexColorPicker
+                                color={getHexColor(this.state.customTheme, key)}
+                                onChange={(e) => {
+                                  if (key.includes("mainChannel")) {
+                                    const rgb = hexToRgb(e.slice(1));
+                                    if (rgb) {
+                                      const { r, g, b } = rgb;
+                                      this.updateNestedThemeValue(
+                                        key.split("."),
+                                        `${r} ${g} ${b}`,
+                                      );
+                                    }
+                                  } else {
                                     this.updateNestedThemeValue(
                                       key.split("."),
-                                      `${r} ${g} ${b}`,
+                                      e,
                                     );
                                   }
-                                } else {
-                                  this.updateNestedThemeValue(
-                                    key.split("."),
-                                    e,
-                                  );
-                                }
-                              }}
-                              style={{ position: "absolute", zIndex: 1 }}
-                            />
+                                }}
+                              />
+                              <HexColorInput
+                                color={getHexColor(this.state.customTheme, key)}
+                                onChange={(e) => {
+                                  if (key.includes("mainChannel")) {
+                                    const rgb = hexToRgb(e.slice(1));
+                                    if (rgb) {
+                                      const { r, g, b } = rgb;
+                                      this.updateNestedThemeValue(
+                                        key.split("."),
+                                        `${r} ${g} ${b}`,
+                                      );
+                                    }
+                                  } else {
+                                    this.updateNestedThemeValue(
+                                      key.split("."),
+                                      e,
+                                    );
+                                  }
+                                }}
+                                prefixed // Automatically adds the #
+                                alpha // Optional: allow alpha channel
+                                style={{
+                                  fontSize: "16px",
+                                  width: "200px",
+                                  padding: "4px",
+                                }}
+                              />
+                            </Box>
                           )}
                         </Box>
                       ))

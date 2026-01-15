@@ -1,5 +1,5 @@
 import { numbersData } from "../data/numbers";
-import { punctuationData } from "../data/punctuation";
+import { symbolData } from "../data/punctuation";
 import { ENGLISH_WORDS } from "../data/english-words";
 import { REACT_WORDS } from "../data/react-words";
 import { VIM_WORDS } from "../data/vim-words";
@@ -89,6 +89,48 @@ export const WordsGenerator = ({
       break;
     }
   }
+  if (numbers && punctuation) {
+    for (let i = 0; i < count; i++) {
+      const wordLength = Math.floor(Math.random() * 4) + 4; // 4 to 7
+      let currWord = "";
+      for (let j = 0; j < wordLength; j++) {
+        if (Math.random() < 0.5) {
+          currWord +=
+            numbersData[Math.floor(Math.random() * numbersData.length)];
+        } else {
+          currWord += symbolData[Math.floor(Math.random() * symbolData.length)];
+        }
+      }
+      wordsToType += currWord + " ";
+    }
+    wordsToType = wordsToType.trim();
+    return wordsToType;
+  }
+  if (numbers) {
+    for (let i = 0; i < count; i++) {
+      const wordLength = Math.floor(Math.random() * 4) + 4; // 4 to 7
+      let currWord = "";
+      for (let j = 0; j < wordLength; j++) {
+        currWord =
+          currWord +
+          numbersData[Math.floor(Math.random() * numbersData.length)];
+      }
+      wordsToType = wordsToType + " " + currWord;
+    }
+    return wordsToType.trim();
+  }
+  if (punctuation) {
+    for (let i = 0; i < count; i++) {
+      const wordLength = Math.floor(Math.random() * 4) + 4; // 4 to 7
+      let currWord = "";
+      for (let j = 0; j < wordLength; j++) {
+        currWord =
+          currWord + symbolData[Math.floor(Math.random() * symbolData.length)];
+      }
+      wordsToType = wordsToType + " " + currWord;
+    }
+    return wordsToType.trim();
+  }
   if (programmingLanguage) {
     const wordsIndex = Math.round(Math.random() * words.length);
     wordsToType = words[wordsIndex];
@@ -96,18 +138,7 @@ export const WordsGenerator = ({
   }
   for (let i = 0; i < count; i++) {
     const wordIndex = Math.round(Math.random() * words.length);
-    wordsToType = wordsToType + words[wordIndex];
-    if (numbers && Math.random() > 0.5) {
-      wordsToType =
-        wordsToType +
-        numbersData[Math.floor(Math.random() * numbersData.length)];
-    }
-    if (punctuation && Math.random() > 0.5) {
-      wordsToType =
-        wordsToType +
-        punctuationData[Math.floor(Math.random() * punctuationData.length)];
-    }
-    wordsToType = `${wordsToType} `;
+    wordsToType = wordsToType + " " + words[wordIndex];
   }
   const result = wordsToType.trim();
   return result;

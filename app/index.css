@@ -86,3 +86,7 @@
   background-color: #000;
   border-radius: 4px;
 }
+
+.my-custom-picker .react-colorful__hue {
+  border-radius: 0px !important;
+}
