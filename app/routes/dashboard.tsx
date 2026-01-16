@@ -236,7 +236,12 @@ export const Component = function Dashboard(): JSX.Element {
             />
             <ChartsYAxis />
             <ChartsXAxis />
-            <ChartsTooltip />
+            <ChartsTooltip
+              sx={{
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "light" ? "#fff" : "#000",
+              }}
+            />
           </ChartContainer>
         </Box>
         <Box
@@ -376,7 +381,12 @@ export const Component = function Dashboard(): JSX.Element {
             />
             <ChartsYAxis />
             <ChartsXAxis />
-            <ChartsTooltip />
+            <ChartsTooltip
+              sx={{
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "light" ? "#fff" : "#000",
+              }}
+            />
           </ChartContainer>
         </Box>
         <Box

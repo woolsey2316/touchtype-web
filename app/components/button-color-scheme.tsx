@@ -20,7 +20,11 @@ export function ColorSchemeButton(props: ColorSchemeButtonProps): JSX.Element {
 
   return (
     <Dropdown>
-      <MenuButton slots={{ root: IconButton }} slotProps={{ root: props }}>
+      <MenuButton
+        sx={{ "&:hover": { color: (theme) => theme.palette.text.icon } }}
+        slots={{ root: IconButton }}
+        slotProps={{ root: props }}
+      >
         {mode === "light" || (mode === "system" && systemMode === "light") ? (
           <DarkModeRounded />
         ) : (

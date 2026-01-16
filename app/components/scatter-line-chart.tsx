@@ -90,7 +90,12 @@ export default function ScatterLineChart({
         </g>
         <ChartsYAxis />
         <MarkPlot />
-        <ChartsTooltip />
+        <ChartsTooltip
+          sx={{
+            backgroundColor: (theme) =>
+              theme.palette.mode === "light" ? "#fff" : "#000",
+          }}
+        />
         <ChartsClipPath id={clipPathId} />
       </ChartContainer>
     </Box>

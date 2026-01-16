@@ -28,6 +28,7 @@ export default function LineChartWithKPI({
         maxWidth: 900,
         p: "36px",
         border: `1px solid ${theme.vars.palette.grey[500]}`,
+        backgroundColor: theme.vars.palette.neutral[700],
         borderRadius: 9,
       }}
     >

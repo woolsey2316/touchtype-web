@@ -27,10 +27,11 @@ import { ProgressCircleIcon } from "../icons/progress-circle";
 import WPMIcon from "../icons/wpm";
 import BullseyeIcon from "../icons/bullseye";
 import ScoreIcon from "../icons/score";
-import { addPlusIfPositive } from "../utils/display";
+import { addPlusIfPositive, displayPercentage } from "../utils/display";
 import { ChartContainer } from "@mui/x-charts/ChartContainer";
 import { BarPlot } from "@mui/x-charts/BarChart";
 import { LinePlot } from "@mui/x-charts/LineChart";
+import { StatCard } from "../components/stat-card";
 import {
   ChartsXAxis,
   ChartsYAxis,
@@ -286,14 +287,16 @@ export const Component = function Settings(): JSX.Element {
         </Typography>
         <Box
           sx={{
+            bgcolor: (theme) => theme.palette.background.level3,
+            border: "none",
+            borderRadius: "md",
+            boxShadow: "lg",
+            width: "900px",
             display: "flex",
             flexDirection: "column",
             gap: "22px",
-            justifyContent: "space-between",
-            width: "796px",
-            backgroundColor: (theme) => theme.palette.neutral[900],
+            overflow: "auto",
             p: 4,
-            borderRadius: "8px",
           }}
         >
           <Box
@@ -303,151 +306,40 @@ export const Component = function Settings(): JSX.Element {
               justifyContent: "space-between",
             }}
           >
-            {/* WPM */}
-            <Box
-              sx={{
-                bgcolor: (theme) => theme.palette.neutral[700],
-                borderRadius: "20px",
-                padding: "14px",
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "start",
-                position: "relative",
-              }}
-            >
-              <WPMIcon
-                sx={{
-                  width: "60px",
-                  height: "38px",
-                  marginTop: "16px",
-                  marginBottom: "2px",
-                }}
-              />
-              <Typography
-                level="body-xs"
-                sx={{ fontSize: "18px", mt: 1.5, mb: 0.5 }}
-              >
-                WPM
-              </Typography>
-              <Typography level="h2" sx={{ fontWeight: 700 }}>
-                {Math.round(currentWPM * 10) / 10}
-              </Typography>
-              <Typography
-                level="body-xs"
-                sx={{
-                  fontSize: "14px",
-                  color:
-                    wpmDelta >= 0
-                      ? theme.vars.palette.success.plainColor
-                      : theme.vars.palette.danger.plainColor,
-                }}
-              >
-                {addPlusIfPositive(wpmDelta)}
-              </Typography>
-            </Box>
-            {/* Accuracy */}
-            <Box
-              sx={{
-                bgcolor: (theme) => theme.palette.neutral[700],
-                borderRadius: "20px",
-                padding: "14px",
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "start",
-                position: "relative",
-              }}
-            >
-              <BullseyeIcon />
-              <Typography level="body-xs" sx={{ fontSize: "18px", my: 0.5 }}>
-                Accuracy
-              </Typography>
-              <Typography level="h2" sx={{ fontWeight: 700 }}>
-                {Math.round(currentAccuracy * 10) / 10}%
-              </Typography>
-              <Typography
-                level="body-xs"
-                sx={{
-                  fontSize: "14px",
-                  color:
-                    accDelta >= 0
-                      ? theme.vars.palette.success.plainColor
-                      : theme.vars.palette.danger.plainColor,
-                }}
-              >
-                {addPlusIfPositive(accDelta)}%
-              </Typography>
-            </Box>
-            {/* Score */}
-            <Box
-              sx={{
-                bgcolor: (theme) => theme.palette.neutral[700],
-                borderRadius: "20px",
-                padding: "14px",
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "start",
-                position: "relative",
-              }}
-            >
-              <ScoreIcon />
-              <Typography
-                level="body-xs"
-                sx={{ fontSize: "18px", mt: 0, mb: 0.25 }}
-              >
-                Score
-              </Typography>
-              <Typography level="h2" sx={{ fontWeight: 700 }}>
-                {Math.round(currentScore)}
-              </Typography>
-              <Typography
-                level="body-xs"
-                sx={{
-                  fontSize: "14px",
-                  color:
-                    scoreDelta >= 0
-                      ? theme.vars.palette.success.plainColor
-                      : theme.vars.palette.danger.plainColor,
-                }}
-              >
-                {addPlusIfPositive(scoreDelta)}
-              </Typography>
-            </Box>
-            {/* Time Spent */}
-            <Box
-              sx={{
-                bgcolor: (theme) => theme.palette.neutral[700],
-                borderRadius: "20px",
-                padding: "14px",
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "start",
-              }}
-            >
-              <ProgressCircleIcon
-                progress={(timeSpent / 15) * 100}
-                sx={{
-                  width: "70px",
-                  height: "70px",
-                }}
-              />
-              <Typography
-                level="body-xs"
-                sx={{ fontSize: "18px", mt: 0.5, mb: 0.3 }}
-              >
-                Daily Time
-              </Typography>
-              <Typography level="h2" sx={{ fontWeight: 700 }}>
-                {Math.round(timeSpent)}m
-              </Typography>
-            </Box>
+            <StatCard
+              icon={<WPMIcon sx={{ width: "52px", height: "52px" }} />}
+              label="WPM"
+              value={Math.round(currentWPM * 10) / 10}
+              delta={addPlusIfPositive(wpmDelta)}
+              deltaValue={wpmDelta}
+            />
+            <StatCard
+              icon={<BullseyeIcon sx={{ width: "45px", height: "45px" }} />}
+              label="Accuracy"
+              value={`${Math.round(currentAccuracy * 10) / 10}%`}
+              delta={displayPercentage(accDelta)}
+              deltaValue={accDelta}
+            />
+            <StatCard
+              icon={<ScoreIcon sx={{ width: "58px", height: "44px" }} />}
+              label="Score"
+              value={Math.round(currentScore)}
+              delta={addPlusIfPositive(scoreDelta)}
+              deltaValue={scoreDelta}
+            />
+            <StatCard
+              icon={
+                <ProgressCircleIcon
+                  progress={Math.min(timeSpent / 15, 1) * 100}
+                  sx={{
+                    width: "70px",
+                    height: "70px",
+                  }}
+                />
+              }
+              label="Daily Time"
+              value={`${Math.round(timeSpent)}m`}
+            />
           </Box>
           <Box
             sx={{
@@ -456,6 +348,52 @@ export const Component = function Settings(): JSX.Element {
               padding: "10px",
             }}
           >
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Box>
+                <Typography
+                  sx={{
+                    p: 2,
+                    pb: 0,
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Key Latency
+                </Typography>
+                <Typography
+                  sx={{
+                    p: 2,
+                    pt: 0,
+                    fontSize: "14px",
+                    color: theme.vars.palette.text.secondary,
+                  }}
+                >
+                  Average (ms) for each individual character.
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box
+                  sx={{
+                    borderRadius: "9999px",
+                    height: "10px",
+                    width: "10px",
+                    bgcolor: theme.vars.palette.primary[300],
+                  }}
+                ></Box>
+                <Typography
+                  sx={{
+                    py: 2,
+                    px: 1,
+                  }}
+                >
+                  {"Avg: " + Math.round(240) + "ms"}
+                </Typography>
+              </Box>
+            </Box>
             <ChartContainer
               title="Key Press Times"
               colors={[
@@ -476,12 +414,11 @@ export const Component = function Settings(): JSX.Element {
               <LinePlot />
               <ChartsReferenceLine
                 y={240}
-                label={"Average: " + Math.round(240)}
                 lineStyle={{
                   stroke: theme.vars.palette.primary[300],
-                  strokeDasharray: "5 5",
+                  strokeDasharray: "9 9",
+                  strokeWidth: 2,
                 }}
-                labelStyle={{ marginLeft: "100px" }}
               />
               <ChartsXAxis />
               <ChartsYAxis />

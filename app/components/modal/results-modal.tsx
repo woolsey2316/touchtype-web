@@ -159,7 +159,7 @@ export const ResultsModal = ({
           }}
         >
           <StatCard
-            icon={<WPMIcon sx={{ width: "52px", height: "52px" }} />}
+            icon={<WPMIcon sx={{ width: "58px", height: "58px" }} />}
             label="WPM"
             value={Math.round(currentWPM * 10) / 10}
             delta={addPlusIfPositive(wpmDelta)}
@@ -235,23 +235,33 @@ export const ResultsModal = ({
                   Average (ms) for each individual character.
                 </Typography>
               </Box>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Box
-                  sx={{
-                    borderRadius: "9999px",
-                    height: "10px",
-                    width: "10px",
-                    bgcolor: theme.vars.palette.primary[300],
-                  }}
-                ></Box>
+              <Box sx={{ paddingTop: "16px", paddingRight: "16px" }}>
                 <Typography
                   sx={{
-                    py: 2,
-                    px: 1,
+                    p: 0,
                   }}
                 >
-                  {"Avg: " + Math.round(averageTime) + "ms"}
+                  {"Successful chars WPM: " +
+                    Math.round(((1 / (averageTime / 1000)) * 60) / 5)}
                 </Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Box
+                    sx={{
+                      borderRadius: "9999px",
+                      height: "10px",
+                      width: "10px",
+                      bgcolor: theme.vars.palette.primary[300],
+                    }}
+                  ></Box>
+                  <Typography
+                    sx={{
+                      py: 2,
+                      px: 1,
+                    }}
+                  >
+                    {"Avg: " + Math.round(averageTime) + "ms"}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
             <ChartComponent

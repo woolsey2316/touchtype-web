@@ -7,9 +7,11 @@ export const LATTE_THEME = {
   },
   danger: {
     plainColor: "#f5950a",
+    400: "#f5950a",
   },
   success: {
     plainColor: "#10b77f",
+    400: "#10b77f",
   },
   background: {
     body: "#f9fbfa",
@@ -60,7 +62,7 @@ export const LATTE_THEME = {
     400: "#e1e7ef",
     500: "#bdc6ce",
     600: "#9ca0b0",
-    700: "#8c8fa1",
+    700: "#ffffff",
     800: "#65758b",
     900: "#6c6f85",
     plainColor: "#232634",
@@ -110,9 +112,11 @@ export const FRAPPE_THEME = {
   },
   danger: {
     plainColor: "#d20f39",
+    400: "#d20f39",
   },
   success: {
     plainColor: "#dc8a78",
+    400: "#dc8a78",
   },
   background: {
     body: "#232634",
@@ -210,9 +214,11 @@ export const MACCHIATO_THEME = {
   },
   danger: {
     plainColor: "#ed8796",
+    400: "#ed8796",
   },
   success: {
     plainColor: "#91d7e3",
+    400: "#91d7e3",
   },
   background: {
     body: "#181926",
@@ -310,9 +316,11 @@ export const MOCHA_THEME = {
   },
   danger: {
     plainColor: "#f38ba8",
+    400: "#f38ba8",
   },
   success: {
     plainColor: "#a6e3a1",
+    400: "#a6e3a1",
   },
   background: {
     body: "#181825",
@@ -410,9 +418,11 @@ export const CUSTOM_THEME_1 = {
   },
   danger: {
     plainColor: "#f38ba8",
+    400: "#f38ba8",
   },
   success: {
     plainColor: "#a6e3a1",
+    400: "#a6e3a1",
   },
   background: {
     body: "#181825",
@@ -509,9 +519,11 @@ export const CUSTOM_THEME_2 = {
   },
   danger: {
     plainColor: "#f38ba8",
+    400: "#f38ba8",
   },
   success: {
     plainColor: "#a6e3a1",
+    400: "#a6e3a1",
   },
   background: {
     body: "#181825",
@@ -609,9 +621,11 @@ export const CUSTOM_THEME_3 = {
   },
   danger: {
     plainColor: "#f38ba8",
+    400: "#f38ba8",
   },
   success: {
     plainColor: "#a6e3a1",
+    400: "#a6e3a1",
   },
   background: {
     body: "#181825",
@@ -709,9 +723,11 @@ export const CUSTOM_THEME_4 = {
   },
   danger: {
     plainColor: "#f38ba8",
+    400: "#f38ba8",
   },
   success: {
     plainColor: "#a6e3a1",
+    400: "#a6e3a1",
   },
   background: {
     body: "#181825",

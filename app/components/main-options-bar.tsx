@@ -73,6 +73,89 @@ export const MainOptionsBar = ({
             backgroundColor: (theme) => theme.vars.palette.background.level3,
           }}
         >
+          <Button
+            variant="plain"
+            sx={(theme) => ({
+              color: numbers
+                ? `${theme.vars.palette.primary.plainColor}`
+                : `${theme.vars.palette.neutral[100]}`,
+              ":hover": {
+                color: numbers
+                  ? `${theme.vars.palette.primary.plainColor}`
+                  : `${theme.vars.palette.primary.plainHoverColor}`,
+              },
+            })}
+            onClick={() => {
+              if (!programmingLanguage) {
+                setTestInfo((timeInfo) => ({
+                  ...timeInfo,
+                  started: false,
+                }));
+
+                resetTestStats();
+                setNumbers((numbers) => !numbers);
+              }
+            }}
+          >
+            # numbers
+          </Button>
+          <Box
+            sx={(theme) => ({
+              borderRight: `1px solid ${theme.palette.neutral[400]}`,
+              marginY: "12px",
+              height: "14px",
+            })}
+          ></Box>
+          <Button
+            variant="plain"
+            sx={(theme) => ({
+              borderRadius: punctuation ? "8px" : "0px",
+              color: punctuation
+                ? `${theme.vars.palette.primary.plainColor}`
+                : `${theme.vars.palette.neutral[100]}`,
+              ":hover": {
+                color: punctuation
+                  ? `${theme.vars.palette.primary.plainColor}`
+                  : `${theme.vars.palette.primary.plainHoverColor}`,
+              },
+            })}
+            onClick={() => {
+              if (!programmingLanguage) {
+                setTestInfo((timeInfo) => ({
+                  ...timeInfo,
+                  started: false,
+                }));
+                resetTestStats();
+                setPunctuation((punctuation) => !punctuation);
+              }
+            }}
+          >
+            <svg
+              style={{ marginRight: "4px" }}
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              data-component-name="Type"
+            >
+              <path d="M12 4v16"></path>
+              <path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"></path>
+              <path d="M9 20h6"></path>
+            </svg>
+            punctuation & symbols
+          </Button>
+          <Box
+            sx={(theme) => ({
+              borderRight: `1px solid ${theme.palette.neutral[400]}`,
+              marginY: "12px",
+              height: "14px",
+            })}
+          ></Box>
           <ButtonMainMenu
             isActive={isTimedTest}
             handleClick={() => {
@@ -179,82 +262,6 @@ export const MainOptionsBar = ({
           alignItems: "center",
         }}
       >
-        <Button
-          variant="plain"
-          sx={(theme) => ({
-            color: numbers
-              ? `${theme.vars.palette.primary.plainColor}`
-              : `${theme.vars.palette.neutral[100]}`,
-            ":hover": {
-              color: numbers
-                ? `${theme.vars.palette.primary.plainColor}`
-                : `${theme.vars.palette.primary.plainHoverColor}`,
-            },
-          })}
-          onClick={() => {
-            if (!programmingLanguage) {
-              setTestInfo((timeInfo) => ({
-                ...timeInfo,
-                started: false,
-              }));
-
-              resetTestStats();
-              setNumbers((numbers) => !numbers);
-            }
-          }}
-        >
-          # numbers
-        </Button>
-        <Box
-          sx={(theme) => ({
-            borderRight: `1px solid ${theme.palette.neutral[400]}`,
-            marginY: "12px",
-            height: "14px",
-          })}
-        ></Box>
-        <Button
-          variant="plain"
-          sx={(theme) => ({
-            borderRadius: punctuation ? "8px" : "0px",
-            color: punctuation
-              ? `${theme.vars.palette.primary.plainColor}`
-              : `${theme.vars.palette.neutral[100]}`,
-            ":hover": {
-              color: punctuation
-                ? `${theme.vars.palette.primary.plainColor}`
-                : `${theme.vars.palette.primary.plainHoverColor}`,
-            },
-          })}
-          onClick={() => {
-            if (!programmingLanguage) {
-              setTestInfo((timeInfo) => ({
-                ...timeInfo,
-                started: false,
-              }));
-              resetTestStats();
-              setPunctuation((punctuation) => !punctuation);
-            }
-          }}
-        >
-          <svg
-            style={{ marginRight: "4px" }}
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-            data-component-name="Type"
-          >
-            <path d="M12 4v16"></path>
-            <path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"></path>
-            <path d="M9 20h6"></path>
-          </svg>
-          punctuation & symbols
-        </Button>
         <Box
           sx={(theme) => ({
             borderRight: `1px solid ${theme.palette.neutral[400]}`,

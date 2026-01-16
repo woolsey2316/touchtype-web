@@ -18,6 +18,11 @@ export const StatCard = ({
   deltaValue,
 }: StatCardProps) => {
   const theme = useTheme();
+  const determineSymbolColor = (value: number | "") => {
+    return value !== "" && value >= 0
+      ? theme.vars.palette.success[400]
+      : theme.vars.palette.danger[400];
+  };
   const determineColor = (value: number | "") => {
     return value !== "" && value >= 0
       ? theme.vars.palette.success.plainColor
@@ -69,7 +74,7 @@ export const StatCard = ({
                     width: "18px",
                     height: "18px",
                     fill: "none",
-                    stroke: determineColor(deltaValue ?? 0),
+                    stroke: determineSymbolColor(deltaValue ?? 0),
                   }}
                 ></TrendingUp>
               ) : (
@@ -78,7 +83,7 @@ export const StatCard = ({
                     width: "18px",
                     height: "18px",
                     fill: "none",
-                    stroke: determineColor(deltaValue ?? 0),
+                    stroke: determineSymbolColor(deltaValue ?? 0),
                   }}
                 ></TrendingDown>
               )}

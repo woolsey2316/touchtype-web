@@ -153,7 +153,7 @@ export const Component = function Settings(): JSX.Element {
                 value = value ?? "0xProtoNerdFont-Bold.400";
                 const [family, weight] = value.split(".");
                 setFont({
-                  family: '"' + family + '"',
+                  family: family,
                   weight: weight ?? "400",
                 });
               }}
@@ -417,7 +417,7 @@ export const Component = function Settings(): JSX.Element {
             sx={{
               mt: 3,
               mx: 2,
-              fontFamily: font.family,
+              fontFamily: '"' + font.family + '"',
               fontWeight: font.weight,
               fontSize: "36px",
             }}
