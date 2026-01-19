@@ -15,6 +15,7 @@ import { ChartsTooltipProps } from "@mui/x-charts/ChartsTooltip";
 import { useKeyTimeArrays } from "../../hooks/useKeyTimeArrays";
 import { useResultModalData } from "../../hooks/useResultModalData";
 import { StatCard } from "../stat-card";
+import { calcWPM } from "../../utils/test-stats";
 
 interface Props {
   setTestInfo: React.Dispatch<
@@ -131,11 +132,22 @@ export const ResultsModal = ({
     setIsResultsModalOpen(false);
     setResetCounter((counter) => counter + 1);
   };
+  let keysPressed = 0;
+  const totalTime = Object.values(keyTimeMap.current)?.reduce((acc, curr) => {
+    return (
+      acc +
+      curr?.reduce((sum: number, time: number) => {
+        keysPressed++;
+        return sum + time;
+      }, 0)
+    );
+  }, 0);
 
   const { timeArray, keyArray } = useKeyTimeArrays(keyTimeMap);
   const theme = useTheme();
   const averageTime =
     timeArray.reduce((acc, curr) => acc + curr, 0) / timeArray.length;
+
   return (
     <Modal ref={ref} open={isOpen} onClose={closeModal}>
       <ModalDialog
@@ -242,7 +254,7 @@ export const ResultsModal = ({
                   }}
                 >
                   {"Successful chars WPM: " +
-                    Math.round(((1 / (averageTime / 1000)) * 60) / 5)}
+                    Math.round(calcWPM(keysPressed, totalTime) * 10) / 10}
                 </Typography>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Box

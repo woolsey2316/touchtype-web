@@ -453,25 +453,27 @@ export default function TypingPanel({
       />
       {/* Check if width is greater than 0 to avoid rendering issues */}
       {width > 0 && <WordsToType colourOfChar={colourOfChar} words={words} />}
-      <ResultsModal
-        key={isOpen.toString() + currentWPM + mistakes + correctChars}
-        isOpen={isOpen}
-        setIsResultsModalOpen={setIsResultsModalOpen}
-        newTestPage={newTestPage}
-        setTestInfo={setTestInfo}
-        previousScore={previousScore}
-        previousWPM={previousWPM}
-        previousAccuracy={previousAccuracy}
-        currentWPM={currentWPM}
-        currentAccuracy={currentAccuracy}
-        currentScore={currentScore}
-        currentTime={currentTime}
-        keyTimeMap={keyTimeMap}
-        mistakes={mistakes}
-        correctChars={correctChars}
-        childInputRef={childInputRef}
-        setResetCounter={setResetCounter}
-      />
+      {isOpen && (
+        <ResultsModal
+          key={isOpen.toString() + currentWPM + mistakes + correctChars}
+          isOpen={isOpen}
+          setIsResultsModalOpen={setIsResultsModalOpen}
+          newTestPage={newTestPage}
+          setTestInfo={setTestInfo}
+          previousScore={previousScore}
+          previousWPM={previousWPM}
+          previousAccuracy={previousAccuracy}
+          currentWPM={currentWPM}
+          currentAccuracy={currentAccuracy}
+          currentScore={currentScore}
+          currentTime={currentTime}
+          keyTimeMap={keyTimeMap}
+          mistakes={mistakes}
+          correctChars={correctChars}
+          childInputRef={childInputRef}
+          setResetCounter={setResetCounter}
+        />
+      )}
     </Box>
   );
 }
