@@ -16,18 +16,37 @@ import { RUST_WORDS } from "../data/rust-words";
 import { SWIFT_WORDS } from "../data/swift-words";
 import { Language } from "../types/words.type";
 
+const filterWordsByWeakestCharacters = (words: string[], charArr: string[]) => {
+  const filteredWords = words.filter((word) => {
+    for (const char of charArr) {
+      if (word.includes(char)) {
+        return true;
+      }
+    }
+  });
+  return filteredWords;
+};
+
 export const WordsGenerator = ({
   count,
   numbers,
   punctuation,
   language,
   programmingLanguage,
+  isTrainingWeakestChars,
+  weakestSymbols = ["@", "#", "!", "^", "~"],
+  weakestLowercaseChars = ["w", "x"],
+  weakestNumbers = ["1", "7", "9", "6"],
 }: {
   count: number;
   numbers?: boolean;
   punctuation?: boolean;
   language?: Language;
   programmingLanguage?: boolean;
+  isTrainingWeakestChars?: boolean;
+  weakestSymbols?: string[];
+  weakestLowercaseChars?: string[];
+  weakestNumbers?: string[];
 }) => {
   let wordsToType = "";
   let words = ENGLISH_WORDS;
@@ -89,16 +108,22 @@ export const WordsGenerator = ({
       break;
     }
   }
+
   if (numbers && punctuation) {
+    let numbers = numbersData;
+    let symbols = symbolData;
+    if (isTrainingWeakestChars) {
+      numbers = filterWordsByWeakestCharacters(numbersData, weakestNumbers);
+      symbols = filterWordsByWeakestCharacters(symbolData, weakestSymbols);
+    }
     for (let i = 0; i < count; i++) {
       const wordLength = Math.floor(Math.random() * 4) + 4; // 4 to 7
       let currWord = "";
       for (let j = 0; j < wordLength; j++) {
         if (Math.random() < 0.5) {
-          currWord +=
-            numbersData[Math.floor(Math.random() * numbersData.length)];
+          currWord += numbers[Math.floor(Math.random() * numbers.length)];
         } else {
-          currWord += symbolData[Math.floor(Math.random() * symbolData.length)];
+          currWord += symbols[Math.floor(Math.random() * symbols.length)];
         }
       }
       wordsToType += currWord + " ";
@@ -107,25 +132,32 @@ export const WordsGenerator = ({
     return wordsToType;
   }
   if (numbers) {
+    let numbers = numbersData;
+    if (isTrainingWeakestChars) {
+      numbers = filterWordsByWeakestCharacters(numbersData, weakestNumbers);
+    }
     for (let i = 0; i < count; i++) {
       const wordLength = Math.floor(Math.random() * 4) + 4; // 4 to 7
       let currWord = "";
       for (let j = 0; j < wordLength; j++) {
         currWord =
-          currWord +
-          numbersData[Math.floor(Math.random() * numbersData.length)];
+          currWord + numbers[Math.floor(Math.random() * numbers.length)];
       }
       wordsToType = wordsToType + " " + currWord;
     }
     return wordsToType.trim();
   }
   if (punctuation) {
+    let symbols = symbolData;
+    if (isTrainingWeakestChars) {
+      symbols = filterWordsByWeakestCharacters(symbolData, weakestSymbols);
+    }
     for (let i = 0; i < count; i++) {
       const wordLength = Math.floor(Math.random() * 4) + 4; // 4 to 7
       let currWord = "";
       for (let j = 0; j < wordLength; j++) {
         currWord =
-          currWord + symbolData[Math.floor(Math.random() * symbolData.length)];
+          currWord + symbols[Math.floor(Math.random() * symbols.length)];
       }
       wordsToType = wordsToType + " " + currWord;
     }
@@ -135,6 +167,9 @@ export const WordsGenerator = ({
     const wordsIndex = Math.round(Math.random() * words.length);
     wordsToType = words[wordsIndex];
     return wordsToType;
+  }
+  if (isTrainingWeakestChars) {
+    words = filterWordsByWeakestCharacters(words, weakestLowercaseChars);
   }
   for (let i = 0; i < count; i++) {
     const wordIndex = Math.round(Math.random() * words.length);

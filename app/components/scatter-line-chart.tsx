@@ -29,12 +29,19 @@ export default function ScatterLineChart({
 
   const series = data ?? [];
   const binSize = Math.ceil((data?.length || 20) / 20);
-  const compressedData: number[] = [];
+  const binnedPoints: { x: number; y: number }[] = [];
   for (let i = 0; i + binSize <= series.length; i += binSize) {
-    const steps = series
-      .slice(i, i + binSize)
-      .reduce((acc, item) => acc + item.y, 0);
-    compressedData.push(steps / binSize);
+    const bin = series.slice(i, i + binSize);
+    const avgX = bin.reduce((acc, item) => acc + item.x, 0) / bin.length;
+    const avgY = bin.reduce((acc, item) => acc + item.y, 0) / bin.length;
+    binnedPoints.push({ x: avgX, y: avgY });
+  }
+  // Add remaining points as a final bin
+  if (series.length % binSize !== 0) {
+    const bin = series.slice(series.length - (series.length % binSize));
+    const avgX = bin.reduce((acc, item) => acc + item.x, 0) / bin.length;
+    const avgY = bin.reduce((acc, item) => acc + item.y, 0) / bin.length;
+    binnedPoints.push({ x: avgX, y: avgY });
   }
 
   const id = useId();
@@ -59,8 +66,8 @@ export default function ScatterLineChart({
           },
           {
             id: "axis2",
-            data: compressedData.map((_, index) => index),
-            valueFormatter: (value: number) => `${"Test Group #" + value}`,
+            data: binnedPoints.map((pt) => pt.x),
+            valueFormatter: (value: number) => `${value}`,
             stroke: lineColor || "#bb81f6",
             fill: lineColor || "#bb81f6",
           },
@@ -76,7 +83,7 @@ export default function ScatterLineChart({
           {
             type: "line",
             curve: "bumpX",
-            data: compressedData,
+            data: binnedPoints.map((pt) => pt.y),
             xAxisId: "axis2",
             color: color || "#bb81f6",
           },

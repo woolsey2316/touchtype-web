@@ -1,12 +1,21 @@
 import { Language } from "../types/words.type";
 import { Box, Button, Option, Select } from "@mui/joy";
 import { ButtonMainMenu } from "./button-main-menu";
+import DumbellIcon from "../icons/dumbell";
+import { useTheme } from "@mui/joy/styles";
+import Tooltip from "@mui/joy/Tooltip";
+import TimerIcon from "../icons/timer";
+
 type Props = {
   setPunctuation: React.Dispatch<React.SetStateAction<boolean>>;
   setNumbers: React.Dispatch<React.SetStateAction<boolean>>;
   setProgrammingLanguage: React.Dispatch<React.SetStateAction<boolean>>;
   setLanguage: React.Dispatch<React.SetStateAction<number>>;
   setIsFixedSentenceSize: React.Dispatch<React.SetStateAction<boolean>>;
+  isTrainingWeakestChars: boolean;
+  setIsTrainingWeakestChars: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsTurboPace: React.Dispatch<React.SetStateAction<boolean>>;
+  isTurboPace: boolean;
   setIsTimedTest: React.Dispatch<React.SetStateAction<boolean>>;
   setSentenceSize: React.Dispatch<React.SetStateAction<number>>;
   setTimeLimit: React.Dispatch<React.SetStateAction<number>>;
@@ -34,6 +43,9 @@ export const MainOptionsBar = ({
   setProgrammingLanguage,
   setLanguage,
   setIsFixedSentenceSize,
+  setIsTrainingWeakestChars,
+  setIsTurboPace,
+  isTurboPace,
   setIsTimedTest,
   setSentenceSize,
   setTimeLimit,
@@ -48,6 +60,7 @@ export const MainOptionsBar = ({
   fixedSentenceSize,
   timeLimit,
   isTimedTest,
+  isTrainingWeakestChars,
   language,
 }: Props) => {
   function resetTestStats() {
@@ -55,6 +68,10 @@ export const MainOptionsBar = ({
     correctChars.current = 0;
     mistakes.current = 0;
   }
+  const theme = useTheme();
+  const determineFillColor = (isActive: boolean) => {
+    return isActive ? theme.palette.primary[400] : theme.palette.text.icon;
+  };
   return (
     <Box>
       <Box
@@ -191,9 +208,8 @@ export const MainOptionsBar = ({
           <Box
             sx={(theme) => ({
               borderRight: `1px solid ${theme.palette.neutral[400]}`,
-              marginY: "10px",
-              marginX: "8px",
-              height: "12px",
+              marginY: "12px",
+              height: "14px",
             })}
           ></Box>
           <ButtonMainMenu
@@ -262,6 +278,44 @@ export const MainOptionsBar = ({
           alignItems: "center",
         }}
       >
+        <Tooltip
+          enterDelay={500}
+          title="Focus on typing speed to the detriment of accuracy"
+        >
+          <Button
+            onClick={() => setIsTurboPace((isTurboPace) => !isTurboPace)}
+            variant="plain"
+          >
+            <TimerIcon
+              sx={{
+                height: "24px",
+                width: "24px",
+                fill: determineFillColor(isTurboPace),
+              }}
+            />
+          </Button>
+        </Tooltip>
+        <Box
+          sx={(theme) => ({
+            borderRight: `1px solid ${theme.palette.neutral[400]}`,
+            marginY: "12px",
+            height: "14px",
+          })}
+        ></Box>
+        <Tooltip enterDelay={500} title="Train Weakest Characters">
+          <Button
+            onClick={() =>
+              setIsTrainingWeakestChars(
+                (isTrainingWeakestChars) => !isTrainingWeakestChars,
+              )
+            }
+            variant="plain"
+          >
+            <DumbellIcon
+              sx={{ fill: determineFillColor(isTrainingWeakestChars) }}
+            />
+          </Button>
+        </Tooltip>
         <Box
           sx={(theme) => ({
             borderRight: `1px solid ${theme.palette.neutral[400]}`,

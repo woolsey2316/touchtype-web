@@ -16,6 +16,8 @@ export const Component = function Test(): JSX.Element {
   const [programmingLanguage, setProgrammingLanguage] = useState(false);
   const [language, setLanguage] = useState<Language>(Language.ENGLISH);
   const [fixedSentenceSize, setIsFixedSentenceSize] = useState(true);
+  const [isTrainingWeakestChars, setIsTrainingWeakestChars] = useState(false);
+  const [isTurboPace, setIsTurboPace] = useState(false);
   const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
@@ -89,6 +91,8 @@ export const Component = function Test(): JSX.Element {
             setProgrammingLanguage={setProgrammingLanguage}
             setLanguage={setLanguage}
             setIsFixedSentenceSize={setIsFixedSentenceSize}
+            setIsTrainingWeakestChars={setIsTrainingWeakestChars}
+            setIsTurboPace={setIsTurboPace}
             setIsTimedTest={setIsTimedTest}
             setSentenceSize={setSentenceSize}
             setTimeLimit={setTimeLimit}
@@ -99,6 +103,8 @@ export const Component = function Test(): JSX.Element {
             fixedSentenceSize={fixedSentenceSize}
             programmingLanguage={programmingLanguage}
             isTimedTest={isTimedTest}
+            isTrainingWeakestChars={isTrainingWeakestChars}
+            isTurboPace={isTurboPace}
             timeLimit={timeLimit}
             punctuation={punctuation}
             numbers={numbers}
@@ -123,7 +129,9 @@ export const Component = function Test(): JSX.Element {
                 sentenceSize +
                 Number(isTimedTest) +
                 timeLimit +
-                currentWPM
+                currentWPM +
+                Number(isTrainingWeakestChars) +
+                Number(isTurboPace)
               }
               programmingLanguage={programmingLanguage}
               punctuation={punctuation}
@@ -135,6 +143,8 @@ export const Component = function Test(): JSX.Element {
               startTime={startTime}
               setTestInfo={setTestInfo}
               setCurrentWPM={() => {}} // handled in hook
+              isTrainingWeakestChars={isTrainingWeakestChars}
+              isTurboPace={isTurboPace}
               previousScore={previousScore}
               previousWPM={previousWPM}
               previousAccuracy={previousAccuracy}

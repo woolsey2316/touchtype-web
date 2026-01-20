@@ -228,6 +228,10 @@ export const Component = function Settings(): JSX.Element {
               setProgrammingLanguage={setProgrammingLanguage}
               setLanguage={setLanguage}
               setIsFixedSentenceSize={setIsFixedSentenceSize}
+              setIsTrainingWeakestChars={() => {}}
+              setIsTurboPace={() => {}}
+              isTurboPace={true}
+              isTrainingWeakestChars={false}
               setIsTimedTest={setIsTimedTest}
               setSentenceSize={setSentenceSize}
               setTimeLimit={setTimeLimit}

@@ -15,7 +15,8 @@ export function getNextCharIndex({
 
   while (
     charIndex + skipTabs < words.length &&
-    words[charIndex + skipTabs] === "→"
+    (words[charIndex + skipTabs] === "→" ||
+      words[charIndex + skipTabs] === "\t")
   ) {
     skipTabs++;
   }
@@ -37,7 +38,10 @@ export function getPreviousCharIndex({
 
   let skipTabs = 0;
 
-  while (charIndex + skipTabs >= 0 && words[charIndex - skipTabs] === "→") {
+  while (
+    (charIndex + skipTabs >= 0 && words[charIndex - skipTabs] === "→") ||
+    words[charIndex - skipTabs] === "\t"
+  ) {
     skipTabs++;
   }
   return charIndex - skipTabs;

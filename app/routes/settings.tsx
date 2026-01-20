@@ -18,6 +18,7 @@ export const Component = function Settings(): JSX.Element {
     setZipperAnimation,
     setCursorType,
     setSmoothCursor,
+    setSkipOverTabs,
   } = useContext(UserPreferencesContext);
   // display preview text state
   const [words] = useState<string>("sample text for preview purposes");
@@ -59,6 +60,9 @@ export const Component = function Settings(): JSX.Element {
   const [smoothCursor, changeSmoothCursor] = useState<boolean>(() =>
     window.localStorage.getItem("smoothCursor") === "false" ? false : true,
   );
+  const [skipTabs, changeSkipTabs] = useState<boolean>(() =>
+    window.localStorage.getItem("skipOverTabs") === "true" ? true : false,
+  );
 
   const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setZipperEnabled(event.target.checked);
@@ -84,6 +88,14 @@ export const Component = function Settings(): JSX.Element {
     changeSmoothCursor(event.target.checked);
     setSmoothCursor(event.target.checked);
     window.localStorage.setItem("smoothCursor", String(event.target.checked));
+  };
+
+  const setSkipTabsPreference = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    changeSkipTabs(event.target.checked);
+    setSkipOverTabs(event.target.checked);
+    window.localStorage.setItem("skipOverTabs", String(event.target.checked));
   };
 
   return (
@@ -560,6 +572,45 @@ export const Component = function Settings(): JSX.Element {
             </SettingsButton>
           </Box>
         </Box>
+      </Box>
+      <Box
+        sx={{
+          mb: 2,
+          bgcolor: theme.vars.palette.grey[600],
+          color: theme.vars.palette.text.secondary,
+          borderRadius: "8px",
+          boxShadow:
+            "1px 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+          p: 2,
+        }}
+      >
+        <Typography
+          component="h3"
+          sx={{
+            color: theme.vars.palette.grey[800],
+          }}
+        >
+          Test Behavior
+        </Typography>
+        <Typography
+          component="label"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            gap: 1,
+            color: theme.vars.palette.grey[800],
+            mt: 2,
+          }}
+        >
+          <span style={{ fontWeight: "bold" }}>Skip Tabs</span>
+          <span>Automatically skip over tab characters during typing test</span>
+        </Typography>
+        <Switch
+          sx={{ alignSelf: "flex-start", ml: 2, mt: 2 }}
+          checked={skipTabs}
+          onChange={setSkipTabsPreference}
+        />
       </Box>
     </Container>
   );

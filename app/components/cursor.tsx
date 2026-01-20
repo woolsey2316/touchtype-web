@@ -94,7 +94,7 @@ export function Cursor({ cursorIndex, sx, letters }: CursorProps): JSX.Element {
         },
         overflow: "visible",
         animation: "blink 1s step-start 0s infinite",
-        transition: smoothCursor ? "left 0.2s linear" : "none",
+        transition: smoothCursor ? "left 0.1s linear" : "none",
         color: `${theme.vars.palette.primary[50]}`,
         ...sx,
       })}

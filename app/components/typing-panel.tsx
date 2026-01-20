@@ -15,11 +15,14 @@ import { WordsToType } from "./words-to-type";
 import { ResultsModal } from "./modal/results-modal";
 import { getNextCharIndex, getPreviousCharIndex } from "../utils/word-position";
 import { ThemeContext } from "../context/ThemeContext/ThemeContext";
+import { UserPreferencesContext } from "../context/userPreferences";
 import { Cursor } from "./cursor";
 import {
   maybeScrollToNextLine,
   maybeScrollToPreviousLine,
 } from "../utils/typing-panel";
+import { useSlowestKeys } from "../hooks/useSlowestKeys";
+
 export default function TypingPanel({
   programmingLanguage,
   punctuation,
@@ -28,6 +31,8 @@ export default function TypingPanel({
   sentenceSize,
   testInfo,
   isTimedTest,
+  isTrainingWeakestChars,
+  isTurboPace,
   setTestInfo,
   onEnd,
   startTime,
@@ -53,6 +58,8 @@ export default function TypingPanel({
   sentenceSize: number;
   childInputRef: React.RefObject<HTMLDivElement | null>;
   isTimedTest: boolean;
+  isTrainingWeakestChars: boolean;
+  isTurboPace: boolean;
   testInfo: {
     started: boolean;
     ended: boolean;
@@ -82,6 +89,7 @@ export default function TypingPanel({
   setResetCounter: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const { theme } = useContext(ThemeContext);
+  const { skipOverTabs } = useContext(UserPreferencesContext);
   useEffect(() => {
     if (childInputRef?.current) {
       childInputRef?.current.focus();
@@ -89,6 +97,7 @@ export default function TypingPanel({
   }, [childInputRef]);
   const keyStartTime = useRef<number | null>(null);
   const [cursorIndex, setCursorIndex] = useState(0);
+  const { slowestKeys } = useSlowestKeys();
   const generatedWords = useMemo(
     () =>
       WordsGenerator({
@@ -97,8 +106,22 @@ export default function TypingPanel({
         numbers,
         language,
         programmingLanguage,
+        isTrainingWeakestChars,
+        weakestSymbols: slowestKeys?.symbols.map((item) => item.letter),
+        weakestLowercaseChars: slowestKeys?.lowercase.map(
+          (item) => item.letter,
+        ),
+        weakestNumbers: slowestKeys?.numbers.map((item) => item.letter),
       }),
-    [sentenceSize, punctuation, numbers, language, programmingLanguage],
+    [
+      sentenceSize,
+      punctuation,
+      numbers,
+      language,
+      programmingLanguage,
+      isTrainingWeakestChars,
+      slowestKeys,
+    ],
   );
 
   const [words, setWords] = useState(generatedWords);
@@ -121,6 +144,12 @@ export default function TypingPanel({
         punctuation,
         numbers,
         language,
+        isTrainingWeakestChars,
+        weakestSymbols: slowestKeys?.symbols.map((item) => item.letter),
+        weakestLowercaseChars: slowestKeys?.lowercase.map(
+          (item) => item.letter,
+        ),
+        weakestNumbers: slowestKeys?.numbers.map((item) => item.letter),
       });
       setColourOfChar(
         Array(words.length).fill(theme.vars.palette.neutral[500]),
@@ -133,6 +162,8 @@ export default function TypingPanel({
     theme.vars.palette.neutral,
     numbers,
     language,
+    isTrainingWeakestChars,
+    slowestKeys,
   ]);
 
   const newTestPage = useCallback(() => {
@@ -324,18 +355,24 @@ export default function TypingPanel({
     if (e.key === "Enter" && words[charIndex] === "↵") {
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
-        newWordsResult[charIndex] = theme.vars.palette.success.plainColor;
+        newWordsResult[charIndex] = !isTurboPace
+          ? theme.vars.palette.success.plainColor
+          : "transparent";
         return newWordsResult;
       });
       // Correct key pressed
       setCursorIndex((cursorIndex) => {
-        const nextIndex = Math.min(cursorIndex + 1, words.length);
+        const nextIndex = getNextCharIndex({
+          charIndex: cursorIndex,
+          words,
+          skipOverTabs,
+        });
         maybeScrollToNextLine(cursorIndex, childInputRef);
         return nextIndex;
       });
 
       setCharIndex((charIndex) =>
-        getNextCharIndex({ charIndex, words, skipOverTabs: false }),
+        getNextCharIndex({ charIndex, words, skipOverTabs }),
       );
       correctChars.current++;
     } else if (
@@ -344,18 +381,24 @@ export default function TypingPanel({
     ) {
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
-        newWordsResult[charIndex] = theme.vars.palette.success.plainColor;
+        newWordsResult[charIndex] = !isTurboPace
+          ? theme.vars.palette.success.plainColor
+          : "transparent";
         return newWordsResult;
       });
       // Correct key pressed
       setCursorIndex((cursorIndex) => {
-        const nextIndex = Math.min(cursorIndex + 1, words.length);
+        const nextIndex = getNextCharIndex({
+          charIndex: cursorIndex,
+          words,
+          skipOverTabs,
+        });
         maybeScrollToNextLine(cursorIndex, childInputRef);
         return nextIndex;
       });
 
       setCharIndex((charIndex) =>
-        getNextCharIndex({ charIndex, words, skipOverTabs: false }),
+        getNextCharIndex({ charIndex, words, skipOverTabs }),
       );
       correctChars.current++;
     } else if (e.key === words[charIndex]) {
@@ -363,7 +406,9 @@ export default function TypingPanel({
 
       setColourOfChar((wordsResult) => {
         const newWordsResult = [...wordsResult];
-        newWordsResult[charIndex] = theme.vars.palette.success.plainColor;
+        newWordsResult[charIndex] = !isTurboPace
+          ? theme.vars.palette.success.plainColor
+          : "transparent";
         return newWordsResult;
       });
       // Correct key pressed
@@ -373,7 +418,7 @@ export default function TypingPanel({
       });
 
       setCharIndex((charIndex) =>
-        getNextCharIndex({ charIndex, words, skipOverTabs: false }),
+        getNextCharIndex({ charIndex, words, skipOverTabs }),
       );
       correctChars.current++;
     } else if (e.ctrlKey && e.key === "Backspace") {
@@ -385,7 +430,7 @@ export default function TypingPanel({
       setCursorIndex((cursorIndex) => {
         for (let i = 0; i < countDeleted; i++) {
           updateColourOfChar(
-            getPreviousCharIndex({ charIndex, words, skipOverTabs: false }) - i,
+            getPreviousCharIndex({ charIndex, words, skipOverTabs }) - i,
             theme.vars.palette.neutral[500],
           );
         }
@@ -399,25 +444,34 @@ export default function TypingPanel({
       setCursorIndex((cursorIndex) => {
         removeCharacterFromState(cursorIndex);
         updateColourOfChar(
-          getPreviousCharIndex({ charIndex, words, skipOverTabs: false }),
+          getPreviousCharIndex({ charIndex, words, skipOverTabs }),
           theme.vars.palette.neutral[500],
         );
-        const previousIndex = Math.max(cursorIndex - 1, 0);
+        const previousIndex = getPreviousCharIndex({
+          charIndex: cursorIndex,
+          words,
+          skipOverTabs,
+        });
         maybeScrollToPreviousLine(cursorIndex, childInputRef);
         return previousIndex;
       });
-      setCharIndex(
-        getPreviousCharIndex({ charIndex, words, skipOverTabs: false }),
-      );
+      setCharIndex(getPreviousCharIndex({ charIndex, words, skipOverTabs }));
     } else {
       mistakes.current++;
       setCursorIndex((cursorIndex) => {
-        updateColourOfChar(charIndex, theme.vars.palette.danger.plainColor);
-        const nextIndex = Math.min(cursorIndex + 1, words.length);
+        updateColourOfChar(
+          charIndex,
+          !isTurboPace ? theme.vars.palette.danger.plainColor : "transparent",
+        );
+        const nextIndex = getNextCharIndex({
+          charIndex: cursorIndex,
+          words,
+          skipOverTabs,
+        });
         maybeScrollToNextLine(cursorIndex, childInputRef);
         return nextIndex;
       });
-      setCharIndex(getNextCharIndex({ charIndex, words, skipOverTabs: false }));
+      setCharIndex(getNextCharIndex({ charIndex, words, skipOverTabs }));
     }
     keyStartTime.current = performance.now();
   }

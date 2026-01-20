@@ -22,7 +22,9 @@ const Root = () => {
       "'0xProtoNerdFont-Bold', Courier, monospace",
     weight: "400",
   });
-  const [skipOverTabs, setSkipOverTabs] = useState(false);
+  const [skipOverTabs, setSkipOverTabs] = useState(
+    window.localStorage.getItem("skipOverTabs") === "true" ? true : false,
+  );
   const [spaceChar, setSpaceChar] = useState(
     window.localStorage.getItem("spaceChar") ?? " ",
   );
