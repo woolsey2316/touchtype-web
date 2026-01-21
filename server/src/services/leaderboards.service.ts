@@ -15,19 +15,21 @@ class LeaderboardsService {
   public async getTopScores(scope: string, testType: string) {
     const key = leaderboardKey(scope, testType);
 
-    const results = (await client.zRevRangeWithScores(key, 0, 19)) as any[];
+    const results = await client.zRangeWithScores(key, 0, 9, { REV: true });
     if (!results || results.length === 0) {
       return [];
     }
     const formatted = results.map((entry, idx: number) => {
-      const [userId, username, accuracy, date] = entry.value.split("|");
+      const [userId, username, accuracy, date] = (entry.value as string).split(
+        "|",
+      );
       return {
         rank: idx + 1,
         userId,
         username,
         date,
-        accuracy,
-        wpm: entry.score,
+        accuracy: Math.round(parseFloat(accuracy) * 100) / 100,
+        wpm: Math.round(Number(entry.score) * 100) / 100,
       };
     });
     return formatted;
@@ -57,20 +59,36 @@ class LeaderboardsService {
       return { status: "accuracy_too_low" };
     }
 
+    const testCateogry = testType === "english" ? "english" : "programming";
     // Add to leaderboards
     await client.zAdd(
-      leaderboardKey("daily", testType),
-      [{ score: wpm, value: `${userId}|${username}|${accuracy}|${date}` }],
+      leaderboardKey("daily", testCateogry),
+      [
+        {
+          score: wpm,
+          value: `${userId}|${username}|${accuracy}|${date}|${testType}`,
+        },
+      ],
       { GT: true },
     );
     await client.zAdd(
-      leaderboardKey("weekly", testType),
-      [{ score: wpm, value: `${userId}|${username}|${accuracy}|${date}` }],
+      leaderboardKey("weekly", testCateogry),
+      [
+        {
+          score: wpm,
+          value: `${userId}|${username}|${accuracy}|${date}|${testType}`,
+        },
+      ],
       { GT: true },
     );
     await client.zAdd(
-      leaderboardKey("alltime", testType),
-      [{ score: wpm, value: `${userId}|${username}|${accuracy}|${date}` }],
+      leaderboardKey("alltime", testCateogry),
+      [
+        {
+          score: wpm,
+          value: `${userId}|${username}|${accuracy}|${date}|${testType}`,
+        },
+      ],
       { GT: true },
     );
     return { status: "submitted" };

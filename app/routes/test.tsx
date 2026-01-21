@@ -43,7 +43,7 @@ export const Component = function Test(): JSX.Element {
     isOpen,
     setIsResultsModalOpen,
     onEnd,
-  } = useTestResults(keyTimeMap);
+  } = useTestResults(keyTimeMap, language);
 
   // Function to focus the typing panel
   const focusChild = () => {

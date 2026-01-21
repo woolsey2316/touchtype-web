@@ -9,91 +9,18 @@ import Trophy2 from "../icons/trophy2";
 import { Zap } from "lucide-react";
 import { LeaderboardFilters } from "../components/leaderboards-filter";
 import { type Category, type Timeframe } from "../types/types";
+import { useLeaderboardEntries } from "../hooks/useLeaderboardEntries";
 
-interface LeaderboardEntry {
-  userId: number;
-  username: string;
-  wpm: number;
-  accuracy: number;
-  date: string;
-}
 export const Component = function Leaderboards(): JSX.Element {
   const { theme } = useContext(ThemeContext);
   usePageEffect({ title: "Leaderboards" });
   const [category, setCategory] = useState<Category>("english");
   const [timeframe, setTimeFrame] = useState<Timeframe>("daily");
-  const [leaderboardEntries] = useState<LeaderboardEntry[]>([
-    {
-      userId: 1,
-      username: "Sarah Chen",
-      wpm: 127,
-      accuracy: 98.5,
-      date: "2025-10-28T14:32:00",
-    },
-    {
-      userId: 2,
-      username: "Alex Rodriguez",
-      wpm: 119,
-      accuracy: 97.2,
-      date: "2025-10-27T09:15:00",
-    },
-    {
-      userId: 3,
-      username: "Emma Thompson",
-      wpm: 115,
-      accuracy: 99.1,
-      date: "2025-10-28T16:45:00",
-    },
-    {
-      userId: 4,
-      username: "Marcus Johnson",
-      wpm: 108,
-      accuracy: 96.8,
-      date: "2025-10-26T11:20:00",
-    },
-    {
-      userId: 5,
-      username: "Priya Patel",
-      wpm: 102,
-      accuracy: 98.3,
-      date: "2025-10-27T13:50:00",
-    },
-    {
-      userId: 6,
-      username: "Jake Miller",
-      wpm: 98,
-      accuracy: 95.7,
-      date: "2025-10-28T08:30:00",
-    },
-    {
-      userId: 7,
-      username: "Sofia Martinez",
-      wpm: 94,
-      accuracy: 97.9,
-      date: "2025-10-25T15:10:00",
-    },
-    {
-      userId: 8,
-      username: "DavuserId Kim",
-      wpm: 89,
-      accuracy: 94.2,
-      date: "2025-10-26T17:25:00",
-    },
-    {
-      userId: 9,
-      username: "Olivia Brown",
-      wpm: 85,
-      accuracy: 96.5,
-      date: "2025-10-27T10:40:00",
-    },
-    {
-      userId: 10,
-      username: "Ryan Taylor",
-      wpm: 81,
-      accuracy: 93.8,
-      date: "2025-10-28T12:05:00",
-    },
-  ]);
+
+  const { entries, isLoading } = useLeaderboardEntries({
+    timespan: timeframe,
+    testType: category,
+  });
 
   const getRankColor = (rank: number) => {
     if (rank === 1) return "#c9a34f";
@@ -131,191 +58,205 @@ export const Component = function Leaderboards(): JSX.Element {
 
   return (
     <Container sx={{ py: 2 }}>
-      <Box
+      {/* Header */}
+      <Box sx={{ textAlign: "left", mb: 4 }}>
+        <Box
+          sx={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 64,
+            height: 64,
+            borderRadius: "50%",
+            bgcolor: theme.vars.palette.primary[300],
+            mb: 2,
+          }}
+        >
+          <Zap size={36} color={theme.vars.palette.background.body} />
+        </Box>
+        <Typography
+          level="h1"
+          sx={{ color: theme.vars.palette.neutral[50], mb: 1 }}
+        >
+          Typing Leaderboard
+        </Typography>
+        <Typography
+          level="body-md"
+          sx={{ color: theme.vars.palette.neutral[500] }}
+        >
+          Top performers ranked by words per minute
+        </Typography>
+      </Box>
+
+      <LeaderboardFilters
+        timeframe={timeframe}
+        category={category}
+        onChange={({ timeframe, category }) => {
+          setTimeFrame(timeframe);
+          setCategory(category);
+        }}
+      />
+
+      {/* Leaderboard */}
+      <Sheet
+        variant="outlined"
         sx={{
-          minHeight: "100vh",
-          bgcolor: "background.body",
-          p: 4,
+          borderRadius: "lg",
+          overflow: "hidden",
+          bgcolor: theme.vars.palette.background.level1,
+          border: `1px solid ${theme.vars.palette.background.level3}`,
         }}
       >
-        <Box sx={{ maxWidth: 1000, mx: "auto" }}>
-          {/* Header */}
-          <Box sx={{ textAlign: "left", mb: 6 }}>
-            <Box
-              sx={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 64,
-                height: 64,
-                borderRadius: "50%",
-                bgcolor: theme.vars.palette.primary[300],
-                mb: 2,
-              }}
-            >
-              <Zap size={36} color={theme.vars.palette.background.body} />
-            </Box>
-            <Typography
-              level="h1"
-              sx={{ color: theme.vars.palette.neutral[50], mb: 1 }}
-            >
-              Typing Leaderboard
-            </Typography>
-            <Typography
-              level="body-md"
-              sx={{ color: theme.vars.palette.neutral[500] }}
-            >
-              Top performers ranked by words per minute
-            </Typography>
-          </Box>
-          <LeaderboardFilters
-            timeframe={timeframe}
-            category={category}
-            onChange={({ timeframe, category }) => {
-              setTimeFrame(timeframe);
-              setCategory(category);
-            }}
-          />
-          {/* Leaderboard */}
-          <Sheet
-            variant="outlined"
-            sx={{
-              borderRadius: "lg",
-              overflow: "hidden",
-              bgcolor: theme.vars.palette.background.level1,
-              border: `1px solid ${theme.vars.palette.background.level3}`,
-            }}
-          >
-            <Table
-              sx={{
-                "& thead th": {
-                  bgcolor: theme.vars.palette.background.body,
-                  color: theme.vars.palette.neutral[500],
-                  fontWeight: 600,
-                  padding: "12px 24px",
-                  borderBottomWidth: "1px",
-                  borderBottom: `1px solid ${theme.vars.palette.background.level3}`,
-                },
-                "& tbody td": {
-                  padding: "12px 24px",
-                  borderBottom: `1px solid ${theme.vars.palette.background.level3}`,
-                },
-                "& tbody tr:last-child td": {
-                  borderBottom: "none",
-                },
-                "& tbody tr:hover": {
-                  bgcolor: theme.vars.palette.background.level3,
-                },
-              }}
-            >
-              <thead>
-                <tr>
-                  <th style={{ width: "100px", borderBottomWidth: "1px" }}>
-                    Rank
-                  </th>
-                  <th style={{ borderBottomWidth: "1px" }}>Name</th>
-                  <th style={{ width: "140px", borderBottomWidth: "1px" }}>
-                    <Box
-                      sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
-                    >
-                      WPM
-                    </Box>
-                  </th>
-                  <th style={{ width: "140px", borderBottomWidth: "1px" }}>
-                    <Box
-                      sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
-                    >
-                      Accuracy
-                    </Box>
-                  </th>
-                  <th style={{ width: "190px", borderBottomWidth: "1px" }}>
-                    <Box
-                      sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
-                    >
-                      Date
-                    </Box>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {leaderboardEntries.map((entry, index) => {
-                  const rank = index + 1;
-                  return (
-                    <tr key={entry.userId}>
-                      <td>
-                        <Box
-                          sx={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: "md",
-                            bgcolor: getRankColor(rank),
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontWeight: "bold",
-                            color: theme.vars.palette.neutral[300],
-                          }}
-                        >
-                          {rank <= 3 ? (
-                            <Trophy2
-                              color={theme.vars.palette.background.body}
-                            />
-                          ) : (
-                            rank
-                          )}
-                        </Box>
-                      </td>
-                      <td>
-                        <Typography
-                          level="body-md"
-                          sx={{
-                            color: theme.vars.palette.neutral[50],
-                            fontWeight: 500,
-                          }}
-                        >
-                          {entry.username}
-                        </Typography>
-                      </td>
-                      <td>
-                        <Chip
-                          variant="soft"
-                          sx={{
-                            bgcolor: theme.vars.palette.background.level3,
-                            color: theme.vars.palette.primary[300],
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {entry.wpm} wpm
-                        </Chip>
-                      </td>
-                      <td>
-                        <Chip
-                          variant="soft"
-                          sx={{
-                            bgcolor: theme.vars.palette.background.level3,
-                            color: theme.vars.palette.primary[600],
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {entry.accuracy}%
-                        </Chip>
-                      </td>
-                      <td>
-                        <Typography
-                          level="body-sm"
-                          sx={{ color: theme.vars.palette.neutral[800] }}
-                        >
-                          {formatDate(entry.date)}
-                        </Typography>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
-          </Sheet>
-        </Box>
-      </Box>
+        <Table
+          sx={{
+            "& thead th": {
+              bgcolor: theme.vars.palette.background.body,
+              color: theme.vars.palette.neutral[500],
+              fontWeight: 600,
+              padding: "12px 24px",
+              borderBottomWidth: "1px",
+              borderBottom: `1px solid ${theme.vars.palette.background.level3}`,
+            },
+            "& tbody td": {
+              padding: "12px 24px",
+              borderBottom: `1px solid ${theme.vars.palette.background.level3}`,
+            },
+            "& tbody tr:last-child td": {
+              borderBottom: "none",
+            },
+            "& tbody tr:hover": {
+              bgcolor: theme.vars.palette.background.level3,
+            },
+          }}
+        >
+          <thead>
+            <tr>
+              <th style={{ width: "100px", borderBottomWidth: "1px" }}>Rank</th>
+              <th style={{ borderBottomWidth: "1px" }}>Name</th>
+              <th style={{ width: "140px", borderBottomWidth: "1px" }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  WPM
+                </Box>
+              </th>
+              <th style={{ width: "140px", borderBottomWidth: "1px" }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  Accuracy
+                </Box>
+              </th>
+              <th style={{ width: "190px", borderBottomWidth: "1px" }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  Date
+                </Box>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {isLoading && (
+              <tr>
+                <td
+                  colSpan={5}
+                  style={{ textAlign: "center", padding: "40px" }}
+                >
+                  <Typography
+                    level="body-md"
+                    sx={{ color: theme.vars.palette.neutral[500] }}
+                  >
+                    Loading...
+                  </Typography>
+                </td>
+              </tr>
+            )}
+            {!isLoading && (!entries || entries.length === 0) && (
+              <tr>
+                <td
+                  colSpan={5}
+                  style={{ textAlign: "center", padding: "40px" }}
+                >
+                  <Typography
+                    level="body-md"
+                    sx={{ color: theme.vars.palette.neutral[500] }}
+                  >
+                    No entries yet. Be the first to set a record!
+                  </Typography>
+                </td>
+              </tr>
+            )}
+            {!isLoading &&
+              entries &&
+              entries.map((entry, index) => {
+                const rank = index + 1;
+                return (
+                  <tr key={entry.id}>
+                    <td>
+                      <Box
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: "md",
+                          bgcolor: getRankColor(rank),
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontWeight: "bold",
+                          color: theme.vars.palette.neutral[300],
+                        }}
+                      >
+                        {rank <= 3 ? (
+                          <Trophy2 color={theme.vars.palette.background.body} />
+                        ) : (
+                          rank
+                        )}
+                      </Box>
+                    </td>
+                    <td>
+                      <Typography
+                        level="body-md"
+                        sx={{
+                          color: theme.vars.palette.neutral[50],
+                          fontWeight: 500,
+                        }}
+                      >
+                        {entry.username}
+                      </Typography>
+                    </td>
+                    <td>
+                      <Chip
+                        variant="soft"
+                        sx={{
+                          bgcolor: theme.vars.palette.background.level3,
+                          color: theme.vars.palette.primary[300],
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {entry.wpm} wpm
+                      </Chip>
+                    </td>
+                    <td>
+                      <Chip
+                        variant="soft"
+                        sx={{
+                          bgcolor: theme.vars.palette.background.level3,
+                          color: theme.vars.palette.primary[600],
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {entry.accuracy}%
+                      </Chip>
+                    </td>
+                    <td>
+                      <Typography
+                        level="body-sm"
+                        sx={{ color: theme.vars.palette.neutral[800] }}
+                      >
+                        {formatDate(entry.date)}
+                      </Typography>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
+      </Sheet>
     </Container>
   );
 };

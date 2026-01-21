@@ -12,11 +12,10 @@ class LeaderboardsController {
     next: NextFunction,
   ) => {
     try {
+      const scope = req.params.scope || "daily";
+      const testType = req.params.testType || "ENGLISH";
       const topScores: LeaderboardEntry[] =
-        await this.leaderboardsService.getTopScores(
-          req.params.scope as string,
-          req.params.testType as string,
-        );
+        await this.leaderboardsService.getTopScores(scope, testType);
 
       res.status(200).json({ data: topScores, message: "findAll" });
     } catch (error) {

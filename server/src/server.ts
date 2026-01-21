@@ -3,6 +3,7 @@ import App from "@/app.js";
 import AuthRoute from "@routes/auth.route.js";
 import IndexRoute from "@routes/index.route.js";
 import LetterSpeedRoute from "@routes/letterSpeed.route.js";
+import LeaderboardsRoute from "@routes/leaderboards.route.js";
 import TestResultRoute from "@routes/testResult.route.js";
 import UsersRoute from "@routes/users.route.js";
 import validateEnv from "@utils/validateEnv.js";
@@ -15,6 +16,7 @@ const app = new App([
   new AuthRoute(),
   new TestResultRoute(),
   new LetterSpeedRoute(),
+  new LeaderboardsRoute(),
 ]);
 
 app.listen();

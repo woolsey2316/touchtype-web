@@ -7,13 +7,30 @@ export enum Language {
   VIM,
   JAVASCRIPT,
   ANGULAR,
-  JAVA = 8,
+  JAVA,
   RUBY,
   PYTHON,
   GO,
   RUST,
   SWIFT,
 }
+
+export const LanguageArray = [
+  "english",
+  "react",
+  "typescript",
+  "c",
+  "cplusplus",
+  "vim",
+  "javascript",
+  "angular",
+  "java",
+  "ruby",
+  "python",
+  "go",
+  "rust",
+  "swift",
+];
 
 export const ProgrammingLanguage = [
   "React",

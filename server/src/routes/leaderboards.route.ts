@@ -15,7 +15,7 @@ export default class LeaderboardsRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(
-      `${this.path}/top-scores`,
+      `${this.path}/:scope/:testType`,
       this.leaderboardsController.getTopScores,
     );
     this.router.put(

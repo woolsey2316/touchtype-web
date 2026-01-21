@@ -76,6 +76,7 @@ export function useSignIn(
 
         if (payload.email) {
           localStorage.setItem("user_id", payload.user_id);
+          localStorage.setItem("user_email", payload.email);
         }
       });
       navigate("/");

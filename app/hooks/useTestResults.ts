@@ -7,9 +7,8 @@ import {
 } from "../utils/test-stats";
 import { useTestResultMutation } from "../hooks/useTestResultMutation";
 import { useLetterSpeedMutation } from "../hooks/useLetterSpeedMutation";
-import { Language } from "../types/words.type";
+import { Language, LanguageArray } from "../types/words.type";
 import { flattenToArrayOfAverageValues } from "../utils/data-processing";
-
 function processLetterSpeedData(
   keyTimeMap: React.RefObject<Record<string, number[]> | undefined>,
 ) {
@@ -23,6 +22,7 @@ function processLetterSpeedData(
 
 export function useTestResults(
   keyTimeMap: React.RefObject<Record<string, number[]> | undefined>,
+  language: Language,
 ) {
   const mistakes = useRef(0);
   const correctChars = useRef(0);
@@ -109,7 +109,7 @@ export function useTestResults(
       accuracy: accuracy,
       score: score,
       time: (endTime - startTime.current!) / 1000,
-      testType: Language.ENGLISH ? "english" : "programming",
+      testType: LanguageArray[language],
       lowercaseWpm: lowercaseWPM,
       symbolWpm: symbolWPM,
     });
@@ -123,6 +123,7 @@ export function useTestResults(
     keyTimeMap,
     uploadTestResults,
     uploadLetterSpeedData,
+    language,
   ]);
 
   return {
