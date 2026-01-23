@@ -7,7 +7,7 @@ import { MainOptionsBar } from "../components/main-options-bar";
 import { CurrentWPM } from "../components/current-wpm";
 import CountdownTimer from "../components/countdown-timer";
 import { useTestResults } from "../hooks/useTestResults";
-
+import { useSlowestKeys } from "../hooks/useSlowestKeys";
 export const Component = function Test(): JSX.Element {
   usePageEffect({ title: "Typing Test" });
 
@@ -28,6 +28,7 @@ export const Component = function Test(): JSX.Element {
   }>({ started: false, ended: false });
   const childInputRef = useRef<HTMLDivElement>(null);
   const keyTimeMap = useRef<Record<string, number[]>>({});
+  const { slowestKeys } = useSlowestKeys();
 
   const {
     mistakes,
@@ -109,6 +110,7 @@ export const Component = function Test(): JSX.Element {
             punctuation={punctuation}
             numbers={numbers}
             sentenceSize={sentenceSize}
+            slowestKeys={slowestKeys}
             language={language}
           ></MainOptionsBar>
           <CardContent
@@ -159,6 +161,7 @@ export const Component = function Test(): JSX.Element {
               mistakes={mistakes}
               correctChars={correctChars}
               isOpen={isOpen}
+              slowestKeys={slowestKeys}
               setIsResultsModalOpen={setIsResultsModalOpen}
               setResetCounter={setResetCounter}
             />

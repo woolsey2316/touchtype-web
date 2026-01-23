@@ -1,10 +1,11 @@
 import { Language } from "../types/words.type";
-import { Box, Button, Option, Select } from "@mui/joy";
+import { Box, Button, Option, Select, Typography } from "@mui/joy";
 import { ButtonMainMenu } from "./button-main-menu";
 import DumbellIcon from "../icons/dumbell";
 import { useTheme } from "@mui/joy/styles";
 import Tooltip from "@mui/joy/Tooltip";
 import TimerIcon from "../icons/timer";
+import { SlowestKeysResult } from "../hooks/useSlowestKeys";
 
 type Props = {
   setPunctuation: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,6 +37,7 @@ type Props = {
   timeLimit: number;
   isTimedTest: boolean;
   language: Language;
+  slowestKeys: SlowestKeysResult | null;
 };
 export const MainOptionsBar = ({
   setPunctuation,
@@ -61,6 +63,7 @@ export const MainOptionsBar = ({
   timeLimit,
   isTimedTest,
   isTrainingWeakestChars,
+  slowestKeys,
   language,
 }: Props) => {
   function resetTestStats() {
@@ -71,6 +74,45 @@ export const MainOptionsBar = ({
   const theme = useTheme();
   const determineFillColor = (isActive: boolean) => {
     return isActive ? theme.palette.primary[400] : theme.palette.text.icon;
+  };
+  const displaySlowestKeys = (
+    punctuation: boolean,
+    numbers: boolean,
+    programmingLanguage: boolean,
+    slowestKeys: SlowestKeysResult | null,
+  ) => {
+    if (!slowestKeys) {
+      return "No data";
+    }
+    if (programmingLanguage) {
+      return slowestKeys.symbols
+        .map((item) => item.letter)
+        .slice(0, 5)
+        .join(" ");
+    }
+    if (punctuation && numbers) {
+      return slowestKeys.symbols
+        .concat(slowestKeys.numbers)
+        .map((item) => item.letter)
+        .slice(0, 10)
+        .join(" ");
+    }
+    if (punctuation) {
+      return slowestKeys.symbols
+        .map((item) => item.letter)
+        .slice(0, 5)
+        .join(" ");
+    }
+    if (numbers) {
+      return slowestKeys.numbers
+        .map((item) => item.letter)
+        .slice(0, 5)
+        .join(" ");
+    }
+    return slowestKeys.lowercase
+      .map((item) => item.letter)
+      .slice(0, 5)
+      .join(" ");
   };
   return (
     <Box>
@@ -316,6 +358,7 @@ export const MainOptionsBar = ({
             />
           </Button>
         </Tooltip>
+
         <Box
           sx={(theme) => ({
             borderRight: `1px solid ${theme.palette.neutral[400]}`,
@@ -525,6 +568,29 @@ export const MainOptionsBar = ({
           </Box>
         )}
       </Box>
+      {isTrainingWeakestChars && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "12px",
+          }}
+        >
+          <Typography sx={{ color: theme.palette.primary[400] }}>
+            Weakest Characters -{" "}
+          </Typography>
+          <Typography sx={{ color: theme.palette.primary[400] }}>
+            &nbsp;
+            {displaySlowestKeys(
+              punctuation,
+              numbers,
+              programmingLanguage,
+              slowestKeys,
+            )}
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };

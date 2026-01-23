@@ -15,7 +15,7 @@ interface LetterSpeedData {
   };
 }
 
-interface SlowestKeysResult {
+export interface SlowestKeysResult {
   lowercase: LetterSpeedItem[];
   numbers: LetterSpeedItem[];
   symbols: LetterSpeedItem[];
@@ -63,7 +63,7 @@ export const useSlowestKeys = () => {
       (item) => !/^[a-zA-Z0-9]$/.test(item.letter),
     );
 
-    // Sort by avgTimeMs descending (slowest first) and take top 5
+    // Sort by avgTimeMs descending (slowest first)
     const sortBySlowiest = (items: LetterSpeedItem[]) =>
       [...items].sort((a, b) => b.avgTimeMs - a.avgTimeMs);
 

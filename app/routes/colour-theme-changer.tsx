@@ -39,7 +39,7 @@ import {
   ChartsReferenceLine,
 } from "@mui/x-charts";
 import Divider from "@mui/joy/Divider";
-
+import { useSlowestKeys } from "../hooks/useSlowestKeys";
 export const Component = function Settings(): JSX.Element {
   usePageEffect({ title: "Colour Theme Changer" });
   /* state for typing test page*/
@@ -55,6 +55,7 @@ export const Component = function Settings(): JSX.Element {
   const [isModalOpen, setIsResultsModalOpen] = useState(true);
   const { mode } = useColorScheme();
   const [words] = useState<string>("correct incorrect still to type");
+  const { slowestKeys } = useSlowestKeys();
   const theme = useTheme();
   const [cursorIndex] = useState(18);
   const colourOfChar = [
@@ -247,6 +248,7 @@ export const Component = function Settings(): JSX.Element {
               numbers={numbers}
               sentenceSize={sentenceSize}
               language={language}
+              slowestKeys={slowestKeys}
             ></MainOptionsBar>
             <CardContent
               sx={{ minHeight: 300, display: "flex", alignItems: "center" }}

@@ -21,7 +21,6 @@ import {
   maybeScrollToNextLine,
   maybeScrollToPreviousLine,
 } from "../utils/typing-panel";
-import { useSlowestKeys } from "../hooks/useSlowestKeys";
 
 export default function TypingPanel({
   programmingLanguage,
@@ -50,6 +49,7 @@ export default function TypingPanel({
   setIsResultsModalOpen,
   isOpen,
   setResetCounter,
+  slowestKeys,
 }: {
   programmingLanguage: boolean;
   punctuation: boolean;
@@ -87,6 +87,29 @@ export default function TypingPanel({
   isOpen: boolean;
   setIsResultsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setResetCounter: React.Dispatch<React.SetStateAction<number>>;
+  slowestKeys: {
+    lowercase: {
+      letter: string;
+      samples: number;
+      totalTime: number;
+      avgTimeMs: number;
+      avgWpm: number;
+    }[];
+    numbers: {
+      letter: string;
+      samples: number;
+      totalTime: number;
+      avgTimeMs: number;
+      avgWpm: number;
+    }[];
+    symbols: {
+      letter: string;
+      samples: number;
+      totalTime: number;
+      avgTimeMs: number;
+      avgWpm: number;
+    }[];
+  } | null;
 }) {
   const { theme } = useContext(ThemeContext);
   const { skipOverTabs } = useContext(UserPreferencesContext);
@@ -97,7 +120,6 @@ export default function TypingPanel({
   }, [childInputRef]);
   const keyStartTime = useRef<number | null>(null);
   const [cursorIndex, setCursorIndex] = useState(0);
-  const { slowestKeys } = useSlowestKeys();
   const generatedWords = useMemo(
     () =>
       WordsGenerator({

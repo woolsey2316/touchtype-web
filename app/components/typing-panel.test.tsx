@@ -95,6 +95,7 @@ describe("TypingPanel", () => {
           keyTimeMap={
             { current: {} } as React.RefObject<Record<string, number[]>>
           }
+          slowestKeys={null}
           isTrainingWeakestChars={false}
           isTurboPace={false}
           isTimedTest={false}
@@ -142,6 +143,7 @@ describe("TypingPanel", () => {
             ended: false,
           }}
           onEnd={() => {}}
+          slowestKeys={null}
           isTrainingWeakestChars={false}
           isTurboPace={false}
           previousScore={undefined}
@@ -200,6 +202,7 @@ describe("TypingPanel", () => {
             ended: false,
           }}
           onEnd={() => {}}
+          slowestKeys={null}
           isTrainingWeakestChars={false}
           isTurboPace={false}
           previousScore={undefined}
