@@ -29,7 +29,9 @@ export default function ScatterLineChart({
 
   const series = data ?? [];
   const binSize = Math.ceil((data?.length || 20) / 20);
-  const binnedPoints: { x: number; y: number }[] = [];
+  const binnedPoints: { x: number; y: number }[] = [
+    { x: series[0]?.x || 0, y: series[0]?.y || 0 },
+  ];
   for (let i = 0; i + binSize <= series.length; i += binSize) {
     const bin = series.slice(i, i + binSize);
     const avgX = bin.reduce((acc, item) => acc + item.x, 0) / bin.length;

@@ -64,7 +64,7 @@ export const Component = function Dashboard(): JSX.Element {
           icon={<LowercaseIcon />}
           seriesData={testResultData?.lowercase ?? []}
           id={2}
-          color="#facc15"
+          color={theme.palette.secondary[400]}
           datakey="WPM lowercase"
         />
         <LineChartWithKPI
@@ -72,12 +72,12 @@ export const Component = function Dashboard(): JSX.Element {
           seriesData={testResultData?.overall ?? []}
           datakey="WPM Overall"
           id={0}
-          color="#60a5fa"
+          color={theme.vars.palette.secondary[200]}
         />
         <LineChartWithKPI
           icon={<HashIcon />}
           seriesData={testResultData?.symbol ?? []}
-          color="#bb81f6"
+          color={theme.vars.palette.secondary[300]}
           id={1}
           datakey="WPM Symbols & Numbers"
         />
