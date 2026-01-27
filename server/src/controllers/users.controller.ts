@@ -31,6 +31,24 @@ class UsersController {
     }
   };
 
+  public findOrCreateUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const { userId, email } = req.body;
+      const userData: User = await this.userService.findOrCreateUser(
+        userId,
+        email,
+      );
+
+      res.status(200).json({ data: userData, message: "success" });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public createUser = async (
     req: Request,
     res: Response,

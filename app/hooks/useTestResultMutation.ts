@@ -26,8 +26,19 @@ export const useTestResultMutation = () => {
     // Submit to leaderboard if accuracy >= 90
     if (arg.accuracy >= 90) {
       try {
-        const userEmail = localStorage.getItem("user_email") || "";
-        const username = userEmail.split("@")[0] || "user-didn't-set-username";
+        // Fetch user data to get username
+        let username = "Anonymous";
+        try {
+          const userResponse = await fetch(
+            `${baseURL}/api/users/${arg.userId}`,
+          );
+          if (userResponse.ok) {
+            const userData = await userResponse.json();
+            username = userData.data?.username || "Anonymous";
+          }
+        } catch (error) {
+          console.warn("Failed to fetch username, using Anonymous:", error);
+        }
 
         await fetch(`${baseURL}/api/leaderboards`, {
           method: "PUT",

@@ -8914,6 +8914,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bad-words@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "bad-words@npm:4.0.0"
+  dependencies:
+    badwords-list: "npm:^2.0.1-4"
+  checksum: 10/b34c3302da3fd54f75f45830a9e62e4b9f29a6223f81122e4a7d1fb499513afa0be0977f023d0609259b38f62a52514a050a141e72d5f5c8dff0b0078d1a6b41
+  languageName: node
+  linkType: hard
+
+"badwords-list@npm:^2.0.1-4":
+  version: 2.0.1-4
+  resolution: "badwords-list@npm:2.0.1-4"
+  checksum: 10/7a2b7c850a5edc17d253d0b19d977ad0921648cd2fdd77dd44b76be8ed5dbdf86c5e02787e024df7f573154087ec3aea21cf81f23f8b3beec86ae54cd5a3e1aa
+  languageName: node
+  linkType: hard
+
 "balanced-match@npm:^1.0.0":
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
@@ -17951,6 +17967,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^5.29.0"
     babel-jest: "npm:28.1.3"
     babel-plugin-module-resolver: "npm:^5.0.2"
+    bad-words: "npm:^4.0.0"
     bcrypt: "npm:^5.0.1"
     class-transformer: "npm:^0.5.1"
     class-validator: "npm:^0.13.2"

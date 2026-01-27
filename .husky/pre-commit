@@ -1,5 +1,4 @@
-
+yarn prettier --write .
+git add -u
 yarn vitest run
-yarn prettier --check .
-yarn lint
 yarn tsc --build

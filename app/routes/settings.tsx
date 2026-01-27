@@ -6,11 +6,15 @@ import { Cursor } from "../components/cursor";
 import { WordsToType } from "../components/words-to-type";
 import { ThemeContext } from "../context/ThemeContext/ThemeContext";
 import { UserPreferencesContext } from "../context/userPreferences";
+import { UsernameForm } from "../components/username-form";
+import { useUserData } from "../hooks/useUserData";
 import Divider from "@mui/joy/Divider";
 
 export const Component = function Settings(): JSX.Element {
   usePageEffect({ title: "Settings" });
   const { theme } = useContext(ThemeContext);
+  const userId = localStorage.getItem("user_id");
+  const { userData } = useUserData(userId);
   const {
     font,
     setFont,
@@ -106,6 +110,31 @@ export const Component = function Settings(): JSX.Element {
       <Typography sx={{ mb: 4 }} level="body-md">
         Adjust the typing behaviour and visual cues. Settings are saved locally
       </Typography>
+
+      {/* Username Section */}
+      <Box
+        sx={{
+          mb: 2,
+          bgcolor: theme.vars.palette.grey[600],
+          color: theme.vars.palette.text.secondary,
+          borderRadius: "8px",
+          boxShadow:
+            "1px 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+          p: 2,
+        }}
+      >
+        <Typography
+          component="h3"
+          sx={{
+            color: theme.vars.palette.grey[800],
+            mb: 2,
+          }}
+        >
+          Profile
+        </Typography>
+        <UsernameForm currentUsername={userData?.username} />
+      </Box>
+
       <Box
         sx={{
           mb: 2,

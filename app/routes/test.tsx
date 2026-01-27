@@ -18,6 +18,7 @@ export const Component = function Test(): JSX.Element {
   const [fixedSentenceSize, setIsFixedSentenceSize] = useState(true);
   const [isTrainingWeakestChars, setIsTrainingWeakestChars] = useState(false);
   const [isTurboPace, setIsTurboPace] = useState(false);
+  const [idealWPM, setIdealWPM] = useState(100);
   const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(10);
@@ -112,6 +113,8 @@ export const Component = function Test(): JSX.Element {
             sentenceSize={sentenceSize}
             slowestKeys={slowestKeys}
             language={language}
+            idealWPM={idealWPM}
+            setIdealWPM={setIdealWPM}
           ></MainOptionsBar>
           <CardContent
             sx={{
@@ -133,7 +136,8 @@ export const Component = function Test(): JSX.Element {
                 timeLimit +
                 currentWPM +
                 Number(isTrainingWeakestChars) +
-                Number(isTurboPace)
+                Number(isTurboPace) +
+                idealWPM
               }
               programmingLanguage={programmingLanguage}
               punctuation={punctuation}
@@ -164,6 +168,7 @@ export const Component = function Test(): JSX.Element {
               slowestKeys={slowestKeys}
               setIsResultsModalOpen={setIsResultsModalOpen}
               setResetCounter={setResetCounter}
+              idealWPM={idealWPM}
             />
           </CardContent>
         </Card>

@@ -39,6 +39,8 @@ interface Props {
   correctChars: React.RefObject<number>;
   childInputRef: React.RefObject<HTMLDivElement | null>;
   setResetCounter: React.Dispatch<React.SetStateAction<number>>;
+  isTurboPace: boolean;
+  idealWPM: number;
 }
 
 export const ResultsModal = ({
@@ -56,6 +58,8 @@ export const ResultsModal = ({
   setIsResultsModalOpen,
   childInputRef,
   setResetCounter,
+  isTurboPace,
+  idealWPM,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const { resultModalData } = useResultModalData(isOpen);
@@ -147,6 +151,12 @@ export const ResultsModal = ({
   const theme = useTheme();
   const averageTime =
     timeArray.reduce((acc, curr) => acc + curr, 0) / timeArray.length;
+
+  const successfulCharsWPM = calcWPM(keysPressed, totalTime);
+  const turboPerformance =
+    isTurboPace && idealWPM > 0
+      ? Math.round((successfulCharsWPM / idealWPM) * 100)
+      : null;
 
   return (
     <Modal ref={ref} open={isOpen} onClose={closeModal}>
@@ -254,8 +264,21 @@ export const ResultsModal = ({
                   }}
                 >
                   {"Successful chars WPM: " +
-                    Math.round(calcWPM(keysPressed, totalTime) * 10) / 10}
+                    Math.round(successfulCharsWPM * 10) / 10}
                 </Typography>
+                {turboPerformance !== null && (
+                  <Typography
+                    sx={{
+                      p: 0,
+                      pt: 1,
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      color: theme.vars.palette.primary[300],
+                    }}
+                  >
+                    {"Turbo: " + turboPerformance + "% of " + idealWPM + " WPM"}
+                  </Typography>
+                )}
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Box
                     sx={{

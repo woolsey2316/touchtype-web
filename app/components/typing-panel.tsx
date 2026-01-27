@@ -17,6 +17,7 @@ import { getNextCharIndex, getPreviousCharIndex } from "../utils/word-position";
 import { ThemeContext } from "../context/ThemeContext/ThemeContext";
 import { UserPreferencesContext } from "../context/userPreferences";
 import { Cursor } from "./cursor";
+import { GhostCursor } from "./ghost-cursor";
 import {
   maybeScrollToNextLine,
   maybeScrollToPreviousLine,
@@ -50,6 +51,7 @@ export default function TypingPanel({
   isOpen,
   setResetCounter,
   slowestKeys,
+  idealWPM,
 }: {
   programmingLanguage: boolean;
   punctuation: boolean;
@@ -110,6 +112,7 @@ export default function TypingPanel({
       avgWpm: number;
     }[];
   } | null;
+  idealWPM: number;
 }) {
   const { theme } = useContext(ThemeContext);
   const { skipOverTabs } = useContext(UserPreferencesContext);
@@ -527,6 +530,14 @@ export default function TypingPanel({
         letters={document.getElementsByClassName("letter")}
         cursorIndex={cursorIndex}
       />
+      {isTurboPace && (
+        <GhostCursor
+          letters={document.getElementsByClassName("letter")}
+          idealWPM={idealWPM}
+          testStarted={testInfo.started}
+          startTime={startTime}
+        />
+      )}
       {/* Check if width is greater than 0 to avoid rendering issues */}
       {width > 0 && <WordsToType colourOfChar={colourOfChar} words={words} />}
       {isOpen && (
@@ -548,6 +559,8 @@ export default function TypingPanel({
           correctChars={correctChars}
           childInputRef={childInputRef}
           setResetCounter={setResetCounter}
+          isTurboPace={isTurboPace}
+          idealWPM={idealWPM}
         />
       )}
     </Box>

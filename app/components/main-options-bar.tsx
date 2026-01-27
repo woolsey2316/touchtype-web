@@ -1,5 +1,5 @@
 import { Language } from "../types/words.type";
-import { Box, Button, Option, Select, Typography } from "@mui/joy";
+import { Box, Button, Option, Select, Typography, Input } from "@mui/joy";
 import { ButtonMainMenu } from "./button-main-menu";
 import DumbellIcon from "../icons/dumbell";
 import { useTheme } from "@mui/joy/styles";
@@ -38,6 +38,8 @@ type Props = {
   isTimedTest: boolean;
   language: Language;
   slowestKeys: SlowestKeysResult | null;
+  idealWPM: number;
+  setIdealWPM: React.Dispatch<React.SetStateAction<number>>;
 };
 export const MainOptionsBar = ({
   setPunctuation,
@@ -65,6 +67,8 @@ export const MainOptionsBar = ({
   isTrainingWeakestChars,
   slowestKeys,
   language,
+  idealWPM,
+  setIdealWPM,
 }: Props) => {
   function resetTestStats() {
     keyTimeMap.current = {};
@@ -337,6 +341,30 @@ export const MainOptionsBar = ({
             />
           </Button>
         </Tooltip>
+        {isTurboPace && (
+          <Input
+            type="number"
+            value={idealWPM}
+            onChange={(e) => setIdealWPM(Number(e.target.value))}
+            placeholder="WPM"
+            sx={{
+              marginLeft: "10px",
+              marginRight: "10px",
+              width: "125px",
+              fontSize: "14px",
+              backgroundColor: "transparent",
+            }}
+            endDecorator={
+              <Typography sx={{ fontSize: "14px" }}>WPM</Typography>
+            }
+            slotProps={{
+              input: {
+                min: 10,
+                max: 300,
+              },
+            }}
+          />
+        )}
         <Box
           sx={(theme) => ({
             borderRight: `1px solid ${theme.palette.neutral[400]}`,

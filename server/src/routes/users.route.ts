@@ -17,6 +17,10 @@ class UsersRoute implements Routes {
     this.router.get(`${this.path}`, this.usersController.getUsers);
     this.router.get(`${this.path}/:id`, this.usersController.getUserById);
     this.router.post(
+      `${this.path}/find-or-create`,
+      this.usersController.findOrCreateUser,
+    );
+    this.router.post(
       `${this.path}`,
       validationMiddleware(CreateUserDto, "body"),
       this.usersController.createUser,

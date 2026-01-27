@@ -269,6 +269,8 @@ export const Component = function Settings(): JSX.Element {
               setSentenceSize={setSentenceSize}
               setTimeLimit={setTimeLimit}
               setTestInfo={() => {}}
+              setIdealWPM={() => {}}
+              idealWPM={0}
               keyTimeMap={{ current: {} }}
               correctChars={{ current: 0 }}
               mistakes={{ current: 0 }}

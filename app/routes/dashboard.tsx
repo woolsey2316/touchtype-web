@@ -64,7 +64,7 @@ export const Component = function Dashboard(): JSX.Element {
           icon={<LowercaseIcon />}
           seriesData={testResultData?.lowercase ?? []}
           id={2}
-          color={theme.palette.secondary[400]}
+          color={theme.vars.palette.secondary[400]}
           datakey="WPM lowercase"
         />
         <LineChartWithKPI

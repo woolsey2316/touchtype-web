@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { app, auth } from "./firebase";
 import { store } from "./store";
 
+const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
+
 export const currentUser = atom<Promise<User | null> | User | null>(
   new Promise<User | null>(() => {}),
 );
@@ -38,6 +40,23 @@ export const currentUserLoadable = loadable(currentUser);
 
 export function useCurrentUserLoadable() {
   return useAtomValue(currentUserLoadable);
+}
+
+async function createOrFindUserInDatabase(userId: string, email: string) {
+  try {
+    await fetch(`${baseURL}/api/users/find-or-create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        email,
+      }),
+    });
+  } catch (error) {
+    console.error("Failed to create/find user in database:", error);
+  }
 }
 
 export function useSignIn(
@@ -74,10 +93,16 @@ export function useSignIn(
         const [, payloadEncoded] = token.split(".");
         const payload = JSON.parse(atob(payloadEncoded));
 
+        const userId = payload.user_id;
+        const email = payload.email || `anonymous_${userId}@touchtype.local`;
+
+        localStorage.setItem("user_id", userId);
         if (payload.email) {
-          localStorage.setItem("user_id", payload.user_id);
           localStorage.setItem("user_email", payload.email);
         }
+
+        // Create or find user in MongoDB
+        createOrFindUserInDatabase(userId, email);
       });
       navigate("/");
     }).finally(() => setInFlight(false));
