@@ -20,9 +20,9 @@ class LeaderboardsService {
       return [];
     }
     const formatted = results.map((entry, idx: number) => {
-      const [userId, username, accuracy, date] = (entry.value as string).split(
-        "|",
-      );
+      const [userId, username, accuracy, date, testType] = (
+        entry.value as string
+      ).split("|");
       return {
         rank: idx + 1,
         userId,
@@ -30,6 +30,7 @@ class LeaderboardsService {
         date,
         accuracy: Math.round(parseFloat(accuracy) * 100) / 100,
         wpm: Math.round(Number(entry.score) * 100) / 100,
+        testType,
       };
     });
     return formatted;
@@ -60,37 +61,34 @@ class LeaderboardsService {
     }
 
     const testCateogry = testType === "english" ? "english" : "programming";
-    // Add to leaderboards
-    await client.zAdd(
-      leaderboardKey("daily", testCateogry),
-      [
+
+    // Helper function to update leaderboard with username uniqueness
+    const updateLeaderboard = async (scope: string) => {
+      const key = leaderboardKey(scope, testCateogry);
+
+      // Find and remove any existing entries for this username
+      const allEntries = await client.zRangeWithScores(key, 0, -1);
+      for (const entry of allEntries) {
+        const [, existingUsername] = (entry.value as string).split("|");
+        if (existingUsername === username) {
+          await client.zRem(key, entry.value);
+        }
+      }
+
+      // Add the new entry
+      await client.zAdd(key, [
         {
           score: wpm,
           value: `${userId}|${username}|${accuracy}|${date}|${testType}`,
         },
-      ],
-      { GT: true },
-    );
-    await client.zAdd(
-      leaderboardKey("weekly", testCateogry),
-      [
-        {
-          score: wpm,
-          value: `${userId}|${username}|${accuracy}|${date}|${testType}`,
-        },
-      ],
-      { GT: true },
-    );
-    await client.zAdd(
-      leaderboardKey("alltime", testCateogry),
-      [
-        {
-          score: wpm,
-          value: `${userId}|${username}|${accuracy}|${date}|${testType}`,
-        },
-      ],
-      { GT: true },
-    );
+      ]);
+    };
+
+    // Update all leaderboards
+    await updateLeaderboard("daily");
+    await updateLeaderboard("weekly");
+    await updateLeaderboard("alltime");
+
     return { status: "submitted" };
   }
 }

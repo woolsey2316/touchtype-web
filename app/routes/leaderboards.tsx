@@ -29,6 +29,10 @@ export const Component = function Leaderboards(): JSX.Element {
     return "transparent";
   };
 
+  const getTestypeDisplayName = (testType: string) => {
+    return testType?.charAt(0).toUpperCase() + testType?.slice(1) || "Unknown";
+  };
+
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -146,7 +150,18 @@ export const Component = function Leaderboards(): JSX.Element {
                   borderBottomWidth: "1px",
                 }}
               >
-                Name
+                Username
+              </th>
+              <th
+                style={{
+                  color: theme.vars.palette.text.secondary,
+                  width: "140px",
+                  borderBottomWidth: "1px",
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                  Test Type
+                </Box>
               </th>
               <th
                 style={{
@@ -250,6 +265,17 @@ export const Component = function Leaderboards(): JSX.Element {
                         }}
                       >
                         {entry.username}
+                      </Typography>
+                    </td>
+                    <td>
+                      <Typography
+                        level="body-md"
+                        sx={{
+                          color: theme.vars.palette.neutral[50],
+                          fontWeight: 500,
+                        }}
+                      >
+                        {getTestypeDisplayName(entry.testType)}
                       </Typography>
                     </td>
                     <td>

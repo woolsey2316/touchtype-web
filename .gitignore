@@ -31,6 +31,7 @@ yarn-error.log*
 .env.*.local
 .env.local
 .env
+.env.prod
 
 # Visual Studio Code
 # https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore

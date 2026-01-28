@@ -23,7 +23,7 @@ import {
   ChartsTooltip,
   ChartsReferenceLine,
 } from "@mui/x-charts";
-import WpmBellCurveChart from "../components/bell-curve-chart";
+// import WpmBellCurveChart from "../components/bell-curve-chart";
 import { useDashboardData } from "../hooks/useDashboardData";
 
 export const Component = function Dashboard(): JSX.Element {

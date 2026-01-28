@@ -5,6 +5,7 @@ export interface LeaderboardEntry {
   id: number;
   userId?: string;
   username: string;
+  testType: string;
   wpm: number;
   accuracy: number;
   date: string;
