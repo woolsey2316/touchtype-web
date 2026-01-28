@@ -159,6 +159,8 @@ export const UsernameForm = ({
             !!error || (available === false && username !== currentUsername)
           }
           sx={{
+            color: theme.vars.palette.text.primary,
+            backgroundColor: theme.vars.palette.background.level1,
             fontSize: "16px",
           }}
         />

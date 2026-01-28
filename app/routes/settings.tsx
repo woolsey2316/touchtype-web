@@ -132,7 +132,10 @@ export const Component = function Settings(): JSX.Element {
         >
           Profile
         </Typography>
-        <UsernameForm currentUsername={userData?.username} />
+        <UsernameForm
+          currentUsername={userData?.username}
+          key={userData?.username}
+        />
       </Box>
 
       <Box
@@ -191,19 +194,22 @@ export const Component = function Settings(): JSX.Element {
                   | null,
                 value,
               ) => {
-                value = value ?? "0xProtoNerdFont-Bold.400";
+                value = value ?? "0xProtoNerdFontMono-Bold.700";
                 const [family, weight] = value.split(".");
                 setFont({
                   family: family,
                   weight: weight ?? "400",
                 });
+                window.localStorage.setItem("fontFamily", family);
+                window.localStorage.setItem("fontWeight", weight ?? "400");
               }}
-              defaultValue={"0xProtoNerdFont-Bold.700"}
+              defaultValue={"0xProtoNerdFontMono-Bold.700"}
               placeholder="Select a font"
               renderValue={(selected) => {
                 const family =
                   selected?.value?.split(".")[0] ??
                   selected?.label ??
+                  `${font.family}` ??
                   "Select a font";
                 return <Box>{family}</Box>;
               }}
@@ -211,9 +217,10 @@ export const Component = function Settings(): JSX.Element {
               sx={{
                 marginLeft: "10px",
                 marginTop: "10px",
-                width: "300px",
+                width: "350px",
                 border: "none",
                 borderRadius: "50px",
+                color: theme.vars.palette.text.primary,
               }}
             >
               <Option value="0xProtoNerdFontMono-Bold.700">

@@ -11,7 +11,8 @@ export const ButtonMainMenu = ({ isActive, handleClick, name }: Props) => {
     <Button
       variant="plain"
       sx={(theme) => ({
-        padding: "13px 16px",
+        margin: "0px 8px",
+        padding: "13px 8px",
         borderRadius: "50px",
         minHeight: "22px",
         height: "22px",

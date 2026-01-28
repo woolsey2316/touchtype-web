@@ -20,7 +20,7 @@ const Root = () => {
     family:
       window.localStorage.getItem("fontFamily") ||
       "'0xProtoNerdFont-Bold', Courier, monospace",
-    weight: "400",
+    weight: window.localStorage.getItem("fontWeight") || "700",
   });
   const [skipOverTabs, setSkipOverTabs] = useState(
     window.localStorage.getItem("skipOverTabs") === "true" ? true : false,

@@ -31,6 +31,7 @@ export function LoginButton(props: LoginButtonProps): JSX.Element {
             ? "Continue as anonymous"
             : "unknown"
       }
+      sx={{ color: "text.primary" }}
       {...other}
     />
   );

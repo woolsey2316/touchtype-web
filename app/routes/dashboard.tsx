@@ -389,17 +389,17 @@ export const Component = function Dashboard(): JSX.Element {
             />
           </ChartContainer>
         </Box>
-        <Box
-          sx={{
-            bgcolor: (theme) => theme.palette.neutral[700],
-            borderRadius: "10px",
-            border: `1px solid ${theme.vars.palette.grey[500]}`,
-            padding: "0px",
-            maxWidth: "900px",
-          }}
-        >
-          <WpmBellCurveChart />
-        </Box>
+        {/*   <Box */}
+        {/*     sx={{ */}
+        {/*       bgcolor: (theme) => theme.palette.neutral[700], */}
+        {/*       borderRadius: "10px", */}
+        {/*       border: `1px solid ${theme.vars.palette.grey[500]}`, */}
+        {/*       padding: "0px", */}
+        {/*       maxWidth: "900px", */}
+        {/*     }} */}
+        {/*   > */}
+        {/*     <WpmBellCurveChart /> */}
+        {/*   </Box> */}
       </Box>
     </Container>
   );

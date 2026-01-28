@@ -76,13 +76,13 @@ export const Component = function Leaderboards(): JSX.Element {
         </Box>
         <Typography
           level="h1"
-          sx={{ color: theme.vars.palette.neutral[50], mb: 1 }}
+          sx={{ color: theme.vars.palette.text.primary, mb: 1 }}
         >
           Typing Leaderboard
         </Typography>
         <Typography
           level="body-md"
-          sx={{ color: theme.vars.palette.neutral[500] }}
+          sx={{ color: theme.vars.palette.text.secondary }}
         >
           Top performers ranked by words per minute
         </Typography>
@@ -103,8 +103,8 @@ export const Component = function Leaderboards(): JSX.Element {
         sx={{
           borderRadius: "lg",
           overflow: "hidden",
+          border: `1px solid ${theme.vars.palette.neutral[200]}`,
           bgcolor: theme.vars.palette.background.level1,
-          border: `1px solid ${theme.vars.palette.background.level3}`,
         }}
       >
         <Table
@@ -115,11 +115,11 @@ export const Component = function Leaderboards(): JSX.Element {
               fontWeight: 600,
               padding: "12px 24px",
               borderBottomWidth: "1px",
-              borderBottom: `1px solid ${theme.vars.palette.background.level3}`,
+              borderBottom: `1px solid ${theme.vars.palette.neutral[200]}`,
             },
             "& tbody td": {
               padding: "12px 24px",
-              borderBottom: `1px solid ${theme.vars.palette.background.level3}`,
+              borderBottom: `1px solid ${theme.vars.palette.neutral[200]}`,
             },
             "& tbody tr:last-child td": {
               borderBottom: "none",
@@ -131,19 +131,52 @@ export const Component = function Leaderboards(): JSX.Element {
         >
           <thead>
             <tr>
-              <th style={{ width: "100px", borderBottomWidth: "1px" }}>Rank</th>
-              <th style={{ borderBottomWidth: "1px" }}>Name</th>
-              <th style={{ width: "140px", borderBottomWidth: "1px" }}>
+              <th
+                style={{
+                  color: theme.vars.palette.text.secondary,
+                  width: "100px",
+                  borderBottomWidth: "1px",
+                }}
+              >
+                Rank
+              </th>
+              <th
+                style={{
+                  color: theme.vars.palette.text.secondary,
+                  borderBottomWidth: "1px",
+                }}
+              >
+                Name
+              </th>
+              <th
+                style={{
+                  color: theme.vars.palette.text.secondary,
+                  width: "140px",
+                  borderBottomWidth: "1px",
+                }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   WPM
                 </Box>
               </th>
-              <th style={{ width: "140px", borderBottomWidth: "1px" }}>
+              <th
+                style={{
+                  color: theme.vars.palette.text.secondary,
+                  width: "140px",
+                  borderBottomWidth: "1px",
+                }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   Accuracy
                 </Box>
               </th>
-              <th style={{ width: "190px", borderBottomWidth: "1px" }}>
+              <th
+                style={{
+                  color: theme.vars.palette.text.secondary,
+                  width: "190px",
+                  borderBottomWidth: "1px",
+                }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                   Date
                 </Box>
@@ -198,7 +231,7 @@ export const Component = function Leaderboards(): JSX.Element {
                           alignItems: "center",
                           justifyContent: "center",
                           fontWeight: "bold",
-                          color: theme.vars.palette.neutral[300],
+                          color: theme.vars.palette.neutral[400],
                         }}
                       >
                         {rank <= 3 ? (

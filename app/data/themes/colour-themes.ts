@@ -19,6 +19,7 @@ export const LATTE_THEME = {
     level2: "#dce0e8",
     level3: "#f3f5f7",
     popup: "#dce0e8",
+    surface: "#f3f3f3",
   },
   primary: {
     50: "#df8e1d",
@@ -41,10 +42,13 @@ export const LATTE_THEME = {
     plainActiveColor: "#232634",
     solidColor: "#ffffff",
     cursorColor: "#10b77f",
+    solidDisabledColor: "#ffffff",
+    solidDisabledBg: "#acadb3",
+    solidHoverBg: "#2bad83",
   },
   secondary: {
-    50: "#f4dbd6",
-    100: "#f0c6c6",
+    50: "#9a7871",
+    100: "#70ca87",
     200: "#eebebe",
     300: "#c6a0f6",
     400: "#ed8796",
@@ -55,13 +59,13 @@ export const LATTE_THEME = {
     900: "#8aadf4",
   },
   neutral: {
-    50: "#eff1f5",
+    50: "#3b3b3d",
     100: "#5c5f77",
-    200: "#65758b",
+    200: "#e4e7eb",
     300: "#7c7f93",
-    400: "#e1e7ef",
-    500: "#bdc6ce",
-    600: "#9ca0b0",
+    400: "#707070",
+    500: "#a4a8ac",
+    600: "#0f1724",
     700: "#ffffff",
     800: "#65758b",
     900: "#6c6f85",
@@ -145,6 +149,7 @@ export const FRAPPE_THEME = {
     plainActiveColor: "#232634",
     solidColor: "#ffffff",
     cursorColor: "#fab387",
+    solidDisabledColor: "#ffffff",
   },
   secondary: {
     50: "#f4dbd6",
@@ -247,6 +252,7 @@ export const MACCHIATO_THEME = {
     plainActiveColor: "#181926",
     solidColor: "#ffffff",
     cursorColor: "#fab387",
+    solidDisabledColor: "#ffffff",
   },
   secondary: {
     50: "#f4dbd6",
@@ -349,6 +355,7 @@ export const MOCHA_THEME = {
     plainActiveColor: "#11111b",
     solidColor: "#ffffff",
     cursorColor: "#fab387",
+    solidDisabledColor: "#ffffff",
   },
   secondary: {
     50: "#66b12f",
@@ -365,11 +372,11 @@ export const MOCHA_THEME = {
   neutral: {
     50: "#dce0e8",
     100: "#e6e9ef",
-    200: "#eff1f5",
+    200: "#26282d",
     300: "#ccd0da",
     400: "#4e5354",
     500: "#acb0be",
-    600: "#45475a",
+    600: "#0f1724",
     700: "#181825",
     800: "#7c7f93",
     900: "#6c6f85",
@@ -451,6 +458,7 @@ export const CUSTOM_THEME_1 = {
     plainActiveColor: "#11111b",
     solidColor: "#ffffff",
     cursorColor: "#fab387",
+    solidDisabledColor: "#ffffff",
   },
   secondary: {
     50: "#f4dbd6",
@@ -552,6 +560,7 @@ export const CUSTOM_THEME_2 = {
     plainActiveColor: "#11111b",
     solidColor: "#ffffff",
     cursorColor: "#fab387",
+    solidDisabledColor: "#ffffff",
   },
   secondary: {
     50: "#f4dbd6",
@@ -654,6 +663,7 @@ export const CUSTOM_THEME_3 = {
     plainActiveColor: "#11111b",
     solidColor: "#ffffff",
     cursorColor: "#fab387",
+    solidDisabledColor: "#ffffff",
   },
   secondary: {
     50: "#f4dbd6",
@@ -756,6 +766,7 @@ export const CUSTOM_THEME_4 = {
     plainActiveColor: "#11111b",
     solidColor: "#ffffff",
     cursorColor: "#fab387",
+    solidDisabledColor: "#ffffff",
   },
   secondary: {
     50: "#f4dbd6",

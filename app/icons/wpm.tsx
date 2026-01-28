@@ -1,6 +1,9 @@
 import SvgIcon, { SvgIconProps } from "@mui/joy/SvgIcon";
-
+import { ThemeContext } from "../context/ThemeContext/ThemeContext";
+import { useContext } from "react";
 export default function WPMIcon(props: SvgIconProps) {
+  const { theme } = useContext(ThemeContext);
+  const gray = theme.vars.palette.text.primary;
   return (
     <SvgIcon {...props} viewBox="0 0 11.993584 11.993066">
       <g transform="translate(-30.888347,-58.552572)">
@@ -67,7 +70,7 @@ export default function WPMIcon(props: SvgIconProps) {
           />
           <path
             style={{
-              fill: "#f2f2f2",
+              fill: gray,
               fillOpacity: 1,
               strokeWidth: 0.264583,
               strokeLinecap: "round",

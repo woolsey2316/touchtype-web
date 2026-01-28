@@ -353,6 +353,7 @@ export const MainOptionsBar = ({
               width: "125px",
               fontSize: "14px",
               backgroundColor: "transparent",
+              color: theme.palette.text.primary,
             }}
             endDecorator={
               <Typography sx={{ fontSize: "14px" }}>WPM</Typography>
@@ -387,213 +388,223 @@ export const MainOptionsBar = ({
           </Button>
         </Tooltip>
 
-        <Box
-          sx={(theme) => ({
-            borderRight: `1px solid ${theme.palette.neutral[400]}`,
-            marginY: "12px",
-            height: "14px",
-          })}
-        ></Box>
-
         {isTimedTest && (
-          <Box sx={{ marginLeft: "10px" }}>
-            <Button
-              variant="plain"
+          <>
+            <Box
               sx={(theme) => ({
-                fontSize: "16px",
-                padding: "6px",
-                height: "18px",
-                minheight: "18px",
-                color:
-                  timeLimit === 10
-                    ? `${theme.vars.palette.primary.plainColor}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
-                  color:
-                    timeLimit === 10
-                      ? `${theme.vars.palette.primary.plainColor}`
-                      : `${theme.vars.palette.primary.plainHoverColor}`,
-                  backgroundColor: "transparent",
-                },
+                borderRight: `1px solid ${theme.palette.neutral[400]}`,
+                marginY: "12px",
+                height: "14px",
               })}
-              onClick={() => {
-                if (!programmingLanguage) {
-                  resetTestStats();
-                  setTestInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setTimeLimit(10);
-                }
-              }}
-            >
-              10
-            </Button>
-            <Button
-              variant="plain"
-              sx={(theme) => ({
-                fontSize: "16px",
-                padding: "6px",
-                height: "18px",
-                minheight: "18px",
-                color:
-                  timeLimit === 30
-                    ? `${theme.vars.palette.primary.plainColor}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
+            ></Box>
+            <Box sx={{ marginLeft: "10px" }}>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "16px",
+                  padding: "6px",
+                  height: "18px",
+                  minheight: "18px",
+                  color:
+                    timeLimit === 15
+                      ? `${theme.vars.palette.primary.plainColor}`
+                      : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color:
+                      timeLimit === 15
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
+                  },
+                })}
+                onClick={() => {
+                  if (!programmingLanguage) {
+                    resetTestStats();
+                    setTestInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setTimeLimit(15);
+                  }
+                }}
+              >
+                15
+              </Button>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "16px",
+                  padding: "6px",
+                  height: "18px",
+                  minheight: "18px",
                   color:
                     timeLimit === 30
                       ? `${theme.vars.palette.primary.plainColor}`
-                      : `${theme.vars.palette.primary.plainHoverColor}`,
-                  backgroundColor: "transparent",
-                },
-              })}
-              onClick={() => {
-                if (!programmingLanguage) {
-                  resetTestStats();
-                  setTestInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setTimeLimit(30);
-                }
-              }}
-            >
-              30
-            </Button>
-            <Button
-              variant="plain"
-              sx={(theme) => ({
-                fontSize: "16px",
-                padding: "6px",
-                height: "18px",
-                minheight: "18px",
-                color:
-                  timeLimit === 60
-                    ? `${theme.vars.palette.primary.plainColor}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
+                      : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color:
+                      timeLimit === 30
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
+                  },
+                })}
+                onClick={() => {
+                  if (!programmingLanguage) {
+                    resetTestStats();
+                    setTestInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setTimeLimit(30);
+                  }
+                }}
+              >
+                30
+              </Button>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "16px",
+                  padding: "6px",
+                  height: "18px",
+                  minheight: "18px",
                   color:
                     timeLimit === 60
                       ? `${theme.vars.palette.primary.plainColor}`
-                      : `${theme.vars.palette.primary.plainHoverColor}`,
-                  backgroundColor: "transparent",
-                },
-              })}
-              onClick={() => {
-                if (!programmingLanguage) {
-                  resetTestStats();
-                  setTestInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setTimeLimit(60);
-                }
-              }}
-            >
-              60
-            </Button>
-          </Box>
+                      : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color:
+                      timeLimit === 60
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
+                  },
+                })}
+                onClick={() => {
+                  if (!programmingLanguage) {
+                    resetTestStats();
+                    setTestInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setTimeLimit(60);
+                  }
+                }}
+              >
+                60
+              </Button>
+            </Box>
+          </>
         )}
         {fixedSentenceSize && (
-          <Box sx={{ marginLeft: "10px" }}>
-            <Button
-              variant="plain"
+          <>
+            <Box
               sx={(theme) => ({
-                fontSize: "16px",
-                padding: "6px",
-                height: "18px",
-                minheight: "18px",
-                color:
-                  sentenceSize === 15
-                    ? `${theme.vars.palette.primary.plainColor}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
+                borderRight: `1px solid ${theme.palette.neutral[400]}`,
+                marginY: "12px",
+                height: "14px",
+              })}
+            ></Box>
+            <Box sx={{ marginLeft: "10px" }}>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "16px",
+                  padding: "6px",
+                  height: "18px",
+                  minheight: "18px",
                   color:
                     sentenceSize === 15
                       ? `${theme.vars.palette.primary.plainColor}`
-                      : `${theme.vars.palette.primary.plainHoverColor}`,
-                  backgroundColor: "transparent",
-                },
-              })}
-              onClick={() => {
-                if (!programmingLanguage) {
-                  resetTestStats();
-                  setTestInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setSentenceSize(15);
-                }
-              }}
-            >
-              15
-            </Button>
-            <Button
-              variant="plain"
-              sx={(theme) => ({
-                fontSize: "16px",
-                padding: "6px",
-                height: "18px",
-                minheight: "18px",
-                color:
-                  sentenceSize === 25
-                    ? `${theme.vars.palette.primary.plainColor}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
+                      : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color:
+                      sentenceSize === 15
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
+                  },
+                })}
+                onClick={() => {
+                  if (!programmingLanguage) {
+                    resetTestStats();
+                    setTestInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setSentenceSize(15);
+                  }
+                }}
+              >
+                15
+              </Button>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "16px",
+                  padding: "6px",
+                  height: "18px",
+                  minheight: "18px",
                   color:
                     sentenceSize === 25
                       ? `${theme.vars.palette.primary.plainColor}`
-                      : `${theme.vars.palette.primary.plainHoverColor}`,
-                  backgroundColor: "transparent",
-                },
-              })}
-              onClick={() => {
-                if (!programmingLanguage) {
-                  resetTestStats();
-                  setTestInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setSentenceSize(25);
-                }
-              }}
-            >
-              25
-            </Button>
-            <Button
-              variant="plain"
-              sx={(theme) => ({
-                fontSize: "16px",
-                padding: "6px",
-                height: "18px",
-                minheight: "18px",
-                color:
-                  sentenceSize === 50
-                    ? `${theme.vars.palette.primary.plainColor}`
-                    : `${theme.vars.palette.neutral[100]}`,
-                ":hover": {
+                      : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color:
+                      sentenceSize === 25
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
+                  },
+                })}
+                onClick={() => {
+                  if (!programmingLanguage) {
+                    resetTestStats();
+                    setTestInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setSentenceSize(25);
+                  }
+                }}
+              >
+                25
+              </Button>
+              <Button
+                variant="plain"
+                sx={(theme) => ({
+                  fontSize: "16px",
+                  padding: "6px",
+                  height: "18px",
+                  minheight: "18px",
                   color:
                     sentenceSize === 50
                       ? `${theme.vars.palette.primary.plainColor}`
-                      : `${theme.vars.palette.primary.plainHoverColor}`,
-                  backgroundColor: "transparent",
-                },
-              })}
-              onClick={() => {
-                if (!programmingLanguage) {
-                  resetTestStats();
-                  setTestInfo((timeInfo) => ({
-                    ...timeInfo,
-                    started: false,
-                  }));
-                  setSentenceSize(50);
-                }
-              }}
-            >
-              50
-            </Button>
-          </Box>
+                      : `${theme.vars.palette.neutral[100]}`,
+                  ":hover": {
+                    color:
+                      sentenceSize === 50
+                        ? `${theme.vars.palette.primary.plainColor}`
+                        : `${theme.vars.palette.primary.plainHoverColor}`,
+                    backgroundColor: "transparent",
+                  },
+                })}
+                onClick={() => {
+                  if (!programmingLanguage) {
+                    resetTestStats();
+                    setTestInfo((timeInfo) => ({
+                      ...timeInfo,
+                      started: false,
+                    }));
+                    setSentenceSize(50);
+                  }
+                }}
+              >
+                50
+              </Button>
+            </Box>
+          </>
         )}
       </Box>
       {isTrainingWeakestChars && (

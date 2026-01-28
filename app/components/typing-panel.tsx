@@ -152,10 +152,20 @@ export default function TypingPanel({
   const [words, setWords] = useState(generatedWords);
   // ["grey", "grey", "grey", ...]
   const [colourOfChar, setColourOfChar] = useState(
-    Array(words.length).fill(theme.vars.palette.neutral[500]),
+    Array(generatedWords.length).fill(theme.vars.palette.neutral[500]),
   );
   const [charIndex, setCharIndex] = useState(0);
   const { width } = useContainerDimensions(childInputRef!, words);
+
+  // Sync colourOfChar array length with words length
+  useEffect(() => {
+    setColourOfChar((prev) => {
+      if (prev.length !== words.length) {
+        return Array(words.length).fill(theme.vars.palette.neutral[500]);
+      }
+      return prev;
+    });
+  }, [words.length, theme.vars.palette.neutral]);
 
   const resetStatistics = useCallback(() => {
     mistakes.current = 0;
@@ -163,30 +173,24 @@ export default function TypingPanel({
   }, [mistakes, correctChars]);
 
   const newCollectionOfWords = useCallback(() => {
-    setWords(() => {
-      const words = WordsGenerator({
-        count: sentenceSize,
-        punctuation,
-        numbers,
-        language,
-        isTrainingWeakestChars,
-        weakestSymbols: slowestKeys?.symbols.map((item) => item.letter),
-        weakestLowercaseChars: slowestKeys?.lowercase.map(
-          (item) => item.letter,
-        ),
-        weakestNumbers: slowestKeys?.numbers.map((item) => item.letter),
-      });
-      setColourOfChar(
-        Array(words.length).fill(theme.vars.palette.neutral[500]),
-      );
-      return words;
+    const newWords = WordsGenerator({
+      count: sentenceSize,
+      punctuation,
+      numbers,
+      language,
+      programmingLanguage,
+      isTrainingWeakestChars,
+      weakestSymbols: slowestKeys?.symbols.map((item) => item.letter),
+      weakestLowercaseChars: slowestKeys?.lowercase.map((item) => item.letter),
+      weakestNumbers: slowestKeys?.numbers.map((item) => item.letter),
     });
+    setWords(newWords);
   }, [
     sentenceSize,
     punctuation,
-    theme.vars.palette.neutral,
     numbers,
     language,
+    programmingLanguage,
     isTrainingWeakestChars,
     slowestKeys,
   ]);
@@ -201,25 +205,27 @@ export default function TypingPanel({
     childInputRef?.current?.scrollTo({ top: 0, left: 0 });
     setCursorIndex(0);
     setCharIndex(0);
-    setWords(() => {
-      const words = WordsGenerator({
-        count: sentenceSize,
-        punctuation,
-        numbers,
-        language,
-      });
-      setColourOfChar(
-        Array(words.length).fill(theme.vars.palette.neutral[500]),
-      );
-      return words;
+    const newWords = WordsGenerator({
+      count: sentenceSize,
+      punctuation,
+      numbers,
+      language,
+      programmingLanguage,
+      isTrainingWeakestChars,
+      weakestSymbols: slowestKeys?.symbols.map((item) => item.letter),
+      weakestLowercaseChars: slowestKeys?.lowercase.map((item) => item.letter),
+      weakestNumbers: slowestKeys?.numbers.map((item) => item.letter),
     });
+    setWords(newWords);
   }, [
     childInputRef,
     sentenceSize,
     punctuation,
     numbers,
     language,
-    theme.vars.palette.neutral,
+    programmingLanguage,
+    isTrainingWeakestChars,
+    slowestKeys,
   ]);
 
   const finishTest = useCallback(() => {
@@ -228,18 +234,18 @@ export default function TypingPanel({
     childInputRef?.current?.scrollTo({ top: 0, left: 0 });
     setCursorIndex(0);
     setCharIndex(0);
-    setWords(() => {
-      const words = WordsGenerator({
-        count: sentenceSize,
-        punctuation,
-        numbers,
-        language,
-      });
-      setColourOfChar(
-        Array(words.length).fill(theme.vars.palette.neutral[500]),
-      );
-      return words;
+    const newWords = WordsGenerator({
+      count: sentenceSize,
+      punctuation,
+      numbers,
+      language,
+      programmingLanguage,
+      isTrainingWeakestChars,
+      weakestSymbols: slowestKeys?.symbols.map((item) => item.letter),
+      weakestLowercaseChars: slowestKeys?.lowercase.map((item) => item.letter),
+      weakestNumbers: slowestKeys?.numbers.map((item) => item.letter),
     });
+    setWords(newWords);
   }, [
     onEnd,
     setIsResultsModalOpen,
@@ -248,7 +254,9 @@ export default function TypingPanel({
     punctuation,
     numbers,
     language,
-    theme.vars.palette.neutral,
+    programmingLanguage,
+    isTrainingWeakestChars,
+    slowestKeys,
   ]);
 
   useEffect(() => {

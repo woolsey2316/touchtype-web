@@ -21,7 +21,7 @@ export const Component = function Test(): JSX.Element {
   const [idealWPM, setIdealWPM] = useState(100);
   const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
-  const [timeLimit, setTimeLimit] = useState(10);
+  const [timeLimit, setTimeLimit] = useState(15);
   const [resetCounter, setResetCounter] = useState(0);
   const [testInfo, setTestInfo] = useState<{
     started: boolean;

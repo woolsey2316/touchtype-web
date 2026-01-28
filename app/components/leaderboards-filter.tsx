@@ -65,7 +65,10 @@ export const LeaderboardFilters: React.FC<LeaderboardFiltersProps> = ({
         <Stack spacing={1} alignItems="center">
           <Typography
             level="body-sm"
-            sx={{ color: "neutral.400", fontSize: 13 }}
+            sx={{
+              color: (theme) => theme.vars.palette.text.primary,
+              fontSize: 13,
+            }}
           >
             Timeframe
           </Typography>
@@ -87,15 +90,18 @@ export const LeaderboardFilters: React.FC<LeaderboardFiltersProps> = ({
                 textTransform: "none",
                 fontWeight: 600,
                 minWidth: 92,
-                color: "common.white",
+                color: (theme) => theme.vars.palette.text.primary,
                 background: "transparent",
+              },
+              "& .MuiButton-root": {
+                color: (theme) => theme.vars.palette.text.primary,
               },
               // Active state custom: re-use lavender accent from your palette
               "& .MuiButton-root[aria-pressed='true'], & .MuiButton-root.Mui-selected":
                 {
                   background:
                     "linear-gradient(180deg, rgba(216,214,255,1) 0%, rgba(207,199,255,1) 100%)",
-                  color: "#0f1724",
+                  color: (theme) => theme.vars.palette.neutral[600],
                 },
             }}
           >
@@ -112,7 +118,10 @@ export const LeaderboardFilters: React.FC<LeaderboardFiltersProps> = ({
         <Stack spacing={1} alignItems="center">
           <Typography
             level="body-sm"
-            sx={{ color: "neutral.400", fontSize: 13 }}
+            sx={{
+              color: (theme) => theme.vars.palette.text.primary,
+              fontSize: 13,
+            }}
           >
             Category
           </Typography>
@@ -125,21 +134,27 @@ export const LeaderboardFilters: React.FC<LeaderboardFiltersProps> = ({
             sx={{
               borderRadius: 99,
               gap: 0.5,
+              bgcolor: "transparent",
+              // keep the control visually subtle to match the UI
               "& .MuiToggleButton-root": {
                 borderRadius: 99,
                 px: 2.5,
                 py: 0.6,
                 textTransform: "none",
                 fontWeight: 600,
-                minWidth: 118,
-                color: "common.white",
+                minWidth: 92,
+                color: (theme) => theme.vars.palette.text.primary,
                 background: "transparent",
               },
+              "& .MuiButton-root": {
+                color: (theme) => theme.vars.palette.text.primary,
+              },
+              // Active state custom: re-use lavender accent from your palette
               "& .MuiButton-root[aria-pressed='true'], & .MuiButton-root.Mui-selected":
                 {
                   background:
                     "linear-gradient(180deg, rgba(216,214,255,1) 0%, rgba(207,199,255,1) 100%)",
-                  color: "#0f1724",
+                  color: (theme) => theme.vars.palette.neutral[600],
                 },
             }}
           >
