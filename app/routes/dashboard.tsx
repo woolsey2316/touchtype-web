@@ -175,6 +175,7 @@ export const Component = function Dashboard(): JSX.Element {
               {
                 scaleType: "band",
                 label: "Lowercase characters",
+
                 data: lowercaseLetterSpeedKeys
                   ? lowercaseLetterSpeedKeys
                   : [
@@ -306,6 +307,7 @@ export const Component = function Dashboard(): JSX.Element {
               {
                 scaleType: "band",
                 label: "Symbol characters",
+                valueFormatter: (key: string) => (key === " " ? "Space" : key),
                 data: symbolLetterSpeedKeys
                   ? symbolLetterSpeedKeys
                   : [

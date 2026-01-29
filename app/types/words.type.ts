@@ -13,6 +13,7 @@ export enum Language {
   GO,
   RUST,
   SWIFT,
+  HASKELL,
 }
 
 export const LanguageArray = [
@@ -30,6 +31,7 @@ export const LanguageArray = [
   "go",
   "rust",
   "swift",
+  "haskell",
 ];
 
 export const ProgrammingLanguage = [
@@ -46,5 +48,6 @@ export const ProgrammingLanguage = [
   "Go",
   "Rust",
   "Swift",
+  "Haskell",
 ];
 export type EndCursorX = number[];

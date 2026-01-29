@@ -38,8 +38,8 @@ type Props = {
   isTimedTest: boolean;
   language: Language;
   slowestKeys: SlowestKeysResult | null;
-  idealWPM: number;
-  setIdealWPM: React.Dispatch<React.SetStateAction<number>>;
+  idealWPM: number | "";
+  setIdealWPM: React.Dispatch<React.SetStateAction<number | "">>;
 };
 export const MainOptionsBar = ({
   setPunctuation,
@@ -298,7 +298,12 @@ export const MainOptionsBar = ({
                 return <Box>{selected?.label ?? "Select a language"}</Box>;
               }}
               value={language}
-              sx={{ marginLeft: "10px", minWidth: "150px" }}
+              sx={{
+                bgcolor: "transparent",
+                color: (theme) => theme.vars.palette.text.primary,
+                marginLeft: "10px",
+                minWidth: "150px",
+              }}
             >
               <Option value={Language.REACT}>React</Option>
               <Option value={Language.ANGULAR}>Angular</Option>
@@ -312,6 +317,7 @@ export const MainOptionsBar = ({
               <Option value={Language.GO}>Go</Option>
               <Option value={Language.RUST}>Rust</Option>
               <Option value={Language.SWIFT}>Swift</Option>
+              <Option value={Language.HASKELL}>Haskell</Option>
             </Select>
           )}
         </Box>
@@ -345,8 +351,12 @@ export const MainOptionsBar = ({
           <Input
             type="number"
             value={idealWPM}
-            onChange={(e) => setIdealWPM(Number(e.target.value))}
-            placeholder="WPM"
+            onChange={(e) =>
+              setIdealWPM(
+                Number(e.target.value) === 0 ? "" : Number(e.target.value),
+              )
+            }
+            placeholder="Goal"
             sx={{
               marginLeft: "10px",
               marginRight: "10px",
@@ -360,7 +370,7 @@ export const MainOptionsBar = ({
             }
             slotProps={{
               input: {
-                min: 10,
+                min: 0,
                 max: 300,
               },
             }}

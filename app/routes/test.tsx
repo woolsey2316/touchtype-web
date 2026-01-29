@@ -18,7 +18,7 @@ export const Component = function Test(): JSX.Element {
   const [fixedSentenceSize, setIsFixedSentenceSize] = useState(true);
   const [isTrainingWeakestChars, setIsTrainingWeakestChars] = useState(false);
   const [isTurboPace, setIsTurboPace] = useState(false);
-  const [idealWPM, setIdealWPM] = useState(100);
+  const [idealWPM, setIdealWPM] = useState<number | "">(100);
   const [isTimedTest, setIsTimedTest] = useState(false);
   const [sentenceSize, setSentenceSize] = useState(15);
   const [timeLimit, setTimeLimit] = useState(15);
@@ -136,8 +136,7 @@ export const Component = function Test(): JSX.Element {
                 timeLimit +
                 currentWPM +
                 Number(isTrainingWeakestChars) +
-                Number(isTurboPace) +
-                idealWPM
+                Number(isTurboPace)
               }
               programmingLanguage={programmingLanguage}
               punctuation={punctuation}

@@ -14,6 +14,7 @@ import { RUBY_WORDS } from "../data/ruby-words";
 import { GO_WORDS } from "../data/go-words";
 import { RUST_WORDS } from "../data/rust-words";
 import { SWIFT_WORDS } from "../data/swift-words";
+import { HASKELL_WORDS } from "../data/haskell-words";
 import { Language } from "../types/words.type";
 
 const filterWordsByWeakestCharacters = (words: string[], charArr: string[]) => {
@@ -105,6 +106,10 @@ export const WordsGenerator = ({
     }
     case Language.SWIFT: {
       words = SWIFT_WORDS;
+      break;
+    }
+    case Language.HASKELL: {
+      words = HASKELL_WORDS;
       break;
     }
   }

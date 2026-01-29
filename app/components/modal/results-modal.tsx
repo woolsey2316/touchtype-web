@@ -40,7 +40,7 @@ interface Props {
   childInputRef: React.RefObject<HTMLDivElement | null>;
   setResetCounter: React.Dispatch<React.SetStateAction<number>>;
   isTurboPace: boolean;
-  idealWPM: number;
+  idealWPM: number | "";
 }
 
 export const ResultsModal = ({
@@ -154,8 +154,8 @@ export const ResultsModal = ({
 
   const successfulCharsWPM = calcWPM(keysPressed, totalTime);
   const turboPerformance =
-    isTurboPace && idealWPM > 0
-      ? Math.round((successfulCharsWPM / idealWPM) * 100)
+    isTurboPace && typeof idealWPM === "number" && idealWPM > 0
+      ? Math.round((successfulCharsWPM / idealWPM) * 100 * 10) / 10
       : null;
 
   return (
@@ -306,7 +306,13 @@ export const ResultsModal = ({
                 theme.vars.palette.primary[300],
               ]}
               xAxis={[
-                { scaleType: "band", label: "Keyboard Char", data: keyArray },
+                {
+                  scaleType: "band",
+                  label: "Keyboard Char",
+                  data: keyArray,
+                  valueFormatter: (key: string) =>
+                    key === " " ? "Space" : key,
+                },
               ]}
               height={300}
               series={[
@@ -330,7 +336,12 @@ export const ResultsModal = ({
               />
               <ChartsXAxisComponent />
               <ChartsYAxisComponent />
-              <ChartsTooltip />
+              <ChartsTooltip
+                sx={{
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === "light" ? "#fff" : "#000",
+                }}
+              />
             </ChartComponent>
           </Box>
         ) : (

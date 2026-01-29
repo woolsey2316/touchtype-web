@@ -5,7 +5,7 @@ import CursorStickIcon from "../icons/cursor-stick";
 
 interface GhostCursorProps {
   letters: HTMLCollectionOf<Element>;
-  idealWPM: number;
+  idealWPM: number | "";
   testStarted: boolean;
   startTime: React.RefObject<number | null>;
 }
@@ -24,7 +24,11 @@ export function GhostCursor({
 
   // Calculate ghost cursor position based on ideal WPM
   useEffect(() => {
-    if (!testStarted || !startTime.current || idealWPM <= 0) {
+    if (
+      !testStarted ||
+      !startTime.current ||
+      (typeof idealWPM === "number" && idealWPM <= 0)
+    ) {
       setGhostIndex(0);
       return;
     }
@@ -33,7 +37,9 @@ export function GhostCursor({
       const elapsed = (performance.now() - (startTime.current ?? 0)) / 1000;
       // WPM = (chars / 5) / (time in minutes)
       // chars = WPM * 5 * (time in minutes)
-      const expectedChars = Math.floor(idealWPM * 5 * (elapsed / 60));
+      const expectedChars = Math.floor(
+        (idealWPM as number) * 5 * (elapsed / 60),
+      );
       setGhostIndex(Math.min(expectedChars, letters.length - 1));
     }, 100);
 
@@ -76,7 +82,7 @@ export function GhostCursor({
     setTop(getCursorTopPosition());
   }, [ghostIndex, letters]);
 
-  if (!testStarted || idealWPM <= 0) {
+  if (!testStarted || (idealWPM as number) <= 0) {
     return <></>;
   }
 
@@ -87,7 +93,7 @@ export function GhostCursor({
         overflow: "visible",
         transition: "left 0.1s linear",
         color: theme.vars.palette.primary[200],
-        opacity: 0.4,
+        opacity: 0.6,
       })}
       style={{
         position: "absolute",

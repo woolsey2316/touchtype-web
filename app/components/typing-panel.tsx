@@ -112,7 +112,7 @@ export default function TypingPanel({
       avgWpm: number;
     }[];
   } | null;
-  idealWPM: number;
+  idealWPM: number | "";
 }) {
   const { theme } = useContext(ThemeContext);
   const { skipOverTabs } = useContext(UserPreferencesContext);
