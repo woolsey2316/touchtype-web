@@ -28,7 +28,7 @@ export function Logo(props: LogoProps): JSX.Element {
           color="primary"
           variant="soft"
         >
-          <KeyflowIcon sx={{ width: "210px", height: "60px" }} />
+          <KeyflowIcon sx={{ width: "210px", height: "82px" }} />
         </IconButton>
       </Box>
     </Box>

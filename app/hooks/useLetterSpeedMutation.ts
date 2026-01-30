@@ -1,4 +1,6 @@
 import useSWRMutation from "swr/mutation";
+import { authenticatedFetch } from "../core/authenticated-fetch";
+
 interface CreateLetterSpeedResult {
   userId: string;
   summaries: {
@@ -13,7 +15,7 @@ export const useLetterSpeedMutation = () => {
     url: string,
     { arg }: { arg: CreateLetterSpeedResult },
   ) {
-    await fetch(`${baseURL}${url}`, {
+    await authenticatedFetch(`${baseURL}${url}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

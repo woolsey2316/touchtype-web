@@ -36,7 +36,14 @@ export function UserAvatarButton(props: UserAvatarButtonProps): JSX.Element {
           },
         }}
       >
-        <Avatar sx={{ width: 36, height: 36 }} src={user.photoURL ?? undefined}>
+        <Avatar
+          sx={{
+            width: 36,
+            height: 36,
+            bgcolor: (theme) => theme.vars.palette.primary[600],
+          }}
+          src={user.photoURL ?? undefined}
+        >
           {user.displayName}
         </Avatar>
       </MenuButton>

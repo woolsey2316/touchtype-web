@@ -90,7 +90,39 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(morgan(LOG_FORMAT, { stream }));
-    this.app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
+
+    // Strict CORS configuration with whitelist validation
+    const allowedOrigins = ORIGIN
+      ? ORIGIN.split(",").map((origin) => origin.trim())
+      : [];
+
+    this.app.use(
+      cors({
+        origin: (origin, callback) => {
+          // Allow requests with no origin (mobile apps, curl, etc.)
+          if (!origin) {
+            return callback(null, true);
+          }
+
+          // Check if origin is in the whitelist
+          if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+          }
+
+          // Reject unauthorized origins
+          logger.warn(
+            `Blocked CORS request from unauthorized origin: ${origin}`,
+          );
+          return callback(new Error("Not allowed by CORS"));
+        },
+        credentials: CREDENTIALS,
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+        exposedHeaders: ["Content-Range", "X-Content-Range"],
+        maxAge: 600, // 10 minutes cache for preflight requests
+      }),
+    );
+
     this.app.use(hpp());
     this.app.use(helmet());
     this.app.use(compression());

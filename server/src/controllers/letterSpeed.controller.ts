@@ -1,23 +1,33 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { CreateLetterSpeedDto } from "@dtos/letterSpeed.dto.js";
 import { LetterSpeed } from "@interfaces/letterSpeed.interface.js";
 import letterSpeedService from "@services/letterSpeed.service.js";
+import { RequestWithUser } from "@interfaces/auth.interface.js";
+import { HttpException } from "@exceptions/HttpException.js";
 
 class LetterSpeedController {
   public letterSpeedService = new letterSpeedService();
 
   public getLetterSpeedByCharacter = async (
-    req: Request,
+    req: RequestWithUser,
     res: Response,
     next: NextFunction,
   ) => {
     try {
+      const requestedUserId = req.params.userId as string;
+
+      // Ensure user can only access their own data
+      if (req.user.userId !== requestedUserId) {
+        throw new HttpException(
+          403,
+          "Forbidden: Cannot access other users' data",
+        );
+      }
+
       const findAllLetterSpeed: {
         lowercase: LetterSpeed[];
         symbols: LetterSpeed[];
-      } = await this.letterSpeedService.getLetterAverages(
-        req.params.userId as string,
-      );
+      } = await this.letterSpeedService.getLetterAverages(requestedUserId);
 
       res.status(200).json({ data: findAllLetterSpeed, message: "findAll" });
     } catch (error) {
@@ -26,13 +36,22 @@ class LetterSpeedController {
   };
 
   public updateLetterSpeedData = async (
-    req: Request,
+    req: RequestWithUser,
     res: Response,
     next: NextFunction,
   ) => {
     try {
       const letterSpeedData: CreateLetterSpeedDto = req.body;
       const userId = req.body.userId as string;
+
+      // Ensure user can only update their own data
+      if (req.user.userId !== userId) {
+        throw new HttpException(
+          403,
+          "Forbidden: Cannot update other users' data",
+        );
+      }
+
       const createUserData = await this.letterSpeedService.upsertLetterSpeeds(
         userId,
         letterSpeedData.summaries,

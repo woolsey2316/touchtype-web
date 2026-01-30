@@ -108,6 +108,9 @@ export const LeaderboardFilters: React.FC<LeaderboardFiltersProps> = ({
             <Button value="daily" aria-label="Daily">
               Daily
             </Button>
+            <Button value="weekly" aria-label="Weekly">
+              Weekly
+            </Button>
             <Button value="alltime" aria-label="All time">
               All‑Time
             </Button>

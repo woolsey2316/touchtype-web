@@ -1,4 +1,5 @@
 import useSWRMutation from "swr/mutation";
+import { authenticatedFetch } from "../core/authenticated-fetch";
 
 interface CreateUserTestResult {
   accuracy: number;
@@ -14,8 +15,8 @@ const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
 
 export const useTestResultMutation = () => {
   async function postData(url: string, { arg }: { arg: CreateUserTestResult }) {
-    // Submit test result to MongoDB
-    await fetch(`${baseURL}${url}`, {
+    // Submit test result to MongoDB with authentication
+    await authenticatedFetch(`${baseURL}${url}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +30,7 @@ export const useTestResultMutation = () => {
         // Fetch user data to get username
         let username = "Anonymous";
         try {
-          const userResponse = await fetch(
+          const userResponse = await authenticatedFetch(
             `${baseURL}/api/users/${arg.userId}`,
           );
           if (userResponse.ok) {
@@ -40,7 +41,7 @@ export const useTestResultMutation = () => {
           console.warn("Failed to fetch username, using Anonymous:", error);
         }
 
-        await fetch(`${baseURL}/api/leaderboards`, {
+        await authenticatedFetch(`${baseURL}/api/leaderboards`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

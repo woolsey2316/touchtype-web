@@ -276,6 +276,7 @@ export const MainOptionsBar = ({
               if (programmingLanguage) {
                 setLanguage(Language.ENGLISH);
                 setSentenceSize(15);
+                setIsFixedSentenceSize(true);
               }
               setProgrammingLanguage((programming) => !programming);
             }}

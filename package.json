@@ -67,6 +67,8 @@
     "@mui/lab": "6.0.0-dev.240424162023-9968b4889d",
     "@mui/material": "^6.4.7",
     "@types/react": "^19.0.10",
+    "buffer": "^6.0.3",
+    "buffer-equal-constant-time": "^1.0.1",
     "react-color": "^2.19.3"
   }
 }

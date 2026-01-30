@@ -16,6 +16,7 @@ import { useKeyTimeArrays } from "../../hooks/useKeyTimeArrays";
 import { useResultModalData } from "../../hooks/useResultModalData";
 import { StatCard } from "../stat-card";
 import { calcWPM } from "../../utils/test-stats";
+import Skeleton from "@mui/joy/Skeleton";
 
 interface Props {
   setTestInfo: React.Dispatch<
@@ -228,6 +229,7 @@ export const ResultsModal = ({
               bgcolor: (theme) => theme.palette.neutral[700],
               borderRadius: "20px",
               padding: "10px",
+              minHeight: "400px",
             }}
           >
             <Box
@@ -345,7 +347,7 @@ export const ResultsModal = ({
             </ChartComponent>
           </Box>
         ) : (
-          <div>Loading Chart...</div>
+          <Skeleton variant="rectangular" width={400} height={400} />
         )}
       </ModalDialog>
     </Modal>

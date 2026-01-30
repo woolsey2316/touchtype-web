@@ -1,4 +1,6 @@
 import useSWR from "swr";
+import { auth } from "../core/firebase";
+
 interface TestResultData {
   data: {
     accuracy: number;
@@ -31,16 +33,30 @@ interface LetterSpeedData {
 export const useDashboardData = () => {
   const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
 
-  const token = localStorage.getItem("authToken") || "";
   const userId = localStorage.getItem("user_id") || "";
-  const fetcher = (path: string) =>
-    fetch(`${baseURL}${path}`, {
+
+  // Authenticated fetcher with Firebase ID token
+  const fetcher = async (path: string) => {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("User must be authenticated");
+    }
+
+    const idToken = await currentUser.getIdToken();
+    const response = await fetch(`${baseURL}${path}`, {
       credentials: "include",
       headers: {
-        Authorization: `Bearer ${token}`, // Assuming Bearer token authentication
-        "Content-Type": "application/json", // Example of another header
+        Authorization: `Bearer ${idToken}`,
+        "Content-Type": "application/json",
       },
-    }).then((res) => res.json());
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response.json();
+  };
 
   const { data: testResultData } = useSWR<TestResultData>(
     userId ? `/api/test-results/${userId}` : null,
