@@ -162,6 +162,7 @@ export const UsernameForm = ({
             color: theme.vars.palette.text.primary,
             backgroundColor: theme.vars.palette.background.level1,
             fontSize: "16px",
+            maxWidth: "400px",
           }}
         />
         <FormHelperText sx={{ color: getHelperColor() }}>

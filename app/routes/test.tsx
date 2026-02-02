@@ -45,7 +45,7 @@ export const Component = function Test(): JSX.Element {
     isOpen,
     setIsResultsModalOpen,
     onEnd,
-  } = useTestResults(keyTimeMap, language);
+  } = useTestResults(keyTimeMap, language, isTimedTest);
 
   // Function to focus the typing panel
   const focusChild = () => {

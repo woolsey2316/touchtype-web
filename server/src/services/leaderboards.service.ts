@@ -42,6 +42,7 @@ class LeaderboardsService {
     accuracy,
     date,
     testType,
+    mode,
   }: {
     userId: string;
     username: string;
@@ -49,6 +50,7 @@ class LeaderboardsService {
     accuracy: number;
     date: string;
     testType: string;
+    mode?: string;
   }): Promise<{ status: string }> {
     // Validate parameters
     if (!userId || !username || !wpm || !accuracy || !testType) {
@@ -60,7 +62,8 @@ class LeaderboardsService {
       return { status: "accuracy_too_low" };
     }
 
-    const testCateogry = testType === "english" ? "english" : "programming";
+    const testCateogry =
+      testType === "english" ? `english:${mode ?? "timed"}` : "programming";
 
     // Helper function to update leaderboard with username uniqueness
     const updateLeaderboard = async (scope: string) => {

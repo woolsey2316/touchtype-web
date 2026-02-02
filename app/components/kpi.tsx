@@ -21,8 +21,9 @@ export const Kpi = ({
         width: "300px",
         height: "200px",
         borderRadius: "12px",
-        border: `1px solid ${theme.vars.palette.grey[500]}`,
-        backgroundColor: theme.vars.palette.neutral[700],
+        backgroundColor: theme.vars.palette.grey[600],
+        boxShadow:
+          "1px 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
       }}
     >
       {icon}

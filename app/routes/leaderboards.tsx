@@ -8,18 +8,20 @@ import { usePageEffect } from "../core/page";
 import Trophy2 from "../icons/trophy2";
 import { Zap } from "lucide-react";
 import { LeaderboardFilters } from "../components/leaderboards-filter";
-import { type Category, type Timeframe } from "../types/types";
+import { type Category, type Timeframe, type Mode } from "../types/types";
 import { useLeaderboardEntries } from "../hooks/useLeaderboardEntries";
-
+import { LeaderboardHeading } from "../components/leaderboard-heading";
 export const Component = function Leaderboards(): JSX.Element {
   const { theme } = useContext(ThemeContext);
   usePageEffect({ title: "Leaderboards" });
   const [category, setCategory] = useState<Category>("english");
   const [timeframe, setTimeFrame] = useState<Timeframe>("daily");
+  const [mode, setMode] = useState<Mode>("words");
 
   const { entries, isLoading } = useLeaderboardEntries({
     timespan: timeframe,
     testType: category,
+    mode: mode,
   });
 
   const getRankColor = (rank: number) => {
@@ -78,12 +80,11 @@ export const Component = function Leaderboards(): JSX.Element {
         >
           <Zap size={36} color={theme.vars.palette.background.body} />
         </Box>
-        <Typography
-          level="h1"
-          sx={{ color: theme.vars.palette.text.primary, mb: 1 }}
-        >
-          Typing Leaderboard
-        </Typography>
+        <LeaderboardHeading
+          timeframe={timeframe}
+          category={category}
+          mode={mode}
+        />
         <Typography
           level="body-md"
           sx={{ color: theme.vars.palette.text.secondary }}
@@ -99,6 +100,8 @@ export const Component = function Leaderboards(): JSX.Element {
           setTimeFrame(timeframe);
           setCategory(category);
         }}
+        mode={mode}
+        onModeChange={(mode) => setMode(mode)}
       />
 
       {/* Leaderboard */}

@@ -1,5 +1,4 @@
 import { logger } from "@utils/logger.js";
-// Type-only import doesn't load the module
 import type { app as AdminApp, auth as AdminAuth } from "firebase-admin";
 import admin from "firebase-admin";
 

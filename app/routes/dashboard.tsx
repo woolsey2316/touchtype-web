@@ -115,11 +115,12 @@ export const Component = function Dashboard(): JSX.Element {
         </Box>
         <Box
           sx={{
-            bgcolor: (theme) => theme.palette.neutral[700],
+            bgcolor: (theme) => theme.palette.grey[600],
             borderRadius: "10px",
-            border: `1px solid ${theme.vars.palette.grey[500]}`,
             padding: "0px",
             maxWidth: "900px",
+            boxShadow:
+              "1px 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
           }}
         >
           <Box
@@ -161,7 +162,8 @@ export const Component = function Dashboard(): JSX.Element {
               <Typography
                 sx={{
                   py: 2,
-                  px: 1,
+                  pr: 2,
+                  pl: 1,
                 }}
               >
                 {"Average WPM: " + Math.round(averageLowercaseTime)}
@@ -247,11 +249,12 @@ export const Component = function Dashboard(): JSX.Element {
         </Box>
         <Box
           sx={{
-            bgcolor: (theme) => theme.palette.neutral[700],
+            bgcolor: (theme) => theme.palette.grey[600],
             borderRadius: "10px",
-            border: `1px solid ${theme.vars.palette.grey[500]}`,
             padding: "0px",
             maxWidth: "900px",
+            boxShadow:
+              "1px 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
           }}
         >
           <Box
@@ -293,7 +296,8 @@ export const Component = function Dashboard(): JSX.Element {
               <Typography
                 sx={{
                   py: 2,
-                  px: 1,
+                  pr: 2,
+                  pl: 1,
                 }}
               >
                 {"Average WPM: " + Math.round(averageSymbolTime)}

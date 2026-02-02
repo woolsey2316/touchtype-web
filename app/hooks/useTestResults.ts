@@ -23,6 +23,7 @@ function processLetterSpeedData(
 export function useTestResults(
   keyTimeMap: React.RefObject<Record<string, number[]> | undefined>,
   language: Language,
+  isTimedTest: boolean,
 ) {
   const mistakes = useRef(0);
   const correctChars = useRef(0);
@@ -110,6 +111,7 @@ export function useTestResults(
       score: score,
       time: (endTime - startTime.current!) / 1000,
       testType: LanguageArray[language],
+      mode: isTimedTest ? "timed" : "words",
       lowercaseWpm: lowercaseWPM,
       symbolWpm: symbolWPM,
     });
@@ -124,6 +126,7 @@ export function useTestResults(
     uploadTestResults,
     uploadLetterSpeedData,
     language,
+    isTimedTest,
   ]);
 
   return {

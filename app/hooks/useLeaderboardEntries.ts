@@ -19,23 +19,25 @@ interface LeaderboardResponse {
 interface Props {
   timespan: string;
   testType: string;
+  mode: string;
 }
 
-export const useLeaderboardEntries = ({ timespan, testType }: Props) => {
+export const useLeaderboardEntries = ({ timespan, testType, mode }: Props) => {
   const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
 
   const fetcher = (url: string) =>
     fetch(`${baseURL}${url}`, {
       credentials: "include",
     }).then((res) => res.json()) as Promise<LeaderboardResponse>;
+  // programming tests do not have modes (timed/words)
+  const url =
+    testType !== "programming"
+      ? `/api/leaderboards/${timespan}/${testType}:${mode}`
+      : `/api/leaderboards/${timespan}/programming`;
 
-  const { data, error } = useSWR<LeaderboardResponse>(
-    `/api/leaderboards/${timespan}/${testType}`,
-    fetcher,
-    {
-      refreshInterval: 60000,
-    },
-  );
+  const { data, error } = useSWR<LeaderboardResponse>(url, fetcher, {
+    refreshInterval: 60000,
+  });
 
   return {
     entries: data?.data?.map((entry, index) => ({

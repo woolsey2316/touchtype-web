@@ -18,6 +18,9 @@ export class CreateLeaderboardEntryDto {
 
   @IsString()
   public testType: string;
+
+  @IsString()
+  public mode?: string;
 }
 
 export default CreateLeaderboardEntryDto;

@@ -9,6 +9,7 @@ interface CreateUserTestResult {
   testType: string;
   time: number;
   userId: string;
+  mode: string;
   wpm: number;
 }
 const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
@@ -53,6 +54,7 @@ export const useTestResultMutation = () => {
             accuracy: arg.accuracy,
             date: new Date().toISOString(),
             testType: arg.testType,
+            mode: arg.mode,
           }),
         });
       } catch (error) {
