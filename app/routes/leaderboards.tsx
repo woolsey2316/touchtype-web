@@ -11,18 +11,43 @@ import { LeaderboardFilters } from "../components/leaderboards-filter";
 import { type Category, type Timeframe, type Mode } from "../types/types";
 import { useLeaderboardEntries } from "../hooks/useLeaderboardEntries";
 import { LeaderboardHeading } from "../components/leaderboard-heading";
+import { Pagination } from "../components/pagination";
 export const Component = function Leaderboards(): JSX.Element {
   const { theme } = useContext(ThemeContext);
   usePageEffect({ title: "Leaderboards" });
   const [category, setCategory] = useState<Category>("english");
   const [timeframe, setTimeFrame] = useState<Timeframe>("daily");
   const [mode, setMode] = useState<Mode>("words");
+  const itemsPerPage = 20;
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { entries, isLoading } = useLeaderboardEntries({
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const { entries, isLoading, totalItems } = useLeaderboardEntries({
     timespan: timeframe,
     testType: category,
     mode: mode,
+    page: currentPage,
+    pageSize: itemsPerPage,
   });
+
+  // Reset to page 1 when filters change
+  const handleCategoryChange = (newCategory: Category) => {
+    setCategory(newCategory);
+    setCurrentPage(1);
+  };
+
+  const handleTimeframeChange = (newTimeframe: Timeframe) => {
+    setTimeFrame(newTimeframe);
+    setCurrentPage(1);
+  };
+
+  const handleModeChange = (newMode: Mode) => {
+    setMode(newMode);
+    setCurrentPage(1);
+  };
 
   const getRankColor = (rank: number) => {
     if (rank === 1) return "#c9a34f";
@@ -97,11 +122,11 @@ export const Component = function Leaderboards(): JSX.Element {
         timeframe={timeframe}
         category={category}
         onChange={({ timeframe, category }) => {
-          setTimeFrame(timeframe);
-          setCategory(category);
+          handleTimeframeChange(timeframe);
+          handleCategoryChange(category);
         }}
         mode={mode}
-        onModeChange={(mode) => setMode(mode)}
+        onModeChange={handleModeChange}
       />
 
       {/* Leaderboard */}
@@ -319,6 +344,18 @@ export const Component = function Leaderboards(): JSX.Element {
           </tbody>
         </Table>
       </Sheet>
+
+      {/* Pagination */}
+      {!isLoading && totalItems > 0 && (
+        <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
+          <Pagination
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+          />
+        </Box>
+      )}
     </Container>
   );
 };

@@ -4,13 +4,15 @@ import { CreateLetterSpeedDto } from "@dtos/letterSpeed.dto.js";
 import { Routes } from "@interfaces/routes.interface.js";
 import validationMiddleware from "@middlewares/validation.middleware.js";
 import firebaseAuthMiddleware from "@middlewares/firebase-auth.middleware.js";
-
+import type { auth as AdminAuth } from "firebase-admin";
 class LetterSpeedRoute implements Routes {
   public path = "/letter-speed";
   public router = Router();
   public letterSpeedController = new LetterSpeedController();
+  auth = null;
 
-  constructor() {
+  constructor(auth: AdminAuth.Auth | null) {
+    this.auth = auth;
     this.initializeRoutes();
   }
 
@@ -18,14 +20,14 @@ class LetterSpeedRoute implements Routes {
     // Protected: Get user's own letter speed data
     this.router.get(
       `${this.path}/:userId`,
-      firebaseAuthMiddleware,
+      firebaseAuthMiddleware(this.auth),
       this.letterSpeedController.getLetterSpeedByCharacter,
     );
 
     // Protected: Update user's own letter speed data
     this.router.put(
       `${this.path}`,
-      firebaseAuthMiddleware,
+      firebaseAuthMiddleware(this.auth),
       validationMiddleware(CreateLetterSpeedDto, "body"),
       this.letterSpeedController.updateLetterSpeedData,
     );

@@ -4,13 +4,16 @@ import { CreateLeaderboardEntryDto } from "@dtos/leaderboard.dto.js";
 import { Routes } from "@interfaces/routes.interface.js";
 import validationMiddleware from "@middlewares/validation.middleware.js";
 import firebaseAuthMiddleware from "@middlewares/firebase-auth.middleware.js";
+import type { auth as AdminAuth } from "firebase-admin";
 
 export default class LeaderboardsRoute implements Routes {
   public path = "/leaderboards";
   public router = Router();
   public leaderboardsController = new LeaderboardsController();
+  public auth = null;
 
-  constructor() {
+  constructor(auth: AdminAuth.Auth | null) {
+    this.auth = auth;
     this.initializeRoutes();
   }
 
@@ -24,7 +27,7 @@ export default class LeaderboardsRoute implements Routes {
     // Protected: Only authenticated users can submit scores
     this.router.put(
       `${this.path}`,
-      firebaseAuthMiddleware,
+      firebaseAuthMiddleware(this.auth),
       validationMiddleware(CreateLeaderboardEntryDto, "body"),
       this.leaderboardsController.submitScore,
     );

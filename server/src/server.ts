@@ -8,17 +8,20 @@ import TestResultRoute from "@routes/testResult.route.js";
 import UsersRoute from "@routes/users.route.js";
 import UsernameRoute from "@routes/username.route.js";
 import validateEnv from "@utils/validateEnv.js";
+import { getFirebaseAuth } from "@config/firebase-admin.js";
 
 validateEnv();
+
+const auth = await getFirebaseAuth();
 
 const app = new App([
   new IndexRoute(),
   new UsersRoute(),
   new AuthRoute(),
-  new TestResultRoute(),
-  new LetterSpeedRoute(),
-  new LeaderboardsRoute(),
-  new UsernameRoute(),
+  new TestResultRoute(auth),
+  new LetterSpeedRoute(auth),
+  new LeaderboardsRoute(auth),
+  new UsernameRoute(auth),
 ]);
 
 app.listen();

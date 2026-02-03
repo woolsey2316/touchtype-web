@@ -1,4 +1,6 @@
 import useSWR from "swr";
+import { authenticatedFetch } from "../core/authenticated-fetch";
+import { useState, useEffect } from "react";
 import { auth } from "../core/firebase";
 
 interface TestResultData {
@@ -30,40 +32,53 @@ interface LetterSpeedData {
     }[];
   };
 }
+const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
+
+// Global stable fetcher for SWR deduplication
+const fetcher = async (path: string) => {
+  const response = await authenticatedFetch(`${baseURL}${path}`, {
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+};
+
 export const useDashboardData = () => {
-  const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
+  const [authReady, setAuthReady] = useState(false);
+  const [userId, setUserId] = useState<string>("");
 
-  const userId = localStorage.getItem("user_id") || "";
-
-  // Authenticated fetcher with Firebase ID token
-  const fetcher = async (path: string) => {
-    const currentUser = auth.currentUser;
-    if (!currentUser) {
-      throw new Error("User must be authenticated");
-    }
-
-    const idToken = await currentUser.getIdToken();
-    const response = await fetch(`${baseURL}${path}`, {
-      credentials: "include",
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-        "Content-Type": "application/json",
-      },
+  // Wait for Firebase auth to be ready before making API calls
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const storedUserId = localStorage.getItem("user_id") || "";
+        setUserId(storedUserId);
+        setAuthReady(true);
+      } else {
+        setAuthReady(false);
+        setUserId("");
+      }
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    return () => unsubscribe();
+  }, []);
 
-    return response.json();
-  };
+  // Only fetch when auth is ready AND userId exists
+  const shouldFetch = authReady && userId;
 
   const { data: testResultData } = useSWR<TestResultData>(
-    userId ? `/api/test-results/${userId}` : null,
+    shouldFetch ? `/api/test-results/${userId}` : null,
     fetcher,
   );
   const { data: letterSpeedData } = useSWR<LetterSpeedData>(
-    userId ? `/api/letter-speed/${userId}` : null,
+    shouldFetch ? `/api/letter-speed/${userId}` : null,
     fetcher,
   );
 

@@ -16,6 +16,13 @@ class LetterSpeedController {
     try {
       const requestedUserId = req.params.userId as string;
 
+      if (!requestedUserId || !req.user.userId) {
+        throw new HttpException(
+          400,
+          "Bad Request: userId parameter is missing",
+        );
+      }
+
       // Ensure user can only access their own data
       if (req.user.userId !== requestedUserId) {
         throw new HttpException(
@@ -23,12 +30,10 @@ class LetterSpeedController {
           "Forbidden: Cannot access other users' data",
         );
       }
-
       const findAllLetterSpeed: {
         lowercase: LetterSpeed[];
         symbols: LetterSpeed[];
       } = await this.letterSpeedService.getLetterAverages(requestedUserId);
-
       res.status(200).json({ data: findAllLetterSpeed, message: "findAll" });
     } catch (error) {
       next(error);

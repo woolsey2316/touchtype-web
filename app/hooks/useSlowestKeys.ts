@@ -1,5 +1,4 @@
-import useSWR from "swr";
-import { auth } from "../core/firebase";
+import { useDashboardData } from "./useDashboardData";
 
 interface LetterSpeedItem {
   letter: string;
@@ -9,62 +8,26 @@ interface LetterSpeedItem {
   avgWpm: number;
 }
 
-interface LetterSpeedData {
-  data: {
-    lowercase: LetterSpeedItem[];
-    symbols: LetterSpeedItem[];
-  };
-}
-
 export interface SlowestKeysResult {
   lowercase: LetterSpeedItem[];
   numbers: LetterSpeedItem[];
   symbols: LetterSpeedItem[];
 }
 
+/**
+ * Hook to get slowest keys from letter speed data
+ * Reuses data from useDashboardData to avoid duplicate API calls
+ */
 export const useSlowestKeys = () => {
-  const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
-
-  const userId = localStorage.getItem("user_id") || "";
-
-  // Authenticated fetcher with Firebase ID token
-  const fetcher = async (path: string) => {
-    const currentUser = auth.currentUser;
-    if (!currentUser) {
-      throw new Error("User must be authenticated");
-    }
-
-    const idToken = await currentUser.getIdToken();
-    const response = await fetch(`${baseURL}${path}`, {
-      credentials: "include",
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return response.json();
-  };
-
-  const {
-    data: letterSpeedData,
-    error,
-    isLoading,
-  } = useSWR<LetterSpeedData>(
-    userId ? `/api/letter-speed/${userId}` : null,
-    fetcher,
-  );
+  // Reuse the letter speed data from dashboard hook - no duplicate request!
+  const { letterSpeedData } = useDashboardData();
 
   const getSlowestKeys = (): SlowestKeysResult | null => {
-    if (!letterSpeedData?.data) {
+    if (!letterSpeedData) {
       return null;
     }
 
-    const { lowercase, symbols } = letterSpeedData.data;
+    const { lowercase, symbols } = letterSpeedData;
 
     // Separate lowercase letters, numbers, and symbols
     const lowercaseLetters = lowercase.filter((item) =>
@@ -90,7 +53,7 @@ export const useSlowestKeys = () => {
 
   return {
     slowestKeys: getSlowestKeys(),
-    isLoading,
-    error,
+    isLoading: !letterSpeedData,
+    error: undefined,
   };
 };

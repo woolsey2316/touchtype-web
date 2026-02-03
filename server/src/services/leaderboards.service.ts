@@ -12,19 +12,39 @@ function leaderboardKey(scope: string, testType: string) {
 }
 
 class LeaderboardsService {
-  public async getTopScores(scope: string, testType: string) {
+  public async getTopScores(
+    scope: string,
+    testType: string,
+    page = 1,
+    pageSize = 20,
+  ) {
     const key = leaderboardKey(scope, testType);
 
-    const results = await client.zRangeWithScores(key, 0, 9, { REV: true });
-    if (!results || results.length === 0) {
-      return [];
+    // Get total count first
+    const totalCount = await client.zCard(key);
+
+    if (totalCount === 0) {
+      return { entries: [], totalCount: 0 };
     }
+
+    // Calculate start and end indices (0-based, inclusive)
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize - 1;
+
+    const results = await client.zRangeWithScores(key, start, end, {
+      REV: true,
+    });
+
+    if (!results || results.length === 0) {
+      return { entries: [], totalCount };
+    }
+
     const formatted = results.map((entry, idx: number) => {
       const [userId, username, accuracy, date, testType] = (
         entry.value as string
       ).split("|");
       return {
-        rank: idx + 1,
+        rank: start + idx + 1, // Global rank based on pagination
         userId,
         username,
         date,
@@ -33,7 +53,8 @@ class LeaderboardsService {
         testType,
       };
     });
-    return formatted;
+
+    return { entries: formatted, totalCount };
   }
   public async submitTestResult({
     userId,

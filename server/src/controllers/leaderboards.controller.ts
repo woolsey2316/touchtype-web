@@ -1,6 +1,5 @@
 import { NextFunction, Response } from "express";
 import { CreateLeaderboardEntryDto } from "@dtos/leaderboard.dto.js";
-import { LeaderboardEntry } from "@interfaces/leaderboardEntry.interface.js";
 import leaderboardsService from "@services/leaderboards.service.js";
 import { RequestWithUser } from "@interfaces/auth.interface.js";
 import { HttpException } from "@exceptions/HttpException.js";
@@ -18,10 +17,24 @@ class LeaderboardsController {
     try {
       const scope = req.params.scope || "daily";
       const testType = req.params.testType || "ENGLISH";
-      const topScores: LeaderboardEntry[] =
-        await this.leaderboardsService.getTopScores(scope, testType);
+      const page = parseInt(req.query.page as string) || 1;
+      const pageSize = parseInt(req.query.pageSize as string) || 20;
 
-      res.status(200).json({ data: topScores, message: "findAll" });
+      const { entries, totalCount } =
+        await this.leaderboardsService.getTopScores(
+          scope,
+          testType,
+          page,
+          pageSize,
+        );
+
+      res.status(200).json({
+        data: entries,
+        totalItems: totalCount,
+        currentPage: page,
+        pageSize,
+        message: "findAll",
+      });
     } catch (error) {
       next(error);
     }
