@@ -12,7 +12,7 @@ import { getFirebaseAuth } from "@config/firebase-admin.js";
 
 validateEnv();
 
-const auth = await getFirebaseAuth();
+const auth = getFirebaseAuth();
 
 const app = new App([
   new IndexRoute(),

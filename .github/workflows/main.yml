@@ -24,6 +24,15 @@ env:
   NODE_VERSION: 20.5.x
   VERSION: ${{ github.event.pull_request.number }}
   HUSKY: 0
+  # Required environment variables for build
+  APP_ENV: test
+  APP_NAME: KeyFlow
+  APP_ORIGIN: https://test.example.com
+  GOOGLE_CLOUD_PROJECT: kriasoft
+  FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+  FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+  FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+  GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
 
 jobs:
   build:
