@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-config({ path: `.env.${process.env.NODE_ENV || "development"}.local` });
+config({ path: `.env.${process.env.NODE_ENV || "development"}` });
 
 export const CREDENTIALS = process.env.CREDENTIALS === "true";
 export const {
@@ -16,4 +16,5 @@ export const {
   REDIS_PASSWORD,
   REDIS_HOST,
   REDIS_PORT,
+  MONGO_URI,
 } = process.env;

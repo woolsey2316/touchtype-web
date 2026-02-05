@@ -1,6 +1,6 @@
 import useSWR from "swr";
 
-const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
+const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3000";
 
 interface UserData {
   username?: string;

@@ -4,7 +4,7 @@ interface ResultModalData {
   data: number;
 }
 export const useResultModalData = (isOpen: boolean) => {
-  const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
+  const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3000";
 
   const token = localStorage.getItem("authToken") || "";
   const userId = localStorage.getItem("user_id") || "";

@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync } from "fs";
-import { join } from "path";
+import { join, isAbsolute } from "path";
 import winston from "winston";
 import winstonDaily from "winston-daily-rotate-file";
 import { LOG_DIR } from "@config/config.js";
@@ -8,11 +8,15 @@ import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-// logs dir
-const logDir: string = join(__dirname, LOG_DIR);
+
+// logs dir - handle both absolute and relative paths
+const logDir: string =
+  LOG_DIR && isAbsolute(LOG_DIR)
+    ? LOG_DIR
+    : join(__dirname, LOG_DIR || "../logs");
 
 if (!existsSync(logDir)) {
-  mkdirSync(logDir);
+  mkdirSync(logDir, { recursive: true });
 }
 
 // Define log format

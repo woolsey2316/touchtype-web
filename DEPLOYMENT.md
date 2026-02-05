@@ -71,8 +71,8 @@ Clone your repository:
 
 ```bash
 cd /opt
-git clone https://github.com/yourusername/touchtype-web.git
-cd touchtype-web
+git clone https://github.com/woolsey2316/keyflow.git
+cd keyflow
 ```
 
 Set up environment variables:

@@ -15,8 +15,11 @@ coverage
 *.log
 .DS_Store
 README.md
-docker-compose.yml
-Dockerfile
 .dockerignore
 certbot
 mongodb_data
+
+# Exclude other workspaces when building
+server/node_modules
+app/node_modules
+scripts/node_modules

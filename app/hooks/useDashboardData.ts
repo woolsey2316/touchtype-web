@@ -32,7 +32,7 @@ interface LetterSpeedData {
     }[];
   };
 }
-const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
+const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3000";
 
 // Global stable fetcher for SWR deduplication
 const fetcher = async (path: string) => {

@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   # MongoDB Database
   mongodb:
@@ -24,16 +22,14 @@ services:
   # Backend API
   backend:
     build:
-      context: ./server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./server/Dockerfile
     container_name: touchtype-backend
     restart: unless-stopped
-    environment:
-      NODE_ENV: production
-      PORT: 3000
-      MONGO_URI: mongodb://${MONGO_USERNAME:-admin}:${MONGO_PASSWORD:-changeme}@mongodb:27017/${MONGO_DATABASE:-touchtype}?authSource=admin
-      JWT_SECRET: ${JWT_SECRET}
-      FIREBASE_CREDENTIALS: ${FIREBASE_CREDENTIALS}
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./server/.env.production
     depends_on:
       mongodb:
         condition: service_healthy
@@ -56,14 +52,20 @@ services:
   # Frontend
   frontend:
     build:
-      context: ./app
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./app/Dockerfile
       args:
-        API_ORIGIN: /api
         APP_ENV: production
-        APP_NAME: TouchType
+        APP_NAME: KeyFlow
+        API_ORIGIN: ${API_ORIGIN}
         APP_ORIGIN: ${APP_ORIGIN:-https://your-domain.com}
-        GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT:-}
+        GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT}
+        FIREBASE_APP_ID: ${FIREBASE_APP_ID}
+        FIREBASE_API_KEY: ${FIREBASE_API_KEY}
+        FIREBASE_AUTH_DOMAIN: ${FIREBASE_AUTH_DOMAIN}
+        GA_MEASUREMENT_ID: ${GA_MEASUREMENT_ID}
+    env_file:
+      - ./.env.prod
     container_name: touchtype-frontend
     restart: unless-stopped
     networks:

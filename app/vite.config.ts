@@ -11,6 +11,10 @@ const publicEnvVars = [
   "APP_NAME",
   "APP_ORIGIN",
   "GOOGLE_CLOUD_PROJECT",
+  "FIREBASE_APP_ID",
+  "FIREBASE_API_KEY",
+  "FIREBASE_AUTH_DOMAIN",
+  "GA_MEASUREMENT_ID",
 ];
 
 /**

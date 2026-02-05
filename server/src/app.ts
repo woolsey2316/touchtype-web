@@ -29,13 +29,14 @@ class App {
   constructor(routes: Routes[]) {
     this.app = express();
     this.env = NODE_ENV || "development";
-    this.port = PORT || 3001;
+    this.port = PORT || 3000;
 
     if (this.env !== "test") {
       this.connectToDatabase();
       this.initializeSwagger();
     }
     this.initializeMiddlewares();
+    this.initializeHealthCheck();
     this.initializeRoutes(routes);
     this.initializeErrorHandling();
   }
@@ -77,6 +78,7 @@ class App {
     // MongoDB Connection
     try {
       await connect(dbConnection.url);
+      console.log("Connected to MongoDB!");
     } catch (error) {
       console.error("Error connecting to MongoDB:", error);
     }
@@ -129,6 +131,15 @@ class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
+  }
+
+  // Add health check endpoint
+  private initializeHealthCheck() {
+    this.app.get("/health", (req, res) => {
+      res
+        .status(200)
+        .json({ status: "OK", timestamp: new Date().toISOString() });
+    });
   }
 
   private initializeRoutes(routes: Routes[]) {

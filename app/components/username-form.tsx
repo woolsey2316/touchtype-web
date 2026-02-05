@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "@mui/joy/styles";
 import { auth } from "../core/firebase";
 
-const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3001";
+const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3000";
 
 interface UsernameFormProps {
   currentUsername?: string;

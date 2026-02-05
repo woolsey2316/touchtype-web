@@ -12,6 +12,8 @@ services:
     networks:
       - backend
   server:
+    env_file:
+      - ./server/.env.production
     build:
       context: ./
       target: development-build-stage

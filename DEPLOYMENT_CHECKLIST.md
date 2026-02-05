@@ -15,7 +15,6 @@ Use this checklist before deploying to production.
 - [ ] Code is tested and working locally
 - [ ] All tests pass
 - [ ] No security vulnerabilities in dependencies
-- [ ] `.env.production` template reviewed
 - [ ] Environment variables documented
 
 ## ☑️ Server Setup (First Time Only)
@@ -182,10 +181,10 @@ docker compose up -d
 
 ## 📞 Support Contacts
 
-- **Domain Registrar Support**: ******\_******
-- **DigitalOcean Support**: ******\_******
-- **Team Lead**: ******\_******
-- **DevOps Contact**: ******\_******
+- **Domain Registrar Support**: **\*\***\_**\*\***
+- **DigitalOcean Support**: **\*\***\_**\*\***
+- **Team Lead**: **\*\***\_**\*\***
+- **DevOps Contact**: **\*\***\_**\*\***
 
 ## 📝 Notes
 
@@ -199,7 +198,7 @@ Additional notes or environment-specific considerations:
 
 ---
 
-**Date Completed**: ******\_\_\_******
-**Deployed By**: ******\_\_\_******
-**Production URL**: https://******\_\_\_******
-**Server IP**: ******\_\_\_******
+**Date Completed**: **\*\***\_\_\_**\*\***
+**Deployed By**: **\*\***\_\_\_**\*\***
+**Production URL**: https://**\*\***\_\_\_**\*\***
+**Server IP**: **\*\***\_\_\_**\*\***
