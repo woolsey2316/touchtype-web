@@ -58,7 +58,7 @@ services:
         APP_ENV: production
         APP_NAME: KeyFlow
         API_ORIGIN: ${API_ORIGIN}
-        APP_ORIGIN: ${APP_ORIGIN:-https://your-domain.com}
+        APP_ORIGIN: ${APP_ORIGIN}
         GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT}
         FIREBASE_APP_ID: ${FIREBASE_APP_ID}
         FIREBASE_API_KEY: ${FIREBASE_API_KEY}
