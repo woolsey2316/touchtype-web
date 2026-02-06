@@ -147,9 +147,9 @@ Get the SSL certificate:
 ```bash
 docker compose run --rm certbot certonly --standalone \
   --preferred-challenges http \
-  -d your-domain.com \
-  -d www.your-domain.com \
-  --email your-email@example.com \
+  -d keyflow.it.com \
+  -d www.keyflow.it.com \
+  --email woolsey2316@gmail.com \
   --agree-tos \
   --non-interactive
 ```
