@@ -51,11 +51,10 @@ docker compose run --rm certbot certonly --standalone \
   --email $EMAIL \
   --agree-tos \
   --non-interactive \
-  --staging # Remove --staging for production certificate
 
 if [ $? -eq 0 ]; then
     echo -e "\n${GREEN}✓ SSL certificate obtained successfully!${NC}\n"
-    
+
     echo -e "${YELLOW}Next steps:${NC}"
     echo "1. If this was a test (staging), run again without --staging flag"
     echo "2. Update nginx.conf:"

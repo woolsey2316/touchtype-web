@@ -67,7 +67,7 @@ docker compose up -d --build
 
 # After successful test certificate, get production cert:
 # Edit init-ssl.sh and remove the --staging flag, then run again
-./init-ssl.sh your-domain.com your-email@example.com
+./init-ssl.sh keyflow.it.com woolsey2316@gmail.com
 
 # Update nginx.conf with your domain and uncomment HTTPS block
 nano nginx.conf
