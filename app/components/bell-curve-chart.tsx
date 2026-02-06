@@ -3,7 +3,7 @@ import { Box } from "@mui/joy";
 import useSWR from "swr";
 
 export default function WpmBellCurveChart() {
-  const baseURL = import.meta.env.API_ORIGIN || "";
+  const baseURL = import.meta.env.VITE_API_ORIGIN || "";
   const token = localStorage.getItem("authToken");
   const fetcher = (path: string) =>
     fetch(`${baseURL}${path}`, {

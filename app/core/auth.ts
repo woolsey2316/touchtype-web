@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { app, auth } from "./firebase";
 import { store } from "./store";
 
-const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3000";
+const baseURL = import.meta.env.VITE_API_ORIGIN || "http://localhost:3000";
 
 export const currentUser = atom<Promise<User | null> | User | null>(
   new Promise<User | null>(() => {}),

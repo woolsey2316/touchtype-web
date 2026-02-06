@@ -12,7 +12,7 @@ interface CreateUserTestResult {
   mode: string;
   wpm: number;
 }
-const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3000";
+const baseURL = import.meta.env.VITE_API_ORIGIN || "http://localhost:3000";
 
 export const useTestResultMutation = () => {
   async function postData(url: string, { arg }: { arg: CreateUserTestResult }) {

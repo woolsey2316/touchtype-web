@@ -34,7 +34,7 @@ export const useLeaderboardEntries = ({
   page = 1,
   pageSize = 20,
 }: Props) => {
-  const baseURL = import.meta.env.API_ORIGIN || "http://localhost:3000";
+  const baseURL = import.meta.env.VITE_API_ORIGIN || "http://localhost:3000";
 
   const fetcher = (url: string) =>
     fetch(`${baseURL}${url}`, {
