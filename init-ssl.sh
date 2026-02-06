@@ -50,7 +50,7 @@ docker compose run --rm certbot certonly --standalone \
   -d www.$DOMAIN \
   --email $EMAIL \
   --agree-tos \
-  --non-interactive \
+  --non-interactive
 
 if [ $? -eq 0 ]; then
     echo -e "\n${GREEN}✓ SSL certificate obtained successfully!${NC}\n"
