@@ -22,7 +22,7 @@ COPY server/package.json ./server/package.json
 RUN yarn install
 
 # Set build-time environment variables
-ARG API_ORIGIN=/api
+ARG API_ORIGIN
 ARG APP_ENV=production
 ARG APP_NAME=TouchType
 ARG APP_ORIGIN

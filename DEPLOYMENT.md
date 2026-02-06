@@ -213,7 +213,7 @@ docker compose restart backend
 ### Update application
 
 ```bash
-cd /opt/touchtype-web
+cd /opt/keyflow
 git pull
 docker compose up -d --build
 ```

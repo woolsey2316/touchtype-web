@@ -7,6 +7,7 @@ import { loadEnv } from "vite";
 import { defineProject } from "vitest/config";
 
 const publicEnvVars = [
+  "API_ORIGIN",
   "APP_ENV",
   "APP_NAME",
   "APP_ORIGIN",
