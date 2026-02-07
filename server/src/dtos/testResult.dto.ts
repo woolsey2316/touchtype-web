@@ -26,4 +26,8 @@ export class CreateTestResultDto {
   @IsOptional()
   @IsNumber()
   public symbolWpm?: number;
+
+  @IsOptional()
+  @IsString()
+  public mode?: string;
 }
