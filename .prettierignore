@@ -16,3 +16,6 @@
 /.husky
 *.hbs
 
+# Docker volumes & certificates
+certbot
+mongodb_data

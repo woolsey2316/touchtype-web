@@ -1,4 +1,4 @@
-yarn prettier --write .
+yarn prettier --write --ignore-unknown 'app/**' 'server/**' 'scripts/**' '*.{js,json,md,yml,yaml}'
 git add -u
 yarn vitest run
 yarn tsc --build

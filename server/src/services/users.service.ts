@@ -15,12 +15,7 @@ class UserService {
   public async findUserById(userId: string): Promise<User> {
     if (isEmpty(userId)) throw new HttpException(400, "UserId is empty");
 
-    // Try to find by userId (Firebase UID) first, fallback to MongoDB _id
-    let findUser: User = await this.users.findOne({ userId });
-
-    if (!findUser) {
-      findUser = await this.users.findOne({ _id: userId });
-    }
+    const findUser: User = await this.users.findOne({ userId });
 
     if (!findUser) throw new HttpException(409, "User doesn't exist");
 
