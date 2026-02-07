@@ -26,8 +26,12 @@ services:
       dockerfile: ./server/Dockerfile
     container_name: touchtype-backend
     restart: unless-stopped
-    ports:
-      - "3000:3000"
+    # Port only accessible internally through nginx
+    expose:
+      - "3000"
+    environment:
+      PORT: 3000
+      NODE_ENV: production
     env_file:
       - ./server/.env.production
     depends_on:
