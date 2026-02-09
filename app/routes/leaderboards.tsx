@@ -12,6 +12,8 @@ import { type Category, type Timeframe, type Mode } from "../types/types";
 import { useLeaderboardEntries } from "../hooks/useLeaderboardEntries";
 import { LeaderboardHeading } from "../components/leaderboard-heading";
 import { Pagination } from "../components/pagination";
+import { Footer } from "../components/footer";
+
 export const Component = function Leaderboards(): JSX.Element {
   const { theme } = useContext(ThemeContext);
   usePageEffect({ title: "Leaderboards" });
@@ -88,7 +90,14 @@ export const Component = function Leaderboards(): JSX.Element {
   };
 
   return (
-    <Container sx={{ py: 2 }}>
+    <Container
+      sx={{
+        py: 2,
+        minHeight: "calc(100vh - 60px)",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {/* Header */}
       <Box sx={{ textAlign: "left", mb: 4 }}>
         <Box
@@ -356,6 +365,7 @@ export const Component = function Leaderboards(): JSX.Element {
           />
         </Box>
       )}
+      <Footer />
     </Container>
   );
 };

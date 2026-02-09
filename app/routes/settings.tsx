@@ -9,6 +9,7 @@ import { UserPreferencesContext } from "../context/userPreferences";
 import { UsernameForm } from "../components/username-form";
 import { useUserData } from "../hooks/useUserData";
 import Divider from "@mui/joy/Divider";
+import { Footer } from "../components/footer";
 
 export const Component = function Settings(): JSX.Element {
   usePageEffect({ title: "Settings" });
@@ -648,6 +649,7 @@ export const Component = function Settings(): JSX.Element {
           onChange={setSkipTabsPreference}
         />
       </Box>
+      <Footer />
     </Container>
   );
 };

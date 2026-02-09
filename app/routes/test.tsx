@@ -8,6 +8,7 @@ import { CurrentWPM } from "../components/current-wpm";
 import CountdownTimer from "../components/countdown-timer";
 import { useTestResults } from "../hooks/useTestResults";
 import { useSlowestKeys } from "../hooks/useSlowestKeys";
+import { Footer } from "../components/footer";
 export const Component = function Test(): JSX.Element {
   usePageEffect({ title: "Typing Test" });
 
@@ -55,7 +56,14 @@ export const Component = function Test(): JSX.Element {
   };
 
   return (
-    <Container sx={{ py: 2 }}>
+    <Container
+      sx={{
+        py: 2,
+        minHeight: "calc(100vh - 60px)",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography sx={{ mb: 2 }} level="h2">
           Typing Test
@@ -172,6 +180,7 @@ export const Component = function Test(): JSX.Element {
           </CardContent>
         </Card>
       </Box>
+      <Footer></Footer>
     </Container>
   );
 };

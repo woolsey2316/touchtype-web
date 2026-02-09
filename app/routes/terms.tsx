@@ -45,7 +45,7 @@ export const Component = function Terms(): JSX.Element {
         from the date of publication.
       </Typography>
       <Typography gutterBottom>
-        These Terms of Service were last updated on 28 February 2021.
+        These Terms of Service were last updated on 10 February 2026.
       </Typography>
       <Typography level="h2" gutterBottom>
         Limitations of Use

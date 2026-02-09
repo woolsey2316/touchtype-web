@@ -4,27 +4,31 @@
 import { Container, Typography, type ContainerProps } from "@mui/joy";
 import type { JSX } from "react";
 import { LoginButton } from "../components";
+import { Footer } from "../components/footer";
 
 export const Component = function Login(): JSX.Element {
   return (
-    <Container
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        height: "80%",
-        gap: 1,
-        maxWidth: "280px !important",
-      }}
-      maxWidth="xs"
-    >
-      <Typography sx={{ mb: 1, textAlign: "center" }} level="h2">
-        Sign In
-      </Typography>
+    <>
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          height: "80%",
+          gap: 1,
+          maxWidth: "280px !important",
+        }}
+        maxWidth="xs"
+      >
+        <Typography sx={{ mb: 1, textAlign: "center" }} level="h2">
+          Sign In
+        </Typography>
 
-      <LoginButton signInMethod="google.com" />
-      <LoginButton signInMethod="anonymous" />
-    </Container>
+        <LoginButton signInMethod="google.com" />
+        {/* <LoginButton signInMethod="anonymous" /> */}
+      </Container>
+      <Footer />
+    </>
   );
 };
 

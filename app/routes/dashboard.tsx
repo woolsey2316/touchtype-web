@@ -25,6 +25,7 @@ import {
 } from "@mui/x-charts";
 // import WpmBellCurveChart from "../components/bell-curve-chart";
 import { useDashboardData } from "../hooks/useDashboardData";
+import { Footer } from "../components/footer";
 
 export const Component = function Dashboard(): JSX.Element {
   usePageEffect({ title: "Dashboard" });
@@ -407,6 +408,7 @@ export const Component = function Dashboard(): JSX.Element {
         {/*     <WpmBellCurveChart /> */}
         {/*   </Box> */}
       </Box>
+      <Footer />
     </Container>
   );
 };
