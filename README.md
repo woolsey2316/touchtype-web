@@ -10,5 +10,3 @@ KeyFlow is a touch type trainer that helps you improve typing accuracy and speed
 - symbols and numbers practice
 - data visualisation -> character key breakdown
 - programming languages for complex symbol practice
-
-

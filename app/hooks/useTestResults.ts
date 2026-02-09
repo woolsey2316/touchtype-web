@@ -94,14 +94,14 @@ export function useTestResults(
     setPreviousWPM(currentWPM);
     setPreviousAccuracy(currentAccuracy);
     setPreviousScore(currentScore);
-    const userId = localStorage.getItem("user_id");
-    if (!userId) return;
 
     const { wpm, accuracy, score, lowercaseWPM, symbolWPM } =
       recordTestResultStats(endTime);
 
     setIsResultsModalOpen(true);
 
+    const userId = localStorage.getItem("user_id");
+    if (!userId) return;
     if (testInvalid(wpm, accuracy)) return;
 
     uploadTestResults({

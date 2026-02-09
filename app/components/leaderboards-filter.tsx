@@ -39,6 +39,10 @@ export const LeaderboardFilters: React.FC<LeaderboardFiltersProps> = ({
       // If switching to programming, reset mode to undefined
       if (onModeChange) onModeChange("quotes" as Mode);
     }
+    if (next === "english") {
+      // If switching to english, reset mode to "words"
+      if (onModeChange) onModeChange("words" as Mode);
+    }
   };
   const handleMode = (
     _event: React.SyntheticEvent<Element, Event>,
