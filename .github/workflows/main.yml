@@ -30,10 +30,10 @@ env:
   API_ORIGIN: https://localhost:3000
   APP_ORIGIN: https://test.example.com
   GOOGLE_CLOUD_PROJECT: kriasoft
-  FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-  FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-  FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
-  GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
+  FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID || '1:000000000000:web:placeholder' }}
+  FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY || 'AIzaPlaceholderKeyForCIBuilds' }}
+  FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN || 'placeholder.firebaseapp.com' }}
+  GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID || 'G-PLACEHOLDER' }}
 
 jobs:
   build:
