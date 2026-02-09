@@ -26,7 +26,7 @@ class TestResultRoute implements Routes {
 
     // Protected: Get user's own time spent today
     this.router.get(
-      `${this.path}/daily-time/:email`,
+      `${this.path}/daily-time/:userId`,
       firebaseAuthMiddleware(this.auth),
       this.testResultController.getTimeSpentToday,
     );

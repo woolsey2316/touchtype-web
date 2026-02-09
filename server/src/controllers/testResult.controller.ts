@@ -64,10 +64,10 @@ class TestResultsController {
     next: NextFunction,
   ) => {
     try {
-      const email: string = req.params.email;
+      const userId: string = req.params.userId;
 
       // Ensure user can only access their own data
-      if (req.user.email !== email) {
+      if (req.user.userId !== userId) {
         throw new HttpException(
           403,
           "Forbidden: Cannot access other users' data",
@@ -75,7 +75,7 @@ class TestResultsController {
       }
 
       const findTimeSpent: number =
-        await this.testResultService.getTotalTimeSpentToday(email);
+        await this.testResultService.getTotalTimeSpentToday(userId);
 
       res.status(200).json({ data: findTimeSpent, message: "findOne" });
     } catch (error) {

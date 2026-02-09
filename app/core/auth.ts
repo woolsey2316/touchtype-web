@@ -96,6 +96,7 @@ export function useSignIn(
         const userId = payload.user_id;
         const email = payload.email || `anonymous_${userId}@touchtype.local`;
 
+        localStorage.setItem("authToken", token);
         localStorage.setItem("user_id", userId);
         if (payload.email) {
           localStorage.setItem("user_email", payload.email);
