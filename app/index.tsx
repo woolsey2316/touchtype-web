@@ -10,6 +10,7 @@ import { theme as defaultTheme } from "./core/theme";
 import { ThemeContext } from "./context/ThemeContext/ThemeContext";
 import { UserPreferencesContext } from "./context/userPreferences";
 import { Router } from "./routes";
+import { HelmetProvider } from "react-helmet-async";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
@@ -57,12 +58,14 @@ const Root = () => {
           }}
         >
           <ThemeContext.Provider value={{ theme, setTheme }}>
-            <SnackbarProvider>
-              <CssBaseline />
-              <StoreProvider>
-                <Router />
-              </StoreProvider>
-            </SnackbarProvider>
+            <HelmetProvider>
+              <SnackbarProvider>
+                <CssBaseline />
+                <StoreProvider>
+                  <Router />
+                </StoreProvider>
+              </SnackbarProvider>
+            </HelmetProvider>
           </ThemeContext.Provider>
         </UserPreferencesContext.Provider>
       </CssVarsProvider>

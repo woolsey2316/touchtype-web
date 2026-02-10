@@ -9,6 +9,8 @@ import CountdownTimer from "../components/countdown-timer";
 import { useTestResults } from "../hooks/useTestResults";
 import { useSlowestKeys } from "../hooks/useSlowestKeys";
 import { Footer } from "../components/footer";
+import { Helmet } from "react-helmet-async";
+
 export const Component = function Test(): JSX.Element {
   usePageEffect({ title: "Typing Test" });
 
@@ -56,131 +58,141 @@ export const Component = function Test(): JSX.Element {
   };
 
   return (
-    <Container
-      sx={{
-        py: 2,
-        minHeight: "calc(100vh - 60px)",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography sx={{ mb: 2 }} level="h2">
-          Typing Test
-        </Typography>
-        <CountdownTimer
-          key={isTimedTest.toString() + timeLimit + resetCounter}
-          testInfo={testInfo}
-          setTestInfo={setTestInfo}
-          wantTimer={isTimedTest}
-          targetDate={Date.now() + timeLimit * 1000}
-          timeLimit={timeLimit}
-          onEnd={onEnd}
-        ></CountdownTimer>
-        <CurrentWPM currentWPM={currentWPM}></CurrentWPM>
-      </Box>
-
-      <Box
+    <>
+      <Helmet>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9600755897715802"
+          crossOrigin="anonymous"
+        ></script>
+        <meta name="google-adsense-account" content="ca-pub-9600755897715802" />
+      </Helmet>
+      <Container
         sx={{
-          display: "grid",
-          gridTemplateColumns: { sm: "1fr", md: "1fr 1fr" },
-          gap: 2,
+          py: 2,
+          minHeight: "calc(100vh - 60px)",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Card
-          sx={(theme) => ({
-            gridArea: "1 / 1 / 2 / -1",
-            color: `${theme.vars.palette.primary[50]}`,
-            backgroundColor: "transparent",
-            border: "none",
-          })}
-        >
-          <MainOptionsBar
-            setPunctuation={setPunctuation}
-            setNumbers={setNumbers}
-            setProgrammingLanguage={setProgrammingLanguage}
-            setLanguage={setLanguage}
-            setIsFixedSentenceSize={setIsFixedSentenceSize}
-            setIsTrainingWeakestChars={setIsTrainingWeakestChars}
-            setIsTurboPace={setIsTurboPace}
-            setIsTimedTest={setIsTimedTest}
-            setSentenceSize={setSentenceSize}
-            setTimeLimit={setTimeLimit}
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography sx={{ mb: 2 }} level="h2">
+            Typing Test
+          </Typography>
+          <CountdownTimer
+            key={isTimedTest.toString() + timeLimit + resetCounter}
+            testInfo={testInfo}
             setTestInfo={setTestInfo}
-            keyTimeMap={keyTimeMap}
-            correctChars={correctChars}
-            mistakes={mistakes}
-            fixedSentenceSize={fixedSentenceSize}
-            programmingLanguage={programmingLanguage}
-            isTimedTest={isTimedTest}
-            isTrainingWeakestChars={isTrainingWeakestChars}
-            isTurboPace={isTurboPace}
+            wantTimer={isTimedTest}
+            targetDate={Date.now() + timeLimit * 1000}
             timeLimit={timeLimit}
-            punctuation={punctuation}
-            numbers={numbers}
-            sentenceSize={sentenceSize}
-            slowestKeys={slowestKeys}
-            language={language}
-            idealWPM={idealWPM}
-            setIdealWPM={setIdealWPM}
-          ></MainOptionsBar>
-          <CardContent
-            sx={{
-              minHeight: 300,
-              display: "flex",
-              alignItems: "center",
-              paddingTop: "2em",
-              overflowX: "visible",
-            }}
-            onClick={focusChild}
+            onEnd={onEnd}
+          ></CountdownTimer>
+          <CurrentWPM currentWPM={currentWPM}></CurrentWPM>
+        </Box>
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { sm: "1fr", md: "1fr 1fr" },
+            gap: 2,
+          }}
+        >
+          <Card
+            sx={(theme) => ({
+              gridArea: "1 / 1 / 2 / -1",
+              color: `${theme.vars.palette.primary[50]}`,
+              backgroundColor: "transparent",
+              border: "none",
+            })}
           >
-            <TypingPanel
-              key={
-                Number(punctuation) +
-                Number(language) +
-                Number(numbers) +
-                sentenceSize +
-                Number(isTimedTest) +
-                timeLimit +
-                currentWPM +
-                Number(isTrainingWeakestChars) +
-                Number(isTurboPace)
-              }
-              programmingLanguage={programmingLanguage}
-              punctuation={punctuation}
-              language={language}
-              sentenceSize={sentenceSize}
-              numbers={numbers}
-              isTimedTest={isTimedTest}
-              testInfo={testInfo}
-              startTime={startTime}
+            <MainOptionsBar
+              setPunctuation={setPunctuation}
+              setNumbers={setNumbers}
+              setProgrammingLanguage={setProgrammingLanguage}
+              setLanguage={setLanguage}
+              setIsFixedSentenceSize={setIsFixedSentenceSize}
+              setIsTrainingWeakestChars={setIsTrainingWeakestChars}
+              setIsTurboPace={setIsTurboPace}
+              setIsTimedTest={setIsTimedTest}
+              setSentenceSize={setSentenceSize}
+              setTimeLimit={setTimeLimit}
               setTestInfo={setTestInfo}
-              setCurrentWPM={() => {}} // handled in hook
+              keyTimeMap={keyTimeMap}
+              correctChars={correctChars}
+              mistakes={mistakes}
+              fixedSentenceSize={fixedSentenceSize}
+              programmingLanguage={programmingLanguage}
+              isTimedTest={isTimedTest}
               isTrainingWeakestChars={isTrainingWeakestChars}
               isTurboPace={isTurboPace}
-              previousScore={previousScore}
-              previousWPM={previousWPM}
-              previousAccuracy={previousAccuracy}
-              currentAccuracy={currentAccuracy}
-              currentScore={currentScore}
-              currentTime={currentTime}
-              keyTimeMap={keyTimeMap}
-              onEnd={onEnd}
-              currentWPM={currentWPM}
-              recordTest={true}
-              childInputRef={childInputRef}
-              mistakes={mistakes}
-              correctChars={correctChars}
-              isOpen={isOpen}
+              timeLimit={timeLimit}
+              punctuation={punctuation}
+              numbers={numbers}
+              sentenceSize={sentenceSize}
               slowestKeys={slowestKeys}
-              setIsResultsModalOpen={setIsResultsModalOpen}
-              setResetCounter={setResetCounter}
+              language={language}
               idealWPM={idealWPM}
-            />
-          </CardContent>
-        </Card>
-      </Box>
-      <Footer></Footer>
-    </Container>
+              setIdealWPM={setIdealWPM}
+            ></MainOptionsBar>
+            <CardContent
+              sx={{
+                minHeight: 300,
+                display: "flex",
+                alignItems: "center",
+                paddingTop: "2em",
+                overflowX: "visible",
+              }}
+              onClick={focusChild}
+            >
+              <TypingPanel
+                key={
+                  Number(punctuation) +
+                  Number(language) +
+                  Number(numbers) +
+                  sentenceSize +
+                  Number(isTimedTest) +
+                  timeLimit +
+                  currentWPM +
+                  Number(isTrainingWeakestChars) +
+                  Number(isTurboPace)
+                }
+                programmingLanguage={programmingLanguage}
+                punctuation={punctuation}
+                language={language}
+                sentenceSize={sentenceSize}
+                numbers={numbers}
+                isTimedTest={isTimedTest}
+                testInfo={testInfo}
+                startTime={startTime}
+                setTestInfo={setTestInfo}
+                setCurrentWPM={() => {}} // handled in hook
+                isTrainingWeakestChars={isTrainingWeakestChars}
+                isTurboPace={isTurboPace}
+                previousScore={previousScore}
+                previousWPM={previousWPM}
+                previousAccuracy={previousAccuracy}
+                currentAccuracy={currentAccuracy}
+                currentScore={currentScore}
+                currentTime={currentTime}
+                keyTimeMap={keyTimeMap}
+                onEnd={onEnd}
+                currentWPM={currentWPM}
+                recordTest={true}
+                childInputRef={childInputRef}
+                mistakes={mistakes}
+                correctChars={correctChars}
+                isOpen={isOpen}
+                slowestKeys={slowestKeys}
+                setIsResultsModalOpen={setIsResultsModalOpen}
+                setResetCounter={setResetCounter}
+                idealWPM={idealWPM}
+              />
+            </CardContent>
+          </Card>
+        </Box>
+        <Footer></Footer>
+      </Container>
+    </>
   );
 };
