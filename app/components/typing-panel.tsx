@@ -357,6 +357,18 @@ export default function TypingPanel({
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
     // this stops the result modal from closing when the user presses a key
     if (testInfo.ended) return;
+    // ignore modifier keys and function keys
+    if (
+      e.key === "Shift" ||
+      e.key === "F12" ||
+      e.key === "Control" ||
+      e.code === "MetaLeft" ||
+      e.code === "MetaRight" ||
+      e.metaKey ||
+      e.altKey
+    ) {
+      return;
+    }
     // if the test has not started, start it
     if (!testInfo.started) {
       setTestInfo((timeTestInfo) => ({
@@ -373,16 +385,7 @@ export default function TypingPanel({
     if (e.key === "Tab") {
       e.preventDefault();
     }
-    if (
-      e.key === "Shift" ||
-      e.key === "F12" ||
-      e.key === "Control" ||
-      e.code === "MetaLeft" ||
-      e.code === "MetaRight" ||
-      e.altKey
-    ) {
-      return;
-    }
+
     // when typing blazingly fast you may increment after the test finishes
     if (!words[charIndex]) return;
     if (e.key === "Enter" && words[charIndex] === "↵") {

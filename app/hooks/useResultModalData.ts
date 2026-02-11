@@ -1,4 +1,5 @@
 import swr from "swr";
+import { authenticatedFetch } from "../core/authenticated-fetch";
 
 interface ResultModalData {
   data: number;
@@ -9,11 +10,11 @@ export const useResultModalData = (isOpen: boolean) => {
   const token = localStorage.getItem("authToken") || "";
   const userId = localStorage.getItem("user_id") || "";
   const fetcher = (path: string) =>
-    fetch(`${baseURL}${path}`, {
+    authenticatedFetch(`${baseURL}${path}`, {
       credentials: "include",
       headers: {
-        Authorization: `Bearer ${token}`, // Assuming Bearer token authentication
-        "Content-Type": "application/json", // Example of another header
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     }).then((res) => res.json());
 
