@@ -4,6 +4,10 @@ import { CreateLeaderboardEntryDto } from "@dtos/leaderboard.dto.js";
 import { Routes } from "@interfaces/routes.interface.js";
 import validationMiddleware from "@middlewares/validation.middleware.js";
 import firebaseAuthMiddleware from "@middlewares/firebase-auth.middleware.js";
+import {
+  moderateRateLimit,
+  generousRateLimit,
+} from "@middlewares/rate-limit.middleware.js";
 import type { auth as AdminAuth } from "firebase-admin";
 
 export default class LeaderboardsRoute implements Routes {
@@ -21,12 +25,14 @@ export default class LeaderboardsRoute implements Routes {
     // Public: Anyone can view leaderboards
     this.router.get(
       `${this.path}/:scope/:testType`,
+      generousRateLimit,
       this.leaderboardsController.getTopScores,
     );
 
     // Protected: Only authenticated users can submit scores
     this.router.put(
       `${this.path}`,
+      moderateRateLimit,
       firebaseAuthMiddleware(this.auth),
       validationMiddleware(CreateLeaderboardEntryDto, "body"),
       this.leaderboardsController.submitScore,

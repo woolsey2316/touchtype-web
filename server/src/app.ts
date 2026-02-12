@@ -18,6 +18,7 @@ import {
 import { dbConnection, connectRedis } from "@databases/databases.js";
 import { Routes } from "@interfaces/routes.interface.js";
 import errorMiddleware from "@middlewares/error.middleware.js";
+import { healthCheckRateLimit } from "@middlewares/rate-limit.middleware.js";
 import { logger, stream } from "@utils/logger.js";
 
 class App {
@@ -135,7 +136,7 @@ class App {
 
   // Add health check endpoint
   private initializeHealthCheck() {
-    this.app.get("/health", (req, res) => {
+    this.app.get("/health", healthCheckRateLimit, (req, res) => {
       res
         .status(200)
         .json({ status: "OK", timestamp: new Date().toISOString() });

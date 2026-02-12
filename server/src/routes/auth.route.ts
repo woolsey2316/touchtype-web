@@ -3,6 +3,7 @@ import AuthController from "@controllers/auth.controller.js";
 import { CreateUserDto } from "@dtos/users.dto.js";
 import { Routes } from "@interfaces/routes.interface.js";
 import validationMiddleware from "@middlewares/validation.middleware.js";
+import { strictRateLimit } from "@middlewares/rate-limit.middleware.js";
 
 class AuthRoute implements Routes {
   public path = "/";
@@ -16,6 +17,7 @@ class AuthRoute implements Routes {
   private initializeRoutes() {
     this.router.post(
       `${this.path}signup`,
+      strictRateLimit,
       validationMiddleware(CreateUserDto, "body"),
       this.authController.signUp,
     );

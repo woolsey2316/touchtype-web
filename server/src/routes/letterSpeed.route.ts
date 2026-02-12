@@ -4,6 +4,7 @@ import { CreateLetterSpeedDto } from "@dtos/letterSpeed.dto.js";
 import { Routes } from "@interfaces/routes.interface.js";
 import validationMiddleware from "@middlewares/validation.middleware.js";
 import firebaseAuthMiddleware from "@middlewares/firebase-auth.middleware.js";
+import { moderateRateLimit } from "@middlewares/rate-limit.middleware.js";
 import type { auth as AdminAuth } from "firebase-admin";
 class LetterSpeedRoute implements Routes {
   public path = "/letter-speed";
@@ -20,6 +21,7 @@ class LetterSpeedRoute implements Routes {
     // Protected: Get user's own letter speed data
     this.router.get(
       `${this.path}/:userId`,
+      moderateRateLimit,
       firebaseAuthMiddleware(this.auth),
       this.letterSpeedController.getLetterSpeedByCharacter,
     );
@@ -27,6 +29,7 @@ class LetterSpeedRoute implements Routes {
     // Protected: Update user's own letter speed data
     this.router.put(
       `${this.path}`,
+      moderateRateLimit,
       firebaseAuthMiddleware(this.auth),
       validationMiddleware(CreateLetterSpeedDto, "body"),
       this.letterSpeedController.updateLetterSpeedData,

@@ -4,6 +4,7 @@ import { CreateTestResultDto } from "@dtos/testResult.dto.js";
 import { Routes } from "@interfaces/routes.interface.js";
 import validationMiddleware from "@middlewares/validation.middleware.js";
 import firebaseAuthMiddleware from "@middlewares/firebase-auth.middleware.js";
+import { moderateRateLimit } from "@middlewares/rate-limit.middleware.js";
 import type { auth as AdminAuth } from "firebase-admin";
 class TestResultRoute implements Routes {
   public path = "/test-results";
@@ -20,6 +21,7 @@ class TestResultRoute implements Routes {
     // Protected: Get user's own dashboard data
     this.router.get(
       `${this.path}/:userId`,
+      moderateRateLimit,
       firebaseAuthMiddleware(this.auth),
       this.testResultController.getUserDashboardData,
     );
@@ -27,6 +29,7 @@ class TestResultRoute implements Routes {
     // Protected: Get user's own time spent today
     this.router.get(
       `${this.path}/daily-time/:userId`,
+      moderateRateLimit,
       firebaseAuthMiddleware(this.auth),
       this.testResultController.getTimeSpentToday,
     );
@@ -34,6 +37,7 @@ class TestResultRoute implements Routes {
     // Protected: Create test result (only authenticated users)
     this.router.post(
       `${this.path}`,
+      moderateRateLimit,
       firebaseAuthMiddleware(this.auth),
       validationMiddleware(CreateTestResultDto, "body"),
       this.testResultController.createTestResult,
